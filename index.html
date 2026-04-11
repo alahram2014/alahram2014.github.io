@@ -3675,14 +3675,6 @@ function injectDock() {
   dock.addEventListener("pointerup", end);
   dock.addEventListener("pointercancel", end);
 
-  const homeFloat = document.createElement("button");
-  homeFloat.id = "homeFloatBig";
-  homeFloat.type = "button";
-  homeFloat.textContent = "⌂";
-  homeFloat.title = "العودة للرئيسية";
-  homeFloat.onclick = () => window.renderHome ? window.renderHome() : location.reload();
-  document.body.appendChild(homeFloat);
-
   let hpos = lsGet(PRO_KEYS.homePos, { x: window.innerWidth - 68, y: window.innerHeight - 180 });
   let draggingHome = false, hdx = 0, hdy = 0;
   const applyHome = () => { homeFloat.style.left = hpos.x + "px"; homeFloat.style.top = hpos.y + "px"; };
