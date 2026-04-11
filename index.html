@@ -3621,25 +3621,9 @@ window.buildWhatsAppMessage = function(payload) {
   return lines.join("\n");
 };
 
-function syncRepBadge() {
-  const old = document.getElementById("repModeBadge");
-  if(old) old.remove();
-  if(!repState) return;
-  const app = document.getElementById("app");
-  if(!app) return;
-  const badge = document.createElement("div");
-  badge.id = "repModeBadge";
-  badge.className = "quickBadge gold repModeBadge";
-  badge.textContent = `👔 وضع المندوب: ${repLabel()}`;
-  badge.style.margin = "8px 0 0";
-  const target = app.querySelector(".contactDock") || app.firstElementChild;
-  if(target && target.parentNode) target.parentNode.insertBefore(badge, target.nextSibling);
-}
-
 function renameQuickButtons() {
   document.querySelectorAll("button").forEach(btn => {
     const txt = C(btn.textContent);
-    if(txt === "ابدأ الطلب السريع" || txt === "ابدأ بطلب سريع" || txt === "ابدأ الطلب") btn.textContent = "التسوق السريع";
     if(txt === "اشترى الآن" || txt === "اشترِ الآن" || txt === "اشتر الآن") btn.textContent = "التسوق السريع";
   });
 }
