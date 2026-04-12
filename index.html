@@ -468,7 +468,6 @@ async function loadData(){
       updateCurrentRepFromLoadedData();
       state.brands = brandList(true);
       state.news = getNewsMessages();
-      buildBrandImageCache();
       saveState();
       updateHero();
       initTicker();
