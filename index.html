@@ -440,7 +440,6 @@ async function loadData(){
   if(cached){
     try{
       state.products = JSON.parse(cached);
-      state.loading = false;
       renderCurrentPage();
     }catch(e){
       console.error("Cache error:", e);
