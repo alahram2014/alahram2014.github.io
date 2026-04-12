@@ -435,9 +435,21 @@ function bindStaticModalKeys(){ document.getElementById("repModal").addEventList
 async function loadData(){
   state.loading=true;
   renderLoading();
+  // ✅ عرض الكاش فورًا لو موجود
+  const cached = localStorage.getItem("products_cache");
+  if(cached){
+    try{
+      state.products = JSON.parse(cached);
+      state.loading = false;
+      renderCurrentPage();
+    }catch(e){
+      console.error("Cache error:", e);
+    }
+  }
   try{
     const [products, settings] = await Promise.all([fetchCSV(DATA.productsUrl), fetchCSV(DATA.settingsUrl)]);
     state.products = (products || []).map(row => ({ ...row }));
+    localStorage.setItem("products_cache", JSON.stringify(state.products));
     state.settings = (settings || []).map(row => ({ ...row }));
     state.heroImage = getHeroImage();
     state.heroTagline = getHeroTagline();
