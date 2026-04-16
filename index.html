@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>الأهرام للتجارة والتوزيع</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header id="topbar" class="topbar hidden">
+      <div class="brand">
+        <div class="brand-mark" id="brandMark">A</div>
+        <div class="brand-text">
+          <div class="brand-title">الأهرام للتجارة والتوزيع</div>
+          <div class="brand-sub" id="sessionLabel">مرحبًا بك</div>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <span class="search-ico">⌕</span>
+        <input id="globalSearch" type="search" placeholder="ابحث..." autocomplete="off" />
+      </div>
+
+      <button id="logoutBtn" class="ghost-btn hidden" type="button">خروج</button>
+    </header>
+
+    <main class="main">
+      <!-- LOGIN -->
+      <section id="loginView" class="view active">
+        <div class="login-card card">
+          <div class="login-head">
+            <div class="login-title">تسجيل الدخول</div>
+            <div class="login-desc">الدخول برقم الهاتف وكلمة المرور للعميل أو كود الدخول للمندوب</div>
+          </div>
+
+          <div class="mode-switch">
+            <button type="button" class="mode-btn active" data-login-mode="customer">عميل</button>
+            <button type="button" class="mode-btn" data-login-mode="rep">مندوب</button>
+          </div>
+
+          <div class="field">
+            <label id="primaryLabel" for="loginPrimary">رقم الهاتف</label>
+            <input id="loginPrimary" type="text" inputmode="numeric" placeholder="أدخل رقم الهاتف" />
+          </div>
+
+          <div class="field">
+            <label id="secretLabel" for="loginSecret">الباسورد</label>
+            <input id="loginSecret" type="password" placeholder="أدخل الباسورد" />
+          </div>
+
+          <button id="loginBtn" class="primary-btn" type="button">دخول</button>
+
+          <div class="login-note">
+            <span>•</span>
+            <span>البيانات تُقرأ من الشيت مباشرة</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- HOME -->
+      <section id="homeView" class="view">
+        <div class="hero card">
+          <div class="hero-top">
+            <div class="hero-title">الشركات</div>
+            <div class="hero-sub" id="homeMeta">اختر شركة لعرض الأصناف</div>
+          </div>
+
+          <div class="actions-grid">
+            <button class="action-btn" data-nav="products" type="button">المنتجات</button>
+            <button class="action-btn" data-nav="cart" type="button">السلة</button>
+            <button class="action-btn" data-nav="tiers" type="button">الشرائح</button>
+            <button class="action-btn" data-nav="orders" type="button">طلباتي</button>
+          </div>
+        </div>
+
+        <div id="smartMessage" class="smart-message card"></div>
+        <div id="companiesGrid" class="companies-grid"></div>
+      </section>
+
+      <!-- PRODUCTS -->
+      <section id="productsView" class="view">
+        <div class="page-head card">
+          <div class="page-head-row">
+            <button class="back-btn" data-back type="button">رجوع</button>
+            <div>
+              <div class="page-title" id="productsTitle">المنتجات</div>
+              <div class="page-sub" id="productsSub">جميع المنتجات</div>
+            </div>
+          </div>
+
+          <div class="category-scroll" id="categoryChips"></div>
+        </div>
+
+        <div id="productsGrid" class="products-grid"></div>
+      </section>
+
+      <!-- CART -->
+      <section id="cartView" class="view">
+        <div class="page-head card">
+          <div class="page-head-row">
+            <button class="back-btn" data-back type="button">رجوع</button>
+            <div>
+              <div class="page-title">السلة</div>
+              <div class="page-sub" id="cartSub">0 عنصر</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="cartList" class="list-stack"></div>
+      </section>
+
+      <!-- TIERS -->
+      <section id="tiersView" class="view">
+        <div class="page-head card">
+          <div class="page-head-row">
+            <button class="back-btn" data-back type="button">رجوع</button>
+            <div>
+              <div class="page-title">الشرائح</div>
+              <div class="page-sub" id="tiersSub">اختر شريحة السعر المناسبة</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tiersGrid" class="tiers-grid"></div>
+      </section>
+
+      <!-- ORDERS -->
+      <section id="ordersView" class="view">
+        <div class="page-head card">
+          <div class="page-head-row">
+            <button class="back-btn" data-back type="button">رجوع</button>
+            <div>
+              <div class="page-title" id="ordersTitle">طلباتي</div>
+              <div class="page-sub" id="ordersSub">متابعة الطلبات والتقارير</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="ordersPanel" class="orders-panel"></div>
+      </section>
+    </main>
+
+    <footer id="footerBar" class="footer hidden">
+      <button id="footerTotalBtn" class="footer-total" type="button">0</button>
+      <button id="checkoutBtn" class="checkout-btn" type="button">إتمام الشراء</button>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <template id="companyTemplate">
+    <button class="company-card card" type="button">
+      <div class="company-logo-wrap">
+        <img class="company-logo" alt="" />
+      </div>
+      <div class="company-name"></div>
+    </button>
+  </template>
+
+  <template id="productTemplate">
+    <article class="product-card card">
+      <div class="product-media">
+        <img class="product-image" alt="" />
+        <span class="product-stock"></span>
+      </div>
+
+      <div class="product-body">
+        <div class="product-topline">
+          <div class="product-name"></div>
+
+          <div class="product-company-wrap">
+            <img class="product-company-logo" alt="" />
+            <div class="product-company"></div>
+          </div>
+        </div>
+
+        <div class="product-category"></div>
+        <div class="product-price"></div>
+
+        <div class="unit-row"></div>
+
+        <div class="qty-row">
+          <button class="qty-btn minus" type="button">-</button>
+          <input class="qty-input" type="number" min="1" value="1" />
+          <button class="qty-btn plus" type="button">+</button>
+        </div>
+
+        <button class="add-btn primary-btn" type="button">إضافة</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="cartTemplate">
+    <article class="cart-item card">
+      <div class="cart-top">
+        <div>
+          <div class="cart-name"></div>
+          <div class="cart-meta"></div>
+        </div>
+        <div class="cart-price"></div>
+      </div>
+
+      <div class="cart-controls">
+        <button class="qty-btn minus" type="button">-</button>
+        <input class="qty-input" type="number" min="1" value="1" />
+        <button class="qty-btn plus" type="button">+</button>
+        <button class="remove-btn" type="button">إزالة</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="tierTemplate">
+    <article class="tier-card card">
+      <div class="tier-top">
+        <div class="tier-name"></div>
+        <div class="tier-badge"></div>
+      </div>
+
+      <div class="tier-desc"></div>
+      <div class="tier-conditions"></div>
+
+      <div class="tier-min"></div>
+
+      <div class="tier-pass-wrap hidden">
+        <input class="tier-pass" type="password" placeholder="باسورد الشريحة" />
+      </div>
+
+      <button class="tier-select primary-btn" type="button">اختيار الشريحة</button>
+    </article>
+  </template>
+
+  <template id="ordersStatTemplate">
+    <article class="stat-card card">
+      <div class="stat-label"></div>
+      <div class="stat-value"></div>
+    </article>
+  </template>
+
+  <template id="orderTemplate">
+    <article class="order-card card">
+      <div class="order-top">
+        <div class="order-id"></div>
+        <div class="order-status"></div>
+      </div>
+      <div class="order-meta"></div>
+      <div class="order-items"></div>
+      <div class="order-total"></div>
+    </article>
+  </template>
+
+  <template id="emptyTemplate">
+    <div class="empty-state card"></div>
+  </template>
+</body>
+</html>
