@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>الأهرام للتجارة والتوزيع</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand-area">
+        <img id="brandLogo" class="logo" alt="logo" />
+        <div class="brand-text">
+          <div class="brand-title">الأهرام للتجارة والتوزيع</div>
+          <div class="brand-sub">مرحلة 1 · Core System</div>
+        </div>
+      </div>
+      <button id="cartBtnTop" class="icon-btn" aria-label="cart">🛒</button>
+    </header>
+
+    <main class="content">
+      <section id="homeView" class="view active">
+        <div class="hero-logo-wrap">
+          <img id="homeLogo" class="hero-logo" alt="logo" />
+        </div>
+
+        <div class="search-wrap">
+          <span class="search-icon">🔎</span>
+          <input id="companySearch" type="search" placeholder="ابحث عن شركة..." />
+        </div>
+
+        <div class="section-head">
+          <h2>الشركات</h2>
+          <span class="hint">اضغط شركة لعرض أصنافها</span>
+        </div>
+
+        <div id="companiesGrid" class="companies-grid"></div>
+      </section>
+
+      <section id="catalogView" class="view">
+        <div class="back-row">
+          <button id="backBtn" class="back-btn">رجوع</button>
+          <div class="selected-company" id="selectedCompanyTitle">الأصناف</div>
+        </div>
+
+        <div class="search-wrap compact">
+          <span class="search-icon">🔎</span>
+          <input id="productSearch" type="search" placeholder="ابحث في الأصناف..." />
+        </div>
+
+        <div class="section-head">
+          <h2>الأصناف</h2>
+          <span class="hint" id="productsCountHint">0 صنف</span>
+        </div>
+
+        <div id="productsGrid" class="products-grid"></div>
+      </section>
+
+      <section id="cartView" class="view">
+        <div class="back-row">
+          <button id="backFromCartBtn" class="back-btn">رجوع</button>
+          <div class="selected-company">السلة</div>
+        </div>
+
+        <div class="section-head">
+          <h2>سلة الطلب</h2>
+          <span class="hint" id="cartCountHint">0 عنصر</span>
+        </div>
+
+        <div id="cartMessage" class="message hidden"></div>
+        <div id="cartList" class="cart-list"></div>
+
+        <div class="checkout-panel">
+          <div class="section-head">
+            <h2>الإجمالي</h2>
+            <span class="hint">يُحسب لحظيًا</span>
+          </div>
+          <div class="total-box">
+            <span class="total-label">المجموع</span>
+            <span id="cartTotal" class="total-value">0</span>
+          </div>
+          <button id="checkoutBtn" class="primary-btn">إتمام الطلب</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <button id="footerHomeBtn" class="footer-btn">الرئيسية</button>
+      <button id="footerTotalBtn" class="footer-btn total">0</button>
+      <button id="footerCartBtn" class="footer-btn checkout">السلة</button>
+    </footer>
+
+    <div id="toast" class="toast"></div>
+  </div>
+
+  <template id="companyTpl">
+    <button class="company-card" type="button">
+      <div class="company-circle">
+        <img class="company-img" alt="" />
+      </div>
+      <div class="company-name"></div>
+    </button>
+  </template>
+
+  <template id="productTpl">
+    <article class="product-card">
+      <div class="product-media">
+        <img class="product-img" alt="" />
+      </div>
+      <div class="product-body">
+        <div class="product-name"></div>
+        <div class="product-price-row">
+          <span class="product-price"></span>
+        </div>
+        <div class="unit-row"></div>
+
+        <div class="qty-box">
+          <button class="qty-btn minus" type="button">-</button>
+          <input class="qty-input" type="number" min="1" value="1" />
+          <button class="qty-btn plus" type="button">+</button>
+        </div>
+
+        <button class="primary-btn add-btn" type="button">إضافة</button>
+      </div>
+    </article>
+  </template>
+
+  <template id="cartTpl">
+    <article class="cart-item">
+      <div class="cart-head">
+        <div>
+          <div class="cart-title"></div>
+          <div class="cart-sub"></div>
+        </div>
+        <div class="cart-price"></div>
+      </div>
+      <div class="cart-meta"></div>
+      <div class="cart-actions">
+        <button class="secondary-btn remove-btn" type="button">إزالة</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
