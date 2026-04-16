@@ -11,7 +11,9 @@ async function loadData() {
     const res = await fetch(API_URL);
     const data = await res.json();
 
-    DATA.products = typeof data.products === "string"   ? JSON.parse(data.products)   : (data.products || []);
+    DATA.products = typeof data.products === "string"
+  ? JSON.parse(data.products)
+  : (data.products || []);
 
     const map = {};
     DATA.products.forEach(p => {
