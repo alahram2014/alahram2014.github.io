@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alahram System</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="loginView" class="view active">
+  <h2>تسجيل الدخول</h2>
+  <input id="phone" placeholder="رقم الهاتف">
+  <input id="password" placeholder="الباسورد">
+  <button onclick="login()">دخول</button>
+</div>
+
+<div id="homeView" class="view">
+  <h2>الشركات</h2>
+  <div id="companies"></div>
+</div>
+
+<div id="productsView" class="view">
+  <button onclick="goHome()">رجوع</button>
+  <div id="products"></div>
+</div>
+
+<div id="cartView" class="view">
+  <h2>السلة</h2>
+  <div id="cart"></div>
+  <h3 id="total"></h3>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

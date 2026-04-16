@@ -1,23 +1,4 @@
-body{
-  font-family:Tahoma;
-  background:#f5f5f5;
-  margin:0;
-}
-
-.view{display:none;padding:10px}
+body{font-family:Arial;direction:rtl}
+.view{display:none}
 .view.active{display:block}
-
-.company-card, .product-card{
-  background:#fff;
-  margin:10px 0;
-  padding:10px;
-  border-radius:10px;
-}
-
-button{
-  padding:8px 12px;
-  border:none;
-  border-radius:8px;
-  background:#1E3A8A;
-  color:#fff;
-}
+.product{border:1px solid #ccc;margin:10px;padding:10px}
