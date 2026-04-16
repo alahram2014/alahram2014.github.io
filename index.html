@@ -1,201 +1,2315 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>Alahram Store</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>الأهرام للتجارة والتوزيع</title>
+  <style>
+    :root{
+      --blue:#1E3A8A;
+      --gold:#D4AF37;
+      --red:#DC2626;
+      --white:#FFFFFF;
+      --black:#111111;
+      --cream:#F5F1E6;
+      --soft:#F7F7F8;
+      --border:#E7E7EB;
+      --muted:#68707a;
+      --shadow:0 6px 18px rgba(17,17,17,.08);
+      --radius:18px;
+      --radius2:24px;
+      --gap:12px;
+    }
 
-<style>
-body {
-  font-family: Arial;
-  direction: rtl;
-  background: #f5f5f5;
-  padding: 15px;
-}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--soft);color:var(--black);font-family:Tahoma, Arial, sans-serif;direction:rtl}
+    button,input,select,textarea{font:inherit}
+    button{touch-action:manipulation}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
 
-h2 {
-  margin-top: 20px;
-}
+    .app{min-height:100vh;display:flex;flex-direction:column;padding-bottom:86px}
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 10px;
-}
+    .topbar{
+      position:sticky;top:0;z-index:30;
+      background:linear-gradient(180deg,var(--blue),#16306f);
+      color:var(--white);
+      box-shadow:var(--shadow);
+      padding:10px 12px 12px;
+    }
+    .topbar-inner{
+      display:flex;align-items:center;gap:10px;
+    }
+    .logo{
+      width:44px;height:44px;border-radius:14px;object-fit:cover;background:#fff;padding:4px;
+      flex:0 0 auto;
+    }
+    .brand{
+      flex:1;min-width:0;
+    }
+    .brand h1{
+      font-size:15px;line-height:1.2;margin:0 0 3px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .brand .sub{
+      font-size:11px;opacity:.92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .header-actions{display:flex;gap:8px;flex:0 0 auto}
+    .icon-btn{
+      width:36px;height:36px;border-radius:12px;border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.1);color:#fff;display:grid;place-items:center;cursor:pointer;
+    }
 
-.card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 10px;
-}
+    .screen{display:none;flex:1;padding:12px 12px 0}
+    .screen.active{display:block}
 
-img {
-  width: 100%;
-  height: 110px;
-  object-fit: cover;
-  border-radius: 10px;
-}
+    /* Home */
+    .hero{
+      display:flex;flex-direction:column;gap:12px;
+    }
+    .home-logo-wrap{
+      display:flex;justify-content:center;align-items:center;padding:8px 0 0;
+    }
+    .home-logo{
+      width:56px;height:56px;border-radius:18px;object-fit:cover;background:#fff;padding:4px;box-shadow:var(--shadow)
+    }
 
-.title { font-weight: bold; }
-.company { color: gray; font-size: 12px; }
-.price { color: green; font-weight: bold; margin: 5px 0; }
+    .quick-grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:8px;
+    }
+    .quick-btn{
+      border:none;border-radius:14px;padding:9px 8px;min-height:46px;cursor:pointer;box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:center;text-align:center;font-size:11px;font-weight:700;line-height:1.2;
+    }
+    .btn-tier{background:var(--gold);color:#111}
+    .btn-offer{background:var(--red);color:#fff}
+    .btn-flash{background:#ff7a00;color:#fff}
+    .btn-login{background:var(--blue);color:#fff}
 
-button {
-  width: 100%;
-  padding: 7px;
-  margin-top: 5px;
-  border: none;
-  border-radius: 8px;
-  background: green;
-  color: white;
-}
+    .search-wrap{
+      display:flex;gap:8px;align-items:center;background:var(--white);border:1px solid var(--border);
+      border-radius:999px;padding:8px 10px;box-shadow:var(--shadow)
+    }
+    .search-wrap input{
+      border:none;outline:none;flex:1;min-width:0;background:transparent;font-size:12px
+    }
+    .search-wrap .mini{font-size:12px;color:var(--muted)}
 
-.remove { background: red; }
-.msg { background: #222; color: white; padding: 5px; border-radius: 8px; font-size: 12px; margin-top:5px;}
-</style>
+    .section-title{
+      display:flex;align-items:center;justify-content:space-between;margin:6px 0 8px;
+    }
+    .section-title h2{
+      margin:0;font-size:14px;line-height:1.2
+    }
+    .section-title .hint{font-size:11px;color:var(--muted)}
+
+    .company-grid{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+    }
+    .company-card{
+      background:var(--white);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
+      cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:10px 8px 9px;text-align:center;min-height:120px;
+    }
+    .company-card .circle{
+      width:62px;height:62px;border-radius:50%;overflow:hidden;background:var(--cream);border:2px solid rgba(212,175,55,.55);
+      display:grid;place-items:center;margin-bottom:8px;
+    }
+    .company-card img{width:100%;height:100%;object-fit:cover}
+    .company-card .name{font-size:11px;font-weight:700;line-height:1.25;min-height:28px;display:flex;align-items:center;justify-content:center}
+
+    .contact-row{
+      display:flex;gap:10px;margin-top:10px
+    }
+    .contact-pill{
+      flex:1;background:var(--white);border:1px solid var(--border);border-radius:999px;padding:10px 8px;display:flex;align-items:center;justify-content:center;gap:6px;
+      box-shadow:var(--shadow);font-size:11px;font-weight:700;cursor:pointer
+    }
+
+    /* Listing / cards */
+    .toolbar{
+      display:flex;gap:8px;align-items:center;margin-bottom:10px
+    }
+    .toolbar .small-input{
+      flex:1;background:var(--white);border:1px solid var(--border);border-radius:999px;padding:8px 12px;font-size:12px;outline:none
+    }
+    .toolbar .back-pill{
+      border:none;background:#fff;border:1px solid var(--border);border-radius:999px;padding:8px 11px;font-size:12px;cursor:pointer;box-shadow:var(--shadow)
+    }
+
+    .grid{
+      display:grid;grid-template-columns:repeat(2,1fr);gap:10px
+    }
+    .grid.products{grid-template-columns:repeat(2,1fr)}
+    .grid.offers{grid-template-columns:1fr}
+    .grid.flash{grid-template-columns:1fr}
+
+    .card{
+      background:var(--white);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);
+      position:relative;
+    }
+    .card .media{
+      aspect-ratio: 1/1; background:linear-gradient(180deg,#fafafa,#f1f1f1);
+      position:relative;
+    }
+    .card .media img{width:100%;height:100%;object-fit:cover}
+    .card .body{padding:10px}
+    .card .title{font-size:12px;font-weight:700;line-height:1.35;margin-bottom:4px}
+    .card .meta{font-size:11px;color:var(--muted);line-height:1.35;margin-bottom:8px}
+    .card .price-row{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+    .old-price{font-size:11px;color:#8b8b8b;text-decoration:line-through}
+    .new-price{font-size:13px;font-weight:800;color:var(--red)}
+    .gold-price{color:var(--gold)}
+    .badge{
+      display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;border-radius:999px;padding:5px 8px;background:#fff7e6;color:#8a6500;margin-bottom:8px
+    }
+    .status-pill{
+      display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;border-radius:999px;padding:5px 8px;margin-bottom:8px
+    }
+    .status-active{background:#ecfdf3;color:#0f7a38}
+    .status-upcoming{background:#eff6ff;color:#1d4ed8}
+    .status-ended{background:#fff1f2;color:#b91c1c}
+    .status-hidden{background:#f4f4f5;color:#52525b}
+
+    .unit-row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+    .unit-chip{
+      border:none;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer;background:#f3f4f6;color:#333
+    }
+    .unit-chip.active{background:var(--blue);color:#fff}
+    .unit-chip.locked{opacity:.35;cursor:not-allowed}
+
+    .qty-box{
+      display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fafafa;border:1px solid var(--border);border-radius:14px;padding:8px 8px;margin:6px 0 8px
+    }
+    .qty-inline{
+      display:flex;align-items:center;gap:8px
+    }
+    .qty-btn{
+      width:30px;height:30px;border:none;border-radius:10px;background:#fff;border:1px solid var(--border);cursor:pointer;font-size:16px;line-height:1
+    }
+    .qty-value{
+      min-width:28px;text-align:center;font-weight:800
+    }
+    .manual-link{
+      display:inline-flex;align-items:center;justify-content:center;margin-top:2px;color:var(--blue);font-size:11px;font-weight:700;cursor:pointer
+    }
+
+    .action-btn{
+      width:100%;border:none;border-radius:16px;padding:11px 10px;font-size:12px;font-weight:800;cursor:pointer
+    }
+    .buy{background:#16a34a;color:#fff}
+    .remove{background:var(--red);color:#fff}
+    .disabled{background:#d1d5db;color:#52525b;cursor:not-allowed}
+    .small-link{
+      width:100%;border:none;border-radius:14px;padding:9px 10px;font-size:11px;font-weight:700;cursor:pointer;background:#f3f4f6;color:#111
+    }
+
+    .countdown{
+      display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid rgba(220,38,38,.22);
+      border-radius:18px;padding:10px 12px;box-shadow:var(--shadow);margin:8px 0 10px
+    }
+    .countdown .label{font-size:11px;font-weight:800;color:var(--red)}
+    .countdown .time{font-size:14px;font-weight:900;color:var(--red);letter-spacing:1px}
+
+    .msg-box{
+      background:#fff;border:1px solid var(--border);border-radius:18px;padding:10px 12px;box-shadow:var(--shadow);font-size:12px;line-height:1.65;margin:10px 0
+    }
+    .msg-box.success{border-color:#c7f0d0;background:#f3fff6}
+    .msg-box.warning{border-color:#ffe4b5;background:#fffaf1}
+    .msg-box.error{border-color:#ffd1d1;background:#fff5f5}
+
+    .hidden{display:none !important}
+
+    .offer-details{
+      white-space:pre-line;font-size:12px;line-height:1.7;color:#1f2937;margin:4px 0 8px
+    }
+    .offer-conditions{
+      font-size:11px;color:#7c5e00;background:#fff7e3;border:1px solid #f1d88f;padding:8px 10px;border-radius:12px;margin:8px 0
+    }
+
+    .footer{
+      position:fixed;left:0;right:0;bottom:0;z-index:40;
+      background:linear-gradient(180deg,#fff,#f8f8fb);border-top:1px solid var(--border);
+      padding:9px 12px 10px;box-shadow:0 -8px 24px rgba(0,0,0,.06)
+    }
+    .footer-grid{
+      display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:8px;align-items:center
+    }
+    .footer-btn{
+      border:none;border-radius:16px;padding:11px 10px;font-size:12px;font-weight:800;cursor:pointer;box-shadow:var(--shadow)
+    }
+    .footer-btn.left{background:var(--blue);color:#fff}
+    .footer-btn.center{background:#fff;border:1px solid var(--border);color:#111}
+    .footer-btn.right{background:var(--gold);color:#111}
+    .footer-btn.small{
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+    }
+
+    .bottom-tabs{
+      display:flex;gap:8px;margin-top:10px
+    }
+    .bottom-tabs .tab{
+      flex:1;border:none;border-radius:14px;padding:8px 8px;font-size:11px;font-weight:700;background:#f3f4f6;cursor:pointer
+    }
+    .bottom-tabs .tab.active{background:var(--blue);color:#fff}
+
+    .panel{
+      background:#fff;border:1px solid var(--border);border-radius:18px;padding:12px;box-shadow:var(--shadow)
+    }
+
+    .orders-list,.notif-list,.rep-list{display:flex;flex-direction:column;gap:10px}
+    .order-card,.notif-card,.rep-card{
+      background:#fff;border:1px solid var(--border);border-radius:18px;padding:12px;box-shadow:var(--shadow)
+    }
+
+    .order-head,.rep-head{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+    .order-id,.rep-name{font-size:13px;font-weight:900}
+    .order-date,.rep-sub{font-size:11px;color:var(--muted)}
+    .order-status{font-size:10px;font-weight:800;border-radius:999px;padding:5px 8px}
+    .st-pending{background:#f4f4f5;color:#52525b}
+    .st-reviewing{background:#fef3c7;color:#92400e}
+    .st-approved{background:#dcfce7;color:#166534}
+    .st-shipped{background:#dbeafe;color:#1d4ed8}
+    .st-delivered{background:#e0e7ff;color:#4338ca}
+    .st-rejected{background:#fee2e2;color:#b91c1c}
+
+    .thin{font-size:11px;color:var(--muted);line-height:1.6}
+    .form{
+      display:flex;flex-direction:column;gap:8px
+    }
+    .form input,.form select,.form textarea{
+      width:100%;border:1px solid var(--border);border-radius:14px;padding:10px 12px;font-size:12px;outline:none;background:#fff
+    }
+    .form textarea{min-height:90px;resize:vertical}
+    .form .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .form .submit{
+      border:none;border-radius:14px;padding:11px 12px;font-size:12px;font-weight:900;background:var(--blue);color:#fff;cursor:pointer
+    }
+
+    .toast{
+      position:fixed;left:12px;right:12px;bottom:100px;z-index:80;
+      background:#111;color:#fff;padding:12px 14px;border-radius:16px;box-shadow:0 10px 24px rgba(0,0,0,.18);
+      font-size:12px;line-height:1.7;transform:translateY(12px);opacity:0;transition:.22s ease;
+    }
+    .toast.show{transform:translateY(0);opacity:1}
+    .toast.success{background:#0f7a38}
+    .toast.warning{background:#9a6400}
+    .toast.error{background:#991b1b}
+
+    .overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;align-items:flex-end;justify-content:center;z-index:70
+    }
+    .overlay.show{display:flex}
+    .sheet{
+      width:100%;max-width:520px;background:#fff;border-radius:22px 22px 0 0;padding:14px;box-shadow:0 -10px 24px rgba(0,0,0,.15)
+    }
+    .sheet h3{margin:0 0 8px;font-size:14px}
+    .sheet .sheet-actions{display:flex;gap:8px}
+    .sheet .sheet-actions button{flex:1}
+
+    @media (max-width:390px){
+      .company-grid,.grid.products{grid-template-columns:repeat(2,1fr)}
+      .footer-grid{grid-template-columns:1fr .95fr 1fr}
+      .brand h1{font-size:14px}
+      .quick-btn{font-size:10px}
+    }
+
+    @media (min-width:700px){
+      .screen{max-width:1150px;margin:0 auto;padding-inline:14px}
+      .company-grid{grid-template-columns:repeat(4,1fr)}
+      .grid.products{grid-template-columns:repeat(4,1fr)}
+      .grid.offers,.grid.flash{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <img id="topLogo" class="logo" src="https://via.placeholder.com/96?text=AL" alt="Logo">
+        <div class="brand">
+          <h1>الأهرام للتجارة والتوزيع</h1>
+          <div class="sub" id="brandSub">مندوب بيع ذكي · جملة B2B</div>
+        </div>
+        <div class="header-actions">
+          <button class="icon-btn" id="notifBtn" title="الإشعارات">🔔</button>
+          <button class="icon-btn" id="backBtn" title="رجوع">↩</button>
+        </div>
+      </div>
+    </header>
 
-<h2>🛒 المنتجات</h2>
-<div class="grid" id="products"></div>
+    <!-- HOME -->
+    <main class="screen active" id="screen-home">
+      <div class="hero">
+        <div class="home-logo-wrap">
+          <img class="home-logo" id="homeLogo" src="https://via.placeholder.com/120?text=AL" alt="Logo">
+        </div>
 
-<h2>🔥 العروض</h2>
-<div class="grid" id="offers"></div>
+        <div class="quick-grid">
+          <button class="quick-btn btn-tier" id="homeTierBtn">اختار شريحتك</button>
+          <button class="quick-btn btn-offer" id="homeOfferBtn">صفقة اليوم</button>
+          <button class="quick-btn btn-flash" id="homeFlashBtn">عرض الساعة</button>
+          <button class="quick-btn btn-login" id="homeLoginBtn">الدخول</button>
+        </div>
+
+        <div class="search-wrap">
+          <span class="mini">🔎</span>
+          <input id="homeSearch" placeholder="ابحث عن شركة أو صنف" />
+        </div>
+
+        <div class="section-title">
+          <h2>الشركات</h2>
+          <div class="hint" id="homeHint">اضغط لعرض الأصناف</div>
+        </div>
+        <div id="homeCompanies" class="company-grid"></div>
+
+        <div class="contact-row">
+          <div class="contact-pill" id="callBtn">📞 اتصال</div>
+          <div class="contact-pill" id="waBtn">💬 واتساب</div>
+          <div class="contact-pill" id="fbBtn">📘 فيسبوك</div>
+        </div>
+
+        <div class="bottom-tabs">
+          <button class="tab active" data-home-tab="companies">الشركات</button>
+          <button class="tab" data-home-tab="offers">صفقة اليوم</button>
+          <button class="tab" data-home-tab="flash">عرض الساعة</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- TIERS -->
+    <main class="screen" id="screen-tiers">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <input class="small-input" id="tierSearch" placeholder="بحث في الشرايح" />
+      </div>
+      <div class="section-title">
+        <h2>الشرايح</h2>
+        <div class="hint">اختار الشريحة المناسبة</div>
+      </div>
+      <div id="tierMsg" class="msg-box hidden"></div>
+      <div id="tiersList" class="grid offers"></div>
+    </main>
+
+    <!-- OFFERS -->
+    <main class="screen" id="screen-offers">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <input class="small-input" id="offerSearch" placeholder="بحث في صفقة اليوم" />
+      </div>
+      <div class="countdown">
+        <div class="label">صفقة اليوم</div>
+        <div class="time" id="offerGlobalTimer">—</div>
+      </div>
+      <div id="offersList" class="grid offers"></div>
+      <div id="endedOffersSection" style="margin-top:14px"></div>
+    </main>
+
+    <!-- FLASH -->
+    <main class="screen" id="screen-flash">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <input class="small-input" id="flashSearch" placeholder="بحث في عرض الساعة" />
+      </div>
+      <div class="countdown">
+        <div class="label">عرض الساعة</div>
+        <div class="time" id="flashGlobalTimer">—</div>
+      </div>
+      <div id="flashList" class="grid flash"></div>
+      <div id="endedFlashSection" style="margin-top:14px"></div>
+      <div id="upcomingFlashSection" style="margin-top:14px"></div>
+    </main>
+
+    <!-- CATALOG -->
+    <main class="screen" id="screen-catalog">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <input class="small-input" id="catalogSearch" placeholder="ابحث في الأصناف" />
+      </div>
+      <div class="section-title">
+        <h2 id="catalogTitle">الأصناف</h2>
+        <div class="hint" id="catalogHint">وحداتك تظهر حسب السعر</div>
+      </div>
+      <div id="catalogMsg" class="msg-box hidden"></div>
+      <div id="productsList" class="grid products"></div>
+    </main>
+
+    <!-- CART -->
+    <main class="screen" id="screen-cart">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <div style="flex:1"></div>
+      </div>
+      <div class="section-title">
+        <h2>السلة</h2>
+        <div class="hint" id="cartCountHint">0 صنف</div>
+      </div>
+      <div id="cartMsg" class="msg-box hidden"></div>
+      <div id="cartList" class="orders-list"></div>
+
+      <div class="panel" style="margin-top:12px">
+        <div class="section-title" style="margin-top:0">
+          <h2>إتمام الطلب</h2>
+          <div class="hint">راجع قبل الإرسال</div>
+        </div>
+        <div id="checkoutState" class="msg-box hidden"></div>
+        <button class="submit" id="checkoutBtn">إتمام الشراء</button>
+      </div>
+    </main>
+
+    <!-- LOGIN / ACCOUNT -->
+    <main class="screen" id="screen-account">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <div style="flex:1"></div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <h2>الدخول / حسابي</h2>
+          <div class="hint">تسجيل برقم الهاتف</div>
+        </div>
+
+        <div id="accountSummary" class="msg-box hidden"></div>
+
+        <form class="form" id="loginForm">
+          <input id="loginPhone" placeholder="رقم الهاتف" inputmode="numeric" />
+          <input id="loginPassword" placeholder="كلمة المرور" type="password" />
+          <button class="submit" type="submit">دخول</button>
+        </form>
+
+        <div style="height:10px"></div>
+
+        <div class="section-title">
+          <h2>طلب تعديل البيانات</h2>
+          <div class="hint">الإدارة تتحكم في التعديل</div>
+        </div>
+        <form class="form" id="requestForm">
+          <div class="row">
+            <input id="reqName" placeholder="الاسم الجديد" />
+            <input id="reqCity" placeholder="المحافظة" />
+          </div>
+          <textarea id="reqNote" placeholder="اكتب الطلب... تغيير بيانات / كلمة مرور / أي ملاحظة"></textarea>
+          <button class="submit" type="submit">إرسال طلب المراجعة</button>
+        </form>
+      </div>
+
+      <div style="height:12px"></div>
+
+      <div class="panel">
+        <div class="section-title">
+          <h2>طلباتي</h2>
+          <div class="hint">آخر الطلبات</div>
+        </div>
+        <div id="myOrders" class="orders-list"></div>
+      </div>
+    </main>
+
+    <!-- REP -->
+    <main class="screen" id="screen-rep">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <div style="flex:1"></div>
+      </div>
+      <div class="panel">
+        <div class="section-title">
+          <h2>صفحة المندوب</h2>
+          <div class="hint">طلباته ومبيعاته</div>
+        </div>
+        <div id="repSummary" class="msg-box hidden"></div>
+
+        <form class="form" id="repLoginForm">
+          <input id="repCode" placeholder="كود المندوب" />
+          <input id="repPass" placeholder="باسورد المندوب" type="password" />
+          <button class="submit" type="submit">دخول المندوب</button>
+        </form>
+
+        <div style="height:12px"></div>
+        <div id="repOrders" class="orders-list"></div>
+      </div>
+    </main>
+
+    <!-- NOTIFICATIONS -->
+    <main class="screen" id="screen-notifications">
+      <div class="toolbar">
+        <button class="back-pill" data-back>رجوع</button>
+        <div style="flex:1"></div>
+      </div>
+      <div class="section-title">
+        <h2>الإشعارات</h2>
+        <div class="hint">آخر رسائل النظام</div>
+      </div>
+      <div id="notifList" class="notif-list"></div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <button class="footer-btn right small" id="footerTierBtn">اختار شريحتك</button>
+      <button class="footer-btn center small" id="footerCartTotal">0</button>
+      <button class="footer-btn left small" id="footerCheckoutBtn">إتمام الشراء</button>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast"></div>
+
+  <div id="overlay" class="overlay">
+    <div class="sheet">
+      <h3 id="sheetTitle">تأكيد</h3>
+      <div class="thin" id="sheetBody"></div>
+      <div style="height:12px"></div>
+      <div class="sheet-actions">
+        <button class="small-link" id="sheetCancel">إلغاء</button>
+        <button class="action-btn buy" id="sheetConfirm">تأكيد</button>
+      </div>
+    </div>
+  </div>
 
 <script>
+/* =========================
+   الإعدادات العامة
+   عدّل هنا لو غيرت الروابط
+========================= */
+const CONFIG = {
+  API_URL: "https://script.google.com/macros/s/AKfycbw6azxH6sJr2kS9bUMCdzJctMJwbfuwJiudCD8Ksu-bbpA9_Bch8IgYAzp5qoGn9sJ0LQ/exec",
+  SITE_URL: "https://alahram2014.github.io/",
+  FB_URL: "https://www.facebook.com/alahram2014", // عدّل لو لزم
+  WA_URL: "https://wa.me/201066197010",            // عدّل الرقم
+  CALL_URL: "tel:01066197010",                    // عدّل الرقم
+  DEFAULT_LOGO: "https://via.placeholder.com/120?text=AL"
+};
 
-// ================= CONFIG =================
-const API = "https://script.google.com/macros/s/AKfycbw6azxH6sJr2kS9bUMCdzJctMJwbfuwJiudCD8Ksu-bbpA9_Bch8IgYAzp5qoGn9sJ0LQ/exec";
+/* =========================
+   الحالة المركزية
+========================= */
+const state = {
+  screen: "home",
+  mode: "normal",          // normal | tier
+  user: null,              // {phone, name, password, tier, status, assigned_rep}
+  rep: null,               // {rep_id, name, password, region}
+  activeCompany: null,
+  companies: [],
+  products: [],
+  offers: [],
+  flashOffers: [],
+  customers: [],
+  orders: [],
+  orderItems: [],
+  notifications: [],
+  cart: [],
+  persona: null,
+  lastMessages: {},
+  activeOfferId: null,
+  activeFlashId: null,
+  selectedOfferCode: null
+};
 
-// ================= STATE =================
-let cart = JSON.parse(localStorage.getItem("cart")) || {};
-let tierMode = localStorage.getItem("tierMode") === "true";
+const SHEET_SKIP_ROW_NOTE = "Row 1 = headers, Row 2 = Arabic note/ignore, Row 3 = data start"; // للمرجع فقط
 
-// ================= PERSONALITIES =================
-const messages = [
-"يا كبير خلّص اللي في إيدك الأول 😉",
-"استنى بس نطلع من الشريحة ونرجع ناخد العرض 🔥",
-"العرض ده للعادي يا نجم 💪",
-"واحدة واحدة يا معلم 😂",
-"دي صفقة تقيلة بس ليها وقتها 😏"
+/* =========================
+   رسائل 5 شخصيات
+========================= */
+const PERSONAS = {
+  advisor: {
+    label: "Advisor",
+    messages: {
+      entry: ["أهلاً بيك 👌 خلينا نطلع بأفضل طلب", "نبدأها صح ونمشي خطوة خطوة 👌"],
+      select_unit: ["اختار الوحدة الأول يا كبير 👌", "خلينا نثبت الوحدة وبعدين نكمّل"],
+      add: ["حلو أوي كده 🔥 كمل", "خطوة ممتازة، ماشيين صح 👌"],
+      near_goal: ["قربت تقفلها 🔥", "فاضلك خطوة بسيطة وتوصل"],
+      idle: ["في حاجة واقفة معاك؟ خلينا نكملها سوا 👌", "لسه معانا؟ يلا نكمّل"],
+      blocked: ["العرض ده مستنيك بره الشريحة 😉", "خلّص الشريحة الأول وبعدها نرجعله"],
+      success: ["تمام يا بطل 👌 كده الطلب جاهز", "الطلب وصلنا، ممتاز 🔥"],
+      error: ["كمل البيانات الأول يا كبير 👌", "في خطوة ناقصة بسيطة"]
+    }
+  },
+  closer: {
+    label: "Closer",
+    messages: {
+      entry: ["جاهز نقفل فاتورة تقيلة النهارده؟ 🔥", "يلا نكسب الصفقة من أولها"],
+      select_unit: ["اختار الوحدة وهنكمّل 🔥", "ثبت الاختيار الأول وبعدها ندخل على الكمية"],
+      add: ["جامد 🔥 كده ابتدينا", "حلو جدًا، كمل"],
+      near_goal: ["فاضلك لمسة وتقفلها 🔥", "قربت جدًا، كمل بقى"],
+      idle: ["ماشيين كويس، كمل السرعة 🔥", "متوقفش دلوقتي، باقي خطوة"],
+      blocked: ["العرض ده مستنيك بعد الشريحة 😉", "لسه بدري على العرض، خلّص الهدف الأول"],
+      success: ["تمام 🔥 خلصنا", "أيوه كده، اتبعتت"],
+      error: ["لسه ناقصنا خطوة صغيرة", "اختار الصح وهنعديها"]
+    }
+  },
+  buddy: {
+    label: "Buddy",
+    messages: {
+      entry: ["نورت يا كبير 😄", "يلا بينا نشتغل سوا"],
+      select_unit: ["استنى بس 😄 اختار الوحدة الأول", "خلينا نمشيها صح يا بطل"],
+      add: ["أيوه كده 😄", "ماشية حلو، كمل"],
+      near_goal: ["يا سلام 😄 قربت", "فاضلك حاجة بسيطة"],
+      idle: ["رحت فين 😄؟ كمل معانا", "لسه؟ يلا نكمّل"],
+      blocked: ["سيبه دلوقتي 😄 نرجعله بعد الشريحة", "العرض موجود، بس بعد ما نخلّص"],
+      success: ["جامد 😄 تم الإرسال", "تمت الحكاية"],
+      error: ["حصل نقص بسيط 😄", "كمل البيانات وبنعدي"]
+    }
+  },
+  analyst: {
+    label: "Analyst",
+    messages: {
+      entry: ["خلينا نمشي بخطة واضحة من الأول", "ابدأ مضبوط عشان نطلع أفضل نتيجة"],
+      select_unit: ["الوحدة مهمة هنا، اختارها الأول", "من غير وحدة الحساب مش هيظبط"],
+      add: ["حسنًا، كده نتحرك في الاتجاه الصحيح", "الإضافة محسوبة"],
+      near_goal: ["الأرقام ممتازة دلوقتي، قربت", "اقتربت من الهدف"],
+      idle: ["في نقطة محتاجة مراجعة", "ممكن نكمّل بخطوة واضحة"],
+      blocked: ["النوع ده خارج وضع الشريحة", "لازم نكمّل الشريحة أولًا"],
+      success: ["تم تسجيل الطلب بنجاح", "الطلب اتسجل"],
+      error: ["هناك بيانات ناقصة", "يلزم استكمال المطلوب"]
+    }
+  },
+  boss: {
+    label: "Boss",
+    messages: {
+      entry: ["جاهز ✔", "ابدأ ✔"],
+      select_unit: ["اختار الوحدة ✔", "ثبّت الاختيار ✔"],
+      add: ["كده صح ✔ كمل", "تمام ✔"],
+      near_goal: ["خلص ✔", "قربت ✔"],
+      idle: ["كمل ✔", "ما توقفش ✔"],
+      blocked: ["مش هنا ✔", "أقفل الشريحة أولًا ✔"],
+      success: ["تم ✔", "جاهز ✔"],
+      error: ["كمل ✔", "صحيح ✔"]
+    }
+  }
+};
+
+const EVENT_PROGRESS = {
+  tier_low_total: "near_goal",
+  tier_low_companies: "error",
+  tier_over_company: "error"
+};
+
+/* =========================
+   أدوات مساعدة
+========================= */
+const $ = (sel, root=document) => root.querySelector(sel);
+const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+const money = n => Number(n || 0).toLocaleString("en-US");
+const normalizePhone = p => String(p || "").replace(/\D/g, "").replace(/^0+/, "0").replace(/^20/, "20");
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function showToast(message, type="") {
+  const toast = $("#toast");
+  toast.className = `toast ${type}`;
+  toast.textContent = message;
+  requestAnimationFrame(()=>toast.classList.add("show"));
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(()=>toast.classList.remove("show"), 4200);
+}
+
+function setMsg(el, text, type="warning") {
+  if (!el) return;
+  el.className = `msg-box ${type}`;
+  el.textContent = text;
+  el.classList.remove("hidden");
+}
+
+function hideMsg(el) {
+  if (!el) return;
+  el.className = "msg-box hidden";
+  el.textContent = "";
+}
+
+function openOverlay(title, body, onConfirm) {
+  $("#sheetTitle").textContent = title;
+  $("#sheetBody").innerHTML = body;
+  $("#overlay").classList.add("show");
+  $("#sheetConfirm").onclick = () => {
+    $("#overlay").classList.remove("show");
+    onConfirm && onConfirm();
+  };
+  $("#sheetCancel").onclick = () => $("#overlay").classList.remove("show");
+}
+
+function randomFrom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/* =========================
+   الشخصية النشطة
+========================= */
+function getPersona() {
+  if (state.persona && PERSONAS[state.persona]) return state.persona;
+  const saved = localStorage.getItem("persona");
+  if (saved && PERSONAS[saved]) {
+    state.persona = saved;
+    return saved;
+  }
+  const keys = Object.keys(PERSONAS);
+  const pick = keys[Math.floor(Math.random() * keys.length)];
+  state.persona = pick;
+  localStorage.setItem("persona", pick);
+  return pick;
+}
+
+function smartMessage(eventName) {
+  const persona = getPersona();
+  const pool = PERSONAS[persona].messages[eventName] || [""];
+  let msg = randomFrom(pool);
+  const last = state.lastMessages[eventName];
+  if (pool.length > 1) {
+    let guard = 0;
+    while (msg === last && guard < 6) {
+      msg = randomFrom(pool);
+      guard++;
+    }
+  }
+  state.lastMessages[eventName] = msg;
+  return msg;
+}
+
+function emitSmart(eventName, type="warning") {
+  showToast(smartMessage(eventName), type);
+}
+
+/* =========================
+   API
+========================= */
+async function api(action, payload={}) {
+  const url = new URL(CONFIG.API_URL);
+  url.searchParams.set("action", action);
+
+  try {
+    const method = Object.keys(payload).length ? "POST" : "GET";
+    const res = await fetch(method === "GET" ? url : CONFIG.API_URL, {
+      method,
+      headers: method === "POST" ? {"Content-Type":"application/json"} : {},
+      body: method === "POST" ? JSON.stringify({ action, ...payload }) : undefined
+    });
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch { return { success:false, raw:text }; }
+  } catch (err) {
+    return { success:false, error:String(err) };
+  }
+}
+
+/* =========================
+   بيانات محلية احتياطية
+========================= */
+function seedFallbackData() {
+  state.companies = [
+    { name:"لوريال", image:"https://via.placeholder.com/200?text=L'OREAL" },
+    { name:"بلت", image:"https://via.placeholder.com/200?text=PALETTE" },
+    { name:"جونسون", image:"https://via.placeholder.com/200?text=JOHNSON" },
+    { name:"نيفيا", image:"https://via.placeholder.com/200?text=NIVEA" }
+  ];
+
+  state.products = [
+    {
+      code:"300",
+      name:"بالمرز هير سيلك 150مل",
+      company:"لوريال",
+      base_carton:1612,
+      base_pack:0,
+      base_piece:85,
+      tier_price_carton:"",
+      tier_price_pack:"",
+      tier_price_piece:"",
+      status:1,
+      image:"https://via.placeholder.com/400x400?text=Product+300"
+    },
+    {
+      code:"391",
+      name:"فوج سبراي نابليون 120مل",
+      company:"بلت",
+      base_carton:"",
+      base_pack:1069,
+      base_piece:95,
+      tier_price_carton:"",
+      tier_price_pack:"",
+      tier_price_piece:"",
+      status:1,
+      image:"https://via.placeholder.com/400x400?text=Product+391"
+    },
+    {
+      code:"512",
+      name:"نيفيا كريم علبة زرقا 150مل",
+      company:"نيفيا",
+      base_carton:"",
+      base_pack:"",
+      base_piece:85,
+      tier_price_carton:"",
+      tier_price_pack:"",
+      tier_price_piece:"",
+      status:1,
+      image:"https://via.placeholder.com/400x400?text=Product+512"
+    }
+  ];
+
+  state.offers = [
+    {
+      offer_id:"OF1",
+      title:"عرض لوريال + باليت + جونسون",
+      description:"عرض قوي",
+      details_text:"30 كرتونة شامبو لوريال\n15 كرتونة صبغة باليت\n20 زيت جونسون",
+      conditions:"الدفع مقدم",
+      price:50000,
+      quantity:10,
+      image:"https://via.placeholder.com/600x600?text=Offer+1",
+      codes:["20201345","20201567"],
+      status:"active"
+    },
+    {
+      offer_id:"OF2",
+      title:"عرض نيفيا + فاتيكا",
+      description:"عرض توفير",
+      details_text:"40 كريم نيفيا\n25 زيت فاتيكا",
+      conditions:"لفترة محدودة",
+      price:25000,
+      quantity:8,
+      image:"https://via.placeholder.com/600x600?text=Offer+2",
+      codes:["30304567","30307890"],
+      status:"ended"
+    }
+  ];
+
+  state.flashOffers = [
+    {
+      flash_id:"FL1",
+      title:"عرض الساعة لوريال",
+      description:"عرض سريع",
+      details_text:"20 كرتونة لوريال\n10 بلسم",
+      conditions:"الدفع مقدم",
+      price:20000,
+      quantity:5,
+      image:"https://via.placeholder.com/600x600?text=Flash+1",
+      start_date:"2026-04-16",
+      start_time:"08:00",
+      duration_minutes:60,
+      codes:["11112222","33334444"]
+    }
+  ];
+
+  state.orders = [
+    { order_id:"ORD-1001", date:"2026-04-15", time:"14:32", customer_phone:"201066197010", customer_name:"حسن", rep_id:"7000", mode:"tier", tier:"100k", total:57263, status:"pending", pdf_link:"#"},
+    { order_id:"ORD-1002", date:"2026-04-14", time:"11:00", customer_phone:"201011112222", customer_name:"أحمد", rep_id:"7000", mode:"normal", tier:"", total:24100, status:"approved", pdf_link:"#"}
+  ];
+
+  state.orderItems = [
+    { order_id:"ORD-1001", product_code:"300", name:"بالمرز هير سيلك 150مل", company:"لوريال", unit:"كرتونة", qty:15, price:1612, total:24176 },
+    { order_id:"ORD-1001", product_code:"391", name:"فوج سبراي نابليون 120مل", company:"بلت", unit:"دستة", qty:23, price:1069, total:24587 },
+    { order_id:"ORD-1001", product_code:"512", name:"نيفيا كريم علبة زرقا 150مل", company:"نيفيا", unit:"قطعة", qty:100, price:85, total:8500 }
+  ];
+
+  state.notifications = [
+    { phone:"201066197010", message:"طلبك وصلنا 👌 وجاري المراجعة", status:"unread", date:"2026-04-15" },
+    { phone:"201066197010", message:"طلبك اتأكد 🔥", status:"read", date:"2026-04-15" }
+  ];
+
+  state.customers = [
+    { customer_id:"C-1", name:"حسن", phone:"201066197010", password:"", status:"registered", tier:0, assigned_rep:"7000" }
+  ];
+
+  state.reps = [
+    { rep_id:"7000", name:"محمد سعيد", password:"7070", region:"القاهرة", status:"active" }
+  ];
+}
+
+/* =========================
+   تحميل البيانات من API
+========================= */
+async function loadAll() {
+  const [prodRes, offerRes, flashRes, custRes, orderRes, itemRes, notifRes, repRes] = await Promise.all([
+    api("getProducts"),
+    api("getOffers"),
+    api("getFlashOffers"),
+    api("getCustomers"),
+    api("getOrders"),
+    api("getOrderItems"),
+    api("getNotifications"),
+    api("getReps")
+  ]);
+
+  // لو رد API فاضي أو فشل، نكمل بالـ fallback
+  if (prodRes?.data?.length) state.products = prodRes.data;
+  if (offerRes?.data?.length) state.offers = offerRes.data;
+  if (flashRes?.data?.length) state.flashOffers = flashRes.data;
+  if (custRes?.data?.length) state.customers = custRes.data;
+  if (orderRes?.data?.length) state.orders = orderRes.data;
+  if (itemRes?.data?.length) state.orderItems = itemRes.data;
+  if (notifRes?.data?.length) state.notifications = notifRes.data;
+  if (repRes?.data?.length) state.reps = repRes.data;
+
+  computeCompanies();
+  renderAll();
+}
+
+function computeCompanies() {
+  const map = new Map();
+  state.products.forEach(p => {
+    if (!p.company) return;
+    if (!map.has(p.company)) {
+      map.set(p.company, p.image || `https://via.placeholder.com/200?text=${encodeURIComponent(p.company)}`);
+    }
+  });
+  state.companies = Array.from(map.entries()).map(([name, image]) => ({name, image}));
+}
+
+/* =========================
+   التسعير
+========================= */
+function getProductUnitPrice(product, unit, modeOverride) {
+  const tierMode = modeOverride ?? (state.mode === "tier");
+  const baseMap = {
+    carton: product.base_carton,
+    pack: product.base_pack,
+    piece: product.base_piece
+  };
+  const tierMap = {
+    carton: product.tier_price_carton,
+    pack: product.tier_price_pack,
+    piece: product.tier_price_piece
+  };
+
+  if (tierMode) {
+    return tierMap[unit] || baseMap[unit] || "";
+  }
+
+  const userTier = Number(state.user?.tier || 0);
+  if (userTier > 0) {
+    const k = `tier${userTier}_${unit}`;
+    return product[k] || baseMap[unit] || "";
+  }
+
+  return baseMap[unit] || "";
+}
+
+function getBestProductPrice(product, unit) {
+  return getProductUnitPrice(product, unit, state.mode);
+}
+
+function getAvailableUnits(product) {
+  const u = [];
+  const cart = getProductUnitPrice(product, "carton");
+  const pack = getProductUnitPrice(product, "pack");
+  const piece = getProductUnitPrice(product, "piece");
+  if (cart) u.push({key:"carton", label:"كرتونة", price:cart});
+  if (pack) u.push({key:"pack", label:"دستة", price:pack});
+  if (piece) u.push({key:"piece", label:"قطعة", price:piece});
+  return u;
+}
+
+/* =========================
+   الشريحة
+========================= */
+const TIER_CONFIG = [
+  { tier_id:"T1", tier_name:"شريحة 50 ألف", min_amount:50000, password:"", notes:"خصومات خاصة للشريحة", active:1 },
+  { tier_id:"T2", tier_name:"شريحة 100 ألف", min_amount:100000, password:"", notes:"أفضل الأسعار", active:1 }
 ];
 
-function getMessage() {
-  return messages[Math.floor(Math.random()*messages.length)];
+function getCurrentTierAmount() {
+  const tier = localStorage.getItem("selectedTier");
+  const found = TIER_CONFIG.find(t => t.tier_name === tier);
+  return found?.min_amount || 0;
 }
 
-// ================= PRODUCTS =================
-function renderProduct(p){
-  const qty = cart[p.code] || 0;
+function setTier(tierObj) {
+  state.mode = "tier";
+  localStorage.setItem("tierMode", "true");
+  localStorage.setItem("selectedTier", tierObj.tier_name);
+  state.activeCompany = null;
+  removeOffersFromCart();
+  recalcCart();
+  emitSmart("entry", "success");
+  showToast(`تم تفعيل ${tierObj.tier_name} 🔥`, "success");
+  navigate("catalog");
+}
 
-  let controls = "";
+function exitTier() {
+  state.mode = "normal";
+  localStorage.setItem("tierMode", "false");
+  localStorage.removeItem("selectedTier");
+  recalcCart();
+  showToast("رجعنا للوضع العادي 👌", "success");
+  navigate("home");
+}
 
-  if(qty === 0){
-    controls = `<button onclick="add('${p.code}')">شراء 💪</button>`;
-  }else{
-    controls = `
-      <button onclick="inc('${p.code}')">تزود ➕</button>
-      <button class="remove" onclick="removeItem('${p.code}')">شيلها ❌</button>
-    `;
+function removeOffersFromCart() {
+  state.cart = state.cart.filter(i => i.type !== "offer" && i.type !== "flash");
+}
+
+/* =========================
+   العروض
+========================= */
+function parseOfferCodes(offer) {
+  if (Array.isArray(offer.codes)) return offer.codes.map(String);
+  if (typeof offer.codes === "string") return offer.codes.split(",").map(s => s.trim()).filter(Boolean);
+  return [];
+}
+
+function isOfferCodeValid(offer, code) {
+  const codes = parseOfferCodes(offer);
+  return codes.includes(String(code).trim());
+}
+
+function getFlashStatus(flash) {
+  const now = new Date();
+  const today = now.getDay(); // 0-6
+  const start = flash.start_date ? new Date(`${flash.start_date}T${flash.start_time || "00:00"}:00`) : null;
+  const duration = Number(flash.duration_minutes || 60);
+  const end = start ? new Date(start.getTime() + duration * 60000) : null;
+
+  if (start) {
+    if (now < start) return "upcoming";
+    if (end && now > end) return "ended";
+    return "active";
   }
 
-  return `
-    <div class="card">
-      <img src="${p.image || 'https://via.placeholder.com/150'}">
-      <div class="title">${p.name}</div>
-      <div class="company">${p.company}</div>
-      <div class="price">${p.base_piece || "-"} جنيه</div>
-      ${controls}
-    </div>
-  `;
+  // لو في recurring mode لاحقًا
+  return "active";
 }
 
-// ================= OFFERS =================
-function renderOffer(o){
+function formatTimerFromDate(endDate) {
+  const diff = Math.max(0, endDate - new Date());
+  const totalSec = Math.floor(diff / 1000);
+  const hh = String(Math.floor(totalSec / 3600)).padStart(2, "0");
+  const mm = String(Math.floor((totalSec % 3600) / 60)).padStart(2, "0");
+  const ss = String(totalSec % 60).padStart(2, "0");
+  return `${hh} : ${mm} : ${ss}`;
+}
 
-  // لو داخل شريحة
-  if(tierMode){
-    return `
+function formatRemainingWords(endDate) {
+  const diff = Math.max(0, endDate - new Date());
+  const min = Math.floor(diff / 60000);
+  if (min <= 0) return "أقل من دقيقة";
+  if (min < 60) return `فاضل ${min} دقيقة`;
+  const h = Math.floor(min/60);
+  const m = min % 60;
+  return m ? `فاضل ${h} ساعة و${m} دقيقة` : `فاضل ${h} ساعة`;
+}
+
+/* =========================
+   السلة
+========================= */
+state.cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+function saveCart() {
+  localStorage.setItem("cart", JSON.stringify(state.cart));
+  renderCartBadge();
+  renderCart();
+  renderFooter();
+}
+
+function findCartItem(code, type="product") {
+  return state.cart.find(i => i.code === code && i.type === type);
+}
+
+function addProduct(product, unit) {
+  if (!unit) {
+    emitSmart("select_unit");
+    return;
+  }
+
+  const qty = Number($("#tempQty_" + product.code)?.dataset.value || 1);
+  const price = getProductUnitPrice(product, unit);
+  if (!price) {
+    showToast("الوحدة دي غير متاحة 👌", "warning");
+    return;
+  }
+
+  const existing = findCartItem(product.code, "product");
+  if (existing && existing.unit === unit) {
+    existing.qty = (existing.qty || 1) + qty;
+    existing.price = price;
+  } else if (existing && existing.unit !== unit) {
+    // لو نفس الصنف بوحدة مختلفة نعدّل الوحدة الحالية
+    existing.unit = unit;
+    existing.qty = qty;
+    existing.price = price;
+  } else {
+    state.cart.push({
+      type:"product",
+      code: product.code,
+      name: product.name,
+      company: product.company,
+      unit,
+      qty,
+      price,
+      image: product.image || "",
+      status: product.status
+    });
+  }
+
+  showToast("تمت الإضافة 🔥", "success");
+  recalcCart();
+}
+
+function removeProduct(code) {
+  state.cart = state.cart.filter(i => !(i.type === "product" && i.code === code));
+  recalcCart();
+}
+
+function addOfferToCart(offer) {
+  if (state.mode === "tier") {
+    showToast(smartMessage("blocked"), "warning");
+    return;
+  }
+  const exists = state.cart.find(i => i.type === "offer" && i.id === offer.offer_id);
+  if (exists) {
+    showToast("العرض موجود بالفعل 👌", "warning");
+    return;
+  }
+
+  state.cart.push({
+    type:"offer",
+    id: offer.offer_id,
+    title: offer.title,
+    details_text: offer.details_text || "",
+    conditions: offer.conditions || "",
+    price: Number(offer.price || 0),
+    qty: 1,
+    image: offer.image || "",
+    codes: parseOfferCodes(offer),
+    status: offer.status || "active"
+  });
+
+  showToast("تمت إضافة العرض 🔥", "success");
+  recalcCart();
+}
+
+function addFlashToCart(flash) {
+  const status = getFlashStatus(flash);
+  if (status !== "active") {
+    showToast(status === "ended" ? "العرض انتهى ❌" : "العرض لم يبدأ بعد 👌", "warning");
+    return;
+  }
+  if (state.mode === "tier") {
+    showToast(smartMessage("blocked"), "warning");
+    return;
+  }
+  const exists = state.cart.find(i => i.type === "flash" && i.id === flash.flash_id);
+  if (exists) {
+    showToast("عرض الساعة موجود بالفعل 👌", "warning");
+    return;
+  }
+
+  state.cart.push({
+    type:"flash",
+    id: flash.flash_id,
+    title: flash.title,
+    details_text: flash.details_text || "",
+    conditions: flash.conditions || "",
+    price: Number(flash.price || 0),
+    qty: 1,
+    image: flash.image || "",
+    status
+  });
+
+  showToast("تمت إضافة عرض الساعة 🔥", "success");
+  recalcCart();
+}
+
+function recalcCart() {
+  saveCart();
+  validateCartUI();
+}
+
+function calculateCartTotal() {
+  return state.cart.reduce((sum, item) => {
+    if (item.type === "product") return sum + (Number(item.price || 0) * Number(item.qty || 1));
+    return sum + (Number(item.price || 0));
+  }, 0);
+}
+
+/* =========================
+   التحقق
+========================= */
+function getTierValidation() {
+  const tierAmount = getCurrentTierAmount();
+  if (!tierAmount) return { valid:true, message:"" };
+
+  const productsOnly = state.cart.filter(i => i.type === "product");
+  const total = productsOnly.reduce((s, i) => s + Number(i.price || 0) * Number(i.qty || 1), 0);
+
+  const companies = {};
+  productsOnly.forEach(i => {
+    const val = Number(i.price || 0) * Number(i.qty || 1);
+    companies[i.company] = (companies[i.company] || 0) + val;
+  });
+
+  const companyCount = Object.keys(companies).length;
+  if (total < tierAmount) {
+    return { valid:false, key:"tier_low_total", message:`فاضلك ${money(tierAmount-total)} عشان تكمل الشريحة 👌` };
+  }
+
+  if (companyCount < 5) {
+    return { valid:false, key:"tier_low_companies", message:`محتاج ${5-companyCount} شركة كمان عشان تقفل الشريحة 👌` };
+  }
+
+  const maxPerCompany = tierAmount * 0.25;
+  const over = Object.entries(companies).find(([,v]) => v > maxPerCompany);
+  if (over) {
+    return { valid:false, key:"tier_over_company", message:`قلل شوية من ${over[0]} وزوّد التنوع 🔥` };
+  }
+
+  return { valid:true, message:"جاهز تقفل الشريحة 🔥" };
+}
+
+function validateCartUI() {
+  const box = $("#checkoutState");
+  const total = calculateCartTotal();
+  const tierAmount = getCurrentTierAmount();
+  const hasOffer = state.cart.some(i => i.type === "offer" || i.type === "flash");
+  const tierCheck = getTierValidation();
+
+  if (state.mode === "tier") {
+    if (hasOffer) {
+      setMsg(box, "فيه عروض/عرض ساعة في السلة، وتم حذفها لأنك دخلت الشريحة 👌", "warning");
+    } else if (!tierCheck.valid) {
+      setMsg(box, tierCheck.message, "warning");
+    } else {
+      setMsg(box, `تمام يا بطل 👌 الشريحة جاهزة · الإجمالي ${money(total)}`, "success");
+    }
+  } else {
+    if (!state.cart.length) {
+      setMsg(box, "السلة فاضية 👌", "warning");
+    } else {
+      setMsg(box, `الإجمالي الحالي: ${money(total)}`, "success");
+    }
+  }
+
+  $("#footerCartTotal").textContent = money(total);
+  $("#cartCountHint").textContent = `${state.cart.length} عنصر`;
+}
+
+function canCheckout() {
+  if (!state.cart.length) return {valid:false, message:"السلة فاضية 👌"};
+  if (state.mode === "tier") {
+    const tierCheck = getTierValidation();
+    if (!tierCheck.valid) return tierCheck;
+    if (state.cart.some(i => i.type === "offer" || i.type === "flash")) {
+      return {valid:false, message:"احذف العروض من سلة الشريحة 👌"};
+    }
+  }
+  return {valid:true, message:"ok"};
+}
+
+/* =========================
+   الرندر
+========================= */
+function navigate(screen) {
+  state.screen = screen;
+  $$(".screen").forEach(s => s.classList.remove("active"));
+  $("#screen-" + screen).classList.add("active");
+  window.history.pushState({screen}, "", "#"+screen);
+  if (screen === "home") updateHomeQuickButtons();
+  renderCartBadge();
+  renderFooter();
+  if (screen === "offers") startOfferGlobalTimer();
+  if (screen === "flash") startFlashGlobalTimer();
+  if (screen === "catalog") renderCatalog();
+  if (screen === "cart") renderCart();
+  if (screen === "tiers") renderTiers();
+  if (screen === "account") renderAccount();
+  if (screen === "rep") renderRep();
+  if (screen === "notifications") renderNotifications();
+  validateCartUI();
+}
+
+function goBackOrHome() {
+  if (state.screen === "home") {
+    // الخروج لو في الرئيسية
+    if (confirm("الخروج من الصفحة؟")) {
+      history.back();
+    }
+    return;
+  }
+  history.back();
+}
+
+function renderHomeCompanies() {
+  const grid = $("#homeCompanies");
+  const q = ($("#homeSearch").value || "").trim().toLowerCase();
+
+  const list = state.companies.filter(c => !q || c.name.toLowerCase().includes(q));
+  grid.innerHTML = list.map(c => `
+    <div class="company-card" data-company="${escapeHtml(c.name)}">
+      <div class="circle"><img src="${c.image || CONFIG.DEFAULT_LOGO}" alt="${escapeHtml(c.name)}"></div>
+      <div class="name">${escapeHtml(c.name)}</div>
+    </div>
+  `).join("");
+
+  $$(".company-card", grid).forEach(card => {
+    card.onclick = () => {
+      state.activeCompany = card.dataset.company;
+      renderCatalog();
+      navigate("catalog");
+      emitSmart("add", "success");
+    };
+  });
+}
+
+function updateHomeQuickButtons() {
+  const homeTierBtn = $("#homeTierBtn");
+  const footerTierBtn = $("#footerTierBtn");
+  const selectedTier = localStorage.getItem("selectedTier");
+  if (selectedTier) {
+    homeTierBtn.textContent = selectedTier;
+    footerTierBtn.textContent = selectedTier;
+    homeTierBtn.style.background = "var(--gold)";
+    footerTierBtn.style.background = "var(--gold)";
+    homeTierBtn.style.color = "#111";
+  } else {
+    homeTierBtn.textContent = "اختار شريحتك";
+    footerTierBtn.textContent = "اختار شريحتك";
+    homeTierBtn.style.background = "var(--gold)";
+    footerTierBtn.style.background = "var(--gold)";
+    homeTierBtn.style.color = "#111";
+  }
+}
+
+function renderProducts(list) {
+  const container = $("#productsList");
+  container.innerHTML = list.map(p => {
+    const units = getAvailableUnits(p);
+    if (!Number(p.status || 1)) {
+      return `
       <div class="card">
-        <img src="${o.image || 'https://via.placeholder.com/150'}">
-        <div class="title">${o.title}</div>
-        <div class="price">${o.price} جنيه</div>
-        <div class="msg">${getMessage()}</div>
+        <div class="media"><img src="${p.image || 'https://via.placeholder.com/400x400?text=No+Image'}" alt=""></div>
+        <div class="body">
+          <div class="title">${escapeHtml(p.name)}</div>
+          <div class="meta">${escapeHtml(p.company || "")}</div>
+          <div class="badge">نفذت الكمية</div>
+        </div>
+      </div>`;
+    }
+
+    const activeUnit = state.cart.find(i => i.type==="product" && i.code===p.code)?.unit || units[0]?.key || "";
+    const price = activeUnit ? getProductUnitPrice(p, activeUnit) : "";
+    const oldBase = state.mode === "tier" ? (p.base_piece || p.base_pack || p.base_carton || price) : "";
+    const qtyInCart = state.cart.find(i => i.type==="product" && i.code===p.code)?.qty || 0;
+    const unitButtons = units.map(u => `
+      <button class="unit-chip ${u.key===activeUnit?'active':''}" data-code="${p.code}" data-unit="${u.key}">${u.label}</button>
+    `).join("");
+
+    return `
+      <div class="card" data-product-code="${escapeHtml(p.code)}">
+        <div class="media"><img src="${p.image || 'https://via.placeholder.com/400x400?text=Product'}" alt=""></div>
+        <div class="body">
+          <div class="title">${escapeHtml(p.name)}</div>
+          <div class="meta">${escapeHtml(p.company || "")}</div>
+          ${state.mode==="tier" && oldBase && price ? `<div class="price-row"><span class="old-price">${money(oldBase)}</span><span class="new-price">${money(price)}</span></div>` : `<div class="new-price">${price ? money(price) : "-"}</div>`}
+          <div class="unit-row">${unitButtons || ""}</div>
+          <div class="qty-box">
+            <div class="qty-inline">
+              <button class="qty-btn" data-dec="${p.code}">-</button>
+              <div class="qty-value" id="qtyView_${p.code}">${qtyInCart || 1}</div>
+              <button class="qty-btn" data-inc="${p.code}">+</button>
+            </div>
+            <div class="manual-link" data-manual="${p.code}" id="manual_${p.code}">ادخل الكمية</div>
+          </div>
+          <button class="action-btn ${qtyInCart ? 'remove' : 'buy'}" data-buy="${p.code}">
+            ${qtyInCart ? 'إزالة' : 'شراء'}
+          </button>
+          <input class="hidden" id="tempQty_${p.code}" data-value="${qtyInCart || 1}" />
+        </div>
       </div>
     `;
+  }).join("");
+
+  // ربط الأحداث
+  $$("[data-unit]").forEach(btn => btn.onclick = () => {
+    const code = btn.dataset.code;
+    const unit = btn.dataset.unit;
+    const product = state.products.find(x => String(x.code) === String(code));
+    if (!product) return;
+    const item = findCartItem(code, "product");
+    const qtyHolder = $("#tempQty_" + code);
+    const qty = Number(qtyHolder?.dataset.value || 1);
+
+    // اختيار الوحدة مع إعادة التسعير
+    if (item) {
+      item.unit = unit;
+      item.price = getProductUnitPrice(product, unit);
+    } else {
+      qtyHolder.dataset.value = qty;
+      state.cart.push({
+        type:"product",
+        code: product.code,
+        name: product.name,
+        company: product.company,
+        unit,
+        qty,
+        price: getProductUnitPrice(product, unit),
+        image: product.image || "",
+        status: product.status
+      });
+    }
+    emitSmart("add", "success");
+    recalcCart();
+    renderCatalog();
+  });
+
+  $$("[data-buy]").forEach(btn => btn.onclick = () => {
+    const code = btn.dataset.buy;
+    const product = state.products.find(x => String(x.code) === String(code));
+    if (!product) return;
+    const item = findCartItem(code, "product");
+    if (item) {
+      removeProduct(code);
+      showToast("تمت الإزالة", "warning");
+      renderCatalog();
+      return;
+    }
+    const activeUnit = getAvailableUnits(product)[0]?.key;
+    addProduct(product, activeUnit);
+    renderCatalog();
+  });
+
+  $$("[data-inc]").forEach(btn => btn.onclick = () => {
+    const code = btn.dataset.inc;
+    const product = state.products.find(x => String(x.code) === String(code));
+    const qtyHolder = $("#tempQty_" + code);
+    let qty = Number(qtyHolder.dataset.value || 1);
+    qty++;
+    qtyHolder.dataset.value = qty;
+    $("#qtyView_"+code).textContent = qty;
+    const item = findCartItem(code, "product");
+    if (item) item.qty = qty;
+    if (product && item) item.price = getProductUnitPrice(product, item.unit);
+    saveCart();
+  });
+
+  $$("[data-dec]").forEach(btn => btn.onclick = () => {
+    const code = btn.dataset.dec;
+    const product = state.products.find(x => String(x.code) === String(code));
+    const qtyHolder = $("#tempQty_" + code);
+    let qty = Number(qtyHolder.dataset.value || 1);
+    if (qty <= 1) return;
+    qty--;
+    qtyHolder.dataset.value = qty;
+    $("#qtyView_"+code).textContent = qty;
+    const item = findCartItem(code, "product");
+    if (item) item.qty = qty;
+    if (product && item) item.price = getProductUnitPrice(product, item.unit);
+    saveCart();
+  });
+
+  $$("[data-manual]").forEach(link => link.onclick = () => {
+    const code = link.dataset.manual;
+    const item = findCartItem(code, "product");
+    const holder = $("#tempQty_"+code);
+    const current = Number(holder.dataset.value || 1);
+
+    openOverlay(
+      "إدخال الكمية",
+      `اكتب الكمية يدويًا للصنف رقم ${code}`,
+      () => {
+        const next = Number(prompt("اكتب الكمية:", current) || current);
+        const val = Math.max(1, next || 1);
+        holder.dataset.value = val;
+        $("#qtyView_"+code).textContent = val;
+        if (item) item.qty = val;
+        saveCart();
+        renderCatalog();
+      }
+    );
+  });
+}
+
+function renderCatalog() {
+  const query = ($("#catalogSearch").value || "").trim().toLowerCase();
+  let list = [...state.products];
+
+  if (state.activeCompany) {
+    list = list.filter(p => String(p.company || "").toLowerCase() === String(state.activeCompany).toLowerCase());
   }
 
-  return `
+  if (query) {
+    list = list.filter(p =>
+      String(p.name || "").toLowerCase().includes(query) ||
+      String(p.company || "").toLowerCase().includes(query) ||
+      String(p.code || "").toLowerCase().includes(query)
+    );
+  }
+
+  $("#catalogTitle").textContent = state.activeCompany ? `أصناف ${state.activeCompany}` : "الأصناف";
+  renderProducts(list);
+  validateCartUI();
+}
+
+function renderTiers() {
+  const q = ($("#tierSearch").value || "").trim().toLowerCase();
+  const list = TIER_CONFIG.filter(t => !q || t.tier_name.toLowerCase().includes(q));
+  $("#tiersList").innerHTML = list.map(t => `
     <div class="card">
-      <img src="${o.image || 'https://via.placeholder.com/150'}">
-      <div class="title">${o.title}</div>
-      <div class="price">${o.price} جنيه</div>
-      <button onclick="addOffer('${o.offer_id}')">خد العرض 🔥</button>
+      <div class="body">
+        <div class="title">${escapeHtml(t.tier_name)}</div>
+        <div class="meta">الحد الأدنى: ${money(t.min_amount)}</div>
+        <div class="offer-conditions">${escapeHtml(t.notes || "")}</div>
+        <button class="action-btn buy" data-tier="${escapeHtml(t.tier_name)}">اختيار الشريحة</button>
+      </div>
+    </div>
+  `).join("");
+
+  $$("[data-tier]").forEach(btn => btn.onclick = () => {
+    const tierObj = TIER_CONFIG.find(t => t.tier_name === btn.dataset.tier);
+    if (!tierObj) return;
+    openOverlay(
+      "دخول الشريحة",
+      `أنت الآن على وشك دخول <b>${escapeHtml(tierObj.tier_name)}</b>.<br>سيتم حذف العروض من السلة وتفعيل أسعار الشريحة.`,
+      () => setTier(tierObj)
+    );
+  });
+}
+
+function renderOffers() {
+  const query = ($("#offerSearch").value || "").trim().toLowerCase();
+  const active = state.offers.filter(o => (o.status || "active") === "active")
+    .filter(o => !query || [o.title, o.description, o.details_text, o.conditions].join(" ").toLowerCase().includes(query));
+  const ended = state.offers.filter(o => (o.status || "active") === "ended")
+    .filter(o => !query || [o.title, o.description, o.details_text, o.conditions].join(" ").toLowerCase().includes(query));
+
+  $("#offersList").innerHTML = active.map(o => {
+    const codes = parseOfferCodes(o);
+    return `
+      <div class="card">
+        <div class="media"><img src="${o.image || 'https://via.placeholder.com/600x600?text=Offer'}" alt=""></div>
+        <div class="body">
+          <div class="badge">صفقة اليوم</div>
+          <div class="title">${escapeHtml(o.title || "")}</div>
+          <div class="offer-details">${escapeHtml(o.details_text || "")}</div>
+          <div class="offer-conditions">${escapeHtml(o.conditions || "")}</div>
+          <div class="price-row"><span class="new-price gold-price">${money(o.price)}</span></div>
+          <button class="action-btn buy" data-offer="${escapeHtml(o.offer_id)}">شراء العرض</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  $("#endedOffersSection").innerHTML = ended.length ? `
+    <div class="section-title">
+      <h2>العروض المنتهية</h2>
+      <div class="hint">للعرض التسويقي والرجوع له لاحقًا</div>
+    </div>
+    <div class="grid offers">
+      ${ended.map(o => `
+        <div class="card">
+          <div class="media"><img src="${o.image || 'https://via.placeholder.com/600x600?text=Ended'}" alt=""></div>
+          <div class="body">
+            <div class="status-pill status-ended">انتهى يوم ${escapeHtml(o.date || "—")} الساعة ${escapeHtml(o.time || "—")}</div>
+            <div class="title">${escapeHtml(o.title || "")}</div>
+            <div class="offer-details">${escapeHtml(o.details_text || "")}</div>
+            <div class="offer-conditions">${escapeHtml(o.conditions || "")}</div>
+            <div class="price-row"><span class="new-price gold-price">${money(o.price)}</span></div>
+            <button class="action-btn disabled" disabled>انتهى</button>
+          </div>
+        </div>
+      `).join("")}
+    </div>` : "";
+
+  $$("[data-offer]").forEach(btn => btn.onclick = () => {
+    const offer = state.offers.find(o => String(o.offer_id) === String(btn.dataset.offer));
+    if (!offer) return;
+    if (state.mode === "tier") {
+      emitSmart("blocked", "warning");
+      return;
+    }
+    const codes = parseOfferCodes(offer);
+    if (!codes.length) {
+      showToast("العرض محتاج كود تفعيل 👌", "warning");
+      return;
+    }
+    openOverlay(
+      "تفعيل العرض",
+      `أدخل كود التفعيل لهذا العرض.`,
+      async () => {
+        const entered = prompt("كود التفعيل:");
+        if (!entered) return;
+        if (!isOfferCodeValid(offer, entered)) {
+          showToast("الكود غير صحيح ❌", "error");
+          return;
+        }
+        addOfferToCart(offer);
+        $("#selectedOfferCode").value = entered;
+      }
+    );
+  });
+}
+
+function renderFlash() {
+  const query = ($("#flashSearch").value || "").trim().toLowerCase();
+  const list = state.flashOffers.filter(f => !query || [f.title, f.description, f.details_text, f.conditions].join(" ").toLowerCase().includes(query));
+
+  const active = list.filter(f => getFlashStatus(f) === "active");
+  const upcoming = list.filter(f => getFlashStatus(f) === "upcoming");
+  const ended = list.filter(f => getFlashStatus(f) === "ended");
+
+  $("#flashList").innerHTML = active.map(flash => {
+    const start = flash.start_date ? new Date(`${flash.start_date}T${flash.start_time || "00:00"}:00`) : null;
+    const end = start ? new Date(start.getTime() + Number(flash.duration_minutes || 60) * 60000) : null;
+    return `
+      <div class="card">
+        <div class="media"><img src="${flash.image || 'https://via.placeholder.com/600x600?text=Flash'}" alt=""></div>
+        <div class="body">
+          <div class="status-pill status-active">متاح الآن</div>
+          <div class="title">${escapeHtml(flash.title || "")}</div>
+          <div class="countdown"><div class="label">متبقي على العرض</div><div class="time">${end ? formatTimerFromDate(end) : "00 : 00 : 00"}</div></div>
+          <div class="offer-details">${escapeHtml(flash.details_text || "")}</div>
+          <div class="offer-conditions">${escapeHtml(flash.conditions || "")}</div>
+          <div class="price-row"><span class="new-price gold-price">${money(flash.price)}</span></div>
+          <button class="action-btn buy" data-flash="${escapeHtml(flash.flash_id)}">شراء العرض</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  $("#upcomingFlashSection").innerHTML = upcoming.length ? `
+    <div class="section-title"><h2>عروض قادمة</h2><div class="hint">تظهر قبلها بوقت</div></div>
+    <div class="grid flash">
+      ${upcoming.map(f => `
+        <div class="card">
+          <div class="media"><img src="${f.image || 'https://via.placeholder.com/600x600?text=Upcoming'}" alt=""></div>
+          <div class="body">
+            <div class="status-pill status-upcoming">سيبدأ في ${escapeHtml(f.start_date || "—")} ${escapeHtml(f.start_time || "—")}</div>
+            <div class="title">${escapeHtml(f.title || "")}</div>
+            <div class="offer-details">${escapeHtml(f.details_text || "")}</div>
+            <div class="offer-conditions">${escapeHtml(f.conditions || "")}</div>
+            <div class="price-row"><span class="new-price gold-price">${money(f.price)}</span></div>
+            <button class="action-btn disabled" disabled>سيبدأ قريبًا</button>
+          </div>
+        </div>
+      `).join("")}
+    </div>` : "";
+
+  $("#endedFlashSection").innerHTML = ended.length ? `
+    <div class="section-title"><h2>عروض منتهية</h2><div class="hint">تعلم العميل إن فيه عروض فاتته</div></div>
+    <div class="grid flash">
+      ${ended.map(f => `
+        <div class="card">
+          <div class="media"><img src="${f.image || 'https://via.placeholder.com/600x600?text=Ended'}" alt=""></div>
+          <div class="body">
+            <div class="status-pill status-ended">انتهى يوم ${escapeHtml(f.end_date || f.start_date || "—")} الساعة ${escapeHtml(f.end_time || "—")}</div>
+            <div class="title">${escapeHtml(f.title || "")}</div>
+            <div class="offer-details">${escapeHtml(f.details_text || "")}</div>
+            <div class="offer-conditions">${escapeHtml(f.conditions || "")}</div>
+            <div class="price-row"><span class="new-price gold-price">${money(f.price)}</span></div>
+            <button class="action-btn disabled" disabled>انتهى</button>
+          </div>
+        </div>
+      `).join("")}
+    </div>` : "";
+
+  $$("[data-flash]").forEach(btn => btn.onclick = () => {
+    const flash = state.flashOffers.find(f => String(f.flash_id) === String(btn.dataset.flash));
+    if (!flash) return;
+    if (state.mode === "tier") {
+      emitSmart("blocked", "warning");
+      return;
+    }
+    const status = getFlashStatus(flash);
+    if (status !== "active") {
+      showToast(status === "ended" ? "العرض انتهى ❌" : "العرض لم يبدأ بعد 👌", "warning");
+      return;
+    }
+    const codes = parseOfferCodes(flash);
+    if (!codes.length) {
+      showToast("العرض يحتاج كود تفعيل 👌", "warning");
+      return;
+    }
+    openOverlay("تفعيل عرض الساعة", "أدخل كود التفعيل لهذا العرض.", () => {
+      const entered = prompt("كود التفعيل:");
+      if (!entered) return;
+      if (!isOfferCodeValid(flash, entered)) {
+        showToast("الكود غير صحيح ❌", "error");
+        return;
+      }
+      addFlashToCart(flash);
+    });
+  });
+}
+
+function renderCart() {
+  const list = $("#cartList");
+  if (!state.cart.length) {
+    list.innerHTML = `<div class="panel">السلة فاضية 👌</div>`;
+    validateCartUI();
+    return;
+  }
+
+  list.innerHTML = state.cart.map(item => {
+    if (item.type === "product") {
+      const product = state.products.find(p => String(p.code) === String(item.code));
+      const availableUnits = product ? getAvailableUnits(product) : [];
+      const price = item.price || 0;
+      return `
+        <div class="order-card">
+          <div class="order-head">
+            <div>
+              <div class="order-id">${escapeHtml(item.name)}</div>
+              <div class="order-date">${escapeHtml(item.company || "")} · ${escapeHtml(item.unit || "")}</div>
+            </div>
+            <div class="order-status st-approved">${money(price)} × ${item.qty}</div>
+          </div>
+          <div class="thin">الإجمالي: ${money(price * item.qty)}</div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="small-link" data-cart-unit="${item.code}">تغيير الوحدة</button>
+            <button class="action-btn remove" data-cart-remove="${item.code}">إزالة</button>
+          </div>
+        </div>
+      `;
+    }
+
+    if (item.type === "offer" || item.type === "flash") {
+      return `
+        <div class="order-card">
+          <div class="order-head">
+            <div>
+              <div class="order-id">${escapeHtml(item.title || "")}</div>
+              <div class="order-date">${item.type === "offer" ? "صفقة اليوم" : "عرض الساعة"}</div>
+            </div>
+            <div class="order-status st-approved">${money(item.price)}</div>
+          </div>
+          <div class="thin">${escapeHtml(item.details_text || "")}</div>
+          <div class="thin">${escapeHtml(item.conditions || "")}</div>
+          <div style="display:flex;gap:8px;margin-top:8px">
+            <button class="action-btn remove" data-cart-remove-offer="${escapeHtml(item.id)}">إزالة</button>
+          </div>
+        </div>
+      `;
+    }
+
+    return "";
+  }).join("");
+
+  $$("[data-cart-remove]").forEach(btn => btn.onclick = () => {
+    removeProduct(btn.dataset.cartRemove);
+    renderCatalog();
+  });
+
+  $$("[data-cart-remove-offer]").forEach(btn => btn.onclick = () => {
+    state.cart = state.cart.filter(i => !(i.id === btn.dataset.cartRemoveOffer && (i.type === "offer" || i.type === "flash")));
+    recalcCart();
+    renderCart();
+  });
+
+  $$("[data-cart-unit]").forEach(btn => btn.onclick = () => {
+    const code = btn.dataset.cartUnit;
+    const product = state.products.find(p => String(p.code) === String(code));
+    if (!product) return;
+    const units = getAvailableUnits(product);
+    if (!units.length) {
+      showToast("الوحدات غير متاحة 👌", "warning");
+      return;
+    }
+    const options = units.map(u => `${u.label} - ${money(u.price)}`).join("\n");
+    const unitLabel = prompt(`اختار الوحدة:\n${options}\n\nاكتب: كرتونة / دستة / قطعة`);
+    const map = { كرتونة:"carton", دستة:"pack", قطعة:"piece" };
+    const unit = map[unitLabel];
+    if (!unit || !units.find(u=>u.key===unit)) {
+      showToast("اختيار غير صحيح 👌", "warning");
+      return;
+    }
+    const item = findCartItem(code, "product");
+    if (item) {
+      item.unit = unit;
+      item.price = getProductUnitPrice(product, unit);
+    }
+    saveCart();
+    renderCatalog();
+  });
+
+  validateCartUI();
+}
+
+function renderAccount() {
+  const box = $("#accountSummary");
+  if (state.user) {
+    setMsg(box, `أهلاً بيك يا ${state.user.name || "عميلنا"} 👋
+رقمك: ${state.user.phone}
+الحالة: ${state.user.status || "registered"}
+المستوى: ${state.user.tier || 0}`, "success");
+  } else {
+    setMsg(box, "سجل دخولك برقم الهاتف عشان نحفظ بياناتك وطلباتك 👌", "warning");
+  }
+
+  const list = state.orders.filter(o => String(o.customer_phone) === String(state.user?.phone || "")).slice().reverse();
+  $("#myOrders").innerHTML = list.length ? list.map(renderOrderCard).join("") : `<div class="panel">لا يوجد طلبات بعد 👌</div>`;
+}
+
+function renderOrderCard(order) {
+  const st = String(order.status || "pending");
+  return `
+    <div class="order-card">
+      <div class="order-head">
+        <div>
+          <div class="order-id">طلب #${escapeHtml(order.order_id)}</div>
+          <div class="order-date">${escapeHtml(order.date || "")} · ${escapeHtml(order.time || "")}</div>
+        </div>
+        <div class="order-status st-${st}">${escapeHtml(st)}</div>
+      </div>
+      <div class="thin">الإجمالي: ${money(order.total)}</div>
+      <div class="thin">المندوب: ${escapeHtml(order.rep_id || "—")}</div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="small-link" data-order-open="${escapeHtml(order.order_id)}">عرض التفاصيل</button>
+        <button class="small-link" data-order-reuse="${escapeHtml(order.order_id)}">إعادة الطلب</button>
+      </div>
     </div>
   `;
 }
 
-// ================= LOAD =================
-async function loadProducts(){
-  const res = await fetch(API+"?action=getProducts");
-  const data = await res.json();
+function renderRep() {
+  const rep = state.rep;
+  if (!rep) {
+    $("#repSummary").className = "msg-box warning";
+    $("#repSummary").textContent = "ادخل كود المندوب وباسوردك عشان تشوف الطلبات 👌";
+    $("#repSummary").classList.remove("hidden");
+    $("#repOrders").innerHTML = "";
+    return;
+  }
 
-  const container = document.getElementById("products");
-  container.innerHTML = "";
+  const orders = state.orders.filter(o => String(o.rep_id) === String(rep.rep_id)).slice().reverse();
+  const total = orders.reduce((s,o)=>s+Number(o.total||0),0);
+  setMsg($("#repSummary"), `أهلاً يا ${rep.name} 👋
+المنطقة: ${rep.region}
+عدد الطلبات: ${orders.length}
+إجمالي المبيعات: ${money(total)}`, "success");
+  $("#repOrders").innerHTML = orders.length ? orders.map(renderOrderCard).join("") : `<div class="panel">لا يوجد طلبات لهذا المندوب بعد</div>`;
+}
 
-  data.data.forEach(p=>{
-    container.innerHTML += renderProduct(p);
+function renderNotifications() {
+  const phone = normalizePhone(state.user?.phone || "");
+  const list = phone ? state.notifications.filter(n => normalizePhone(n.phone) === phone).slice().reverse() : state.notifications.slice().reverse();
+  $("#notifList").innerHTML = list.length ? list.map(n => `
+    <div class="notif-card">
+      <div class="order-head">
+        <div>
+          <div class="order-id">${escapeHtml(n.message || "")}</div>
+          <div class="order-date">${escapeHtml(n.date || "")}</div>
+        </div>
+        <div class="order-status ${n.status === 'read' ? 'st-approved' : 'st-reviewing'}">${escapeHtml(n.status || '')}</div>
+      </div>
+    </div>
+  `).join("") : `<div class="panel">لا توجد إشعارات</div>`;
+}
+
+function renderCartBadge() {
+  const total = calculateCartTotal();
+  $("#footerCartTotal").textContent = money(total);
+  $("#footerTierBtn").textContent = localStorage.getItem("selectedTier") || "اختار شريحتك";
+  $("#homeTierBtn").textContent = localStorage.getItem("selectedTier") || "اختار شريحتك";
+}
+
+function renderFooter() {
+  const total = calculateCartTotal();
+  $("#footerCartTotal").textContent = money(total);
+  $("#footerCheckoutBtn").textContent = "إتمام الشراء";
+  $("#footerTierBtn").textContent = localStorage.getItem("selectedTier") || "اختار شريحتك";
+}
+
+function renderAll() {
+  updateHomeQuickButtons();
+  renderHomeCompanies();
+  renderCatalog();
+  renderOffers();
+  renderFlash();
+  renderCart();
+  renderAccount();
+  renderRep();
+  renderNotifications();
+  renderCartBadge();
+  validateCartUI();
+}
+
+function escapeHtml(str) {
+  return String(str || "").replace(/[&<>"']/g, s => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[s]));
+}
+
+/* =========================
+   العرض الزمني العام
+========================= */
+function startOfferGlobalTimer() {
+  const active = state.offers.filter(o => (o.status||"active")==="active");
+  const el = $("#offerGlobalTimer");
+  if (!active.length) {
+    el.textContent = "لا توجد صفقة اليوم";
+    return;
+  }
+  // لأن الصفقة ثابتة / package، نعرض عدادًا توجيهيًا إن وُجد وقت لاحق
+  el.textContent = "صفقة اليوم شغالة الآن";
+}
+
+function startFlashGlobalTimer() {
+  const el = $("#flashGlobalTimer");
+  const active = state.flashOffers.find(f => getFlashStatus(f)==="active");
+  if (!active) {
+    const upcoming = state.flashOffers.find(f => getFlashStatus(f)==="upcoming");
+    if (upcoming) {
+      el.textContent = `قريبًا`;
+    } else {
+      el.textContent = "لا يوجد عرض شغال";
+    }
+    return;
+  }
+  const start = new Date(`${active.start_date}T${active.start_time}:00`);
+  const end = new Date(start.getTime() + Number(active.duration_minutes || 60) * 60000);
+  const tick = () => {
+    if (state.screen !== "flash") return;
+    const diff = end - new Date();
+    if (diff <= 0) {
+      el.textContent = "انتهى العرض";
+      renderFlash();
+      return;
+    }
+    const sec = Math.floor(diff / 1000);
+    const hh = String(Math.floor(sec / 3600)).padStart(2,"0");
+    const mm = String(Math.floor((sec % 3600) / 60)).padStart(2,"0");
+    const ss = String(sec % 60).padStart(2,"0");
+    el.textContent = `${hh} : ${mm} : ${ss}`;
+  };
+  tick();
+  clearInterval(startFlashGlobalTimer._id);
+  startFlashGlobalTimer._id = setInterval(tick, 1000);
+}
+
+/* =========================
+   التحميلات / الشبكات
+========================= */
+async function refreshAll() {
+  seedFallbackData();
+  await loadAll();
+  renderAll();
+}
+
+async function saveOrderToApi(orderPayload) {
+  return await api("saveOrder", orderPayload);
+}
+
+async function saveNotification(message) {
+  const phone = normalizePhone(state.user?.phone || "");
+  if (!phone) return;
+  state.notifications.push({ phone, message, status:"unread", date: new Date().toISOString().slice(0,10) });
+  await api("addNotification", { phone, message, status:"unread" });
+}
+
+async function saveCustomerRequest(req) {
+  if (!state.user?.phone) return;
+  await api("requestUpdate", {
+    phone: state.user.phone,
+    type: req.type,
+    request: req
   });
 }
 
-async function loadOffers(){
-  const res = await fetch(API+"?action=getOffers");
-  const data = await res.json();
+/* =========================
+   تسجيل الدخول / الأعضاء
+========================= */
+function autoFillCustomerByPhone(phone) {
+  const normalized = normalizePhone(phone);
+  const found = state.customers.find(c => normalizePhone(c.phone) === normalized);
+  if (found) {
+    $("#loginPhone").value = found.phone || normalized;
+    $("#loginPassword").value = found.password || "";
+    state.user = found;
+    localStorage.setItem("user", JSON.stringify(found));
+    emitSmart("entry", "success");
+    showToast("رجعنا لك بياناتك 👌", "success");
+    renderAccount();
+    renderNotifications();
+    renderFooter();
+  }
+}
 
-  const container = document.getElementById("offers");
-  container.innerHTML = "";
+async function handleLoginSubmit(e) {
+  e.preventDefault();
+  const phone = normalizePhone($("#loginPhone").value);
+  const password = $("#loginPassword").value.trim();
 
-  data.data.forEach(o=>{
-    container.innerHTML += renderOffer(o);
+  if (!phone) {
+    showToast("اكتب رقم الهاتف 👌", "warning");
+    return;
+  }
+
+  const existing = state.customers.find(c => normalizePhone(c.phone) === phone);
+  if (existing) {
+    if (existing.password && existing.password !== password) {
+      showToast("كلمة المرور غير صحيحة ❌", "error");
+      return;
+    }
+    state.user = existing;
+    localStorage.setItem("user", JSON.stringify(existing));
+    showToast(`أهلاً بيك يا ${existing.name || "بطل"} 👋`, "success");
+    renderAccount();
+    renderNotifications();
+    return;
+  }
+
+  // عميل جديد (تسجيل بسيط)
+  const customer = {
+    customer_id: "C-" + Date.now(),
+    name: $("#reqName").value.trim() || "عميل جديد",
+    phone,
+    password,
+    status: "registered",
+    tier: 0,
+    assigned_rep: state.rep?.rep_id || ""
+  };
+  state.customers.push(customer);
+  state.user = customer;
+  localStorage.setItem("user", JSON.stringify(customer));
+  await api("saveCustomer", customer);
+  showToast("تم حفظ بياناتك 👌", "success");
+  renderAccount();
+  renderNotifications();
+}
+
+async function handleRepLoginSubmit(e) {
+  e.preventDefault();
+  const code = $("#repCode").value.trim();
+  const pass = $("#repPass").value.trim();
+  const rep = state.reps.find(r => String(r.rep_id) === String(code) && String(r.password||"") === String(pass));
+  if (!rep) {
+    showToast("بيانات المندوب غير صحيحة ❌", "error");
+    return;
+  }
+  state.rep = rep;
+  localStorage.setItem("rep", JSON.stringify(rep));
+  showToast(`أهلاً يا ${rep.name} 👋`, "success");
+  renderRep();
+  navigate("rep");
+}
+
+async function handleRequestSubmit(e) {
+  e.preventDefault();
+  if (!state.user?.phone) {
+    showToast("سجل دخول الأول 👌", "warning");
+    return;
+  }
+  const payload = {
+    name: $("#reqName").value.trim(),
+    city: $("#reqCity").value.trim(),
+    note: $("#reqNote").value.trim()
+  };
+  await saveCustomerRequest({ type:"update_data", request: payload });
+  showToast("تم إرسال طلب التعديل 👌", "success");
+}
+
+/* =========================
+   الإرسال النهائي
+========================= */
+async function checkout() {
+  const check = canCheckout();
+  if (!check.valid) {
+    showToast(check.message, "warning");
+    return;
+  }
+
+  if (!state.user?.phone && !$("#loginPhone").value.trim()) {
+    showToast("سجل الدخول أو اكتب رقم الهاتف أولاً 👌", "warning");
+    navigate("account");
+    return;
+  }
+
+  showToast("جاري تجهيز الطلب...", "warning");
+
+  const orderId = "ORD-" + Date.now();
+  const now = new Date();
+  const date = now.toISOString().slice(0,10);
+  const time = now.toTimeString().slice(0,5);
+  const total = calculateCartTotal();
+
+  const orderPayload = {
+    order_id: orderId,
+    date,
+    time,
+    customer_phone: normalizePhone(state.user?.phone || $("#loginPhone").value),
+    customer_name: state.user?.name || $("#reqName").value || "عميل",
+    rep_id: state.rep?.rep_id || state.user?.assigned_rep || "",
+    mode: state.mode,
+    tier: localStorage.getItem("selectedTier") || "",
+    total,
+    status: "pending",
+    pdf_link: ""
+  };
+
+  // هنا مكان ربط PDF لاحقًا من Apps Script / Drive
+  const res = await saveOrderToApi({
+    ...orderPayload,
+    items: state.cart
   });
-}
 
-// ================= CART =================
-function add(code){
-  cart[code] = 1;
+  if (res && res.success === false) {
+    showToast("حصل خطأ أثناء حفظ الطلب 👌", "error");
+    return;
+  }
+
+  state.orders.push(orderPayload);
+  state.orderItems.push(...state.cart.map(item => ({
+    order_id: orderId,
+    product_code: item.code || item.id || "",
+    name: item.name || item.title || "",
+    company: item.company || "",
+    unit: item.unit || "",
+    qty: item.qty || 1,
+    price: item.price || 0,
+    total: (Number(item.price || 0) * Number(item.qty || 1))
+  })));
+
+  await saveNotification("طلبك وصلنا 👌 وجاري مراجعته");
+  showToast("تم إرسال الطلب 🔥", "success");
+  state.cart = [];
   saveCart();
+
+  // رسالة واتساب جاهزة
+  const details = state.orderItems
+    .filter(x => x.order_id === orderId)
+    .map(x => `${x.name} — ${x.unit} × ${x.qty} = ${money(x.total)}`)
+    .join("\n");
+
+  const waMsg = `🏢 الأهرام للتجارة والتوزيع
+
+🧾 طلب شراء
+
+👤 الاسم: ${orderPayload.customer_name}
+📱 الهاتف: ${orderPayload.customer_phone}
+
+📦 الطلب:
+${details}
+
+💰 الإجمالي:
+${money(total)}
+
+🔐 الكود:
+${orderId}`;
+
+  window.open(`${CONFIG.WA_URL}?text=${encodeURIComponent(waMsg)}`, "_blank");
+
+  renderAll();
+  navigate("account");
 }
 
-function inc(code){
-  cart[code]++;
-  saveCart();
+function openNotifications() {
+  navigate("notifications");
 }
 
-function removeItem(code){
-  delete cart[code];
-  saveCart();
+/* =========================
+   عرض سريع / صفحة مخصصة
+========================= */
+function updateModeUI() {
+  if (state.mode === "tier") {
+    $("#brandSub").textContent = "وضع الشريحة · أسعار مميزة · بدون عروض";
+  } else {
+    $("#brandSub").textContent = "مندوب بيع ذكي · جملة B2B";
+  }
 }
 
-function addOffer(id){
-  alert("تم إضافة العرض 🔥");
+/* =========================
+   تهيئة الأحداث
+========================= */
+function bindEvents() {
+  $("#homeTierBtn").onclick = () => navigate("tiers");
+  $("#footerTierBtn").onclick = () => navigate("tiers");
+  $("#homeOfferBtn").onclick = () => navigate("offers");
+  $("#homeFlashBtn").onclick = () => navigate("flash");
+  $("#homeLoginBtn").onclick = () => navigate("account");
+  $("#footerCheckoutBtn").onclick = () => checkout();
+  $("#notifBtn").onclick = () => openNotifications();
+  $("#backBtn").onclick = () => goBackOrHome();
+  $("#callBtn").onclick = () => location.href = CONFIG.CALL_URL;
+  $("#waBtn").onclick = () => window.open(CONFIG.WA_URL, "_blank");
+  $("#fbBtn").onclick = () => window.open(CONFIG.FB_URL, "_blank");
+
+  $("#homeSearch").addEventListener("input", renderHomeCompanies);
+  $("#catalogSearch").addEventListener("input", renderCatalog);
+  $("#offerSearch").addEventListener("input", renderOffers);
+  $("#flashSearch").addEventListener("input", renderFlash);
+  $("#tierSearch").addEventListener("input", renderTiers);
+
+  $("#loginForm").addEventListener("submit", handleLoginSubmit);
+  $("#repLoginForm").addEventListener("submit", handleRepLoginSubmit);
+  $("#requestForm").addEventListener("submit", handleRequestSubmit);
+  $("#checkoutBtn").onclick = checkout;
+
+  // تبويبات الصفحة الرئيسية
+  $$(".bottom-tabs .tab").forEach(tab => {
+    tab.onclick = () => {
+      $$(".bottom-tabs .tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      const mode = tab.dataset.homeTab;
+      if (mode === "companies") {
+        $("#homeHint").textContent = "اضغط شركة لعرض الأصناف";
+        renderHomeCompanies();
+      }
+      if (mode === "offers") navigate("offers");
+      if (mode === "flash") navigate("flash");
+    };
+  });
+
+  // الرجوع في الموبايل: رجوع صفحات، ولو الرئيسية خروج
+  window.onpopstate = function() {
+    // لو المستخدم رجع من صفحة فرعية، نعرض الصفحة المناسبة
+    const hash = location.hash.replace("#","") || "home";
+    state.screen = hash;
+    $$(".screen").forEach(s => s.classList.remove("active"));
+    $("#screen-" + (hash || "home")).classList.add("active");
+    updateModeUI();
+    renderFooter();
+    renderCartBadge();
+  };
 }
 
-// ================= SAVE =================
-function saveCart(){
-  localStorage.setItem("cart", JSON.stringify(cart));
-  reload();
+/* =========================
+   تهيئة محلية
+========================= */
+function restoreSession() {
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  if (user) state.user = user;
+  const rep = JSON.parse(localStorage.getItem("rep") || "null");
+  if (rep) state.rep = rep;
+  state.mode = localStorage.getItem("tierMode") === "true" ? "tier" : "normal";
+  updateModeUI();
 }
 
-function reload(){
-  loadProducts();
-  loadOffers();
+function renderCartListCount() {
+  $("#cartCountHint").textContent = `${state.cart.length} عنصر`;
 }
 
-// ================= INIT =================
-loadProducts();
-loadOffers();
+function initialNavigateFromHash() {
+  const hash = location.hash.replace("#","").trim();
+  if (hash && ["home","tiers","offers","flash","catalog","cart","account","rep","notifications"].includes(hash)) {
+    state.screen = hash;
+    $$(".screen").forEach(s => s.classList.remove("active"));
+    $("#screen-" + hash).classList.add("active");
+  } else {
+    state.screen = "home";
+    location.hash = "home";
+  }
+}
+
+function markActiveFlashTimer() {
+  if (state.screen === "flash") startFlashGlobalTimer();
+  if (state.screen === "offers") startOfferGlobalTimer();
+}
+
+/* =========================
+   run
+========================= */
+(async function init(){
+  bindEvents();
+  restoreSession();
+  initialNavigateFromHash();
+  seedFallbackData();
+  computeCompanies();
+  renderAll();
+  try {
+    await loadAll();
+  } catch (e) {
+    console.warn("API load failed, fallback active", e);
+    renderAll();
+  }
+  renderCartBadge();
+  renderCart();
+  renderHomeCompanies();
+  updateHomeQuickButtons();
+  markActiveFlashTimer();
+  emitSmart("entry");
+})();
 
 </script>
-
 </body>
 </html>
