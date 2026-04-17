@@ -894,19 +894,217 @@ body.subpage-mode #app{
 }
 </style>
 
+
+<style id="ux-overrides">
+.header{
+  padding-bottom:8px;
+}
+.hero{
+  height:160px !important;
+}
+.heroText{
+  display:none !important;
+}
+.brandBar{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  padding:8px 12px 10px;
+  background:rgba(255,255,255,.82);
+  border-bottom:1px solid rgba(10,37,64,.08);
+}
+.brandBar .companyLogo{
+  display:block !important;
+  width:64px;
+  height:64px;
+  border-radius:18px;
+  object-fit:cover;
+  background:#fff;
+  border:1px solid rgba(10,37,64,.08);
+  box-shadow:0 8px 18px rgba(0,0,0,.08);
+}
+.brandBar .companyName{
+  font-size:18px;
+  font-weight:900;
+  color:#0A2540;
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  padding:0;
+  margin:0;
+}
+.socialRow{
+  padding:8px 12px 12px;
+  background:rgba(255,255,255,.76);
+}
+.topActions{
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+}
+.topBtn{
+  min-height:50px;
+}
+.topBtn.tier{
+  min-height:58px;
+  font-size:11px;
+  line-height:1.25;
+  display:flex;
+  flex-direction:column;
+}
+.topBtn.tier small{
+  display:block;
+  font-size:10px;
+  font-weight:700;
+  opacity:.92;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+}
+.searchBox{
+  border-radius:20px !important;
+  padding:6px !important;
+}
+.searchRow{
+  grid-template-columns:1fr 88px !important;
+}
+.searchInput,.searchBtn,.clearBtn,.formInput,.unitSelect,.qtyInput,.cartInput{
+  height:40px !important;
+  min-height:40px !important;
+  border-radius:14px !important;
+  font-size:12px !important;
+}
+.searchBtn,.clearBtn{
+  font-weight:900;
+}
+.sectionCard,.infoCard,.cartCard,.emptyCard,.brandCard,.productCard,.tierCard{
+  border-radius:18px !important;
+}
+.sectionTitle{font-size:14px;}
+.brandGrid,.productGrid,.tierGrid{
+  gap:8px !important;
+}
+.brandGrid,.tierGrid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+.productGrid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+}
+@media (min-width:700px){
+  .productGrid,.brandGrid,.tierGrid{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+  }
+}
+@media (min-width:940px){
+  .productGrid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+.brandCard{
+  min-height:96px !important;
+  padding:8px !important;
+  gap:6px !important;
+}
+.brandImg,.productImg{
+  height:112px !important;
+  border-radius:16px !important;
+}
+.productCard{
+  min-height:286px !important;
+  padding:8px !important;
+  gap:6px !important;
+}
+.productName{
+  font-size:12px !important;
+  line-height:1.4 !important;
+  min-height:32px !important;
+}
+.productMeta,.offerLabel,.stockBadge,.tierMeta,.cartMeta,.cartLine{
+  font-size:11px !important;
+  line-height:1.45 !important;
+}
+.priceLine{
+  font-size:13px !important;
+}
+.unitSelect{
+  padding-inline:10px !important;
+}
+.qtyRow{
+  grid-template-columns:28px 1fr 28px !important;
+  gap:4px !important;
+}
+.qtyBtn{
+  width:28px !important;
+  height:28px !important;
+  border-radius:8px !important;
+  font-size:14px !important;
+}
+.qtyInput{
+  font-size:14px !important;
+}
+.addBtn,.primaryBtn,.secondaryBtn,.dangerBtn,.repAction,.footerBtn,.tierBannerBtn{
+  min-height:36px !important;
+  border-radius:12px !important;
+  font-size:13px !important;
+}
+.pageTopBar{
+  padding:8px !important;
+  border-radius:18px !important;
+}
+.pageTopActions{
+  gap:6px !important;
+}
+.pageIconBtn{
+  min-height:46px !important;
+  border-radius:14px !important;
+  font-size:10px !important;
+  padding:7px 4px !important;
+}
+.pageBottomBar{
+  margin-top:10px;
+  padding:10px;
+  border-radius:18px;
+  background:rgba(255,255,255,.92);
+  border:1px solid rgba(10,37,64,.08);
+  box-shadow:0 10px 24px rgba(10,37,64,.06);
+}
+.pageBottomBar .primaryBtn,
+.pageBottomBar .secondaryBtn{
+  width:100%;
+}
+.offerPromo{
+  display:none !important;
+}
+.tierBanner{
+  padding:8px 10px !important;
+  border-radius:14px !important;
+}
+.laqtaBundleCard{
+  padding:10px !important;
+}
+.laqtaTitle{
+  font-size:18px !important;
+}
+.laqtaPrice{
+  font-size:22px !important;
+}
+.modalCard{
+  border-radius:22px !important;
+}
+</style>
+
 </head>
 <body>
 <div class="header">
   <div class="hero">
     <img id="heroImage" alt="الأهرام للتجارة والتوزيع" />
-    <div class="heroText">
-      <div class="companyBrand">
-        <img id="companyLogo" class="companyLogo" alt="الأهرام للتجارة والتوزيع" />
-        <div class="companyTextWrap">
-          <div class="companyName">الأهرام للتجارة والتوزيع</div>
-          <div class="tagline" id="heroTagline">تشكيل كبير ومتنوع لأكبر شركات مستحضرات التجميل</div>
-        </div>
-      </div>
+  </div>
+  <div class="brandBar">
+    <img id="companyLogo" class="companyLogo" alt="الأهرام للتجارة والتوزيع" />
+    <div class="companyTextWrap">
+      <div class="companyName">الأهرام للتجارة والتوزيع</div>
+      <div class="tagline" id="heroTagline">تشكيل كبير ومتنوع لأكبر شركات مستحضرات التجميل</div>
     </div>
   </div>
   <div class="socialRow">
@@ -3255,6 +3453,598 @@ window.addEventListener("load", startApp);
   document.addEventListener("DOMContentLoaded", () => {
     syncHeaderVisibility();
   });
+  function pageBottomBarHTML(){
+    return `<div class="pageBottomBar"><button class="primaryBtn" type="button" onclick="goBackSmart()">↩️ رجوع</button></div>`;
+  }
+
+  shell = function(title, subtitle, buttons, body){
+    return `<div class="subpage-shell">${pageTopBar(title, subtitle, buttons)}${body}${pageBottomBarHTML()}</div>`;
+  };
+
+  renderTopActions = function(){
+    const box = els.topActions;
+    if(!box) return;
+    const tier = currentTierRow();
+    const repLabel = state.rep ? clean(currentRepRow()?.repName || state.rep.repName || "مندوب") : "دخول المندوب";
+    if(state.page === "home"){
+      box.style.gridTemplateColumns = "repeat(3,minmax(0,1fr))";
+      const tierText = tier ? `شريحتي الآن` : "اختار شريحتك";
+      const tierSub = tier ? (tierDescription(tier) || tierLabel(tier)) : "ابدأ من الشريحة المناسبة";
+      box.innerHTML = `
+        <button class="topBtn tier ${tier ? "active" : ""}" type="button" onclick="goTiers()" title="${html(tierSub)}">
+          <span>${html(tierText)}</span>
+          <small>${html(tierSub)}</small>
+        </button>
+        <button class="topBtn offer" type="button" onclick="goOffers()">صفقة اليوم</button>
+        <button class="topBtn offer" type="button" onclick="goLaqta()">عرض الساعة</button>
+      `;
+      return;
+    }
+    if(state.page === "tiers"){
+      box.style.gridTemplateColumns = "repeat(2,minmax(0,1fr))";
+      box.innerHTML = `
+        <button class="topBtn tier ${tier ? "active" : ""}" type="button" onclick="goTiers()" title="${html(tier ? (tierDescription(tier) || tierLabel(tier)) : "اختار الشريحة")}">
+          <span>${html(tier ? "شريحتي الآن" : "اختار شريحتك")}</span>
+          <small>${html(tier ? (tierDescription(tier) || tierLabel(tier)) : "ادخل على الشرائح")}</small>
+        </button>
+        <button class="topBtn repBtn ${state.rep ? "repChip" : ""}" type="button" onclick="${state.rep ? "logoutRepConfirm()" : "openRepLogin()"}">${html(repLabel)}</button>
+      `;
+      return;
+    }
+    box.style.gridTemplateColumns = "repeat(2,minmax(0,1fr))";
+    box.innerHTML = `
+      <button class="topBtn tier ${tier ? "active" : ""}" type="button" onclick="goTiers()" title="${html(tier ? (tierDescription(tier) || tierLabel(tier)) : "اختار الشريحة")}">
+        <span>${html(tier ? "شريحتي الآن" : "اختار شريحتك")}</span>
+        <small>${html(tier ? (tierDescription(tier) || tierLabel(tier)) : "ادخل على الشرائح")}</small>
+      </button>
+      <button class="topBtn repBtn ${state.rep ? "repChip" : ""}" type="button" onclick="goHome()">الرئيسية</button>
+    `;
+  };
+
+  updateFooterButtons = function(){
+    const btn = document.getElementById("footerQuickBtn");
+    if(!btn) return;
+    if(state.page === "home"){
+      btn.textContent = "صفقة اليوم";
+      btn.onclick = goOffers;
+    } else if(state.page === "offers" || state.page === "laqta" || state.page === "tiers" || state.page === "brand" || state.page === "search" || state.page === "companies"){
+      btn.textContent = "الرئيسية";
+      btn.onclick = goHome;
+    } else {
+      btn.textContent = "الرئيسية";
+      btn.onclick = goHome;
+    }
+  };
+
+  goBackSmart = function(){
+    if(state.page !== "home"){
+      try{
+        if(history.length > 1) history.back();
+        else goHome();
+      }catch{
+        goHome();
+      }
+      return;
+    }
+    openExitModal("عايز تخرج من الموقع؟", "لو اخترت الخروج هنقف النظام ونرجعك برّه الصفحة.");
+  };
+
+  openExitModal = function(title, subtitle){
+    const modal = document.getElementById("exitModal");
+    const t = document.getElementById("exitModalTitle");
+    const s = document.getElementById("exitModalSub");
+    if(t) t.textContent = title || "عايز تخرج من الموقع؟";
+    if(s) s.textContent = subtitle || "ممكن تكمل التسوق أو تضغط خروج.";
+    if(modal) modal.classList.add("show");
+  };
+
+  continueShopping = function(){ closeExitModal(); };
+
+  confirmExitSite = function(){
+    exitConfirmed = true;
+    closeExitModal();
+    try{
+      if(history.length > 1) history.back();
+      else window.close();
+    }catch{}
+  };
+
+  function flashOfferStatusText(row){
+    const title = clean(row?.Flash_name || row?.flash_name || row?.offer_name || row?.offer_title || row?.description || "عرض الساعه اليوم");
+    const details = clean(row?.details || row?.description || "");
+    return {
+      title,
+      details
+    };
+  }
+
+  function parseDateTime(value){
+    if(!clean(value)) return null;
+    const d = new Date(value);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
+  function currentFlashOfferRow(){
+    const rows = Array.isArray(state.flashOffers) ? state.flashOffers.filter(Boolean) : [];
+    const now = new Date();
+    const activeRows = rows.filter(row => {
+      const activeRaw = clean(row.active || row.status || "1").toLowerCase();
+      if(activeRaw && !["1","true","yes","active","فعال","متاح"].includes(activeRaw)) return false;
+      const start = parseDateTime(row.start_datetime || row.start || row.start_date || "");
+      const end = parseDateTime(row.end_datetime || row.end || row.end_date || "");
+      if(start && now < start) return false;
+      if(end && now > end) return false;
+      return true;
+    });
+    return activeRows[0] || rows[0] || null;
+  }
+
+  function flashOfferCodes(row){
+    return [
+      row?.code_1, row?.code_2, row?.code_3, row?.code_4, row?.code_5
+    ].map(v => compact(v)).filter(Boolean);
+  }
+
+  laqtaBundleData = function(){
+    const row = currentFlashOfferRow();
+    const info = laqtaActiveInfo();
+    const fallbackTitle = clean(getSetting("laqta_title") || "عرض الساعه اليوم");
+    const fallbackDesc = clean(getSetting("laqta_desc") || "");
+    const fallbackPrice = num(getSetting("laqta_price") || "0");
+    const fallbackImage = clean(getSetting("laqta_image") || "");
+    const fallbackCodes = settingListByKey("laqta_codes").map(c => compact(c)).filter(Boolean);
+
+    if(row){
+      const details = clean(row.details || row.description || fallbackDesc || "");
+      const conditions = clean(row.conditions || getSetting("laqta_conditions") || "");
+      return {
+        title: flashOfferStatusText(row).title || fallbackTitle,
+        desc: details || fallbackDesc,
+        conditions,
+        price: num(row.price || row.offer_price || fallbackPrice),
+        image: clean(row.image_url || row.image || row.photo || fallbackImage),
+        codes: flashOfferCodes(row).length ? flashOfferCodes(row) : fallbackCodes,
+        info,
+        source: "flash_offer"
+      };
+    }
+
+    return {
+      title: fallbackTitle,
+      desc: fallbackDesc,
+      conditions: clean(getSetting("laqta_conditions") || ""),
+      price: fallbackPrice,
+      image: fallbackImage,
+      codes: fallbackCodes,
+      info,
+      source: "settings"
+    };
+  };
+
+  getLaqtaCodes = function(){
+    return laqtaBundleData().codes || [];
+  };
+
+  addLaqtaToCart = function(){
+    const info = laqtaActiveInfo();
+    if(!info.enabled) return toast("عرض الساعة متوقف من الإدارة حالياً", "error");
+    if(!info.active) return toast("عرض الساعة خلص أو لسه ما بدأش", "error");
+    const bundle = laqtaBundleData();
+    if(!bundle.title) return toast("بيانات عرض الساعة غير متوفرة", "error");
+    const code = compact(document.getElementById("laqtaCodeInput")?.value || "");
+    if(!bundle.codes.includes(code)) return toast("كود شراء عرض الساعة غير صحيح", "error");
+    if(!bundle.price) return toast("سعر عرض الساعة غير متاح", "error");
+    state.cart["laqta_bundle"] = {
+      key: "laqta_bundle",
+      code: "",
+      name: bundle.title,
+      company: "عرض الساعه اليوم",
+      unit: "bundle",
+      qty: 1,
+      price: bundle.price,
+      kind: "laqta",
+      description: bundle.desc || "",
+      conditions: bundle.conditions || ""
+    };
+    saveState();
+    updateCartBadge();
+    toast("اتضاف عرض الساعة للسلة", "ok");
+    if(state.page === "laqta") renderLaqta();
+  };
+
+  reviewOrder = function(){
+    const reason = orderBlockingMessage();
+    if(reason) return toast(`لسه محتاجين نكمّل: ${reason}`, "error");
+    state.reviewApproved = true;
+    saveState();
+    toast("تمام، راجعت الطلب وبقى جاهز للإرسال", "ok");
+    renderCart();
+  };
+
+  cartItemHTML = function(item){
+    if(clean(item.kind) === "laqta"){
+      const title = clean(item.name || settingValueByKey("laqta_title", "عرض الساعه اليوم"));
+      const desc = clean(item.description || settingValueByKey("laqta_desc", ""));
+      const price = num(item.price);
+      return `<div class="cartCard cartItem laqtaCartItem"><div class="cartHead"><div><div class="cartName">⚡ ${html(title)}</div><div class="cartLine">عرض الساعة / بيعة مجمعة</div>${desc ? `<div class="cartLine">${html(desc)}</div>` : ""}<div class="cartLine">السعر: ${Math.round(price).toLocaleString("en-US")} جنيه</div></div><button class="dangerBtn" onclick="removeItem('${html(item.key).replaceAll("'","&#39;")}')">إزالة</button></div><div class="cartActions"><span class="badge green">الكمية ثابتة 1</span><span class="badge gold">إجمالي ${Math.round(price).toLocaleString("en-US")} جنيه</span></div></div>`;
+    }
+    const p = state.products.find(x => productKey(x)===item.key || productCode(x)===item.code || productName(x)===item.name);
+    const price = p ? effectivePrice(p,item.unit) : num(item.price);
+    const total = price * num(item.qty);
+    return `<div class="cartCard cartItem"><div class="cartHead"><div><div class="cartName">${html(item.name)}${item.code ? ` (${html(item.code)})` : ""}</div><div class="cartLine">الوحدة: ${html(unitLabel(item.unit))}</div><div class="cartLine">السعر: ${Math.round(price).toLocaleString("en-US")} جنيه</div></div><button class="dangerBtn" onclick="removeItem('${html(item.key).replaceAll("'","&#39;")}')">إزالة</button></div><div class="cartLine"><b>إجمالي الصنف:</b> ${Math.round(total).toLocaleString("en-US")} جنيه</div><div class="cartControls"><button class="qtyBtn" onclick="changeQty('${html(item.key).replaceAll("'","&#39;")}', -1)">-</button><input class="cartInput" value="${html(item.qty)}" inputmode="numeric" oninput="setQty('${html(item.key).replaceAll("'","&#39;")}', this.value)"><button class="qtyBtn" onclick="changeQty('${html(item.key).replaceAll("'","&#39;")}', 1)">+</button></div><div class="cartActions"><span class="badge green">إجمالي ${Math.round(total).toLocaleString("en-US")} جنيه</span></div></div>`;
+  };
+
+  productCard = function(p){
+    const key = productKey(p);
+    const id = makeId(key);
+    const img = clean(p.image || p.product_image || p.img || "");
+    const offer = isOffer(p);
+    const name = productName(p);
+    const inCart = !!state.cart[key];
+    const selectedUnit = offer ? "offer" : (state.drafts?.[key]?.unit || primaryUnit(p) || "");
+    const qty = clean(state.drafts?.[key]?.qty || 1);
+    const unitOptions = offer ? "" : availableUnits(p).map(u => `<option value="${u}" ${selectedUnit === u ? "selected" : ""}>${unitLabel(u)}</option>`).join("");
+    const available = offer || availableUnits(p).length > 0;
+
+    if(offer){
+      const offerTitle = offerLabelText(p);
+      const offerQty = offerQuantity(p);
+      const offerPriceVal = offerPrice(p);
+      const actionText = inCart ? "إزالة" : "شراء الصفقة";
+      const actionFn = inCart ? `removeItem('${html(key).replaceAll("'","&#39;")}')` : `addProductToCart('${html(key)}','offer')`;
+      return `<div class="productCard offerCard ${img ? "" : "noImage"}" data-key="${html(key)}">${img ? `<img class="productImg" loading="lazy" decoding="async" src="${img}" alt="${html(name)}">` : ""}<div class="productName">${html(name)}</div><div class="offerLabel">${html(offerTitle)}</div><div class="productMeta">عدد العرض: ${Math.round(offerQty).toLocaleString("en-US")}</div><div class="priceLine">${offerPriceVal ? `${Math.round(offerPriceVal).toLocaleString("en-US")} جنيه` : `<span class="stockBadge error">سعر العرض غير متاح</span>`}</div><button class="addBtn offer" type="button" onclick="${actionFn}">${actionText}</button></div>`;
+    }
+
+    if(!available){
+      return `<div class="productCard noImage"><div class="productName">${html(name)}</div><div class="stockBadge error">نفذت الكمية سيصل قريباً</div></div>`;
+    }
+
+    const actionText = inCart ? "إزالة" : "شراء";
+    const actionFn = inCart ? `removeItem('${html(key).replaceAll("'","&#39;")}')` : `addProductToCart('${html(key)}')`;
+    return `<div class="productCard ${img ? "" : "noImage"}" data-key="${html(key)}">${img ? `<img class="productImg" loading="lazy" decoding="async" src="${img}" alt="${html(name)}">` : ""}<div class="productName">${html(name)}</div><div class="priceLine" id="price_${id}">${priceMarkup(p, selectedUnit)}</div><select class="unitSelect" id="unit_${id}" onchange="setDraftUnit('${html(key)}', this.value); updateProductPrice('${html(key)}', this.value)"><option value="">اختر الوحدة</option>${unitOptions}</select><div class="qtyRow"><button class="qtyBtn" type="button" onclick="changeDraftQty('${html(key)}', -1)">-</button><input class="qtyInput" id="qty_${id}" type="number" min="1" step="1" inputmode="numeric" style="background:#fff;color:#000;text-align:center;font-weight:900;font-size:16px;" value="${qty}" oninput="setDraftQty('${html(key)}', this.value)"><button class="qtyBtn" type="button" onclick="changeDraftQty('${html(key)}', 1)">+</button></div><button class="addBtn" type="button" onclick="${actionFn}">${actionText}</button></div>`;
+  };
+
+  renderHome = function(options={}){
+    const preserveFocus = !!options.preserveFocus;
+    const snapshot = preserveFocus ? captureSearchFocus() : null;
+    setSubpage("home");
+    const q = clean(state.search);
+    const brands = brandList();
+    const results = q ? searchCatalog(q) : [];
+    const searchSection = q ? `<div class="sectionCard"><div class="sectionTitle">نتائج البحث</div>${results.length ? `<div class="productGrid">${results.map(productCard).join("")}</div>` : `<div class="emptyCard">لا توجد نتائج مطابقة</div>`}</div>` : "";
+    els.app.innerHTML = `
+      ${state.selectedTier ? tierBannerHTML() : ""}
+      <div class="sectionCard homeIntro" style="padding:8px">
+        ${searchBarHTML("ابحث بالاسم أو الكود أو البراند...")}
+      </div>
+      ${searchSection}
+      <div class="sectionCard" id="brandsSection">
+        <div class="sectionTitle">الشركات المتاحة</div>
+        <div class="sectionSpacer"></div>
+        ${brands.length ? `<div class="brandGrid">${brands.map(brandCardHTML).join("")}</div>` : `<div class="emptyCard">لا توجد شركات</div>`}
+      </div>
+    `;
+    renderTopActions();
+    updateCartBadge();
+    updateFooterButtons();
+    bindBrandClicks();
+    if(preserveFocus) restoreSearchFocus(snapshot);
+    syncHeaderVisibility();
+  };
+
+  renderSearchPage = function(){
+    setSubpage("search");
+    const q = clean(state.search);
+    const results = q ? searchCatalog(q) : [];
+    els.app.innerHTML = shell(
+      "البحث",
+      "ابحث بالاسم أو البراند ثم افتح صفحة النتائج",
+      searchButtons(),
+      `
+        ${searchBarHTML("ابحث بالاسم أو البراند ثم اضغط بحث")}
+        <div class="sectionCard">
+          <div class="sectionTitle">نتائج البحث</div>
+          <div class="sectionSpacer"></div>
+          ${results.length ? `<div class="productGrid">${results.map(productCard).join("")}</div>` : `<div class="emptyCard">ابدأ بالبحث ثم اضغط بحث</div>`}
+        </div>
+      `
+    );
+    renderTopActions();
+    updateCartBadge();
+    updateFooterButtons();
+    bindBrandClicks();
+    syncHeaderVisibility();
+  };
+
+  renderCompaniesPage = function(){
+    setSubpage("companies");
+    const brands = brandList();
+    els.app.innerHTML = shell(
+      "الشركات",
+      "اختر الشركة أو البراند المطلوب",
+      companiesButtons(),
+      `
+        ${searchBarHTML("ابحث عن شركة أو براند")}
+        <div class="sectionCard">
+          <div class="sectionTitle">الشركات المتاحة</div>
+          <div class="sectionSpacer"></div>
+          ${brands.length ? `<div class="brandGrid">${brands.map(brandCardHTML).join("")}</div>` : `<div class="emptyCard">لا توجد شركات</div>`}
+        </div>
+      `
+    );
+    renderTopActions();
+    updateCartBadge();
+    updateFooterButtons();
+    bindBrandClicks();
+    syncHeaderVisibility();
+  };
+
+  renderBrand = function(company){
+    setSubpage("brand");
+    const target = compact(company);
+    const list = state.products.filter(p => {
+      if(!isActive(p)) return false;
+      if(state.selectedTier && isOffer(p)) return false;
+      const c = compact(companyName(p));
+      return c === target || c.includes(target) || target.includes(c);
+    });
+    els.app.innerHTML = shell(
+      company || "الشركة",
+      "اختر الوحدة والكمية ثم اضغط شراء",
+      brandButtons(),
+      `
+        ${searchBarHTML("ابحث داخل الشركة أو الكود")}
+        ${state.selectedTier ? tierBannerHTML() : ""}
+        <div class="sectionCard">
+          <div class="sectionTitle">${html(company)}</div>
+          <div class="sectionSpacer"></div>
+          ${list.length ? `<div class="productGrid">${list.map(productCard).join("")}</div>` : `<div class="emptyCard">لا توجد منتجات في هذا القسم</div>`}
+        </div>
+      `
+    );
+    renderTopActions();
+    updateCartBadge();
+    updateFooterButtons();
+    syncHeaderVisibility();
+  };
+
+  renderOffers = function(){
+    setSubpage("offers");
+    if(state.selectedTier){
+      els.app.innerHTML = shell(
+        "صفقة اليوم",
+        "الصفقة مخفية أثناء تفعيل الشريحة",
+        offersButtons(),
+        `
+          ${searchBarHTML("ابحث داخل الصفقة")}
+          <div class="sectionCard">
+            <div class="sectionTitle">صفقة اليوم</div>
+            <div class="emptyCard">صفقة اليوم مخفية أثناء تفعيل الشريحة.</div>
+          </div>
+        `
+      );
+      renderTopActions();
+      updateFooterButtons();
+      syncHeaderVisibility();
+      return;
+    }
+    const offers = state.products.filter(p => isActive(p) && isOffer(p));
+    els.app.innerHTML = shell(
+      "صفقة اليوم",
+      "اختار اللي يناسبك واشتريه مباشرة",
+      offersButtons(),
+      `
+        ${searchBarHTML("ابحث داخل صفقة اليوم")}
+        <div class="sectionCard">
+          <div class="sectionTitle">🔥 صفقة اليوم</div>
+          <div class="sectionSpacer"></div>
+          ${offers.length ? `<div class="productGrid">${offers.map(productCard).join("")}</div>` : `<div class="emptyCard">لا توجد عروض حالياً</div>`}
+        </div>
+      `
+    );
+    renderTopActions();
+    updateFooterButtons();
+    syncHeaderVisibility();
+  };
+
+  renderTiers = function(){
+    setSubpage("tiers");
+    if(!state.tiersLoaded){
+      els.app.innerHTML = shell(
+        "الشرائح",
+        "جارٍ تحميل بيانات الشرائح من الإدارة...",
+        tiersButtons(),
+        `<div class="sectionCard"><div class="sectionTitle">جارٍ تحميل الشرائح...</div><div class="sectionSub">يرجى الانتظار حتى تكتمل المزامنة مع الإدارة.</div></div>`
+      );
+      renderTopActions();
+      updateFooterButtons();
+      syncHeaderVisibility();
+      return;
+    }
+    const tiers = Array.isArray(state.tiers) ? state.tiers.filter(r => {
+      const active = clean(r.active || "1");
+      const status = clean(r.status || "").toLowerCase();
+      return active === "1" || status === "active" || status === "فعال";
+    }) : [];
+    const repCard = `<div class="tierCard" style="grid-column:1/-1;"><div class="tierTitle">دخول المندوب</div><div class="tierMeta">ادخل كود المندوب والرقم السري من هنا.</div><div class="tierActionRow"><button class="primaryBtn" type="button" onclick="openRepLogin()">فتح صفحة الدخول</button></div></div>`;
+    els.app.innerHTML = shell(
+      "شرائح الجملة",
+      "اختار الشريحة المناسبة ثم كمّل الشراء",
+      tiersButtons(),
+      `
+        ${searchBarHTML("ابحث داخل الشرائح")}
+        <div class="sectionCard">
+          <div class="sectionTitle">شرائح الجملة</div>
+          <div class="sectionSpacer"></div>
+          <div class="tierGrid">${repCard}${tiers.length ? tiers.map(tierCardHTML).join("") : `<div class="emptyCard">لا توجد شرائح متاحة</div>`}</div>
+        </div>
+        ${state.selectedTier ? `<div class="sectionCard"><button class="primaryBtn" style="width:100%;min-height:42px" onclick="exitTierMode()">الخروج من نظام الشرائح</button></div>` : ""}
+      `
+    );
+    renderTopActions();
+    updateFooterButtons();
+    syncHeaderVisibility();
+  };
+
+  renderCart = function(){
+    setSubpage("cart");
+    const items = cartItems();
+    const total = cartTotal();
+    const tier = currentTierRow();
+    const tierOk = !tier || total >= tierMin(tier);
+    const tierBlock = tier ? `<div class="tierBanner"><div class="tierBannerTop"><div class="tierBannerTitle">الشريحة الحالية: <b>${html(tierLabel(tier))}</b>${tierOk ? " — تم تحقيق الشريحة" : ` — المتبقي <b>${Math.max(0, tierMin(tier) - total).toLocaleString("en-US")} جنيه</b>`}</div><div style="display:flex;gap:8px;flex-wrap:wrap">${tierOk ? `<button class="tierBannerBtn" onclick="goCart()">اذهب للسلة</button>` : ""}<button class="tierBannerBtn" onclick="exitTierMode()">الخروج من نظام الشرائح</button></div></div></div>` : "";
+    const actionButton = state.reviewApproved
+      ? `<button class="bigSend confirmSendBtn" id="sendBtn" onclick="sendOrder()">إرسال الطلب للمبيعات</button>`
+      : `<button class="bigSend reviewBtn" id="sendBtn" onclick="reviewOrder()">مراجعة الطلب</button>`;
+    els.app.innerHTML = shell(
+      "إتمام الشراء",
+      "راجع السلة والبيانات ثم أرسل الطلب",
+      cartButtons(),
+      `
+        ${tierBlock}
+        <div class="sectionCard">
+          <div class="sectionTitle">إجمالي المشتريات</div>
+          <div class="priceLine">${Math.round(total).toLocaleString("en-US")} جنيه</div>
+        </div>
+        ${items.length ? items.map(cartItemHTML).join("") : `<div class="emptyCard">السلة فارغة</div>`}
+        <div class="cartCard">
+          <div class="sectionTitle">بيانات العميل</div>
+          <div class="formGrid">
+            <input class="formInput" placeholder="اكتب اسمك ثلاثي" value="${html(state.customer.name || "")}" oninput="updateCustomer('name', this.value)">
+            <input class="formInput" placeholder="اكتب رقم تليفونك" value="${html(state.customer.phone || "")}" oninput="updateCustomer('phone', this.value)">
+            <input class="formInput" placeholder="اكتب عنوانك بالتفصيل" value="${html(state.customer.address || "")}" oninput="updateCustomer('address', this.value)">
+            <div class="locationRow"><button class="secondaryBtn" onclick="addLocation()">إضافة اللوكيشن</button><div class="locationStatus" id="locationStatus">${state.customer.location ? "✔ تم حفظ اللوكيشن" : "اللوكيشن اختياري"}</div></div>
+            ${actionButton}
+            <div class="formHint">لن يعمل الإرسال إلا بعد اكتمال البيانات المطلوبة، ومع تحقيق شروط الشريحة إن وجدت.</div>
+          </div>
+        </div>
+      `
+    );
+    const btn = document.getElementById("sendBtn");
+    if(btn) btn.disabled = !state.reviewApproved ? !canSendOrder() : false;
+    renderTopActions();
+    updateCartBadge();
+    updateFooterButtons();
+    syncHeaderVisibility();
+  };
+
+  renderLaqta = function(){
+    setSubpage("laqta");
+    const bundle = laqtaBundleData();
+    const info = bundle.info;
+    els.app.innerHTML = shell(
+      "عرض الساعه",
+      info.enabled ? (info.active ? "شغال دلوقتي" : (info.beforeStart ? `يبدأ عند ${minutesToClock(info.start)}` : "انتهى العرض")) : "العرض موقوف من الإدارة",
+      laqtaButtons(),
+      `
+        ${searchBarHTML("ابحث داخل عرض الساعة")}
+        <div class="sectionCard laqtaBundleCard" style="background:linear-gradient(135deg,rgba(199,155,24,.10),rgba(255,255,255,.92));">
+          <div class="laqtaBundleTop">
+            <div class="sectionTitle">⚡ عرض الساعه / البيعة المجمعة</div>
+            <div class="laqtaStatus" id="laqtaStatusLine">
+              ${info.enabled ? (info.active ? "العرض شغال حالياً" : (info.beforeStart ? `يبدأ عند ${minutesToClock(info.start)}` : "انتهى عرض الساعة")) : "العرض موقوف من الإدارة"}
+            </div>
+            <div class="laqtaCountdownWrapper">
+              <div class="laqtaCountdownLabel">المتاح لك من الوقت</div>
+              <div class="laqtaCountdownBig" id="laqtaCountdownValue">${formatCountdown(info.remainingMs)}</div>
+              <div class="laqtaUrgencyText">بادر بالشراء قبل انتهاء الوقت</div>
+            </div>
+          </div>
+          <div class="sectionSpacer"></div>
+          ${bundle.image ? `<img class="laqtaBundleImage" src="${html(bundle.image)}" alt="${html(bundle.title)}">` : `<div class="emptyCard">لا توجد صورة مرفوعة للبيعة المجمعة</div>`}
+          <div class="sectionSpacer"></div>
+          <div class="laqtaTitle">${html(bundle.title || "عرض الساعه اليوم")}</div>
+          ${bundle.desc ? `<div class="laqtaDesc">${html(bundle.desc)}</div>` : `<div class="laqtaDesc">وصف العرض غير متوفر حالياً.</div>`}
+          ${bundle.conditions ? `<div class="laqtaDesc"><b>الشروط:</b> ${html(bundle.conditions)}</div>` : ""}
+          <div class="sectionSpacer"></div>
+          <div class="laqtaPrice">${Math.round(bundle.price).toLocaleString("en-US")} جنيه</div>
+          <div class="sectionSpacer"></div>
+          <div class="laqtaCodeRow">
+            <input class="formInput" id="laqtaCodeInput" placeholder="اكتب كود شراء عرض الساعة">
+            <button class="primaryBtn" onclick="addLaqtaToCart()">شراء عرض الساعة</button>
+          </div>
+          <div class="sectionSpacer"></div>
+          <div class="formHint">الشراء يتم فقط بكود صحيح مطابق لما هو مخزن عند الإدارة.</div>
+        </div>
+      `
+    );
+    renderTopActions();
+    updateFooterButtons();
+    updateCartBadge();
+    startLaqtaTicker();
+    syncHeaderVisibility();
+  };
+
+  goOffers = function(){
+    state.page = "offers";
+    saveState();
+    history.pushState({ page:"offers" }, "", location.href);
+    renderOffers();
+  };
+
+  goTiers = function(){
+    state.page = "tiers";
+    saveState();
+    history.pushState({ page:"tiers" }, "", location.href);
+    renderTiers();
+  };
+
+  goLaqta = function(){
+    state.page = "laqta";
+    saveState();
+    history.pushState({ page:"laqta" }, "", location.href);
+    renderLaqta();
+  };
+
+  goHome = function(){
+    state.search = "";
+    invalidateReviewApproval();
+    state.page = "home";
+    saveState();
+    history.pushState({ page:"home" }, "", location.href);
+    renderHome({ preserveFocus:false });
+  };
+
+  goCompanies = function(){
+    state.page = "companies";
+    saveState();
+    history.pushState({ page:"companies" }, "", location.href);
+    renderCompaniesPage();
+  };
+
+  goCart = function(){
+    state.page = "cart";
+    saveState();
+    history.pushState({ page:"cart" }, "", location.href);
+    renderCart();
+  };
+
+  runSearch = function(){
+    if(state.page === "home") {
+      renderHome({ preserveFocus:false });
+      return;
+    }
+    renderSearchPage();
+  };
+
+  window.renderHome = renderHome;
+  window.renderSearchPage = renderSearchPage;
+  window.renderCompaniesPage = renderCompaniesPage;
+  window.renderBrand = renderBrand;
+  window.renderOffers = renderOffers;
+  window.renderTiers = renderTiers;
+  window.renderCart = renderCart;
+  window.renderLaqta = renderLaqta;
+  window.renderTopActions = renderTopActions;
+  window.updateFooterButtons = updateFooterButtons;
+  window.goBackSmart = goBackSmart;
+  window.openExitModal = openExitModal;
+  window.closeExitModal = closeExitModal;
+  window.continueShopping = continueShopping;
+  window.confirmExitSite = confirmExitSite;
+  window.laqtaBundleData = laqtaBundleData;
+  window.getLaqtaCodes = getLaqtaCodes;
+  window.addLaqtaToCart = addLaqtaToCart;
 })();
 </script>
 
