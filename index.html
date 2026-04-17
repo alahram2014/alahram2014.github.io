@@ -920,7 +920,7 @@ body.subpage-mode #app{
     <button class="quickNavBtn primary" type="button" onclick="goHome()">🏠 الرئيسية</button>
     <button class="quickNavBtn" type="button" onclick="goCompanies()">🏢 الشركات</button>
     <button class="quickNavBtn offer" type="button" onclick="goOffers()">🔥 صفقة اليوم</button>
-    <button class="quickNavBtn laqta" type="button" onclick="goLaqta()">⚡ لقطة</button>
+    <button class="quickNavBtn laqta" type="button" onclick="goLaqta()">⚡ عرض الساعه</button>
   </div>
 </div>
 
@@ -1528,7 +1528,7 @@ function getBrandImage(company){   const product = state.products.find(     p =>
 function brandList(refresh=false){ if(!refresh && state.brands.length) return state.brands; const seen=new Set(); const arr=[]; for(const p of state.products){ if(!isActive(p)) continue; const c=clean(companyName(p)); if(!c || c === "صفقة اليوم") continue; const key=compact(c); if(seen.has(key)) continue; seen.add(key); arr.push(c); } state.brands=arr; return arr; }
 function tierTheme(row){ const direct={ gold:clean(row.theme_gold || row.gold || row.primary_color || ""), gold2:clean(row.theme_gold2 || row.gold2 || row.secondary_color || ""), gold3:clean(row.theme_gold3 || row.gold3 || row.accent_color || ""), bg:clean(row.theme_bg || row.bg_color || ""), card:clean(row.theme_card || row.card_color || ""), soft:clean(row.theme_soft || row.soft_color || ""), line:clean(row.theme_line || row.line_color || ""), text:clean(row.theme_text || row.text_color || ""), muted:clean(row.theme_muted || row.muted_color || ""), accent:clean(row.theme_accent || row.accent || ""), danger:clean(row.theme_danger || row.danger || ""), success:clean(row.theme_success || row.success || "") }; if(Object.values(direct).some(Boolean)){ const filled={...BASE_THEME}; Object.entries(direct).forEach(([k,v])=>{ if(v) filled[k]=v; }); return filled; } const k=compact(tierKey(row) || tierLabel(row) || ""); return { ...BASE_THEME, ...TIER_PALETTES[hashCode(k)%TIER_PALETTES.length] }; }
 function applyThemeForCurrentState(){ if(state.selectedTier) setTheme(tierTheme(state.selectedTier)); else resetTheme(); }
-function unitLabel(unit){ return { carton:"كرتونة", dozen:"دستة", piece:"قطعة", offer:"عرض", bundle:"بيعة مجمعة", laqta:"لقطة اليوم" }[unit] || unit; }
+function unitLabel(unit){ return { carton:"كرتونة", dozen:"دستة", piece:"قطعة", offer:"عرض", bundle:"بيعة مجمعة", laqta:"عرض الساعه اليوم" }[unit] || unit; }
 function primaryUnit(row){ const u=availableUnits(row); if(u.includes("carton")) return "carton"; if(u.includes("dozen")) return "dozen"; if(u.includes("piece")) return "piece"; return u[0] || ""; }
 function basePrice(row, unit){
   const map={ 
@@ -1545,7 +1545,7 @@ function effectivePrice(row, unit){ if(state.selectedTier){ const t=tierPrice(ro
 function availableUnits(row){ return ["carton","dozen","piece"].filter(u => effectivePrice(row,u) > 0); }
 function cartItems(){ return Object.values(state.cart || {}); }
 function cartTotal(){ return cartItems().reduce((sum,item)=>{ const p=state.products.find(x=>productKey(x)===item.key || productCode(x)===item.code || productName(x)===item.name) || null; const price=p ? effectivePrice(p,item.unit) : num(item.price); return sum + num(item.qty) * price; },0); }
-function cartHasDeal(){ return cartItems().some(i => ["deal","laqta"].includes(clean(i.kind)) || clean(i.unit) === "offer" || clean(i.company) === "صفقة اليوم" || clean(i.company) === "لقطة اليوم"); }
+function cartHasDeal(){ return cartItems().some(i => ["deal","laqta"].includes(clean(i.kind)) || clean(i.unit) === "offer" || clean(i.company) === "صفقة اليوم" || clean(i.company) === "عرض الساعه اليوم"); }
 function cartHasTierItems(){ return cartItems().some(i => clean(i.kind) === "tier"); }
 function invalidateReviewApproval(){ state.reviewApproved = false; }
 function canMixWith(kind){ if((kind === "deal" || kind === "laqta") && cartHasTierItems()) return false; if(kind === "tier" && cartHasDeal()) return false; return true; }
@@ -1694,15 +1694,15 @@ function renderLaqta(){
   const bundle = laqtaBundleData();
   const info = bundle.info;
   els.app.innerHTML = shell(
-    "لقطة اليوم",
-    info.enabled ? (info.active ? "متبقي لك من الوقت" : (info.beforeStart ? `تبدأ عند ${minutesToClock(info.start)}` : "انتهت اللقطة لهذا اليوم")) : "اللقطة موقفة من الإدارة حالياً",
+    "عرض الساعه اليوم",
+    info.enabled ? (info.active ? "متبقي لك من الوقت" : (info.beforeStart ? `تبدأ عند ${minutesToClock(info.start)}` : "انتهت العرض الساعه لهذا اليوم")) : "العرض الساعه موقفة من الإدارة حالياً",
     laqtaButtons(),
     `
       <div class="sectionCard laqtaBundleCard" style="background:linear-gradient(135deg,rgba(199,155,24,.10),rgba(255,255,255,.92));">
         <div class="laqtaBundleTop">
-          <div class="sectionTitle">⚡ لقطة اليوم / البيعة المجمعة</div>
+          <div class="sectionTitle">⚡ عرض الساعه اليوم / البيعة المجمعة</div>
           <div class="laqtaStatus" id="laqtaStatusLine">
-            ${info.enabled ? (info.active ? "اللقطة شغالة حالياً" : (info.beforeStart ? `تبدأ عند ${minutesToClock(info.start)}` : "انتهت اللقطة لهذا اليوم")) : "اللقطة موقفة من الإدارة حالياً"}
+            ${info.enabled ? (info.active ? "العرض الساعه شغالة حالياً" : (info.beforeStart ? `تبدأ عند ${minutesToClock(info.start)}` : "انتهت العرض الساعه لهذا اليوم")) : "العرض الساعه موقفة من الإدارة حالياً"}
           </div>
           <div class="laqtaCountdownWrapper">
             <div class="laqtaCountdownLabel">متبقي لك من الوقت</div>
@@ -1713,7 +1713,7 @@ function renderLaqta(){
         <div class="sectionSpacer"></div>
         ${bundle.image ? `<img class="laqtaBundleImage" src="${html(bundle.image)}" alt="${html(bundle.title)}">` : `<div class="emptyCard">لا توجد صورة مرفوعة للبيعة المجمعة</div>`}
         <div class="sectionSpacer"></div>
-        <div class="laqtaTitle">${html(bundle.title || "لقطة اليوم")}</div>
+        <div class="laqtaTitle">${html(bundle.title || "عرض الساعه اليوم")}</div>
         ${bundle.desc ? `<div class="laqtaDesc">${html(bundle.desc)}</div>` : `<div class="laqtaDesc">وصف العرض غير متوفر حالياً.</div>`}
         <div class="sectionSpacer"></div>
         <div class="laqtaPrice">${Math.round(bundle.price).toLocaleString("en-US")} جنيه</div>
@@ -1722,10 +1722,10 @@ function renderLaqta(){
       </div>
 
       <div class="sectionCard">
-        <div class="sectionTitle">شروط اللقطة</div>
+        <div class="sectionTitle">شروط العرض الساعه</div>
         <div class="sectionSub">• الشراء فقط خلال وقت العرض المحدد في الإدارة.</div>
         <div class="sectionSub">• الدفع مقدماً قبل تثبيت الطلب.</div>
-        <div class="sectionSub">• لا يتم التفعيل إلا بكود صحيح من أكواد اللقطة.</div>
+        <div class="sectionSub">• لا يتم التفعيل إلا بكود صحيح من أكواد العرض الساعه.</div>
         <div class="sectionSub">• النطاق الزمني يعتمد على دقائق منتصف الليل لتفادي أي اختلاف توقيت.</div>
       </div>
 
@@ -1736,7 +1736,7 @@ function renderLaqta(){
             <input class="formInput" id="laqtaCodeInput" placeholder="أدخل كود الشراء" autocomplete="off" oninput="updateLaqtaButton()">
             <button class="bigSend" id="laqtaAddBtn" disabled onclick="addLaqtaToCart()">أضف للسلة</button>
           </div>
-          <div class="formHint">التفعيل لا يعمل إلا إذا كان الكود مطابقاً لأحد أكواد اللقطة المخزنة في الإدارة.</div>
+          <div class="formHint">التفعيل لا يعمل إلا إذا كان الكود مطابقاً لأحد أكواد العرض الساعه المخزنة في الإدارة.</div>
         </div>
       </div>
 
@@ -1790,10 +1790,10 @@ function addProductToCart(key, forcedUnit){
 }
 function cartItemHTML(item){
   if(clean(item.kind) === "laqta"){
-    const title = clean(item.name || settingValueByKey("laqta_title", "لقطة اليوم"));
+    const title = clean(item.name || settingValueByKey("laqta_title", "عرض الساعه اليوم"));
     const desc = clean(item.description || settingValueByKey("laqta_desc", ""));
     const price = num(item.price);
-    return `<div class="cartCard cartItem laqtaCartItem"><div class="cartHead"><div><div class="cartName">⚡ ${html(title)}</div><div class="cartLine">لقطة اليوم / بيعة مجمعة</div>${desc ? `<div class="cartLine">${html(desc)}</div>` : ""}<div class="cartLine">السعر: ${Math.round(price).toLocaleString("en-US")} جنيه</div></div><button class="dangerBtn" onclick="removeItem('${html(item.key).replaceAll("'","&#39;")}')">حذف</button></div><div class="cartActions"><span class="badge green">الكمية ثابتة 1</span><span class="badge gold">إجمالي ${Math.round(price).toLocaleString("en-US")} جنيه</span></div></div>`;
+    return `<div class="cartCard cartItem laqtaCartItem"><div class="cartHead"><div><div class="cartName">⚡ ${html(title)}</div><div class="cartLine">عرض الساعه اليوم / بيعة مجمعة</div>${desc ? `<div class="cartLine">${html(desc)}</div>` : ""}<div class="cartLine">السعر: ${Math.round(price).toLocaleString("en-US")} جنيه</div></div><button class="dangerBtn" onclick="removeItem('${html(item.key).replaceAll("'","&#39;")}')">حذف</button></div><div class="cartActions"><span class="badge green">الكمية ثابتة 1</span><span class="badge gold">إجمالي ${Math.round(price).toLocaleString("en-US")} جنيه</span></div></div>`;
   }
   const p=state.products.find(x=>productKey(x)===item.key || productCode(x)===item.code || productName(x)===item.name);
   const price=p ? effectivePrice(p,item.unit) : num(item.price);
@@ -1828,7 +1828,7 @@ function reviewOrder(){
 
 function serializeCartItem(item){
   if(clean(item.kind) === "laqta"){
-    const title = clean(item.name || settingValueByKey("laqta_title", "لقطة اليوم"));
+    const title = clean(item.name || settingValueByKey("laqta_title", "عرض الساعه اليوم"));
     const price = num(item.price) || num(settingValueByKey("laqta_price", "0"));
     return {
       product_code: "",
@@ -1838,7 +1838,7 @@ function serializeCartItem(item){
       price,
       total: price,
       kind: "laqta",
-      company: "لقطة اليوم"
+      company: "عرض الساعه اليوم"
     };
   }
   const p = state.products.find(x=>productKey(x)===item.key || productCode(x)===item.code || productName(x)===item.name);
@@ -1902,7 +1902,7 @@ function whatsappText(payload){
   lines.push("");
   (payload.items || []).forEach(item=>{
     if(item.kind === "laqta"){
-      lines.push(`نوع الصنف : لقطة اليوم / بيعة مجمعة`);
+      lines.push(`نوع الصنف : عرض الساعه اليوم / بيعة مجمعة`);
       lines.push(`اسم البيعة : ${item.product_name}`);
       lines.push(`الكمية : 1`);
       lines.push(`السعر : ${Math.round(item.price).toLocaleString("en-US")} جنيه`);
@@ -2279,7 +2279,7 @@ function laqtaActiveInfo(){
 function laqtaBundleData(){
   const info = laqtaActiveInfo();
   return {
-    title: clean(getSetting("laqta_title") || "لقطة اليوم"),
+    title: clean(getSetting("laqta_title") || "عرض الساعه اليوم"),
     desc: clean(getSetting("laqta_desc") || ""),
     price: num(getSetting("laqta_price") || "0"),
     image: clean(getSetting("laqta_image") || ""),
@@ -2376,9 +2376,9 @@ function renderLaqta(){
   els.app.innerHTML = `
     <div class="sectionCard laqtaBundleCard" style="background:linear-gradient(135deg,rgba(199,155,24,.10),rgba(255,255,255,.92));">
       <div class="laqtaBundleTop">
-        <div class="sectionTitle">⚡ لقطة اليوم / البيعة المجمعة</div>
+        <div class="sectionTitle">⚡ عرض الساعه اليوم / البيعة المجمعة</div>
         <div class="laqtaStatus" id="laqtaStatusLine">
-          ${info.enabled ? (info.active ? "اللقطة شغالة حالياً" : (info.beforeStart ? `تبدأ عند ${minutesToClock(info.start)}` : "انتهت اللقطة لهذا اليوم")) : "اللقطة موقفة من الإدارة حالياً"}
+          ${info.enabled ? (info.active ? "العرض الساعه شغالة حالياً" : (info.beforeStart ? `تبدأ عند ${minutesToClock(info.start)}` : "انتهت العرض الساعه لهذا اليوم")) : "العرض الساعه موقفة من الإدارة حالياً"}
         </div>
         <div class="laqtaCountdownWrapper">
           <div class="laqtaCountdownLabel">متبقي لك من الوقت</div>
@@ -2389,7 +2389,7 @@ function renderLaqta(){
       <div class="sectionSpacer"></div>
       ${bundle.image ? `<img class="laqtaBundleImage" src="${html(bundle.image)}" alt="${html(bundle.title)}">` : `<div class="emptyCard">لا توجد صورة مرفوعة للبيعة المجمعة</div>`}
       <div class="sectionSpacer"></div>
-      <div class="laqtaTitle">${html(bundle.title || "لقطة اليوم")}</div>
+      <div class="laqtaTitle">${html(bundle.title || "عرض الساعه اليوم")}</div>
       ${bundle.desc ? `<div class="laqtaDesc">${html(bundle.desc)}</div>` : `<div class="laqtaDesc">وصف العرض غير متوفر حالياً.</div>`}
       <div class="sectionSpacer"></div>
       <div class="laqtaPrice">${Math.round(bundle.price).toLocaleString("en-US")} جنيه</div>
@@ -2398,10 +2398,10 @@ function renderLaqta(){
     </div>
 
     <div class="sectionCard">
-      <div class="sectionTitle">شروط اللقطة</div>
+      <div class="sectionTitle">شروط العرض الساعه</div>
       <div class="sectionSub">• الشراء فقط خلال وقت العرض المحدد في الإدارة.</div>
       <div class="sectionSub">• الدفع مقدماً قبل تثبيت الطلب.</div>
-      <div class="sectionSub">• لا يتم التفعيل إلا بكود صحيح من أكواد اللقطة.</div>
+      <div class="sectionSub">• لا يتم التفعيل إلا بكود صحيح من أكواد العرض الساعه.</div>
       <div class="sectionSub">• النطاق الزمني يعتمد على دقائق منتصف الليل لتفادي أي اختلاف توقيت.</div>
     </div>
 
@@ -2412,7 +2412,7 @@ function renderLaqta(){
           <input class="formInput" id="laqtaCodeInput" placeholder="أدخل كود الشراء" autocomplete="off" oninput="updateLaqtaButton()">
           <button class="bigSend" id="laqtaAddBtn" disabled onclick="addLaqtaToCart()">أضف للسلة</button>
         </div>
-        <div class="formHint">التفعيل لا يعمل إلا إذا كان الكود مطابقاً لأحد أكواد اللقطة المخزنة في الإدارة.</div>
+        <div class="formHint">التفعيل لا يعمل إلا إذا كان الكود مطابقاً لأحد أكواد العرض الساعه المخزنة في الإدارة.</div>
       </div>
     </div>
 
@@ -2439,13 +2439,13 @@ function startLaqtaTicker(){
     if(!countdown || !status) return;
     countdown.textContent = formatCountdown(info.remainingMs);
     if(!info.enabled){
-      status.textContent = "اللقطة موقفة من الإدارة حالياً";
+      status.textContent = "العرض الساعه موقفة من الإدارة حالياً";
     } else if(info.active){
-      status.textContent = "اللقطة شغالة حالياً";
+      status.textContent = "العرض الساعه شغالة حالياً";
     } else if(info.beforeStart){
       status.textContent = `تبدأ عند ${minutesToClock(info.start)}`;
     } else {
-      status.textContent = "انتهت اللقطة لهذا اليوم";
+      status.textContent = "انتهت العرض الساعه لهذا اليوم";
     }
     if(btn) btn.disabled = !(info.active && bundle.codes.includes(compact(input?.value || "")));
   };
@@ -2463,18 +2463,18 @@ function updateLaqtaButton(){
 }
 function addLaqtaToCart(){
   const info = laqtaActiveInfo();
-  if(!info.enabled) return toast("اللقطة موقفة من الإدارة حالياً", "error");
-  if(!info.active) return toast("انتهت اللقطة لهذا اليوم", "error");
+  if(!info.enabled) return toast("العرض الساعه موقفة من الإدارة حالياً", "error");
+  if(!info.active) return toast("انتهت العرض الساعه لهذا اليوم", "error");
   const bundle = laqtaBundleData();
   if(!bundle.title) return toast("اسم العرض غير متوفر", "error");
   const code = compact(document.getElementById("laqtaCodeInput")?.value || "");
   if(!bundle.codes.includes(code)) return toast("كود الشراء غير صحيح", "error");
-  if(!bundle.price) return toast("سعر اللقطة غير متاح", "error");
+  if(!bundle.price) return toast("سعر العرض الساعه غير متاح", "error");
   state.cart["laqta_bundle"] = {
     key: "laqta_bundle",
     code: "",
     name: bundle.title,
-    company: "لقطة اليوم",
+    company: "عرض الساعه اليوم",
     unit: "bundle",
     qty: 1,
     price: bundle.price,
@@ -2642,7 +2642,7 @@ window.addEventListener("load", startApp);
     return [
       navBtn("↩️","رجوع","goHome()"),
       navBtn("🏠","الرئيسية","goHome()"),
-      navBtn("⚡","اللقطة","goLaqta()"),
+      navBtn("⚡","العرض الساعه","goLaqta()"),
       navBtn("🛒","السلة","goCart()")
     ].join("");
   }
@@ -2651,7 +2651,7 @@ window.addEventListener("load", startApp);
       navBtn("↩️","رجوع","goHome()"),
       navBtn("🏠","الرئيسية","goHome()"),
       navBtn("🔥","العروض","goOffers()"),
-      navBtn("⚡","اللقطة","goLaqta()")
+      navBtn("⚡","العرض الساعه","goLaqta()")
     ].join("");
   }
   function cartButtons(){
@@ -3184,7 +3184,7 @@ window.addEventListener("load", startApp);
   function laqtaBundleData(){
     const info = laqtaActiveInfo();
     return {
-      title: clean(getSetting("laqta_title") || "لقطة اليوم"),
+      title: clean(getSetting("laqta_title") || "عرض الساعه اليوم"),
       desc: clean(getSetting("laqta_desc") || ""),
       price: num(getSetting("laqta_price") || "0"),
       image: clean(getSetting("laqta_image") || ""),
