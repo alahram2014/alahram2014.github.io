@@ -2,2038 +2,1731 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>Alahram Co | تجارة جملة</title>
-  <meta name="theme-color" content="#002366" />
-  <meta name="description" content="تطبيق تجارة جملة متكامل لشركة Alahram Co" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Alahram Co v2 PRO</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root{
       --navy:#002366;
       --gold:#D4AF37;
-      --gold-2:#f0d46c;
-      --gold-3:#8a6b14;
-      --bg:#f6f8fc;
+      --bg:#F8F9FA;
       --card:#ffffff;
-      --line:rgba(0,35,102,.10);
-      --text:#0e1a2f;
-      --muted:#5c6778;
-      --success:#1f8b4c;
-      --danger:#c0392b;
-      --shadow:0 14px 38px rgba(0,35,102,.08);
+      --text:#112;
+      --muted:#6b7280;
+      --danger:#d64545;
+      --success:#188a57;
+      --shadow:0 14px 40px rgba(0,0,0,.08);
       --radius:22px;
+      --radius-sm:14px;
+      --border:1px solid rgba(0,35,102,.12);
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
-      font-family:'Cairo',sans-serif;
-      background:linear-gradient(180deg,#f8fafc 0%, #f3f6fb 100%);
+      font-family:'Cairo',system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(212,175,55,.10), transparent 18%),
+        radial-gradient(circle at bottom left, rgba(0,35,102,.08), transparent 24%),
+        var(--bg);
       color:var(--text);
-      direction:rtl;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
     }
-    img{max-width:100%;display:block}
     button,input,select,textarea{font:inherit}
-    a{text-decoration:none;color:inherit}
-    .shell{min-height:100%;padding-bottom:92px}
-    .header{
-      position:sticky;top:0;z-index:50;
-      background:rgba(255,255,255,.80);
-      backdrop-filter:blur(18px) saturate(170%);
-      border-bottom:1px solid var(--line);
-      box-shadow:0 10px 24px rgba(0,35,102,.05);
+    .app{min-height:100vh; display:flex; flex-direction:column}
+    .topbar{
+      position:sticky; top:0; z-index:30;
+      background:linear-gradient(135deg,#001845 0%, var(--navy) 55%, #123a8a 100%);
+      color:#fff;
+      padding:18px 16px 26px;
+      box-shadow:0 10px 32px rgba(0,0,0,.18);
       overflow:hidden;
     }
-    .header::before,
-    .header::after{
+    .topbar::before,
+    .topbar::after{
       content:"";
       position:absolute;
-      top:0;
-      width:220px;
-      height:84px;
-      opacity:.9;
+      inset:auto -10% -1px -10%;
+      height:66px;
+      background:
+        linear-gradient(135deg, transparent 31%, rgba(212,175,55,.95) 31.5%, rgba(212,175,55,.95) 34%, transparent 34.5%),
+        linear-gradient(145deg, transparent 45%, rgba(212,175,55,.75) 45.5%, rgba(212,175,55,.75) 48%, transparent 48.5%),
+        linear-gradient(155deg, transparent 60%, rgba(212,175,55,.55) 60.5%, rgba(212,175,55,.55) 63%, transparent 63.5%);
+      opacity:.45;
+      filter:drop-shadow(0 2px 0 rgba(0,0,0,.2));
       pointer-events:none;
-      background:linear-gradient(180deg, rgba(212,175,55,.35), rgba(212,175,55,.06));
-      clip-path:polygon(0 100%, 18% 62%, 33% 78%, 50% 34%, 66% 72%, 82% 46%, 100% 100%);
-      filter:drop-shadow(0 6px 10px rgba(212,175,55,.18));
     }
-    .header::before{right:-24px}
-    .header::after{left:-24px;transform:scaleX(-1)}
-    .brandBar{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:14px 14px 10px;position:relative;z-index:1;
+    .topbar::after{
+      transform:scaleY(-1) translateY(68px);
+      opacity:.14;
     }
-    .brandInfo{display:flex;align-items:center;gap:12px;min-width:0}
-    .brandLogo{
-      width:52px;height:52px;border-radius:18px;flex:0 0 auto;
-      object-fit:cover;background:#fff;border:1px solid var(--line);
-      box-shadow:0 8px 18px rgba(0,35,102,.08);
+    .brandRow{
+      display:flex; align-items:center; justify-content:space-between; gap:14px; position:relative; z-index:1;
+      flex-wrap:wrap;
     }
-    .brandText{min-width:0}
-    .brandName{
-      font-weight:900;font-size:18px;line-height:1.2;color:var(--navy);
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    .brand{
+      display:flex; align-items:center; gap:12px;
     }
-    .brandSub{font-size:12px;color:var(--muted);line-height:1.6}
-    .brandActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-    .chip, .miniBtn{
-      border:none;border-radius:999px;cursor:pointer;font-weight:800;
-      transition:transform .2s ease,box-shadow .2s ease,opacity .2s ease,background .2s ease;
+    .logo{
+      width:54px; height:54px; border-radius:18px;
+      background:linear-gradient(145deg, rgba(212,175,55,.98), rgba(255,240,190,.85));
+      color:var(--navy);
+      display:grid; place-items:center;
+      box-shadow:0 12px 28px rgba(212,175,55,.25);
+      font-weight:900;
+      font-size:18px;
+      flex:0 0 auto;
     }
-    .chip:active,.miniBtn:active,.btn:active{transform:scale(.99)}
+    .brand h1{margin:0; font-size:20px; line-height:1.2}
+    .brand p{margin:2px 0 0; color:rgba(255,255,255,.82); font-size:13px}
+    .topActions{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .chip, .btn, .ghost, .unitBtn, .seg{
+      border:0; border-radius:999px; cursor:pointer; transition:.22s ease;
+      padding:10px 14px;
+    }
     .chip{
-      min-height:36px;padding:0 12px;background:#fff;border:1px solid var(--line);
-      color:var(--navy);box-shadow:0 8px 18px rgba(0,35,102,.05)
+      background:rgba(255,255,255,.13);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.16);
     }
-    .chip.gold{background:linear-gradient(135deg,#fff5d2,#e9d07b);border-color:rgba(212,175,55,.32)}
-    .chip.green{background:linear-gradient(135deg,#e9fff1,#bdeacd);border-color:rgba(31,139,76,.18)}
-    .chip.red{background:linear-gradient(135deg,#fff0ef,#ffd2cf);border-color:rgba(192,57,43,.18)}
-    .ticker{
-      margin:0 14px 12px;padding:10px 14px;border-radius:999px;
-      background:linear-gradient(135deg,#fff7db,#f0d46c);
-      border:1px solid rgba(212,175,55,.30);
-      color:#4f3c00;font-weight:800;text-align:center;line-height:1.6;
-      box-shadow:0 8px 18px rgba(212,175,55,.10);
-      min-height:42px;display:flex;align-items:center;justify-content:center;
-    }
-    .topActions{
-      display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 14px 12px;
-    }
+    .chip:hover,.ghost:hover,.btn:hover,.unitBtn:hover,.seg:hover{transform:translateY(-1px)}
     .btn{
-      border:none;border-radius:18px;min-height:48px;padding:0 12px;font-weight:900;
-      cursor:pointer;box-shadow:0 10px 22px rgba(0,35,102,.08);
-      transition:transform .2s ease,box-shadow .2s ease,opacity .2s ease;
+      background:linear-gradient(135deg, var(--gold), #f7dc77);
+      color:#2d2400;
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(212,175,55,.28);
     }
-    .btn.primary{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#352800}
-    .btn.navy{background:linear-gradient(135deg,var(--navy),#113c9a);color:#fff}
-    .btn.success{background:linear-gradient(135deg,#1f8b4c,#35b56b);color:#fff}
-    .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
-    .btn.danger{background:linear-gradient(135deg,#ff7a70,#c0392b);color:#fff}
-    .navRow{
-      display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 14px 14px;
+    .ghost{
+      background:#fff;
+      color:var(--navy);
+      font-weight:700;
+      border:1px solid rgba(0,35,102,.15);
     }
-    .navRow .miniBtn{
-      min-height:38px;padding:0 10px;background:#fff;border:1px solid var(--line);color:var(--navy);
-      box-shadow:0 8px 18px rgba(0,35,102,.05);font-weight:900;font-size:12px;
+    .statusLine{
+      margin-top:16px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      position:relative; z-index:1;
     }
-    .navRow .miniBtn.active{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#352800;border-color:transparent}
-    .content{max-width:1160px;margin:0 auto;padding:12px 12px 0}
-    .pageHead{
-      background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:24px;
-      box-shadow:var(--shadow);padding:14px;margin-bottom:12px;
+    .statusPill{
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.15);
+      color:#fff;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:12px;
     }
-    .pageTitle{font-size:22px;font-weight:900;color:var(--navy);margin:0 0 6px}
-    .pageSub{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
-    .searchBox{
-      display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:12px;
-      background:#fff;border:1px solid var(--line);border-radius:18px;padding:8px;
-      box-shadow:0 8px 20px rgba(0,35,102,.04);
+    .wrap{
+      width:min(1480px, 100%);
+      margin:0 auto;
+      padding:18px 16px 30px;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 390px;
+      gap:16px;
+      align-items:start;
     }
-    .searchInput,.field,.select{
-      width:100%;min-height:46px;border-radius:14px;border:1px solid rgba(0,35,102,.12);
-      padding:0 12px;background:#fff;outline:none;color:var(--text);
+    .panel{
+      background:rgba(255,255,255,.84);
+      backdrop-filter:blur(8px);
+      border:var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-    .searchInput:focus,.field:focus,.select:focus{border-color:rgba(212,175,55,.9);box-shadow:0 0 0 4px rgba(212,175,55,.14)}
-    .section{margin-top:12px}
-    .sectionHeader{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;
+    .hero{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:14px;
+      padding:16px;
     }
-    .sectionTitle{margin:0;font-size:16px;font-weight:900;color:var(--navy)}
-    .sectionHint{font-size:12px;color:var(--muted)}
-    .filters{display:flex;gap:8px;overflow:auto;padding-bottom:4px;scrollbar-width:none}
-    .filters::-webkit-scrollbar{display:none}
-    .filterChip{
-      white-space:nowrap;border:none;border-radius:999px;padding:8px 12px;
-      background:#fff;border:1px solid var(--line);font-weight:900;color:var(--navy);cursor:pointer;
+    .heroBox{
+      border-radius:18px;
+      padding:16px;
+      background:linear-gradient(180deg, #fff, #f3f6fc);
+      border:1px solid rgba(0,35,102,.08);
+      min-height:120px;
     }
-    .filterChip.active{background:linear-gradient(135deg,var(--navy),#113c9a);color:#fff;border-color:transparent}
-    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .heroTitle{
+      margin:0 0 8px;
+      font-size:18px;
+      color:var(--navy);
+    }
+    .heroText{margin:0; color:#475569; line-height:1.8; font-size:14px}
+    .controls{
+      display:grid;
+      gap:12px;
+      padding:0 16px 16px;
+    }
+    .ctrlRow{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+    }
+    .field{
+      display:flex; flex-direction:column; gap:6px;
+    }
+    .field label{font-size:12px; color:#4b5563; font-weight:700}
+    .field input,.field select,.field textarea{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(0,35,102,.14);
+      padding:12px 14px;
+      background:#fff;
+      outline:none;
+      transition:.2s;
+    }
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:rgba(212,175,55,.9);
+      box-shadow:0 0 0 4px rgba(212,175,55,.13);
+    }
+    .searchRow{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:center;
+    }
+    .segGroup{
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .seg{
+      background:#eef2ff;
+      color:#243b6b;
+      border:1px solid rgba(0,35,102,.08);
+      min-width:78px;
+      font-weight:700;
+    }
+    .seg.active{
+      background:var(--navy);
+      color:#fff;
+      box-shadow:0 10px 20px rgba(0,35,102,.18);
+    }
+    .section{
+      padding:0 16px 16px;
+    }
+    .sectionHead{
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      margin:10px 0 12px;
+    }
+    .sectionHead h2{
+      margin:0;
+      font-size:18px;
+      color:var(--navy);
+    }
+    .sectionHead small{color:var(--muted)}
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(250px, 1fr));
+      gap:12px;
+    }
     .card{
-      background:rgba(255,255,255,.90);border:1px solid var(--line);border-radius:24px;
-      box-shadow:var(--shadow);overflow:hidden;
+      background:var(--card);
+      border:1px solid rgba(0,35,102,.10);
+      border-radius:20px;
+      overflow:hidden;
+      box-shadow:0 8px 22px rgba(0,0,0,.05);
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
     }
-    .companyCard,.tierCard,.bundleCard,.productCard{transition:transform .2s ease,box-shadow .2s ease}
-    .companyCard:hover,.tierCard:hover,.bundleCard:hover,.productCard:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,35,102,.10)}
-    .companyCard{padding:12px;display:flex;flex-direction:column;gap:10px;text-align:center;min-height:122px;justify-content:center}
-    .companyLogoBox,.productImage{
-      width:100%;aspect-ratio:1/1;border-radius:18px;background:#f5f8fd;object-fit:contain;
-      border:1px solid rgba(0,35,102,.05)
+    .card.disabled{
+      opacity:.52;
+      filter:saturate(.8);
     }
-    .companyNameCard,.productName{font-weight:900;line-height:1.5}
-    .companyNameCard{font-size:14px;color:var(--navy)}
-    .meta{font-size:12px;line-height:1.7;color:var(--muted)}
-    .badge{
-      display:inline-flex;align-items:center;justify-content:center;gap:6px;
-      padding:6px 10px;border-radius:999px;font-size:12px;font-weight:900;
+    .cover{
+      height:150px;
+      background:linear-gradient(135deg, rgba(0,35,102,.90), rgba(16,70,170,.90));
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:flex-start;
+      overflow:hidden;
     }
-    .badge.green{background:rgba(31,139,76,.10);color:var(--success)}
-    .badge.red{background:rgba(192,57,43,.10);color:var(--danger)}
-    .badge.gold{background:rgba(212,175,55,.16);color:#7b5d00}
-    .productCard{padding:10px;display:flex;flex-direction:column;gap:10px}
-    .productCard .topLine{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-    .productName{font-size:14px;color:var(--text)}
-    .code{font-size:11px;color:var(--muted);font-weight:800}
-    .price{font-size:15px;font-weight:900;color:#b77d00}
-    .price del{color:#8c8c8c;font-weight:700;margin-left:6px}
-    .productActions{display:grid;grid-template-columns:1fr;gap:8px}
-    .productControls{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+    .cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      background:#eef2f7;
+    }
+    .cover .badge{
+      position:absolute;
+      top:12px; inset-inline-start:12px;
+      background:rgba(212,175,55,.95);
+      color:#1b1400;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      box-shadow:0 8px 18px rgba(212,175,55,.22);
+    }
+    .cardBody{
+      padding:14px;
+      display:flex; flex-direction:column; gap:10px;
+      flex:1;
+    }
+    .titleRow{
+      display:flex; gap:10px; justify-content:space-between; align-items:flex-start;
+    }
+    .card h3{
+      margin:0;
+      font-size:16px;
+      line-height:1.4;
+      color:#13213c;
+    }
+    .company{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:2px;
+    }
+    .price{
+      font-size:18px;
+      font-weight:900;
+      color:var(--navy);
+      white-space:nowrap;
+    }
+    .sub{
+      font-size:12px;
+      color:#677185;
+      line-height:1.7;
+    }
+    .unitBtns{
+      display:flex; gap:6px; flex-wrap:wrap;
+    }
+    .unitBtn{
+      background:#f1f5f9;
+      color:#1f3357;
+      border:1px solid rgba(0,35,102,.10);
+      padding:8px 10px;
+      font-weight:800;
+      font-size:12px;
+    }
+    .unitBtn.active{
+      background:var(--gold);
+      color:#1d1400;
+    }
+    .cardActions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      margin-top:auto;
+    }
+    .cardActions .btn,.cardActions .ghost{flex:1; padding:10px 12px; border-radius:14px}
+    .mini{
+      font-size:12px;
+      color:#475569;
+      padding:8px 12px;
+      border-radius:12px;
+      background:#f8fafc;
+      border:1px dashed rgba(0,35,102,.12);
+    }
+    .cart{
+      position:sticky;
+      top:112px;
+      display:flex;
+      flex-direction:column;
+      gap:0;
+      max-height:calc(100vh - 132px);
+      overflow:hidden;
+    }
+    .cartHead{
+      padding:16px;
+      border-bottom:1px solid rgba(0,35,102,.08);
+      background:linear-gradient(180deg, rgba(0,35,102,.05), transparent);
+    }
+    .cartHead h2{margin:0; color:var(--navy); font-size:20px}
+    .cartHead p{margin:6px 0 0; color:var(--muted); font-size:13px}
+    .cartList{
+      padding:12px 12px 0;
+      overflow:auto;
+      flex:1;
+    }
+    .item{
+      border:1px solid rgba(0,35,102,.10);
+      background:#fff;
+      border-radius:18px;
+      padding:12px;
+      margin-bottom:10px;
+      box-shadow:0 5px 15px rgba(0,0,0,.04);
+    }
+    .itemTop{
+      display:flex; justify-content:space-between; gap:10px;
+    }
+    .itemTitle{margin:0; font-weight:800; color:#13213c; font-size:14px}
+    .itemMeta{margin:4px 0 0; font-size:12px; color:#677185}
+    .itemTools{
+      display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-top:10px;
+    }
     .qtyBtn{
-      min-height:40px;border:none;border-radius:12px;background:#eef3fa;color:var(--navy);font-weight:900
+      width:34px; height:34px; border-radius:10px; border:1px solid rgba(0,35,102,.10); background:#f8fafc; cursor:pointer; font-weight:900;
     }
-    .qtyInput{text-align:center;font-weight:900;font-size:15px}
-    .select{font-weight:800}
-    .smallBtn{
-      min-height:40px;border:none;border-radius:14px;cursor:pointer;font-weight:900;
+    .qtyBox{
+      min-width:48px; text-align:center; font-weight:800;
+      padding:6px 10px; border-radius:10px; background:#eef2ff; color:#1c2f53;
     }
-    .smallBtn.gold{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#352800}
-    .smallBtn.navy{background:linear-gradient(135deg,var(--navy),#113c9a);color:#fff}
-    .smallBtn.success{background:linear-gradient(135deg,#1f8b4c,#35b56b);color:#fff}
-    .smallBtn.ghost{background:#fff;border:1px solid var(--line);color:var(--navy)}
-    .smallBtn.danger{background:linear-gradient(135deg,#ff7a70,#c0392b);color:#fff}
-    .stack{display:flex;flex-direction:column;gap:8px}
-    .noteBox{
-      background:linear-gradient(180deg,#fffdf7,#fff);border:1px solid rgba(212,175,55,.22);
-      border-radius:18px;padding:12px;box-shadow:0 8px 18px rgba(0,35,102,.04);
+    .remove{
+      margin-inline-start:auto;
+      background:#fff1f1;
+      color:var(--danger);
+      border:1px solid rgba(214,69,69,.18);
+      border-radius:10px;
+      width:34px; height:34px;
+      cursor:pointer;
+      font-weight:900;
     }
-    .list{display:flex;flex-direction:column;gap:10px}
-    .bundleCard{padding:12px}
-    .bundleTitle{font-size:16px;font-weight:900;color:var(--navy);margin:0 0 4px}
-    .bundleDesc{margin:0 0 8px;color:var(--muted);font-size:13px;line-height:1.7}
-    .bundlePrice{font-size:20px;font-weight:900;color:#b77d00}
-    .bundleItems{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
-    .pill{padding:6px 10px;border-radius:999px;background:#f5f8fd;border:1px solid rgba(0,35,102,.08);font-size:12px;font-weight:800;color:var(--navy)}
-    .tall{min-height:100vh}
-    .cartCard{padding:12px;margin-bottom:10px}
-    .cartItem{padding:10px 0;border-bottom:1px solid rgba(0,35,102,.08)}
-    .cartItem:last-child{border-bottom:none}
-    .cartItemHead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-    .cartItemTitle{font-weight:900;font-size:14px;line-height:1.5}
-    .cartItemSub{font-size:12px;line-height:1.6;color:var(--muted)}
-    .cartControls{display:grid;grid-template-columns:auto 1fr auto;gap:6px;align-items:center;margin-top:8px}
-    .summary{display:grid;grid-template-columns:1fr;gap:8px}
-    .summaryLine{display:flex;justify-content:space-between;gap:10px;font-weight:800}
-    .summaryLine strong{font-weight:900}
-    .reviewBox{background:linear-gradient(180deg,#fffdf5,#fff);border:1px solid rgba(212,175,55,.20);border-radius:18px;padding:12px}
-    .formGrid{display:grid;grid-template-columns:1fr;gap:8px}
-    .formLabel{font-size:12px;color:var(--muted);font-weight:800}
-    .formGroup{display:flex;flex-direction:column;gap:6px}
-    .actionsRow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .footer{
-      position:fixed;left:12px;right:12px;bottom:12px;z-index:60;
-      background:rgba(255,255,255,.86);backdrop-filter:blur(16px) saturate(180%);
-      border:1px solid var(--line);border-radius:24px;box-shadow:0 16px 36px rgba(0,35,102,.12);
-      padding:8px;
-      display:grid;grid-template-columns:1fr auto 1fr;gap:8px;
+    .cartSummary{
+      padding:14px 16px 16px;
+      border-top:1px solid rgba(0,35,102,.08);
+      background:#fff;
+      display:grid;
+      gap:10px;
     }
-    .footerTotal{
-      min-height:52px;display:flex;align-items:center;justify-content:center;
-      border-radius:18px;background:#fff;border:1px solid var(--line);font-weight:900;color:var(--navy);padding:0 10px;text-align:center
+    .sumRow{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      font-size:14px;
+    }
+    .sumRow strong{color:var(--navy)}
+    .sumRow.total{
+      padding-top:10px;
+      border-top:1px dashed rgba(0,35,102,.12);
+      font-size:16px;
+      font-weight:900;
+    }
+    .cartActions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+    .cartActions .btn,.cartActions .ghost{border-radius:14px; padding:12px 14px}
+    .muted{color:var(--muted)}
+    .toastWrap{
+      position:fixed;
+      inset:auto 16px 16px 16px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      align-items:flex-end;
+      pointer-events:none;
+      z-index:100;
     }
     .toast{
-      position:fixed;top:16px;left:50%;transform:translateX(-50%);
-      z-index:999;padding:10px 14px;border-radius:999px;color:#fff;
-      background:var(--navy);box-shadow:0 16px 32px rgba(0,0,0,.15);
-      display:none;max-width:92vw;font-weight:900
+      min-width:min(480px, calc(100vw - 32px));
+      max-width:100%;
+      background:#fff;
+      border-radius:16px;
+      box-shadow:0 16px 42px rgba(0,0,0,.14);
+      border:1px solid rgba(0,35,102,.10);
+      padding:12px 14px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      pointer-events:auto;
+      animation:slideIn .25s ease;
     }
-    .modal{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:14px;background:rgba(10,16,24,.45);backdrop-filter:blur(4px)}
-    .modal.show{display:flex}
-    .modalCard{width:min(520px,100%);background:#fff;border-radius:28px;border:1px solid rgba(212,175,55,.26);box-shadow:0 28px 70px rgba(0,0,0,.22);padding:14px}
-    .modalTitle{margin:0 0 6px;font-size:20px;font-weight:900;color:var(--navy)}
-    .modalSub{margin:0 0 12px;font-size:13px;color:var(--muted);line-height:1.7}
-    .modalActions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-    .empty{padding:24px;text-align:center;color:var(--muted)}
+    .toast.success{border-color:rgba(24,138,87,.25)}
+    .toast.error{border-color:rgba(214,69,69,.25)}
+    .dot{width:10px; height:10px; border-radius:999px; margin-top:6px; flex:0 0 auto}
+    .toast.success .dot{background:var(--success)}
+    .toast.error .dot{background:var(--danger)}
+    .toast h4{margin:0; font-size:13px}
+    .toast p{margin:3px 0 0; font-size:12px; color:#56606f; line-height:1.7}
+    @keyframes slideIn{from{transform:translateY(10px); opacity:0}to{transform:translateY(0); opacity:1}}
+    .modalBackdrop{
+      position:fixed; inset:0; background:rgba(8,18,37,.52);
+      display:none; align-items:center; justify-content:center;
+      z-index:90;
+      padding:16px;
+    }
+    .modalBackdrop.open{display:flex}
+    .modal{
+      width:min(980px, 100%);
+      max-height:92vh;
+      background:#fff;
+      border-radius:26px;
+      overflow:hidden;
+      box-shadow:0 22px 60px rgba(0,0,0,.22);
+      display:flex;
+      flex-direction:column;
+    }
+    .modalHead{
+      padding:16px 18px;
+      background:linear-gradient(135deg, var(--navy), #0e3a87);
+      color:#fff;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+    }
+    .modalHead h3{margin:0; font-size:18px}
+    .modalBody{
+      padding:16px 18px;
+      overflow:auto;
+      display:grid;
+      gap:14px;
+    }
+    .reviewTable{
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      border:1px solid rgba(0,35,102,.10);
+      border-radius:16px;
+      overflow:hidden;
+    }
+    .reviewTable th,.reviewTable td{
+      padding:10px 12px;
+      border-bottom:1px solid rgba(0,35,102,.08);
+      font-size:13px;
+      text-align:right;
+      vertical-align:top;
+    }
+    .reviewTable th{background:#f8fbff; color:#21406d}
+    .reviewActions{
+      display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap;
+    }
+    .stack{
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0, 1fr));
+      gap:10px;
+    }
+    .notice{
+      background:#f6f8ff;
+      border:1px solid rgba(0,35,102,.08);
+      border-radius:16px;
+      padding:12px 14px;
+      color:#31476d;
+      line-height:1.8;
+      font-size:13px;
+    }
     .hidden{display:none !important}
-    .countdown{font-size:24px;font-weight:900;color:#b71c1c;letter-spacing:1px}
-    @media (min-width:760px){
-      .content{padding:16px 16px 0}
-      .grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .flashTimer{
+      display:inline-flex;
+      gap:6px;
+      direction:ltr;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-weight:800;
     }
-    @media (min-width:1060px){
-      .grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+    @media (max-width: 1180px){
+      .wrap{grid-template-columns:1fr}
+      .cart{position:relative; top:0; max-height:none}
     }
-    @media (max-width:760px){
-      .brandBar{align-items:flex-start}
-      .brandActions{justify-content:flex-start}
-      .topActions{grid-template-columns:1fr;}
-      .navRow{grid-template-columns:repeat(2,1fr)}
-      .footer{left:8px;right:8px;bottom:8px}
-      .modal{align-items:flex-end;padding:0}
-      .modalCard{width:100%;border-radius:26px 26px 0 0;max-height:88vh;overflow:auto}
+    @media (max-width: 760px){
+      .hero{grid-template-columns:1fr}
+      .ctrlRow,.stack{grid-template-columns:1fr}
+      .searchRow{grid-template-columns:1fr}
+      .toast{min-width:auto}
+      .grid{grid-template-columns:repeat(auto-fill, minmax(180px, 1fr))}
+      .brand h1{font-size:17px}
     }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <header class="header">
-      <div class="brandBar">
-        <div class="brandInfo">
-          <img id="brandLogo" class="brandLogo" alt="Alahram Co logo">
-          <div class="brandText">
-            <div class="brandName" id="companyName">Alahram Co</div>
-            <div class="brandSub" id="companySub">تطبيق جملة احترافي لمنتجات العناية ومستحضرات التجميل</div>
+<div class="app">
+  <header class="topbar">
+    <div class="brandRow">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div>
+          <h1 id="companyTitle">Alahram Co v2 PRO</h1>
+          <p id="companySub">نظام بيع جملة B2B - محرك أسعار + عروض + شريحة</p>
+        </div>
+      </div>
+      <div class="topActions">
+        <button class="chip" id="repBtn">دخول المندوب</button>
+        <button class="chip" id="tierBtn">اختيار الشريحة</button>
+        <button class="btn" id="openCartBtn">السلة <span id="cartCount">0</span></button>
+      </div>
+    </div>
+    <div class="statusLine">
+      <span class="statusPill" id="modePill">الوضع: طبيعي</span>
+      <span class="statusPill" id="tierPill">الشريحة: غير مفعلة</span>
+      <span class="statusPill" id="repPill">المندوب: غير مسجل</span>
+      <span class="statusPill" id="connPill">الاتصال: جاري التحميل...</span>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <main class="panel">
+      <div class="hero">
+        <div class="heroBox">
+          <h2 class="heroTitle">المنطق التشغيلي</h2>
+          <p class="heroText">
+            النظام يفصل بين الوضع العادي ووضع الشريحة. عند تفعيل الشريحة يتم إخفاء صفقة اليوم واللقطة،
+            ويعاد تسعير السلة بالكامل مع تطبيق حد 5 شركات وحد 25% لكل شركة.
+          </p>
+        </div>
+        <div class="heroBox">
+          <h2 class="heroTitle">مؤشرات سريعة</h2>
+          <p class="heroText" id="kpiText">جاري التحميل...</p>
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="searchRow">
+          <div class="field">
+            <label>بحث سريع</label>
+            <input id="searchInput" type="search" placeholder="ابحث باسم المنتج أو الشركة أو كود المنتج..." />
+          </div>
+          <button class="ghost" id="clearSearchBtn" style="height:46px; align-self:end;">مسح البحث</button>
+        </div>
+        <div class="ctrlRow">
+          <div class="field">
+            <label>فلتر الوحدة</label>
+            <div class="segGroup" id="unitFilterGroup">
+              <button class="seg active" data-unit="piece">قطعة</button>
+              <button class="seg" data-unit="pack">دستة</button>
+              <button class="seg" data-unit="carton">كرتونة</button>
+            </div>
+          </div>
+          <div class="field">
+            <label>حالة النظام</label>
+            <input id="statusBox" readonly value="جاهز للعمل" />
+          </div>
+          <div class="field">
+            <label>كود اللقطة</label>
+            <input id="flashPinInput" placeholder="أدخل كود الشراء السري" />
           </div>
         </div>
-        <div class="brandActions">
-          <a class="chip" id="waChip" href="#" target="_blank" rel="noopener">واتساب</a>
-          <button class="chip gold" type="button" onclick="gotoView('tiers')">الشرائح</button>
-          <button class="chip green" type="button" onclick="gotoView('offers')">صفقة اليوم</button>
-        </div>
       </div>
-      <div class="ticker" id="ticker">جارٍ تحميل البيانات...</div>
-      <div class="topActions" id="topActions"></div>
-      <div class="navRow">
-        <button class="miniBtn" id="navHome" type="button" onclick="gotoView('home')">الرئيسية</button>
-        <button class="miniBtn" id="navCompanies" type="button" onclick="gotoView('companies')">الشركات</button>
-        <button class="miniBtn" id="navLaqta" type="button" onclick="gotoView('laqta')">اللقطة</button>
-        <button class="miniBtn" id="navCart" type="button" onclick="gotoView('cart')">السلة</button>
-      </div>
-    </header>
 
-    <main class="content">
-      <div id="app" class="tall"></div>
+      <section class="section" id="dealsSection">
+        <div class="sectionHead">
+          <h2>صفقة اليوم</h2>
+          <small>Bundle ثابت بسعر خاص</small>
+        </div>
+        <div class="grid" id="dealsGrid"></div>
+      </section>
+
+      <section class="section" id="flashSection">
+        <div class="sectionHead">
+          <h2>اللقطة / البيعة المجمعة</h2>
+          <small>مؤقت حقيقي + PIN مطابق</small>
+        </div>
+        <div class="grid" id="flashGrid"></div>
+      </section>
+
+      <section class="section">
+        <div class="sectionHead">
+          <h2>المنتجات</h2>
+          <small>قطعة / دستة / كرتونة</small>
+        </div>
+        <div class="grid" id="productsGrid"></div>
+      </section>
     </main>
 
-    <footer class="footer">
-      <button class="btn primary" type="button" onclick="gotoView('home')">تسوق الآن</button>
-      <div class="footerTotal" id="footerTotal">0 EGP</div>
-      <button class="btn success" type="button" onclick="gotoView('cart')">إتمام الطلب</button>
-    </footer>
+    <aside class="panel cart">
+      <div class="cartHead">
+        <h2>السلة</h2>
+        <p>تحسين فوري وتحقق مستمر مع كل تغيير.</p>
+      </div>
+      <div class="cartList" id="cartList"></div>
+      <div class="cartSummary">
+        <div class="sumRow"><span>الإجمالي الفرعي</span><strong id="subtotalBox">0</strong></div>
+        <div class="sumRow"><span>عدد الشركات</span><strong id="companyCountBox">0</strong></div>
+        <div class="sumRow"><span>الشريحة الحالية</span><strong id="activeTierBox">بدون</strong></div>
+        <div class="sumRow total"><span>الإجمالي النهائي</span><strong id="grandTotalBox">0</strong></div>
+        <div class="cartActions">
+          <button class="ghost" id="saveLocalBtn">حفظ السلة</button>
+          <button class="btn" id="checkoutBtn">إرسال الطلب</button>
+        </div>
+        <div class="mini" id="validationBox">لا توجد ملاحظات حالياً.</div>
+      </div>
+    </aside>
   </div>
+</div>
 
-  <div class="toast" id="toast"></div>
+<div class="toastWrap" id="toastWrap"></div>
 
-  <div class="modal" id="pinModal">
-    <div class="modalCard">
-      <h3 class="modalTitle">تفعيل الشريحة</h3>
-      <p class="modalSub" id="pinPrompt">أدخل الرقم السري الخاص بالشريحة.</p>
-      <input class="field" id="pinInput" type="password" placeholder="PIN / Password" autocomplete="off">
-      <div class="modalActions">
-        <button class="btn primary" type="button" onclick="submitTierPin()">تفعيل</button>
-        <button class="btn ghost" type="button" onclick="closePinModal()">إلغاء</button>
+<div class="modalBackdrop" id="checkoutModal">
+  <div class="modal">
+    <div class="modalHead">
+      <h3>مراجعة الطلب وإرساله</h3>
+      <button class="chip" data-close="checkoutModal">إغلاق</button>
+    </div>
+    <div class="modalBody">
+      <div class="stack">
+        <div class="field"><label>الاسم الكامل</label><input id="custName" placeholder="الاسم الثلاثي" /></div>
+        <div class="field"><label>رقم الهاتف</label><input id="custPhone" placeholder="01XXXXXXXXX" inputmode="numeric" /></div>
+        <div class="field"><label>العنوان</label><input id="custAddress" placeholder="العنوان الكامل" /></div>
+      </div>
+      <div class="stack">
+        <div class="field"><label>نوع الطلب</label><input id="orderTypeBox" readonly /></div>
+        <div class="field"><label>إحداثيات الموقع</label><input id="locationBox" readonly placeholder="اختياري" /></div>
+        <div class="field"><label>ملاحظات</label><input id="notesBox" placeholder="ملاحظات إضافية" /></div>
+      </div>
+      <table class="reviewTable">
+        <thead>
+          <tr>
+            <th>الصنف</th>
+            <th>الوحدة</th>
+            <th>الكمية</th>
+            <th>سعر الوحدة</th>
+            <th>الإجمالي</th>
+          </tr>
+        </thead>
+        <tbody id="reviewBody"></tbody>
+      </table>
+      <div class="notice" id="tierNotice">في وضع الشريحة: لا تُحسب صفقة اليوم ولا اللقطة ضمن السلة، ويتم منع الإضافة من الأصل.</div>
+      <div class="reviewActions">
+        <button class="ghost" id="geoBtn">جلب الموقع</button>
+        <button class="btn" id="finalSendBtn">تأكيد وإرسال</button>
       </div>
     </div>
   </div>
+</div>
 
-  <div class="modal" id="repModal">
-    <div class="modalCard">
-      <h3 class="modalTitle">دخول المندوب</h3>
-      <p class="modalSub">أدخل كود المندوب وكلمة المرور.</p>
-      <div class="formGrid">
-        <input class="field" id="repIdInput" placeholder="Rep ID" autocomplete="off">
-        <input class="field" id="repPassInput" type="password" placeholder="Password" autocomplete="off">
+<div class="modalBackdrop" id="tierModal">
+  <div class="modal">
+    <div class="modalHead">
+      <h3>اختيار الشريحة</h3>
+      <button class="chip" data-close="tierModal">إغلاق</button>
+    </div>
+    <div class="modalBody">
+      <div class="field">
+        <label>الشريحة</label>
+        <select id="tierSelect"></select>
       </div>
-      <div class="modalActions">
-        <button class="btn navy" type="button" onclick="submitRepLogin()">دخول</button>
-        <button class="btn ghost" type="button" onclick="closeRepModal()">إلغاء</button>
+      <div class="field">
+        <label>PIN الشريحة</label>
+        <input id="tierPinInput" placeholder="اختياري حسب الشريحة" />
       </div>
+      <div class="reviewActions">
+        <button class="ghost" id="clearTierBtn">إلغاء الشريحة</button>
+        <button class="btn" id="applyTierBtn">تفعيل الشريحة</button>
+      </div>
+      <div class="notice">عند تفعيل الشريحة سيُخفى قسم صفقة اليوم واللقطة تلقائياً ويُعاد تسعير السلة.</div>
     </div>
   </div>
+</div>
 
-  <div class="modal" id="confirmModal">
-    <div class="modalCard">
-      <h3 class="modalTitle">تأكيد الطلب</h3>
-      <p class="modalSub" id="confirmText">هل تريد إرسال الطلب الآن؟</p>
-      <div class="modalActions">
-        <button class="btn success" type="button" onclick="finalSendOrder()">تأكيد</button>
-        <button class="btn ghost" type="button" onclick="closeConfirmModal()">رجوع</button>
+<div class="modalBackdrop" id="repModal">
+  <div class="modal">
+    <div class="modalHead">
+      <h3>دخول المندوب</h3>
+      <button class="chip" data-close="repModal">إغلاق</button>
+    </div>
+    <div class="modalBody">
+      <div class="stack">
+        <div class="field"><label>Rep ID</label><input id="repIdInput" placeholder="كود المندوب" /></div>
+        <div class="field"><label>Password / PIN</label><input id="repPinInput" type="password" placeholder="كلمة المرور" /></div>
+        <div class="field"><label>منطقة المندوب</label><input id="repAreaBox" readonly placeholder="سيظهر بعد الدخول" /></div>
       </div>
+      <div class="reviewActions">
+        <button class="ghost" id="logoutRepBtn">تسجيل خروج</button>
+        <button class="btn" id="loginRepBtn">دخول</button>
+      </div>
+      <div class="notice">عند تسجيل الدخول يتم حفظ بيانات المندوب في localStorage وربطها بالطلب عند الإرسال.</div>
     </div>
   </div>
+</div>
 
-  <script>
-  /* =========================================================
-     (1) LocalStorage state management
-     ========================================================= */
-  const PRIMARY_API_URL = "https://script.google.com/macros/s/AKfycbyzVJ869sr0fznSXTEsUkNv_1M80mSjtf9-C6M_CagPzCDGhCLRvbkrzPGpJ91GRCTr/exec";
-  const BACKUP_API_URL = "https://script.google.com/macros/s/AKfycbyDrSoY3oLkTt_2gJ-cHuzhqxGazRbxHaEzdYpJIW5uJVHXGARWoAB6qllZOXPJEgiP2A/exec";
-  const STORAGE_KEYS = {
-    cart: 'alahram_cart_v1',
-    customer: 'alahram_customer_v1',
-    tier: 'alahram_tier_v1',
-    rep: 'alahram_rep_v1',
-    page: 'alahram_page_v1',
-    unlocks: 'alahram_tier_unlocks_v1',
-    flashUnlocks: 'alahram_flash_unlocks_v1',
-    bootCache: 'alahram_boot_cache_v1'
-  };
-  const FALLBACK_DATA = {"settings": [{"key": "company_name", "value": "الأهرام للتجارة والتوزيع", "type": "text", "active": 1, "notes": "اسم الواجهة"}, {"key": "api_url", "value": "https://script.google.com/macros/s/AKfycbyzVJ869sr0fznSXTEsUkNv_1M80mSjtf9-C6M_CagPzCDGhCLRvbkrzPGpJ91GRCTr/exec", "type": "url", "active": 1, "notes": "API الرئيسي"}, {"key": "whatsapp_number", "value": "+20 155 267 0465", "type": "phone", "active": 1, "notes": "واتساب"}, {"key": "min_order_amount", "value": 50000, "type": "number", "active": 1, "notes": "الحد الأدنى"}, {"key": "currency_label", "value": "EGP", "type": "text", "active": 1, "notes": "العملة"}, {"key": "hero_tagline", "value": "تشكيل كبير ومتنوع لأكبر شركات مستحضرات التجميل والعناية", "type": "text", "active": 1, "notes": "سطر تعريفي"}, {"key": "news_ticker", "value": "عروض جديدة كل يوم، توصيل سريع، وأسعار خاصة للشرائح المفعلة", "type": "text", "active": 1, "notes": "Ticker"}], "companies": [{"company_id": "CMP-01", "company_name": "شركة أ", "logo_url": "", "status": 1, "sort_order": 1, "notes": "مثال"}, {"company_id": "CMP-02", "company_name": "شركة ب", "logo_url": "", "status": 1, "sort_order": 2, "notes": "مثال"}, {"company_id": "CMP-03", "company_name": "شركة ج", "logo_url": "", "status": 1, "sort_order": 3, "notes": "مثال"}, {"company_id": "CMP-04", "company_name": "شركة د", "logo_url": "", "status": 1, "sort_order": 4, "notes": "مثال"}, {"company_id": "CMP-05", "company_name": "شركة هـ", "logo_url": "", "status": 1, "sort_order": 5, "notes": "مثال"}], "categories": [{"category_id": "CAT-01", "category_name": "عناية", "parent_id": "", "status": 1, "sort_order": 1, "notes": "مثال"}, {"category_id": "CAT-02", "category_name": "منظفات", "parent_id": "", "status": 1, "sort_order": 2, "notes": "مثال"}, {"category_id": "CAT-03", "category_name": "عطور", "parent_id": "", "status": 1, "sort_order": 3, "notes": "مثال"}, {"category_id": "CAT-04", "category_name": "مستلزمات", "parent_id": "", "status": 1, "sort_order": 4, "notes": "مثال"}], "products": [{"code": "PRD-0001", "name": "صنف تجريبي 1", "company": "شركة أ", "category": "عناية", "base_carton": 110, "base_pack": 11, "base_piece": 1.1, "status": 1, "image": "", "notes": "مثال"}, {"code": "PRD-0002", "name": "صنف تجريبي 2", "company": "شركة ب", "category": "منظفات", "base_carton": 60, "base_pack": 6.5, "base_piece": 0.7, "status": 1, "image": "", "notes": "مثال"}, {"code": "PRD-0003", "name": "صنف تجريبي 3", "company": "شركة ج", "category": "عطور", "base_carton": 250, "base_pack": 25, "base_piece": 2.5, "status": 1, "image": "", "notes": "مثال"}, {"code": "PRD-0004", "name": "صنف تجريبي 4", "company": "شركة د", "category": "مستلزمات", "base_carton": 220, "base_pack": 22, "base_piece": 2.2, "status": 1, "image": "", "notes": "مثال"}, {"code": "PRD-0005", "name": "صنف تجريبي 5", "company": "شركة هـ", "category": "عناية", "base_carton": 35, "base_pack": 3.8, "base_piece": 0.45, "status": 1, "image": "", "notes": "مثال"}], "tiers": [{"tier_id": "T1", "tier_name": "tier_50k", "visible_label": "50 ألف", "min_amount": 50000, "password": "5050", "active": 1, "notes": "الشريحة الأولى"}, {"tier_id": "T2", "tier_name": "tier_100k", "visible_label": "100 ألف", "min_amount": 100000, "password": "1010", "active": 1, "notes": "الشريحة الثانية"}, {"tier_id": "T3", "tier_name": "tier_200k", "visible_label": "200 ألف", "min_amount": 200000, "password": "2020", "active": 1, "notes": "الشريحة الثالثة"}, {"tier_id": "T4", "tier_name": "tier_500k", "visible_label": "500 ألف", "min_amount": 500000, "password": "5055", "active": 1, "notes": "الشريحة الرابعة"}, {"tier_id": "T5", "tier_name": "tier_1m", "visible_label": "1 مليون", "min_amount": 1000000, "password": "9090", "active": 1, "notes": "الشريحة الخامسة"}], "tier_prices": [{"product_code": "PRD-0001", "product_name": "صنف تجريبي 1", "company": "شركة أ", "unit": "carton", "tier_50k": 100, "tier_100k": 98, "tier_200k": 96, "tier_500k": 94, "tier_1m": 92, "active": 1, "notes": "مثال"}, {"product_code": "PRD-0001", "product_name": "صنف تجريبي 1", "company": "شركة أ", "unit": "piece", "tier_50k": 10, "tier_100k": 9.8, "tier_200k": 9.6, "tier_500k": 9.4, "tier_1m": 9.2, "active": 1, "notes": "مثال"}, {"product_code": "PRD-0002", "product_name": "صنف تجريبي 2", "company": "شركة ب", "unit": "pack", "tier_50k": 55, "tier_100k": 53, "tier_200k": 52, "tier_500k": 50, "tier_1m": 48, "active": 1, "notes": "مثال"}, {"product_code": "PRD-0003", "product_name": "صنف تجريبي 3", "company": "شركة ج", "unit": "carton", "tier_50k": 260, "tier_100k": 255, "tier_200k": 250, "tier_500k": 245, "tier_1m": 240, "active": 1, "notes": "مثال"}, {"product_code": "PRD-0004", "product_name": "صنف تجريبي 4", "company": "شركة د", "unit": "piece", "tier_50k": 7, "tier_100k": 6.8, "tier_200k": 6.5, "tier_500k": 6.2, "tier_1m": 6, "active": 1, "notes": "مثال"}, {"product_code": "PRD-0005", "product_name": "صنف تجريبي 5", "company": "شركة هـ", "unit": "piece", "tier_50k": 0.4, "tier_100k": 0.38, "tier_200k": 0.36, "tier_500k": 0.34, "tier_1m": 0.32, "active": 1, "notes": "مثال"}], "reps": [{"rep_id": "REP-01", "name": "مندوب 1", "password": "1234", "region": "شرق القاهرة", "phone": "01111111111", "status": "active", "notes": "مثال"}, {"rep_id": "REP-02", "name": "مندوب 2", "password": "1234", "region": "غرب القاهرة", "phone": "01122222222", "status": "active", "notes": "مثال"}, {"rep_id": "REP-03", "name": "مندوب 3", "password": "1234", "region": "الجيزة", "phone": "01133333333", "status": "inactive", "notes": "مثال"}, {"rep_id": "REP-04", "name": "مندوب 4", "password": "1234", "region": "القليوبية", "phone": "01144444444", "status": "active", "notes": "مثال"}], "offers": [{"offer_id": "OFF-01", "title": "صفقة اليوم 1", "description": "مجموعة منتجات بسعر ثابت", "price": 999, "image": "", "status": "active", "code_required": "", "stock": 10, "notes": "مثال"}, {"offer_id": "OFF-02", "title": "صفقة اليوم 2", "description": "مجموعة منتجات بسعر ثابت", "price": 1499, "image": "", "status": "paused", "code_required": "", "stock": 0, "notes": "مثال"}, {"offer_id": "OFF-03", "title": "صفقة اليوم 3", "description": "مجموعة منتجات بسعر ثابت", "price": 1999, "image": "", "status": "active", "code_required": "", "stock": 5, "notes": "مثال"}], "offer_items": [{"offer_id": "OFF-01", "product_code": "PRD-0001", "product_name": "صنف تجريبي 1", "qty": 2, "unit": "carton", "notes": "مثال"}, {"offer_id": "OFF-01", "product_code": "PRD-0002", "product_name": "صنف تجريبي 2", "qty": 6, "unit": "piece", "notes": "مثال"}, {"offer_id": "OFF-03", "product_code": "PRD-0003", "product_name": "صنف تجريبي 3", "qty": 1, "unit": "carton", "notes": "مثال"}], "flash_offers": [{"flash_id": "FL-01", "title": "عرض الساعة 1", "description": "باكدج لمدة ساعة", "price": 777, "image": "", "status": "upcoming", "start_date": "2026-04-16", "start_time": "23:00", "end_date": "2026-04-17", "end_time": "00:00", "duration_minutes": 60, "code_required": "", "stock": 8, "notes": "مثال"}, {"flash_id": "FL-02", "title": "عرض الساعة 2", "description": "باكدج لمدة ساعة", "price": 555, "image": "", "status": "active", "start_date": "2026-04-16", "start_time": "21:00", "end_date": "2026-04-16", "end_time": "22:00", "duration_minutes": 60, "code_required": "", "stock": 5, "notes": "مثال"}], "flash_items": [{"flash_id": "FL-01", "product_code": "PRD-0001", "product_name": "صنف تجريبي 1", "qty": 1, "unit": "carton", "notes": "مثال"}, {"flash_id": "FL-01", "product_code": "PRD-0002", "product_name": "صنف تجريبي 2", "qty": 12, "unit": "piece", "notes": "مثال"}, {"flash_id": "FL-02", "product_code": "PRD-0003", "product_name": "صنف تجريبي 3", "qty": 2, "unit": "pack", "notes": "مثال"}]};
+<script>
+(() => {
+  const API_URL = 'https://script.google.com/macros/s/AKfycbyzVJ869sr0fznSXTEsUkNv_1M80mSjtf9-C6_M_CagPzCDGhCLRvbkrzPGpJ91GRCTr/exec';
+  const STORAGE_KEY = 'alahram_v2_pro_state';
+  const CART_KEY = 'alahram_cart';
+  const REP_KEY = 'alahram_current_rep';
+  const TIER_KEY = 'alahram_current_tier';
+  const FLASHPIN_KEY = 'alahram_flash_pin';
+  const DEFAULT_WHATSAPP = '201552670465';
+
+  const TIER_DEFS = [
+    { id:'vip_50k', name:'VIP 50K', minTarget:50000, password:'', active:true },
+    { id:'vip_100k', name:'VIP 100K', minTarget:100000, password:'', active:true },
+    { id:'vip_200k', name:'VIP 200K', minTarget:200000, password:'', active:true },
+    { id:'vip_500k', name:'VIP 500K', minTarget:500000, password:'', active:true },
+    { id:'vip_1m', name:'VIP 1M', minTarget:1000000, password:'', active:true },
+  ];
 
   const state = {
-    view: 'home',
-    search: '',
-    category: 'all',
-    company: 'all',
+    booted:false,
+    settings:{},
+    products:[],
+    deals:[],
+    flashOffers:[],
+    reps:[],
+    tiers:TIER_DEFS,
+    tierPriceRows:[],
     cart: [],
-    customer: loadJSON(STORAGE_KEYS.customer, {name:'', phone:'', address:'', notes:''}),
-    selectedTier: loadJSON(STORAGE_KEYS.tier, null),
-    selectedRep: loadJSON(STORAGE_KEYS.rep, null),
-    tierUnlocks: loadJSON(STORAGE_KEYS.unlocks, {}),
-    flashUnlocks: loadJSON(STORAGE_KEYS.flashUnlocks, {}),
-    data: clone(FALLBACK_DATA),
-    currentDataSource: 'fallback',
-    loading: true,
-    pendingTier: null,
-    pendingFlash: null,
-    tickerIndex: 0,
-    toastTimer: 0,
-    reviewMode: false,
-    busy: false,
-    confirmPayload: null,
-    liveClock: Date.now()
+    currentUnitFilter: 'piece',
+    search: '',
+    currentTier: null,
+    currentRep: null,
+    flashPin: '',
+    location: '',
+    selectedUnits: {},
+    saving:false
   };
 
-  const els = {
-    app: document.getElementById('app'),
-    ticker: document.getElementById('ticker'),
-    topActions: document.getElementById('topActions'),
-    footerTotal: document.getElementById('footerTotal'),
-    toast: document.getElementById('toast'),
-    brandLogo: document.getElementById('brandLogo'),
-    companyName: document.getElementById('companyName'),
-    companySub: document.getElementById('companySub'),
-    waChip: document.getElementById('waChip'),
-    pinModal: document.getElementById('pinModal'),
-    pinPrompt: document.getElementById('pinPrompt'),
-    pinInput: document.getElementById('pinInput'),
-    repModal: document.getElementById('repModal'),
-    repIdInput: document.getElementById('repIdInput'),
-    repPassInput: document.getElementById('repPassInput'),
-    confirmModal: document.getElementById('confirmModal'),
-    confirmText: document.getElementById('confirmText'),
-  };
+  const $ = (id) => document.getElementById(id);
 
-  function loadJSON(key, fallback) {
-    try {
-      const raw = localStorage.getItem(key);
-      if (!raw) return fallback;
-      return JSON.parse(raw);
-    } catch {
-      return fallback;
-    }
-  }
-  function saveJSON(key, value) {
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
-  }
-  function clone(v) {
-    return JSON.parse(JSON.stringify(v));
-  }
-  function safe(v) {
-    return (v ?? '').toString().trim();
-  }
-  function num(v) {
-    const n = parseFloat(safe(v).replace(/[,\s٬]/g, ''));
-    return Number.isFinite(n) ? n : 0;
-  }
-  function bool(v) {
-    if (typeof v === 'boolean') return v;
-    const s = safe(v).toLowerCase();
-    return ['1','true','yes','active','active ','active\\n','مفعل','متاح','active✅'].includes(s) || s === 'on';
-  }
-  function escapeHtml(str) {
-    return safe(str)
-      .replaceAll('&','&amp;')
-      .replaceAll('<','&lt;')
-      .replaceAll('>','&gt;')
-      .replaceAll('"','&quot;')
-      .replaceAll("'",'&#39;');
-  }
-  function normalizeText(text) {
-    return safe(text)
-      .normalize('NFKD')
-      .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g, '')
-      .replace(/[أإآ]/g, 'ا')
-      .replace(/ى/g, 'ي')
-      .replace(/ؤ/g, 'و')
-      .replace(/ئ/g, 'ي')
-      .replace(/ة/g, 'ه')
-      .toLowerCase()
-      .replace(/[^\\w\\u0600-\\u06FF ]+/g, ' ')
-      .replace(/\\s+/g, ' ')
-      .trim();
-  }
-  function compact(text) {
-    return normalizeText(text).replace(/\\s+/g, '');
-  }
-  function currency(n) {
-    const value = Number(n || 0);
-    return new Intl.NumberFormat('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value);
-  }
-  function todayDate() {
-    return new Date().toISOString().slice(0,10);
-  }
-  function timeNow() {
-    return new Date().toLocaleTimeString('en-GB', { hour12: false });
-  }
-  function makeId(prefix) {
-    return prefix + '-' + Math.random().toString(36).slice(2, 9).toUpperCase();
-  }
-  function showToast(msg, type='navy') {
-    clearTimeout(state.toastTimer);
-    els.toast.textContent = msg;
-    els.toast.style.background = type === 'success' ? 'var(--success)' : type === 'danger' ? 'var(--danger)' : type === 'gold' ? 'var(--gold-3)' : 'var(--navy)';
-    els.toast.style.display = 'block';
-    state.toastTimer = setTimeout(() => {
-      els.toast.style.display = 'none';
-    }, 1800);
-  }
-  function persist() {
-    saveJSON(STORAGE_KEYS.cart, state.cart);
-    saveJSON(STORAGE_KEYS.customer, state.customer);
-    saveJSON(STORAGE_KEYS.tier, state.selectedTier);
-    saveJSON(STORAGE_KEYS.rep, state.selectedRep);
-    saveJSON(STORAGE_KEYS.page, state.view);
-    saveJSON(STORAGE_KEYS.unlocks, state.tierUnlocks);
-    saveJSON(STORAGE_KEYS.flashUnlocks, state.flashUnlocks);
+  function money(n){
+    const x = Number(n || 0);
+    return x.toLocaleString('en-US') + ' ج';
   }
 
-  /* =========================================================
-     (2) Data fetch and POST handling against the API
-     ========================================================= */
-  async function fetchWithTimeout(url, options = {}, ms = 9000) {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), ms);
-    try {
-      const res = await fetch(url, {
-        mode: 'cors',
-        cache: 'no-store',
-        credentials: 'omit',
-        ...options,
-        signal: controller.signal
+  function escapeHtml(s){
+    return String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  }
+
+  function uid(prefix='ORD'){
+    return prefix + '-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).slice(2,8).toUpperCase();
+  }
+
+  function nowISO(){ return new Date().toISOString(); }
+
+  function loadPersisted(){
+    try{
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if(raw){
+        const obj = JSON.parse(raw);
+        if(Array.isArray(obj.cart)) state.cart = obj.cart;
+        if(obj.search) state.search = obj.search;
+        if(obj.currentUnitFilter) state.currentUnitFilter = obj.currentUnitFilter;
+        if(obj.flashPin) state.flashPin = obj.flashPin;
+        if(obj.location) state.location = obj.location;
+        if(obj.selectedUnits && typeof obj.selectedUnits === 'object') state.selectedUnits = obj.selectedUnits;
+      }
+      const tierRaw = localStorage.getItem(TIER_KEY);
+      if(tierRaw) state.currentTier = JSON.parse(tierRaw);
+      const repRaw = localStorage.getItem(REP_KEY);
+      if(repRaw) state.currentRep = JSON.parse(repRaw);
+      const flashPin = localStorage.getItem(FLASHPIN_KEY);
+      if(flashPin) state.flashPin = flashPin;
+    }catch(e){}
+  }
+
+  function persist(){
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      cart: state.cart,
+      search: state.search,
+      currentUnitFilter: state.currentUnitFilter,
+      flashPin: state.flashPin,
+      location: state.location,
+      selectedUnits: state.selectedUnits
+    }));
+    localStorage.setItem(TIER_KEY, JSON.stringify(state.currentTier));
+    localStorage.setItem(REP_KEY, JSON.stringify(state.currentRep));
+    localStorage.setItem(FLASHPIN_KEY, state.flashPin || '');
+  }
+
+  function toast(type, title, msg){
+    const wrap = $('toastWrap');
+    const el = document.createElement('div');
+    el.className = `toast ${type}`;
+    el.innerHTML = `<span class="dot"></span><div><h4>${escapeHtml(title)}</h4><p>${escapeHtml(msg)}</p></div>`;
+    wrap.appendChild(el);
+    setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(8px)'; }, 2700);
+    setTimeout(() => el.remove(), 3200);
+  }
+
+  function setStatus(text){ $('statusBox').value = text; }
+
+  function apiCall(name, payload = {}){
+    if(window.google && google.script && google.script.run){
+      return new Promise((resolve, reject) => {
+        const runner = google.script.run.withSuccessHandler(resolve).withFailureHandler(reject);
+        runner[name](payload);
       });
-      return res;
-    } finally {
-      clearTimeout(timer);
     }
+    const action = payload.action || name.replace(/^api/i,'');
+    if(name === 'apiBootstrap'){
+      const url = `${API_URL}?action=bootstrap`;
+      return fetch(url).then(r => r.json());
+    }
+    return fetch(API_URL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ action, payload })
+    }).then(r => r.json());
   }
 
-  async function requestJson(url, options = {}) {
-    const res = await fetchWithTimeout(url, options);
-    const text = await res.text();
-    let payload = null;
-    try { payload = JSON.parse(text); } catch { payload = { raw: text }; }
-    if (!res.ok && !payload?.success && !payload?.ok) {
-      throw new Error(payload?.message || payload?.error || res.statusText || 'Request failed');
-    }
-    return payload;
+  function normalizeSheetRows(rows){
+    return Array.isArray(rows) ? rows : [];
   }
 
-  async function apiBootstrap() {
-    const attempts = [
-      { url: PRIMARY_API_URL, options: { method: 'GET' } },
-      { url: `${PRIMARY_API_URL}?action=bootstrap`, options: { method: 'GET' } },
-      { url: `${PRIMARY_API_URL}?action=getData`, options: { method: 'GET' } },
-      { url: PRIMARY_API_URL, options: { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'bootstrap' }) } },
-      { url: BACKUP_API_URL, options: { method: 'GET' } },
-      { url: `${BACKUP_API_URL}?action=bootstrap`, options: { method: 'GET' } },
-      { url: BACKUP_API_URL, options: { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'bootstrap' }) } }
-    ];
-
-    for (const attempt of attempts) {
-      try {
-        const payload = await requestJson(attempt.url, attempt.options);
-        const dataset = normalizeDataset(payload);
-        if (dataset) return { payload, dataset, source: attempt.url };
-      } catch (err) {
-        console.warn('bootstrap attempt failed:', attempt.url, err.message);
-      }
-    }
-    return null;
+  function getSettingsValue(key, fallback=''){
+    return (state.settings && state.settings[key]) || fallback;
   }
 
-  async function apiPostOrder(orderPayload) {
-    const attempts = [
-      { url: PRIMARY_API_URL, options: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'createOrder', ...orderPayload })
-      }},
-      { url: PRIMARY_API_URL, options: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'saveOrder', ...orderPayload })
-      }},
-      { url: PRIMARY_API_URL + '?action=createOrder', options: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(orderPayload)
-      }},
-      { url: BACKUP_API_URL, options: {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'createOrder', ...orderPayload })
-      }}
-    ];
+  function hasTierMode(){ return !!state.currentTier; }
 
-    for (const attempt of attempts) {
-      try {
-        const payload = await requestJson(attempt.url, attempt.options);
-        return payload;
-      } catch (err) {
-        console.warn('order post failed:', attempt.url, err.message);
-      }
-    }
-    throw new Error('فشل إرسال الطلب إلى الـ API');
+  function productVisible(product){
+    const search = state.search.trim().toLowerCase();
+    if(!search) return true;
+    const blob = [
+      product.product_id, product.company_name, product.product_name,
+      product.base_carton_price, product.base_pack_price, product.base_piece_price
+    ].join(' ').toLowerCase();
+    return blob.includes(search);
   }
 
-  /* =========================================================
-     (3) Business logic and pricing rules
-     ========================================================= */
-  function isRowMeaningful(row) {
-    if (!row || typeof row !== 'object') return false;
-    const values = Object.values(row).map(safe).filter(Boolean);
-    return values.length >= 2 || Boolean(row.code || row.product_code || row.key || row.tier_id || row.company_name || row.offer_id || row.flash_id || row.rep_id || row.customer_id || row.order_id);
-  }
-
-  function normalizeSheet(raw) {
-    if (!raw) return [];
-    if (Array.isArray(raw)) {
-      if (raw.length && Array.isArray(raw[0])) {
-        const headers = raw[0].map(h => safe(h));
-        return raw.slice(2).map((row) => {
-          const obj = {};
-          headers.forEach((h, i) => {
-            if (h) obj[h] = row?.[i];
-          });
-          return obj;
-        }).filter(isRowMeaningful);
-      }
-      return raw
-        .map(row => {
-          if (row && typeof row === 'object' && !Array.isArray(row)) return row;
-          return null;
-        })
-        .filter(Boolean)
-        .filter(isRowMeaningful);
-    }
-    if (typeof raw === 'object') {
-      if (Array.isArray(raw.rows)) return normalizeSheet(raw.rows);
-      if (Array.isArray(raw.data)) return normalizeSheet(raw.data);
-      if (Array.isArray(raw.values)) return normalizeSheet(raw.values);
-      if (Array.isArray(raw.items)) return normalizeSheet(raw.items);
-      return [raw].filter(isRowMeaningful);
-    }
-    return [];
-  }
-
-  function findSheet(source, keys) {
-    if (!source) return [];
-    const keyList = Array.isArray(keys) ? keys : [keys];
-    const allKeys = Object.keys(source);
-    for (const wanted of keyList) {
-      const exact = allKeys.find(k => normalizeText(k) === normalizeText(wanted));
-      if (exact) return normalizeSheet(source[exact]);
-    }
-    // nested data/sheets
-    if (source.data && typeof source.data === 'object') {
-      const nested = findSheet(source.data, keyList);
-      if (nested.length) return nested;
-    }
-    if (source.sheets && typeof source.sheets === 'object') {
-      const nested = findSheet(source.sheets, keyList);
-      if (nested.length) return nested;
-    }
-    // array-of-tables shape
-    if (Array.isArray(source)) {
-      for (const wanted of keyList) {
-        const found = source.find(x => normalizeText(x?.sheet || x?.name || x?.table || x?.title || '') === normalizeText(wanted));
-        if (found) return normalizeSheet(found.rows || found.data || found.values || found.items || found);
-      }
-    }
-    return [];
-  }
-
-  function normalizeDataset(payload) {
-    if (!payload) return null;
-    const source = payload.data && typeof payload.data === 'object' ? payload.data : payload;
-    const dataset = {
-      settings: findSheet(source, ['Settings', 'settings']),
-      customers: findSheet(source, ['Customers', 'customers']),
-      customerPrices: findSheet(source, ['Customer_Prices', 'customer_prices']),
-      reps: findSheet(source, ['Reps', 'reps']),
-      tiers: findSheet(source, ['Tiers', 'tiers']),
-      tierPrices: findSheet(source, ['Tier_Prices', 'tier_prices']),
-      companies: findSheet(source, ['Companies', 'companies']),
-      categories: findSheet(source, ['Categories', 'categories']),
-      products: findSheet(source, ['Products', 'products']),
-      offers: findSheet(source, ['Offers', 'offers']),
-      offerItems: findSheet(source, ['Offer_Items', 'offer_items']),
-      flashOffers: findSheet(source, ['Flash_Offers', 'flash_offers']),
-      flashItems: findSheet(source, ['Flash_Items', 'flash_items']),
-      orders: findSheet(source, ['Orders', 'orders']),
-      orderItems: findSheet(source, ['Order_Items', 'order_items']),
-      smartMessages: findSheet(source, ['Smart_Messages', 'smart_messages']),
-      messageRules: findSheet(source, ['Message_Rules', 'message_rules']),
-      notifications: findSheet(source, ['Notifications', 'notifications']),
+  function getUnitPrice(product, unit){
+    unit = unit || 'piece';
+    const baseMap = {
+      piece: num(product.base_piece_price),
+      pack: num(product.base_pack_price),
+      carton: num(product.base_carton_price),
     };
-
-    const hasAny = Object.values(dataset).some(arr => Array.isArray(arr) && arr.length);
-    return hasAny ? dataset : null;
+    if(state.currentTier){
+      const tierRow = state.tierPriceRows.find(r => String(r.product_id) === String(product.product_id));
+      if(tierRow){
+        const tierId = state.currentTier.id;
+        const col = `${tierId}_${unit === 'pack' ? 'pack' : 'carton'}`;
+        const tierValue = tierRow[col];
+        if(tierValue !== '' && tierValue != null && !Number.isNaN(Number(tierValue))) return num(tierValue);
+      }
+    }
+    return baseMap[unit] ?? baseMap.piece;
   }
 
-  function activeRow(row) {
-    const v = row?.active ?? row?.status ?? row?.is_active ?? row?.enabled;
-    if (v === undefined || v === null || safe(v) === '') return true;
-    return bool(v);
+  function num(v){ const n = Number(v); return Number.isFinite(n) ? n : 0; }
+
+  function unitLabel(unit){ return {piece:'قطعة', pack:'دستة', carton:'كرتونة'}[unit] || unit; }
+
+  function unitsPerCarton(product){ return Math.max(1, num(product.units_per_carton || 1)); }
+
+  function cartLinePrice(item){
+    if(item.kind === 'product'){
+      return getUnitPrice(item.product, item.unit) * item.qty;
+    }
+    return num(item.unitPrice) * item.qty;
   }
 
-  function settingsMap() {
-    const map = Object.create(null);
-    for (const row of state.data.settings || []) {
-      const key = safe(row.key || row.name || row.setting || row.code).toLowerCase();
-      if (!key) continue;
-      map[key] = safe(row.value ?? row.text ?? row.notes ?? '');
+  function cartTotal(){
+    return state.cart.reduce((s, item) => s + cartLinePrice(item), 0);
+  }
+
+  function countCompanies(){
+    const set = new Set(
+      state.cart.filter(x => x.kind === 'product').map(x => String(x.product.company_name || x.product.company_id || ''))
+    );
+    return set.has('') ? Math.max(0, set.size - 1) : set.size;
+  }
+
+  function companyTotals(){
+    const map = {};
+    for(const item of state.cart){
+      if(item.kind !== 'product') continue;
+      const key = String(item.product.company_name || item.product.company_id || '');
+      map[key] = (map[key] || 0) + cartLinePrice(item);
     }
     return map;
   }
 
-  function setting(key, fallback = '') {
-    const map = settingsMap();
-    const v = map[safe(key).toLowerCase()];
-    return v || fallback;
-  }
-
-  function companyName(row) {
-    return safe(row.company_name || row.company || row.brand || row.name || '');
-  }
-  function productCode(row) {
-    return safe(row.code || row.product_code || row.sku || row.id || '');
-  }
-  function productName(row) {
-    return safe(row.name || row.product_name || row.title || '');
-  }
-  function productCompany(row) {
-    return safe(row.company || row.brand || row.company_name || '');
-  }
-  function productCategory(row) {
-    return safe(row.category || row.category_name || '');
-  }
-  function productStatus(row) {
-    return activeRow(row);
-  }
-  function unitPriceKey(unit) {
-    const u = safe(unit).toLowerCase();
-    return u === 'carton' ? 'base_carton' : u === 'pack' ? 'base_pack' : 'base_piece';
-  }
-  function tierColumns() {
-    return (state.data.tiers || [])
-      .filter(activeRow)
-      .map(t => safe(t.tier_name || t.visible_label || t.tier_id))
-      .filter(Boolean);
-  }
-  function tierLabel(tier) {
-    return safe(tier?.visible_label || tier?.tier_name || tier?.tier_id || '');
-  }
-  function tierId(tier) {
-    return safe(tier?.tier_id || tier?.tier_name || tier?.visible_label || '');
-  }
-  function tierPassword(tier) {
-    return safe(tier?.password || tier?.pin || tier?.code || '');
-  }
-  function tierMin(tier) {
-    return num(tier?.min_amount || tier?.min_target || tier?.min || 0);
-  }
-  function selectedTierObject() {
-    if (!state.selectedTier) return null;
-    const id = tierId(state.selectedTier);
-    return (state.data.tiers || []).find(t => tierId(t) === id || safe(t.tier_name) === id || safe(t.visible_label) === id) || null;
-  }
-  function selectedRepObject() {
-    if (!state.selectedRep) return null;
-    const code = safe(state.selectedRep.rep_id || state.selectedRep.code || state.selectedRep.id || '');
-    return (state.data.reps || []).find(r => safe(r.rep_id) === code) || null;
-  }
-  function selectedTierActive() {
-    return Boolean(selectedTierObject());
-  }
-  function repActive() {
-    const rep = selectedRepObject();
-    return Boolean(rep && activeRow(rep));
-  }
-  function unitOptions(product) {
-    const units = [];
-    for (const unit of ['carton','pack','piece']) {
-      const p = basePrice(product, unit);
-      if (p > 0) units.push({ unit, label: unit === 'carton' ? 'كرتونة' : unit === 'pack' ? 'دستة/باك' : 'قطعة', base: p });
-    }
-    return units;
-  }
-  function basePrice(product, unit) {
-    return num(product?.[unitPriceKey(unit)]);
-  }
-  function repPrice(product, unit) {
-    const key = `rep_${unit}`;
-    const altKeys = [key, `repPrice_${unit}`, `rep_price_${unit}`, `${unit}_rep`, `rep${unit[0].toUpperCase() + unit.slice(1)}`];
-    for (const k of altKeys) {
-      if (product && product[k] !== undefined && product[k] !== null && safe(product[k]) !== '') {
-        const v = num(product[k]);
-        if (v > 0) return v;
+  function validateCart(){
+    const notes = [];
+    const total = cartTotal();
+    if(state.currentTier){
+      const tier = state.currentTier;
+      if(total < tier.minTarget){
+        notes.push(`عفواً، الحد الأدنى لهذه الشريحة هو ${money(tier.minTarget)}. سلتك الحالية ${money(total)}.`);
+      }
+      const companies = countCompanies();
+      if(companies < 5){
+        notes.push(`عفواً، شروط الشريحة تتطلب الشراء من 5 شركات مختلفة على الأقل. لديك الآن ${companies}.`);
+      }
+      const maxPerCompany = tier.minTarget * 0.25;
+      const totals = companyTotals();
+      for(const [name, sum] of Object.entries(totals)){
+        if(sum > maxPerCompany){
+          notes.push(`عفواً، لقد تجاوزت الحد الأقصى المسموح لمنتجات شركة ${name || 'غير معروفة'}. الحد الأقصى هو ${money(maxPerCompany)}.`);
+          break;
+        }
+      }
+      if(state.cart.some(x => x.kind !== 'product')){
+        notes.push('الشريحة تمنع إضافة صفقة اليوم واللقطة. تم حذفها تلقائياً من السلة.');
       }
     }
-    // fallback: if there is no dedicated rep price field, keep base price to preserve stability.
-    return basePrice(product, unit);
-  }
-  function tierPrice(product, unit) {
-    const tier = selectedTierObject();
-    if (!tier) return 0;
-    const tierCols = tierColumns();
-    const tierKey = safe(tier.tier_name || tier.visible_label || tier.tier_id);
-    if (!tierKey) return 0;
-    const code = productCode(product);
-    const targetUnit = safe(unit).toLowerCase();
-    const row = (state.data.tierPrices || []).find(r =>
-      safe(r.product_code) === code &&
-      safe(r.unit).toLowerCase() === targetUnit &&
-      activeRow(r)
-    );
-    if (!row) return 0;
-    const val = num(row[tierKey]);
-    return val > 0 ? val : 0;
-  }
-  function effectivePrice(product, unit) {
-    const tp = tierPrice(product, unit);
-    if (tp > 0) return tp;
-    if (repActive()) {
-      const rp = repPrice(product, unit);
-      if (rp > 0) return rp;
-    }
-    return basePrice(product, unit);
-  }
-  function productSearchIndex(product) {
-    return compact([
-      productCode(product),
-      productName(product),
-      productCompany(product),
-      productCategory(product),
-      safe(product.notes),
-      safe(product.image)
-    ].join(' '));
-  }
-  function productMatches(product, q) {
-    const query = compact(q);
-    if (!query) return true;
-    const hay = productSearchIndex(product);
-    return query.split(' ').every(part => hay.includes(compact(part))) || hay.includes(query);
-  }
-  function getCompanyImage(company) {
-    const row = (state.data.companies || []).find(c => normalizeText(companyName(c)) === normalizeText(company));
-    const url = safe(row?.logo_url || row?.logo || row?.image || '');
-    return url;
-  }
-  function placeholderImage(label, tone = 'navy') {
-    const safeLabel = escapeHtml(label || 'Alahram Co');
-    const fill = tone === 'gold' ? '#D4AF37' : '#002366';
-    const svg = `
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
-        <defs>
-          <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stop-color="#ffffff"/>
-            <stop offset="100%" stop-color="#f4f7fb"/>
-          </linearGradient>
-        </defs>
-        <rect width="600" height="600" rx="54" fill="url(#g)"/>
-        <path d="M70 420 L170 290 L245 360 L325 220 L430 340 L510 260 L530 420 Z" fill="${fill}" opacity=".16"/>
-        <path d="M90 430 L180 320 L250 390 L325 260 L415 360 L500 300 L520 430 Z" fill="${fill}" opacity=".35"/>
-        <circle cx="480" cy="120" r="64" fill="${fill}" opacity=".10"/>
-        <text x="50%" y="70%" text-anchor="middle" font-family="Cairo,Arial,sans-serif" font-size="42" font-weight="900" fill="${fill}">${safeLabel}</text>
-      </svg>`;
-    return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
-  }
-  function imageForProduct(product) {
-    const url = safe(product?.image || '');
-    return url || placeholderImage(productName(product) || productCode(product), 'navy');
-  }
-  function imageForCompany(company) {
-    return getCompanyImage(company) || placeholderImage(company || 'Company', 'gold');
-  }
-  function getActiveCompanies() {
-    const companies = (state.data.companies || []).filter(activeRow).sort((a,b) => num(a.sort_order) - num(b.sort_order));
-    return companies;
-  }
-  function getActiveCategories() {
-    return (state.data.categories || []).filter(activeRow).sort((a,b) => num(a.sort_order) - num(b.sort_order));
-  }
-  function getActiveProducts() {
-    return (state.data.products || []).filter(activeRow);
-  }
-  function getActiveOffers() {
-    return (state.data.offers || []).filter(activeRow);
-  }
-  function getActiveFlashOffers() {
-    return (state.data.flashOffers || []).filter(activeRow);
-  }
-  function flashRange(flash) {
-    const s = `${safe(flash.start_date)}T${safe(flash.start_time || '00:00')}:00`;
-    const e = `${safe(flash.end_date)}T${safe(flash.end_time || '23:59')}:00`;
-    return {
-      start: new Date(s.replace(' ', 'T')),
-      end: new Date(e.replace(' ', 'T'))
-    };
-  }
-  function flashStatus(flash) {
-    const now = new Date(state.liveClock);
-    const { start, end } = flashRange(flash);
-    if (now < start) return 'upcoming';
-    if (now > end) return 'ended';
-    return 'active';
-  }
-  function countdownText(targetDate) {
-    const diff = Math.max(0, targetDate - state.liveClock);
-    const sec = Math.floor(diff / 1000) % 60;
-    const min = Math.floor(diff / 60000) % 60;
-    const hr = Math.floor(diff / 3600000) % 24;
-    const day = Math.floor(diff / 86400000);
-    return `${day} يوم : ${String(hr).padStart(2,'0')} : ${String(min).padStart(2,'0')} : ${String(sec).padStart(2,'0')}`;
-  }
-  function cartKey(item) {
-    if (item.type === 'product') return `product:${item.code}:${item.unit}`;
-    if (item.type === 'offer') return `offer:${item.offer_id}`;
-    if (item.type === 'flash') return `flash:${item.flash_id}`;
-    return item.key || makeId('item');
-  }
-  function cartItemLabel(item) {
-    if (item.type === 'product') return `${item.name} — ${item.unitLabel}`;
-    return item.title;
-  }
-  function cartItems() {
-    return Array.isArray(state.cart) ? state.cart : [];
-  }
-  function cartHasSpecial() {
-    return cartItems().some(x => x.type === 'offer' || x.type === 'flash');
-  }
-  function cartHasTierIncompatible() {
-    return selectedTierActive() && cartHasSpecial();
-  }
-  function cartProductsOnly() {
-    return cartItems().filter(x => x.type === 'product');
-  }
-  function cartCompanies() {
-    const set = new Set();
-    for (const item of cartProductsOnly()) {
-      const p = getActiveProducts().find(x => productCode(x) === item.code);
-      if (p) set.add(productCompany(p));
-      else if (item.company) set.add(item.company);
-    }
-    return [...set].filter(Boolean);
-  }
-  function cartTotals() {
-    let products = 0;
-    let specials = 0;
-    let offerCount = 0;
-    let flashCount = 0;
-    const companyTotals = new Map();
-
-    for (const item of cartItems()) {
-      if (item.type === 'product') {
-        const p = getActiveProducts().find(x => productCode(x) === item.code);
-        const unitPrice = p ? effectivePrice(p, item.unit) : num(item.price);
-        const line = num(item.qty) * unitPrice;
-        products += line;
-        const comp = p ? productCompany(p) : safe(item.company);
-        if (comp) companyTotals.set(comp, (companyTotals.get(comp) || 0) + line);
-      } else if (item.type === 'offer') {
-        specials += num(item.price);
-        offerCount += 1;
-      } else if (item.type === 'flash') {
-        specials += num(item.price);
-        flashCount += 1;
-      }
-    }
-
-    const subtotal = products + specials;
-    return { products, specials, subtotal, grand: subtotal, companyTotals, offerCount, flashCount };
-  }
-  function tierChecks() {
-    const tier = selectedTierObject();
-    if (!tier) return [];
-    const issues = [];
-    const totals = cartTotals();
-    if (totals.companyTotals.size < 5) {
-      issues.push('يجب وجود 5 شركات/Brands مختلفة على الأقل داخل السلة.');
-    }
-    const tierTarget = tierMin(tier);
-    const maxCompany = tierTarget * 0.25;
-    for (const [company, total] of totals.companyTotals.entries()) {
-      if (total > maxCompany) {
-        issues.push(`شركة "${company}" تجاوزت 25% من قيمة الشريحة المفعلة.`);
-        break;
-      }
-    }
-    if (totals.subtotal < tierTarget) {
-      issues.push(`إجمالي الطلب أقل من الحد الأدنى للشريحة (${
-        currency(tierTarget)
-      }).`);
-    }
-    if (cartHasSpecial()) {
-      issues.push('لا يمكن دمج عروض صفقة اليوم أو اللقطة داخل فاتورة مفعلة بنظام الشرائح.');
-    }
-    return issues;
-  }
-  function checkoutChecks() {
-    const issues = [];
-    const name = safe(state.customer.name);
-    const phone = safe(state.customer.phone);
-    const address = safe(state.customer.address);
-    if (name.split(/\\s+/).filter(Boolean).length < 3) issues.push('الاسم الثلاثي مطلوب.');
-    if (phone.replace(/\\D/g,'').length < 11) issues.push('رقم الهاتف غير مكتمل.');
-    if (address.length < 8) issues.push('العنوان التفصيلي مطلوب.');
-    if (!cartItems().length) issues.push('السلة فارغة.');
-    if (selectedTierObject()) issues.push(...tierChecks());
-    // Offer-specific rule: only one Offer item per invoice.
-    if (cartItems().filter(x => x.type === 'offer').length > 1) issues.push('يمكن إضافة صفقة اليوم واحدة فقط في الفاتورة.');
-    return issues;
-  }
-  function normalizeRowObject(row) {
-    const out = Object.create(null);
-    for (const [k,v] of Object.entries(row || {})) {
-      if (v === null || v === undefined || safe(v) === '') continue;
-      out[k] = v;
-    }
-    return out;
+    return notes;
   }
 
-  function buildIndexes() {
-    state.companyMap = new Map((state.data.companies || []).map(c => [normalizeText(companyName(c)), c]));
-    state.productMap = new Map((state.data.products || []).map(p => [productCode(p), p]));
-    state.tierMap = new Map((state.data.tiers || []).map(t => [tierId(t), t]));
-    state.offerMap = new Map((state.data.offers || []).map(o => [safe(o.offer_id), o]));
-    state.flashMap = new Map((state.data.flashOffers || []).map(f => [safe(f.flash_id), f]));
-
-    state.tierPriceMap = new Map();
-    for (const row of state.data.tierPrices || []) {
-      if (!activeRow(row)) continue;
-      const key = `${safe(row.product_code)}|${safe(row.unit).toLowerCase()}`;
-      state.tierPriceMap.set(key, row);
-    }
-
-    const map = settingsMap();
-    document.title = `${map.company_name || 'Alahram Co'} | تجارة جملة`;
-    els.companyName.textContent = map.company_name || 'Alahram Co';
-    els.companySub.textContent = map.hero_tagline || 'تطبيق جملة احترافي لمنتجات العناية ومستحضرات التجميل';
-    const wa = map.whatsapp_number || '+201552670465';
-    els.waChip.href = `https://wa.me/${wa.replace(/\\D/g,'')}`;
-
-    const logo = map.company_logo || map.logo_url || map.brand_logo || map.hero_image || '';
-    els.brandLogo.src = logo || placeholderImage(map.company_name || 'Alahram', 'gold');
-    els.brandLogo.onerror = () => { els.brandLogo.src = placeholderImage(map.company_name || 'Alahram', 'gold'); };
-  }
-
-  function resolveTierColumns() {
-    const tierCols = [];
-    for (const tier of (state.data.tiers || []).filter(activeRow)) {
-      tierCols.push(safe(tier.tier_name || tier.visible_label || tier.tier_id));
-    }
-    return tierCols;
-  }
-
-  function tierPriceLookup(product, unit) {
-    const tier = selectedTierObject();
-    if (!tier) return 0;
-    const key = `${productCode(product)}|${safe(unit).toLowerCase()}`;
-    const row = state.tierPriceMap?.get(key);
-    if (!row) return 0;
-    const tierKey = safe(tier.tier_name || tier.visible_label || tier.tier_id);
-    const v = num(row[tierKey]);
-    return v > 0 ? v : 0;
-  }
-
-  function addProduct(productCodeValue, unit, qty) {
-    const product = state.productMap.get(productCodeValue);
-    if (!product) return showToast('المنتج غير موجود', 'danger');
-    if (selectedTierActive() && cartHasSpecial()) return showToast('أزل العروض أولًا لأن الشريحة لا تقبل الدمج معها.', 'danger');
-
-    const price = effectivePrice(product, unit);
-    if (!price) return showToast('لا يوجد سعر متاح لهذه الوحدة', 'danger');
-    const item = {
-      type: 'product',
-      key: `product:${productCodeValue}:${unit}`,
-      code: productCodeValue,
-      name: productName(product),
-      company: productCompany(product),
-      unit,
-      unitLabel: unit === 'carton' ? 'كرتونة' : unit === 'pack' ? 'دستة/باك' : 'قطعة',
-      qty: Math.max(1, num(qty) || 1),
-      price,
-      image: imageForProduct(product)
-    };
-    const existing = state.cart.findIndex(x => x.type === 'product' && x.code === item.code && x.unit === item.unit);
-    if (existing >= 0) {
-      state.cart[existing].qty = num(state.cart[existing].qty) + item.qty;
-      state.cart[existing].price = price;
-    } else {
-      state.cart.unshift(item);
-    }
-    persist();
-    showToast('تمت الإضافة إلى السلة', 'success');
-    render();
-  }
-
-  function addOffer(offerId) {
-    if (selectedTierActive()) return showToast('العروض لا تُدمج مع الشريحة المفعلة.', 'danger');
-    const offer = state.offerMap.get(offerId);
-    if (!offer) return showToast('العرض غير موجود', 'danger');
-    if ((state.cart || []).some(x => x.type === 'offer')) return showToast('يمكن إضافة صفقة اليوم واحدة فقط.', 'danger');
-    const status = safe(offer.status).toLowerCase();
-    if (status !== 'active') return showToast('العرض غير متاح حاليًا', 'danger');
-    const codeRequired = safe(offer.code_required);
-    if (codeRequired && !state.flashUnlocks[`offer:${offerId}`]) {
-      const code = prompt('أدخل كود التفعيل الخاص بالعروض:');
-      if (safe(code) !== codeRequired) return showToast('كود التفعيل غير صحيح', 'danger');
-      state.flashUnlocks[`offer:${offerId}`] = true;
+  function pruneTierIncompatibleItems(){
+    if(!state.currentTier) return;
+    const before = state.cart.length;
+    state.cart = state.cart.filter(x => x.kind === 'product');
+    if(state.cart.length !== before){
+      toast('error','تمت المزامنة','تم حذف العروض واللقطة لأن الشريحة مفعلة.');
       persist();
     }
-    state.cart.unshift({
-      type: 'offer',
-      key: `offer:${offerId}`,
-      offer_id: offerId,
-      title: safe(offer.title),
-      description: safe(offer.description),
-      price: num(offer.price),
-      qty: 1,
-      image: imageForProduct(offer)
+  }
+
+  function setModeFromTier(){
+    const active = !!state.currentTier;
+    $('modePill').textContent = `الوضع: ${active ? 'الشريحة' : 'طبيعي'}`;
+    $('tierPill').textContent = `الشريحة: ${active ? state.currentTier.name : 'غير مفعلة'}`;
+    $('activeTierBox').textContent = active ? `${state.currentTier.name}` : 'بدون';
+    $('tierNotice').classList.toggle('hidden', !active);
+    $('dealsSection').classList.toggle('hidden', active);
+    $('flashSection').classList.toggle('hidden', active);
+  }
+
+  function normalizeBootstrap(payload){
+    state.settings = payload.settings || {};
+    state.products = normalizeSheetRows(payload.products);
+    state.deals = normalizeSheetRows(payload.deals);
+    state.flashOffers = normalizeSheetRows(payload.flashOffers);
+    state.reps = normalizeSheetRows(payload.reps);
+    state.tierPriceRows = normalizeSheetRows(payload.tierPrices);
+    state.tiers = Array.isArray(payload.tiers) && payload.tiers.length ? payload.tiers : TIER_DEFS;
+    renderTierOptions();
+  }
+
+  function renderTierOptions(){
+    const sel = $('tierSelect');
+    const tiers = state.tiers.filter(t => t && t.active !== false);
+    sel.innerHTML = `<option value="">- بدون شريحة -</option>` + tiers.map(t => `
+      <option value="${escapeHtml(t.id)}" ${state.currentTier && state.currentTier.id===t.id ? 'selected':''}>
+        ${escapeHtml(t.name)} - الحد الأدنى ${money(t.minTarget || 0)}
+      </option>
+    `).join('');
+  }
+
+  function renderAll(){
+    setModeFromTier();
+    $('companyTitle').textContent = getSettingsValue('company_name', 'Alahram Co v2 PRO');
+    $('companySub').textContent = 'مؤسسة الأهرام لتجارة الجملة - نظام بيع ذكي';
+    $('connPill').textContent = state.booted ? 'الاتصال: متصل' : 'الاتصال: غير مكتمل';
+    $('searchInput').value = state.search;
+    $('flashPinInput').value = state.flashPin || '';
+    $('repAreaBox').value = state.currentRep ? `${state.currentRep.rep_name || ''} - ${state.currentRep.region || ''}` : '';
+    $('repPill').textContent = state.currentRep ? `المندوب: ${state.currentRep.rep_name}` : 'المندوب: غير مسجل';
+    $('cartCount').textContent = state.cart.length;
+
+    const kpi = [
+      `المنتجات: ${state.products.length}`,
+      `العروض: ${state.deals.length}`,
+      `اللقطات: ${state.flashOffers.length}`,
+      `السلة: ${state.cart.length}`
+    ].join(' | ');
+    $('kpiText').textContent = kpi;
+
+    $('subtotalBox').textContent = money(cartTotal());
+    $('companyCountBox').textContent = String(countCompanies());
+    $('grandTotalBox').textContent = money(cartTotal());
+    const notes = validateCart();
+    $('validationBox').textContent = notes.length ? notes.join(' | ') : 'لا توجد ملاحظات حالياً.';
+    $('statusBox').value = notes.length ? 'توجد ملاحظات تحتاج مراجعة' : 'جاهز للعمل';
+
+    renderProducts();
+    renderDeals();
+    renderFlash();
+    renderCart();
+    syncUnitFilters();
+    persist();
+  }
+
+  function syncUnitFilters(){
+    document.querySelectorAll('#unitFilterGroup .seg').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.unit === state.currentUnitFilter);
     });
-    persist();
-    showToast('تمت إضافة صفقة اليوم', 'success');
-    render();
   }
 
-  function addFlash(flashId) {
-    if (selectedTierActive()) return showToast('اللقطة لا تُدمج مع الشريحة المفعلة.', 'danger');
-    const flash = state.flashMap.get(flashId);
-    if (!flash) return showToast('العرض غير موجود', 'danger');
-    const status = flashStatus(flash);
-    if (status !== 'active') return showToast('اللقطة غير متاحة الآن', 'danger');
-    if ((state.cart || []).some(x => x.type === 'flash' && x.flash_id === flashId)) {
-      return showToast('هذه اللقطة موجودة بالفعل في السلة', 'danger');
-    }
-    const required = safe(flash.code_required);
-    if (required && !state.flashUnlocks[`flash:${flashId}`]) {
-      const code = prompt('أدخل كود تفعيل اللقطة:');
-      if (safe(code) !== required) return showToast('كود اللقطة غير صحيح', 'danger');
-      state.flashUnlocks[`flash:${flashId}`] = true;
-      persist();
-    }
-    state.cart.unshift({
-      type: 'flash',
-      key: `flash:${flashId}`,
-      flash_id: flashId,
-      title: safe(flash.title),
-      description: safe(flash.description),
-      price: num(flash.price),
-      qty: 1,
-      image: imageForProduct(flash)
-    });
-    persist();
-    showToast('تمت إضافة اللقطة', 'success');
-    render();
-  }
-
-  function updateCartQty(key, nextQty) {
-    const idx = state.cart.findIndex(x => cartKey(x) === key);
-    if (idx < 0) return;
-    const qty = Math.max(1, Math.floor(num(nextQty) || 1));
-    state.cart[idx].qty = qty;
-    persist();
-    render();
-  }
-
-  function removeCart(key) {
-    state.cart = state.cart.filter(x => cartKey(x) !== key);
-    persist();
-    showToast('تم حذف العنصر', 'gold');
-    render();
-  }
-
-  function clearCart() {
-    state.cart = [];
-    state.reviewMode = false;
-    state.confirmPayload = null;
-    persist();
-    render();
-  }
-
-  function activateTier(tierIdValue) {
-    const tier = (state.data.tiers || []).find(t => tierId(t) === tierIdValue || safe(t.tier_name) === tierIdValue || safe(t.visible_label) === tierIdValue);
-    if (!tier) return showToast('الشريحة غير موجودة', 'danger');
-    if (!activeRow(tier)) return showToast('الشريحة غير مفعلة', 'danger');
-    if (cartHasSpecial()) return showToast('أزل عروض الصفقة/اللقطة أولًا قبل تفعيل الشريحة', 'danger');
-    const pwd = tierPassword(tier);
-    if (pwd && !state.tierUnlocks[tierId(tier)]) {
-      state.pendingTier = tier;
-      els.pinPrompt.textContent = `أدخل الرقم السري لتفعيل شريحة "${tierLabel(tier)}"`;
-      els.pinInput.value = '';
-      els.pinModal.classList.add('show');
-      setTimeout(() => els.pinInput.focus(), 80);
+  function renderProducts(){
+    const grid = $('productsGrid');
+    const rows = state.products.filter(productVisible).filter(p => String(p.visible ?? '1') !== '0' && String(p.status ?? '1') !== '0');
+    if(!rows.length){
+      grid.innerHTML = `<div class="notice">لا توجد نتائج مطابقة للبحث الحالي.</div>`;
       return;
     }
-    state.selectedTier = normalizeRowObject(tier);
-    persist();
-    showToast(`تم تفعيل شريحة ${tierLabel(tier)}`, 'success');
-    render();
-  }
-
-  function submitTierPin() {
-    const tier = state.pendingTier;
-    if (!tier) return closePinModal();
-    const typed = safe(els.pinInput.value);
-    if (typed !== tierPassword(tier)) return showToast('الرقم السري غير صحيح', 'danger');
-    state.tierUnlocks[tierId(tier)] = true;
-    state.selectedTier = normalizeRowObject(tier);
-    state.pendingTier = null;
-    closePinModal();
-    persist();
-    showToast(`تم تفعيل شريحة ${tierLabel(tier)}`, 'success');
-    render();
-  }
-
-  function deactivateTier() {
-    state.selectedTier = null;
-    persist();
-    render();
-    showToast('تم إلغاء الشريحة', 'gold');
-  }
-
-  function openRepModal() {
-    els.repIdInput.value = '';
-    els.repPassInput.value = '';
-    els.repModal.classList.add('show');
-    setTimeout(() => els.repIdInput.focus(), 80);
-  }
-  function closeRepModal() {
-    els.repModal.classList.remove('show');
-  }
-  function submitRepLogin() {
-    const id = safe(els.repIdInput.value);
-    const pass = safe(els.repPassInput.value);
-    const rep = (state.data.reps || []).find(r => safe(r.rep_id) === id);
-    if (!rep) return showToast('كود المندوب غير صحيح', 'danger');
-    if (!activeRow(rep)) return showToast('هذا المندوب غير نشط', 'danger');
-    if (safe(rep.password) !== pass) return showToast('كلمة المرور غير صحيحة', 'danger');
-    state.selectedRep = normalizeRowObject(rep);
-    persist();
-    closeRepModal();
-    showToast(`تم تسجيل دخول المندوب ${safe(rep.name)}`, 'success');
-    render();
-  }
-  function logoutRep() {
-    state.selectedRep = null;
-    persist();
-    render();
-    showToast('تم تسجيل الخروج من المندوب', 'gold');
-  }
-
-  function openPinModal(tier) {
-    state.pendingTier = tier;
-    els.pinPrompt.textContent = `أدخل الرقم السري لتفعيل شريحة "${tierLabel(tier)}"`;
-    els.pinInput.value = '';
-    els.pinModal.classList.add('show');
-    setTimeout(() => els.pinInput.focus(), 80);
-  }
-  function closePinModal() {
-    els.pinModal.classList.remove('show');
-    state.pendingTier = null;
-  }
-  function openConfirmModal(text) {
-    els.confirmText.textContent = text;
-    els.confirmModal.classList.add('show');
-  }
-  function closeConfirmModal() {
-    els.confirmModal.classList.remove('show');
-  }
-
-  function gotoView(view) {
-    state.view = view;
-    state.reviewMode = false;
-    persist();
-    render();
-    document.getElementById('app').scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  function heroMessages() {
-    const map = settingsMap();
-    const raw = safe(map.news_ticker || map.ticker || map.news || '');
-    const list = raw
-      ? raw.split(/[،\\n]+/).map(safe).filter(Boolean)
-      : [
-          'توصيل سريع وتسعير ذكي للشركات والشرائح',
-          'العروض المتغيرة تظهر داخل قسم الصفقة واللقطة',
-          'الدخول للمندوب يفعّل أسعار التشغيل الخاصة'
-        ];
-    return list.length ? list : ['الأهرام للتجارة والتوزيع'];
-  }
-
-  function tickTicker() {
-    const list = heroMessages();
-    if (!list.length) return;
-    state.tickerIndex = (state.tickerIndex + 1) % list.length;
-    els.ticker.textContent = list[state.tickerIndex];
-  }
-
-  function updateFooter() {
-    const totals = cartTotals();
-    const tier = selectedTierObject();
-    let label = `${currency(totals.grand)} EGP`;
-    if (tier) label = `${currency(totals.grand)} EGP • شريحة ${tierLabel(tier)}`;
-    else if (repActive()) label = `${currency(totals.grand)} EGP • مندوب`;
-    els.footerTotal.textContent = label;
-  }
-
-  function topButtons() {
-    const tier = selectedTierObject();
-    const rep = selectedRepObject();
-    const buttons = [];
-    if (tier) {
-      buttons.push(`<button class="btn primary" type="button" onclick="gotoView('tiers')">شريحة مفعلة: ${escapeHtml(tierLabel(tier))}<br><small>اضغط للإدارة</small></button>`);
-      buttons.push(`<button class="btn danger" type="button" onclick="deactivateTier()">إلغاء الشريحة</button>`);
-    } else {
-      buttons.push(`<button class="btn primary" type="button" onclick="gotoView('tiers')">تفعيل شريحة</button>`);
-      buttons.push(`<button class="btn ghost" type="button" onclick="openRepModal()">دخول مندوب</button>`);
-    }
-    if (rep) {
-      buttons.push(`<button class="btn navy" type="button" onclick="openRepModal()">مندوب: ${escapeHtml(safe(rep.name))}</button>`);
-      buttons.push(`<button class="btn ghost" type="button" onclick="logoutRep()">خروج المندوب</button>`);
-    }
-    return buttons.join('');
-  }
-
-  /* =========================================================
-     (4) DOM rendering and UI updates
-     ========================================================= */
-  function renderTopActions() {
-    els.topActions.innerHTML = topButtons();
-    document.querySelectorAll('.miniBtn').forEach(btn => btn.classList.remove('active'));
-    const idMap = { home:'navHome', companies:'navCompanies', laqta:'navLaqta', cart:'navCart', offers:'navLaqta', tiers:'navCompanies' };
-    const activeId = idMap[state.view];
-    if (activeId) document.getElementById(activeId)?.classList.add('active');
-  }
-
-  function renderHomeLike(mode='home') {
-    const companies = getActiveCompanies();
-    const categories = getActiveCategories();
-    const products = getActiveProducts().filter(p => {
-      const bySearch = productMatches(p, state.search);
-      const byCompany = state.company === 'all' || normalizeText(productCompany(p)) === normalizeText(state.company);
-      const byCategory = state.category === 'all' || normalizeText(productCategory(p)) === normalizeText(state.category);
-      return bySearch && byCompany && byCategory;
-    });
-    const companyCards = companies.map(c => `
-      <button class="card companyCard" type="button" onclick="filterByCompany('${escapeHtml(companyName(c))}')">
-        <img class="companyLogoBox" src="${escapeHtml(imageForCompany(companyName(c)))}" alt="${escapeHtml(companyName(c))}">
-        <div class="companyNameCard">${escapeHtml(companyName(c))}</div>
-        <div class="meta">${escapeHtml(safe(c.notes || ''))}</div>
-      </button>
-    `).join('');
-
-    const categoryChips = ['all', ...categories.map(c => safe(c.category_name))].map(cat => `
-      <button class="filterChip ${state.category === cat ? 'active' : ''}" type="button" onclick="filterByCategory('${escapeHtml(cat)}')">
-        ${cat === 'all' ? 'الكل' : escapeHtml(cat)}
-      </button>
-    `).join('');
-
-    const productCards = products.map(p => {
-      const units = unitOptions(p);
-      const defaultUnit = units[0]?.unit || 'piece';
-      const priceNow = effectivePrice(p, defaultUnit);
-      const base = basePrice(p, defaultUnit);
-      const stockBad = productStatus(p) ? `<span class="badge green">متاح</span>` : `<span class="badge red">غير متاح</span>`;
+    grid.innerHTML = rows.map((p, idx) => {
+      const img = p.product_image || p.company_logo || '';
+      const unit = state.currentUnitFilter;
+      const price = getUnitPrice(p, unit);
+      const unitInfo = unit === 'carton'
+        ? `الكرتونة تحتوي ${unitsPerCarton(p)} قطعة`
+        : (unit === 'pack' ? 'الدستة = 12 قطعة' : 'القطعة = وحدة بيع مستقلة');
       return `
-        <article class="card productCard">
-          <img class="productImage" src="${escapeHtml(imageForProduct(p))}" alt="${escapeHtml(productName(p))}">
-          <div class="topLine">
-            <div>
-              <div class="productName">${escapeHtml(productName(p))}</div>
-              <div class="code">${escapeHtml(productCode(p))} • ${escapeHtml(productCompany(p))}</div>
-            </div>
-            ${stockBad}
+        <article class="card">
+          <div class="cover">
+            ${img ? `<img src="${escapeHtml(img)}" alt="${escapeHtml(p.product_name || '')}" />` : ''}
+            <span class="badge">${escapeHtml(unitLabel(unit))}</span>
           </div>
-          <div class="meta">${escapeHtml(productCategory(p) || 'بدون تصنيف')}</div>
-          <div class="price">${priceNow ? currency(priceNow) : 'لا يوجد سعر'} EGP${base && base !== priceNow ? `<del>${currency(base)}</del>` : ''}</div>
-          <div class="productActions">
-            <select class="select" id="unit-${escapeHtml(productCode(p))}">
-              ${units.map(u => `<option value="${u.unit}">${u.label} — ${currency(u.base)} EGP</option>`).join('')}
-            </select>
-            <div class="productControls">
-              <button class="qtyBtn" type="button" onclick="changeQtyField('qty-${escapeHtml(productCode(p))}', -1)">−</button>
-              <input class="field qtyInput" id="qty-${escapeHtml(productCode(p))}" type="number" min="1" value="1">
-              <button class="qtyBtn" type="button" onclick="changeQtyField('qty-${escapeHtml(productCode(p))}', 1)">+</button>
-            </div>
-            <button class="smallBtn gold" type="button" onclick="addProductFromUI('${escapeHtml(productCode(p))}')">إضافة للسلة</button>
-          </div>
-        </article>
-      `;
-    }).join('');
-
-    return `
-      <section class="pageHead">
-        <h1 class="pageTitle">تجارة الجملة الذكية</h1>
-        <p class="pageSub">ابحث بالاسم أو الكود أو الشركة. التسعير يلتزم بأولوية الشريحة ثم المندوب ثم السعر الأساسي.</p>
-        <div class="searchBox">
-          <input class="searchInput" id="searchInput" value="${escapeHtml(state.search)}" placeholder="ابحث باسم المنتج، الكود، الشركة، أو الفئة...">
-          <button class="btn navy" type="button" onclick="clearSearch()">مسح</button>
-        </div>
-        <div class="section" style="margin-top:12px">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">التصفية السريعة</h2>
-            <span class="sectionHint">${products.length} منتج</span>
-          </div>
-          <div class="filters">${categoryChips}</div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="sectionHeader">
-          <h2 class="sectionTitle">الشركات</h2>
-          <span class="sectionHint">اضغط على أي شركة للتصفية</span>
-        </div>
-        <div class="grid">${companyCards || '<div class="empty card" style="grid-column:1/-1">لا توجد شركات</div>'}</div>
-      </section>
-
-      <section class="section">
-        <div class="sectionHeader">
-          <h2 class="sectionTitle">المنتجات</h2>
-          <span class="sectionHint">أسعار مباشرة حسب الشريحة أو المندوب</span>
-        </div>
-        <div class="grid">${productCards || '<div class="empty card" style="grid-column:1/-1">لا توجد نتائج مطابقة</div>'}</div>
-      </section>
-    `;
-  }
-
-  function renderOffersPage() {
-    const offers = getActiveOffers();
-    const cards = offers.map(o => {
-      const locked = selectedTierActive();
-      const items = (state.data.offerItems || []).filter(x => safe(x.offer_id) === safe(o.offer_id));
-      return `
-        <article class="card bundleCard">
-          <img class="productImage" src="${escapeHtml(safe(o.image) || placeholderImage(o.title, 'gold'))}" alt="${escapeHtml(o.title)}">
-          <h3 class="bundleTitle">${escapeHtml(o.title)}</h3>
-          <p class="bundleDesc">${escapeHtml(o.description || '')}</p>
-          <div class="bundlePrice">${currency(num(o.price))} EGP</div>
-          <div class="meta">المخزون: ${safe(o.stock || 0)} • الحالة: ${safe(o.status)}</div>
-          <div class="bundleItems">
-            ${items.map(i => `<span class="pill">${escapeHtml(safe(i.product_name || i.product_code))} × ${safe(i.qty)} ${escapeHtml(safe(i.unit))}</span>`).join('')}
-          </div>
-          <div style="margin-top:10px">
-            <button class="smallBtn success" type="button" ${locked ? 'disabled' : ''} onclick="addOffer('${escapeHtml(o.offer_id)}')">${locked ? 'العروض مقفولة مع الشريحة' : 'إضافة صفقة اليوم'}</button>
-          </div>
-        </article>
-      `;
-    }).join('');
-
-    return `
-      <section class="pageHead">
-        <h1 class="pageTitle">صفقة اليوم</h1>
-        <p class="pageSub">يُسمح بعرض واحد فقط في الفاتورة. لا يمكن دمجه مع الشريحة المفعلة.</p>
-      </section>
-      <section class="section">
-        <div class="grid">${cards || '<div class="empty card" style="grid-column:1/-1">لا توجد صفقات مفعلة الآن</div>'}</div>
-      </section>
-    `;
-  }
-
-  function renderLaqtaPage() {
-    const flashes = getActiveFlashOffers();
-    const cards = flashes.map(f => {
-      const status = flashStatus(f);
-      const range = flashRange(f);
-      const target = status === 'upcoming' ? range.start : range.end;
-      const countdown = status === 'ended' ? 'انتهى العرض' : countdownText(target);
-      const items = (state.data.flashItems || []).filter(x => safe(x.flash_id) === safe(f.flash_id));
-      return `
-        <article class="card bundleCard">
-          <img class="productImage" src="${escapeHtml(safe(f.image) || placeholderImage(f.title, 'navy'))}" alt="${escapeHtml(f.title)}">
-          <h3 class="bundleTitle">${escapeHtml(f.title)}</h3>
-          <p class="bundleDesc">${escapeHtml(f.description || '')}</p>
-          <div class="countdown">${escapeHtml(countdown)}</div>
-          <div class="meta">الحالة: ${escapeHtml(status)} • السعر: ${currency(num(f.price))} EGP</div>
-          <div class="bundleItems">
-            ${items.map(i => `<span class="pill">${escapeHtml(safe(i.product_name || i.product_code))} × ${safe(i.qty)} ${escapeHtml(safe(i.unit))}</span>`).join('')}
-          </div>
-          <div style="margin-top:10px">
-            <button class="smallBtn navy" type="button" ${status !== 'active' || selectedTierActive() ? 'disabled' : ''} onclick="addFlash('${escapeHtml(f.flash_id)}')">
-              ${selectedTierActive() ? 'اللقطة لا تعمل مع الشريحة' : status === 'active' ? 'إضافة اللقطة' : 'غير متاح الآن'}
-            </button>
-          </div>
-        </article>
-      `;
-    }).join('');
-
-    const active = flashes.filter(f => flashStatus(f) === 'active').length;
-    return `
-      <section class="pageHead">
-        <h1 class="pageTitle">اللقطة</h1>
-        <p class="pageSub">عرض وقتي ثابت بكود تفعيل عند الحاجة. الكمية هنا بيعة مجمعة لا تتجزأ.</p>
-      </section>
-      <section class="section">
-        <div class="noteBox">
-          <div class="sectionHeader" style="margin-bottom:0">
-            <h2 class="sectionTitle">العروض النشطة الآن</h2>
-            <span class="sectionHint">${active} نشط</span>
-          </div>
-        </div>
-      </section>
-      <section class="section">
-        <div class="grid">${cards || '<div class="empty card" style="grid-column:1/-1">لا توجد لقطة متاحة الآن</div>'}</div>
-      </section>
-    `;
-  }
-
-  function renderTiersPage() {
-    const cards = (state.data.tiers || []).filter(activeRow).map(t => {
-      const locked = tierPassword(t) && !state.tierUnlocks[tierId(t)];
-      const active = selectedTierObject() && tierId(selectedTierObject()) === tierId(t);
-      return `
-        <article class="card tierCard" style="padding:12px">
-          <div class="badge gold">شريحة</div>
-          <div class="productName" style="margin-top:8px">${escapeHtml(tierLabel(t))}</div>
-          <div class="meta">الحد الأدنى: ${currency(tierMin(t))} EGP</div>
-          <div class="meta">${escapeHtml(safe(t.notes || ''))}</div>
-          <div class="actionsRow" style="margin-top:10px">
-            <button class="smallBtn ${active ? 'danger' : 'gold'}" type="button" onclick="${active ? 'deactivateTier()' : `activateTier('${escapeHtml(tierId(t))}')`}">
-              ${active ? 'إلغاء التفعيل' : locked ? 'تفعيل بكود' : 'تفعيل الشريحة'}
-            </button>
-            <button class="smallBtn ghost" type="button" onclick="viewTierDetails('${escapeHtml(tierId(t))}')">التفاصيل</button>
-          </div>
-        </article>
-      `;
-    }).join('');
-
-    const selected = selectedTierObject();
-    const rules = selected ? tierChecks() : [];
-    return `
-      <section class="pageHead">
-        <h1 class="pageTitle">نظام الشرائح</h1>
-        <p class="pageSub">الأولوية: الشريحة ثم المندوب ثم السعر الأساسي. عند تفعيل شريحة، لا يسمح بدمج العروض معها.</p>
-      </section>
-      ${selected ? `
-      <section class="section">
-        <div class="noteBox">
-          <div class="sectionHeader" style="margin-bottom:0">
-            <h2 class="sectionTitle">الشريحة المفعلة</h2>
-            <span class="badge green">${escapeHtml(tierLabel(selected))}</span>
-          </div>
-          <div class="meta">الحد الأدنى: ${currency(tierMin(selected))} EGP</div>
-          <div class="list" style="margin-top:10px">
-            ${rules.length ? rules.map(r => `<div class="badge red" style="justify-content:flex-start;border-radius:16px;padding:10px 12px">${escapeHtml(r)}</div>`).join('') : '<div class="badge green" style="justify-content:flex-start;border-radius:16px;padding:10px 12px">السلة مطابقة لقواعد الشريحة الحالية.</div>'}
-          </div>
-        </div>
-      </section>` : ''}
-      <section class="section">
-        <div class="grid">${cards}</div>
-      </section>
-    `;
-  }
-
-  function renderCartPage() {
-    const items = cartItems();
-    const totals = cartTotals();
-    const tier = selectedTierObject();
-    const issues = tier ? tierChecks() : [];
-    const form = state.customer;
-
-    const lines = items.map(item => {
-      if (item.type === 'product') {
-        return `
-          <div class="cartItem">
-            <div class="cartItemHead">
+          <div class="cardBody">
+            <div class="titleRow">
               <div>
-                <div class="cartItemTitle">${escapeHtml(item.name)} — ${escapeHtml(item.unitLabel)}</div>
-                <div class="cartItemSub">${escapeHtml(item.code)} • ${escapeHtml(item.company)}</div>
+                <h3>${escapeHtml(p.product_name || '')}</h3>
+                <div class="company">${escapeHtml(p.company_name || '')} ${p.product_id ? '• ' + escapeHtml(p.product_id) : ''}</div>
               </div>
-              <button class="smallBtn danger" type="button" onclick="removeCart('${escapeHtml(cartKey(item))}')">حذف</button>
+              <div class="price">${money(price)}</div>
             </div>
-            <div class="cartControls">
-              <button class="qtyBtn" type="button" onclick="updateCartQty('${escapeHtml(cartKey(item))}', ${num(item.qty) - 1})">−</button>
-              <input class="field qtyInput" type="number" min="1" value="${escapeHtml(item.qty)}" onchange="updateCartQty('${escapeHtml(cartKey(item))}', this.value)">
-              <button class="qtyBtn" type="button" onclick="updateCartQty('${escapeHtml(cartKey(item))}', ${num(item.qty) + 1})">+</button>
+            <div class="sub">${escapeHtml(unitInfo)}</div>
+            <div class="unitBtns" data-product-card="${escapeHtml(p.product_id || idx)}" data-selected-unit="${escapeHtml(state.selectedUnits[p.product_id] || unit)}">
+              <button class="unitBtn ${(state.selectedUnits[p.product_id] || unit)==='piece'?'active':''}" data-unit="piece">قطعة</button>
+              <button class="unitBtn ${(state.selectedUnits[p.product_id] || unit)==='pack'?'active':''}" data-unit="pack">دستة</button>
+              <button class="unitBtn ${(state.selectedUnits[p.product_id] || unit)==='carton'?'active':''}" data-unit="carton">كرتونة</button>
             </div>
-            <div class="cartItemSub" style="margin-top:8px">سعر الوحدة: ${currency(num(item.price))} EGP • الإجمالي: ${currency(num(item.qty) * num(item.price))} EGP</div>
+            <div class="cardActions">
+              <button class="ghost" data-preview="1" data-id="${escapeHtml(p.product_id)}">تفاصيل</button>
+              <button class="btn" data-add-product="${escapeHtml(p.product_id)}">أضف</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function parseDealDetails(details){
+    if(!details) return [];
+    try{
+      const parsed = JSON.parse(details);
+      if(Array.isArray(parsed)) return parsed;
+    }catch(e){}
+    return String(details).split(/\n|;/).map(s => s.trim()).filter(Boolean);
+  }
+
+  function renderDeals(){
+    const grid = $('dealsGrid');
+    if(state.currentTier){
+      grid.innerHTML = '';
+      return;
+    }
+    const rows = state.deals.filter(d => String(d.active ?? '1') !== '0');
+    if(!rows.length){
+      grid.innerHTML = `<div class="notice">لا توجد صفقات اليوم حالياً.</div>`;
+      return;
+    }
+    grid.innerHTML = rows.map(d => {
+      const exists = state.cart.some(i => i.kind === 'deal' && String(i.id) === String(d.deal_id));
+      const details = parseDealDetails(d.details);
+      return `
+        <article class="card ${exists ? 'disabled' : ''}">
+          <div class="cover">
+            ${d.image ? `<img src="${escapeHtml(d.image)}" alt="${escapeHtml(d.deal_name || '')}" />` : ''}
+            <span class="badge">صفقة اليوم</span>
+          </div>
+          <div class="cardBody">
+            <div class="titleRow">
+              <div>
+                <h3>${escapeHtml(d.deal_name || '')}</h3>
+                <div class="company">Bundle ثابت - ${escapeHtml(d.deal_id || '')}</div>
+              </div>
+              <div class="price">${money(d.price)}</div>
+            </div>
+            <div class="sub">${escapeHtml(d.description || '')}</div>
+            <div class="mini">${details.length ? escapeHtml(details.join(' • ')) : 'تفاصيل الباندل تُسجل من الإدارة.'}</div>
+            <div class="cardActions">
+              <button class="${exists ? 'ghost' : 'btn'}" data-add-deal="${escapeHtml(d.deal_id)}">${exists ? 'موجود بالسلة' : 'أضف العرض'}</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function flashRemaining(end){
+    const diff = Math.max(0, new Date(end).getTime() - Date.now());
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const pad = n => String(n).padStart(2,'0');
+    return `${pad(h)}:${pad(m)}:${pad(s)}`;
+  }
+
+  function flashState(offer){
+    const now = Date.now();
+    const start = new Date(offer.start_datetime || offer.start_time || 0).getTime();
+    const end = new Date(offer.end_datetime || offer.end_time || 0).getTime();
+    if(end && now > end) return 'ended';
+    if(start && now < start) return 'upcoming';
+    return 'active';
+  }
+
+  function flashCodeValid(offer, pin){
+    const codeFields = ['code_1','code_2','code_3','code_4','code_5'];
+    const pinNorm = String(pin || '').trim();
+    return codeFields.some(k => String(offer[k] || '').trim() && String(offer[k]).trim() === pinNorm);
+  }
+
+  function renderFlash(){
+    const grid = $('flashGrid');
+    if(state.currentTier){
+      grid.innerHTML = '';
+      return;
+    }
+    const rows = state.flashOffers.filter(o => String(o.active ?? '1') !== '0');
+    if(!rows.length){
+      grid.innerHTML = `<div class="notice">لا توجد لقطات حالياً.</div>`;
+      return;
+    }
+    grid.innerHTML = rows.map(o => {
+      const st = flashState(o);
+      const exists = state.cart.some(i => i.kind === 'flash' && String(i.id) === String(o.offer_id));
+      const btnText = st === 'ended' ? 'منتهية' : (exists ? 'موجودة بالسلة' : 'أضف اللقطة');
+      const disabled = st !== 'active' || exists;
+      return `
+        <article class="card ${disabled ? 'disabled' : ''}">
+          <div class="cover">
+            ${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.offer_name || '')}" />` : ''}
+            <span class="badge">اللقطة</span>
+          </div>
+          <div class="cardBody">
+            <div class="titleRow">
+              <div>
+                <h3>${escapeHtml(o.offer_name || '')}</h3>
+                <div class="company">${escapeHtml(o.offer_id || '')}</div>
+              </div>
+              <div class="price">${money(o.price)}</div>
+            </div>
+            <div class="sub">${escapeHtml(o.description || '')}</div>
+            <div class="mini">
+              الحالة: ${st === 'active' ? 'Active' : st === 'upcoming' ? 'Upcoming' : 'Ended'}
+              <br>
+              ينتهي خلال: <span class="flashTimer" data-flash-timer="${escapeHtml(o.offer_id)}">${st === 'ended' ? '00:00:00' : flashRemaining(o.end_datetime || o.end_time || Date.now())}</span>
+            </div>
+            <div class="cardActions">
+              <button class="${disabled ? 'ghost' : 'btn'}" data-add-flash="${escapeHtml(o.offer_id)}">${btnText}</button>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join('');
+  }
+
+  function findProduct(id){ return state.products.find(p => String(p.product_id) === String(id)); }
+  function findDeal(id){ return state.deals.find(p => String(p.deal_id) === String(id)); }
+  function findFlash(id){ return state.flashOffers.find(p => String(p.offer_id) === String(id)); }
+
+  function addProduct(productId, unit){
+    const product = findProduct(productId);
+    if(!product) return toast('error','خطأ','المنتج غير موجود.');
+    unit = unit || state.currentUnitFilter || 'piece';
+    const existing = state.cart.find(i => i.kind === 'product' && String(i.id) === String(productId) && i.unit === unit);
+    if(existing){
+      existing.qty += 1;
+    }else{
+      state.cart.unshift({
+        kind:'product',
+        id: String(product.product_id),
+        product,
+        unit,
+        qty:1,
+        meta:{}
+      });
+    }
+    pruneTierIncompatibleItems();
+    persist();
+    renderAll();
+    toast('success','تمت الإضافة',`${product.product_name} - ${unitLabel(unit)}`);
+  }
+
+  function addDeal(dealId){
+    if(state.currentTier){
+      return toast('error','ممنوع في الشريحة','صفقة اليوم لا تُضاف أثناء تفعيل الشريحة.');
+    }
+    const deal = findDeal(dealId);
+    if(!deal) return toast('error','خطأ','العرض غير موجود.');
+    if(state.cart.some(i => i.kind === 'deal' && String(i.id) === String(dealId))){
+      return toast('error','تنبيه','العرض موجود بالفعل في السلة.');
+    }
+    state.cart.unshift({
+      kind:'deal',
+      id:String(deal.deal_id),
+      name:deal.deal_name,
+      unit:'bundle',
+      qty:1,
+      unitPrice:num(deal.price),
+      meta:{ description:deal.description || '', details:deal.details || '' }
+    });
+    persist(); renderAll();
+    toast('success','تمت الإضافة','تمت إضافة صفقة اليوم إلى السلة.');
+  }
+
+  function addFlash(offerId){
+    if(state.currentTier){
+      return toast('error','ممنوع في الشريحة','اللقطة لا تُضاف أثناء تفعيل الشريحة.');
+    }
+    const offer = findFlash(offerId);
+    if(!offer) return toast('error','خطأ','اللقطة غير موجودة.');
+    if(flashState(offer) !== 'active'){
+      return toast('error','منتهية','هذه اللقطة غير متاحة حالياً.');
+    }
+    const pin = String(state.flashPin || $('flashPinInput').value || '').trim();
+    if(!pin) return toast('error','PIN مطلوب','أدخل كود الشراء السري أولاً.');
+    if(!flashCodeValid(offer, pin)){
+      return toast('error','PIN غير صحيح','الكود لا يطابق أكواد هذه اللقطة.');
+    }
+    if(state.cart.some(i => i.kind === 'flash' && String(i.id) === String(offerId))){
+      return toast('error','تنبيه','اللقطة موجودة بالفعل في السلة.');
+    }
+    state.cart.unshift({
+      kind:'flash',
+      id:String(offer.offer_id),
+      name:offer.offer_name,
+      unit:'bundle',
+      qty:1,
+      unitPrice:num(offer.price),
+      meta:{ pin, description:offer.description || '', details:offer.details || '' }
+    });
+    persist(); renderAll();
+    toast('success','تمت الإضافة','تمت إضافة اللقطة بنجاح.');
+  }
+
+  function removeItem(index){
+    state.cart.splice(index,1);
+    persist(); renderAll();
+  }
+
+  function changeQty(index, delta){
+    const item = state.cart[index];
+    if(!item) return;
+    if(item.kind !== 'product') return;
+    item.qty = Math.max(1, num(item.qty) + delta);
+    persist(); renderAll();
+  }
+
+  function setItemUnit(index, unit){
+    const item = state.cart[index];
+    if(!item || item.kind !== 'product') return;
+    item.unit = unit;
+    persist(); renderAll();
+  }
+
+  function renderCart(){
+    const list = $('cartList');
+    if(!state.cart.length){
+      list.innerHTML = `<div class="notice">السلة فارغة. ابدأ بإضافة المنتجات أو العروض.</div>`;
+      return;
+    }
+    list.innerHTML = state.cart.map((item, idx) => {
+      const total = cartLinePrice(item);
+      if(item.kind === 'product'){
+        return `
+          <div class="item">
+            <div class="itemTop">
+              <div>
+                <p class="itemTitle">${escapeHtml(item.product.product_name || '')}</p>
+                <p class="itemMeta">${escapeHtml(item.product.company_name || '')} • ${unitLabel(item.unit)}</p>
+              </div>
+              <strong>${money(total)}</strong>
+            </div>
+            <div class="itemTools">
+              <button class="qtyBtn" data-qty-minus="${idx}">-</button>
+              <div class="qtyBox">${item.qty}</div>
+              <button class="qtyBtn" data-qty-plus="${idx}">+</button>
+              <div class="segGroup" style="margin-inline-start:10px">
+                <button class="seg ${item.unit==='piece'?'active':''}" data-set-unit="${idx}" data-unit="piece">قطعة</button>
+                <button class="seg ${item.unit==='pack'?'active':''}" data-set-unit="${idx}" data-unit="pack">دستة</button>
+                <button class="seg ${item.unit==='carton'?'active':''}" data-set-unit="${idx}" data-unit="carton">كرتونة</button>
+              </div>
+              <button class="remove" data-remove="${idx}">×</button>
+            </div>
           </div>
         `;
       }
       return `
-        <div class="cartItem">
-          <div class="cartItemHead">
+        <div class="item">
+          <div class="itemTop">
             <div>
-              <div class="cartItemTitle">${escapeHtml(item.title)}</div>
-              <div class="cartItemSub">${escapeHtml(item.description || '')}</div>
+              <p class="itemTitle">${escapeHtml(item.name || '')}</p>
+              <p class="itemMeta">${item.kind === 'deal' ? 'صفقة اليوم' : 'لقطة'} • باندل ثابت</p>
             </div>
-            <button class="smallBtn danger" type="button" onclick="removeCart('${escapeHtml(cartKey(item))}')">حذف</button>
+            <strong>${money(total)}</strong>
           </div>
-          <div class="cartItemSub" style="margin-top:8px">السعر الثابت: ${currency(num(item.price))} EGP</div>
+          <div class="itemTools">
+            <div class="qtyBox">1</div>
+            <div class="mini">${escapeHtml(item.meta?.description || '')}</div>
+            <button class="remove" data-remove="${idx}">×</button>
+          </div>
         </div>
       `;
     }).join('');
-
-    return `
-      <section class="pageHead">
-        <h1 class="pageTitle">السلة والمراجعة</h1>
-        <p class="pageSub">لازم تعرض صفحة المراجعة قبل التأكيد النهائي، ومعها الاسم الثلاثي والرقم والعنوان.</p>
-      </section>
-
-      <section class="section">
-        <div class="cartCard">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">محتويات السلة</h2>
-            <span class="sectionHint">${items.length} عنصر</span>
-          </div>
-          <div class="list">${lines || '<div class="empty">السلة فارغة</div>'}</div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="cartCard">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">الملخص</h2>
-            <span class="sectionHint">${selectedTierActive() ? 'وضع الشريحة' : repActive() ? 'وضع المندوب' : 'السعر الأساسي'}</span>
-          </div>
-          <div class="summary">
-            <div class="summaryLine"><span>إجمالي المنتجات</span><strong>${currency(totals.products)} EGP</strong></div>
-            <div class="summaryLine"><span>العروض/الباقات</span><strong>${currency(totals.specials)} EGP</strong></div>
-            <div class="summaryLine"><span>الإجمالي</span><strong>${currency(totals.grand)} EGP</strong></div>
-            ${tier ? `<div class="summaryLine"><span>الحد الأدنى للشريحة</span><strong>${currency(tierMin(tier))} EGP</strong></div>` : ''}
-          </div>
-          ${issues.length ? `
-            <div class="noteBox" style="margin-top:10px">
-              <div class="badge red">ملاحظات تمنع التأكيد</div>
-              <div class="list" style="margin-top:10px">${issues.map(i => `<div class="badge red" style="justify-content:flex-start;border-radius:16px;padding:10px 12px">${escapeHtml(i)}</div>`).join('')}</div>
-            </div>` : ''}
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="cartCard">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">بيانات العميل</h2>
-            <span class="sectionHint">حقول إجبارية</span>
-          </div>
-          <div class="formGrid">
-            <div class="formGroup">
-              <label class="formLabel">الاسم الثلاثي</label>
-              <input class="field" id="custName" value="${escapeHtml(form.name || '')}" placeholder="الاسم بالكامل">
-            </div>
-            <div class="formGroup">
-              <label class="formLabel">رقم الهاتف</label>
-              <input class="field" id="custPhone" value="${escapeHtml(form.phone || '')}" placeholder="01xxxxxxxxx">
-            </div>
-            <div class="formGroup">
-              <label class="formLabel">العنوان التفصيلي</label>
-              <textarea class="field" id="custAddress" rows="3" style="padding-top:12px;height:auto">${escapeHtml(form.address || '')}</textarea>
-            </div>
-            <div class="formGroup">
-              <label class="formLabel">ملاحظات إضافية</label>
-              <textarea class="field" id="custNotes" rows="2" style="padding-top:12px;height:auto">${escapeHtml(form.notes || '')}</textarea>
-            </div>
-          </div>
-          <div class="actionsRow" style="margin-top:10px">
-            <button class="btn ghost" type="button" onclick="syncCustomerForm()">حفظ البيانات</button>
-            <button class="btn primary" type="button" onclick="openReview()">مراجعة الطلب</button>
-          </div>
-        </div>
-      </section>
-    `;
   }
 
-  function renderReviewPage() {
-    const items = cartItems();
-    const totals = cartTotals();
-    const tier = selectedTierObject();
-    const rep = selectedRepObject();
-    const issues = checkoutChecks();
-    const customer = state.customer;
-    const lines = items.map(item => `
-      <div class="summaryLine"><span>${escapeHtml(cartItemLabel(item))}</span><strong>${item.type === 'product' ? currency(num(item.qty) * num(item.price)) + ' EGP' : currency(num(item.price)) + ' EGP'}</strong></div>
-    `).join('');
-
-    return `
-      <section class="pageHead">
-        <h1 class="pageTitle">مراجعة نهائية</h1>
-        <p class="pageSub">هذه هي الصفحة التي تسبق زر التأكيد النهائي. راجع كل شيء ثم أرسل الطلب.</p>
-      </section>
-
-      <section class="section">
-        <div class="reviewBox">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">ملخص الطلب</h2>
-            <span class="sectionHint">${items.length} عنصر</span>
-          </div>
-          <div class="list">${lines}</div>
-          <hr style="border:none;border-top:1px solid rgba(0,35,102,.08);margin:12px 0">
-          <div class="summaryLine"><span>إجمالي المنتجات</span><strong>${currency(totals.products)} EGP</strong></div>
-          <div class="summaryLine"><span>العروض/الباقات</span><strong>${currency(totals.specials)} EGP</strong></div>
-          <div class="summaryLine"><span>الإجمالي النهائي</span><strong>${currency(totals.grand)} EGP</strong></div>
-          ${tier ? `<div class="summaryLine"><span>الشريحة</span><strong>${escapeHtml(tierLabel(tier))}</strong></div>` : ''}
-          ${rep ? `<div class="summaryLine"><span>المندوب</span><strong>${escapeHtml(safe(rep.name))}</strong></div>` : ''}
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="reviewBox">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">بيانات العميل</h2>
-          </div>
-          <div class="summaryLine"><span>الاسم</span><strong>${escapeHtml(customer.name || '-')}</strong></div>
-          <div class="summaryLine"><span>الهاتف</span><strong>${escapeHtml(customer.phone || '-')}</strong></div>
-          <div class="summaryLine"><span>العنوان</span><strong>${escapeHtml(customer.address || '-')}</strong></div>
-          <div class="summaryLine"><span>ملاحظات</span><strong>${escapeHtml(customer.notes || '-')}</strong></div>
-        </div>
-      </section>
-
-      <section class="section">
-        <div class="reviewBox">
-          <div class="sectionHeader">
-            <h2 class="sectionTitle">التحقق النهائي</h2>
-          </div>
-          ${issues.length ? `
-            <div class="list">${issues.map(i => `<div class="badge red" style="justify-content:flex-start;border-radius:16px;padding:10px 12px">${escapeHtml(i)}</div>`).join('')}</div>
-          ` : '<div class="badge green" style="justify-content:flex-start;border-radius:16px;padding:10px 12px">كل الشروط الأساسية مكتملة وجاهز للإرسال.</div>'}
-          <div class="actionsRow" style="margin-top:12px">
-            <button class="btn ghost" type="button" onclick="gotoView('cart')">رجوع للتعديل</button>
-            <button class="btn success" type="button" ${issues.length ? 'disabled' : ''} onclick="openConfirmOrder()">تأكيد الطلب الآن</button>
-          </div>
-        </div>
-      </section>
-    `;
+  function refreshTierDataAfterSelect(){
+    setModeFromTier();
+    pruneTierIncompatibleItems();
+    renderAll();
   }
 
-  function renderPage() {
-    const map = settingsMap();
-    const title = map.company_name || 'Alahram Co';
-    const sub = map.hero_tagline || 'تطبيق جملة احترافي لمنتجات العناية ومستحضرات التجميل';
-    let html = '';
-    if (state.view === 'home' || state.view === 'companies') html = renderHomeLike(state.view);
-    else if (state.view === 'offers') html = renderOffersPage();
-    else if (state.view === 'laqta') html = renderLaqtaPage();
-    else if (state.view === 'tiers') html = renderTiersPage();
-    else if (state.view === 'cart') html = renderCartPage();
-    else if (state.view === 'review') html = renderReviewPage();
-    else html = renderHomeLike('home');
+  function openModal(id){ $(id).classList.add('open'); }
+  function closeModal(id){ $(id).classList.remove('open'); }
 
-    els.app.innerHTML = html;
-    renderTopActions();
-    updateFooter();
-    bindSearchInput();
+  function validatePhone(phone){
+    return /^01\d{9}$/.test(String(phone || '').trim());
   }
 
-  function bindSearchInput() {
-    const input = document.getElementById('searchInput');
-    if (input) {
-      input.addEventListener('input', (e) => {
-        state.search = e.target.value;
-        render();
-      });
-      input.focus?.();
+  function validateName(name){
+    const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+    return parts.length >= 3;
+  }
+
+  function collectOrder(){
+    const customer = {
+      name: $('custName').value.trim(),
+      phone: $('custPhone').value.trim(),
+      address: $('custAddress').value.trim(),
+      location: state.location || $('locationBox').value.trim(),
+      notes: $('notesBox').value.trim(),
+    };
+
+    const notes = validateCart();
+    const formErrors = [];
+    if(!validateName(customer.name)) formErrors.push('الاسم يجب أن يكون ثلاثياً على الأقل.');
+    if(!validatePhone(customer.phone)) formErrors.push('رقم الهاتف يجب أن يكون 11 رقم مصري يبدأ بـ 01.');
+    if(!customer.address) formErrors.push('العنوان مطلوب.');
+
+    const order = {
+      order_id: uid('ORD'),
+      date: new Date().toLocaleDateString('en-GB'),
+      time: new Date().toLocaleTimeString('en-GB'),
+      order_type: state.currentTier ? 'tier' : (state.cart.some(i => i.kind !== 'product') ? 'mixed' : 'normal'),
+      mode: state.currentTier ? 'tier' : 'normal',
+      tier: state.currentTier ? state.currentTier.id : '',
+      total: cartTotal(),
+      customer,
+      rep: state.currentRep || null,
+      location: state.location || '',
+      items: state.cart.map(item => ({
+        kind:item.kind,
+        id:item.id,
+        name:item.kind === 'product' ? item.product.product_name : item.name,
+        company:item.kind === 'product' ? item.product.company_name : '',
+        unit:item.unit,
+        qty:item.qty,
+        unitPrice:item.kind === 'product' ? getUnitPrice(item.product, item.unit) : num(item.unitPrice),
+        total: cartLinePrice(item),
+        meta:item.meta || {}
+      }))
+    };
+    return { order, notes, formErrors };
+  }
+
+  function renderReview(){
+    const { order } = collectOrder();
+    $('orderTypeBox').value = order.order_type;
+    $('reviewBody').innerHTML = order.items.map(item => `
+      <tr>
+        <td>${escapeHtml(item.name)}</td>
+        <td>${escapeHtml(unitLabel(item.unit))}</td>
+        <td>${escapeHtml(String(item.qty))}</td>
+        <td>${money(item.unitPrice)}</td>
+        <td>${money(item.total)}</td>
+      </tr>
+    `).join('') || `<tr><td colspan="5">لا توجد عناصر</td></tr>`;
+  }
+
+  async function fetchGeo(){
+    if(!navigator.geolocation){
+      return toast('error','غير مدعوم','المتصفح لا يدعم الموقع الجغرافي.');
     }
+    toast('success','جاري الجلب','انتظر قليلاً للحصول على الموقع.');
+    navigator.geolocation.getCurrentPosition(pos => {
+      const loc = `${pos.coords.latitude.toFixed(6)}, ${pos.coords.longitude.toFixed(6)}`;
+      state.location = loc;
+      $('locationBox').value = loc;
+      persist();
+      toast('success','تم','تم التقاط الموقع بنجاح.');
+    }, err => {
+      toast('error','تعذر الجلب', err.message || 'فشل تحديد الموقع.');
+    }, { enableHighAccuracy:true, timeout:12000, maximumAge:60000 });
   }
 
-  function filterByCompany(name) {
-    state.company = name || 'all';
-    state.view = 'home';
-    render();
-    showToast(name === 'all' ? 'تم إلغاء فلتر الشركة' : `تم التصفية على ${name}`, 'gold');
+  function whatsappMessage(order){
+    const company = getSettingsValue('company_name', 'Alahram Co');
+    let msg = `طلب جديد - ${company}%0A`;
+    msg += `الاسم: ${order.customer.name}%0A`;
+    msg += `الهاتف: ${order.customer.phone}%0A`;
+    msg += `العنوان: ${order.customer.address}%0A`;
+    if(order.customer.location) msg += `الموقع: ${order.customer.location}%0A`;
+    if(order.rep) msg += `المندوب: ${order.rep.rep_name} (${order.rep.rep_id})%0A`;
+    if(order.tier) msg += `الشريحة: ${order.tier}%0A`;
+    msg += `%0A--- الفاتورة ---%0A`;
+    order.items.forEach((i, idx) => {
+      msg += `${idx+1}. ${i.name} | ${i.unit} | ${i.qty} | ${money(i.total)}%0A`;
+    });
+    msg += `%0Aالإجمالي: ${money(order.total)}%0A`;
+    if(order.customer.notes) msg += `ملاحظات: ${order.customer.notes}%0A`;
+    return msg;
   }
-  function filterByCategory(name) {
-    state.category = name || 'all';
-    render();
-  }
-  function clearSearch() {
-    state.search = '';
-    render();
-  }
-  function changeQtyField(id, delta) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    const next = Math.max(1, (parseInt(el.value || '1', 10) || 1) + delta);
-    el.value = next;
-  }
-  function addProductFromUI(code) {
-    const unitEl = document.getElementById(`unit-${code}`);
-    const qtyEl = document.getElementById(`qty-${code}`);
-    addProduct(code, unitEl?.value || 'piece', qtyEl?.value || 1);
-  }
-  function viewTierDetails(tierIdValue) {
-    const tier = (state.data.tiers || []).find(t => tierId(t) === tierIdValue);
-    if (!tier) return;
-    const status = selectedTierObject() && tierId(selectedTierObject()) === tierIdValue ? 'الشريحة مفعلة بالفعل' : 'انقر على تفعيل لتشغيلها';
-    showToast(`${tierLabel(tier)} • ${currency(tierMin(tier))} EGP • ${status}`, 'navy');
-  }
-  function syncCustomerForm() {
-    const name = document.getElementById('custName')?.value || '';
-    const phone = document.getElementById('custPhone')?.value || '';
-    const address = document.getElementById('custAddress')?.value || '';
-    const notes = document.getElementById('custNotes')?.value || '';
-    state.customer = { name: safe(name), phone: safe(phone), address: safe(address), notes: safe(notes) };
-    persist();
-    showToast('تم حفظ بيانات العميل', 'success');
-    render();
-  }
-  function openReview() {
-    syncCustomerForm();
-    const issues = checkoutChecks();
-    if (issues.length) {
-      showToast('هناك ملاحظات تمنع المراجعة', 'danger');
-      return render();
-    }
-    state.view = 'review';
-    persist();
-    render();
-    showToast('تم فتح صفحة المراجعة', 'success');
-  }
-  function openConfirmOrder() {
-    const issues = checkoutChecks();
-    if (issues.length) {
-      showToast('لا يمكن التأكيد قبل معالجة الملاحظات', 'danger');
+
+  async function checkout(){
+    const { order, notes, formErrors } = collectOrder();
+    if(formErrors.length){
+      toast('error','تحقق من البيانات', formErrors[0]);
       return;
     }
-    openConfirmModal('هل تريد إرسال الطلب النهائي إلى الـ API الآن؟');
-  }
-  function buildOrderPayload() {
-    const orderId = makeId('ORD');
-    const now = new Date();
-    const tier = selectedTierObject();
-    const rep = selectedRepObject();
-    const lines = [];
-    for (const item of cartItems()) {
-      if (item.type === 'product') {
-        const p = state.productMap.get(item.code);
-        const unitPrice = p ? effectivePrice(p, item.unit) : num(item.price);
-        lines.push({
-          line_type: 'product',
-          product_code: item.code,
-          name: item.name,
-          company: item.company,
-          unit: item.unit,
-          qty: num(item.qty),
-          price: unitPrice,
-          total: num(item.qty) * unitPrice,
-          bundle_id: ''
-        });
-      } else if (item.type === 'offer' || item.type === 'flash') {
-        lines.push({
-          line_type: item.type,
-          product_code: item.type === 'offer' ? item.offer_id : item.flash_id,
-          name: item.title,
-          company: item.type === 'offer' ? 'صفقة اليوم' : 'اللقطة',
-          unit: '',
-          qty: 1,
-          price: num(item.price),
-          total: num(item.price),
-          bundle_id: item.type === 'offer' ? item.offer_id : item.flash_id
-        });
-      }
+    if(state.currentTier && notes.length){
+      toast('error','الشريحة تحتاج تصحيح', notes[0]);
+      return;
     }
+    if(!order.items.length){
+      toast('error','السلة فارغة','لا يوجد أصناف لإرسالها.');
+      return;
+    }
+    renderReview();
+    openModal('checkoutModal');
+  }
 
-    return {
-      order: {
-        order_id: orderId,
-        date: todayDate(),
-        time: timeNow(),
-        customer_phone: safe(state.customer.phone),
-        customer_name: safe(state.customer.name),
-        rep_id: rep ? safe(rep.rep_id) : '',
-        mode: tier ? 'tier' : rep ? 'rep' : 'normal',
-        tier: tier ? safe(tier.tier_id || tier.tier_name) : '',
-        total: cartTotals().grand,
-        status: 'new',
-        notes: safe(state.customer.notes || '')
-      },
-      customer: clone(state.customer),
-      tier: tier ? normalizeRowObject(tier) : null,
-      rep: rep ? normalizeRowObject(rep) : null,
-      items: lines,
-      sheets: {
-        Orders: [{ 
-          order_id: orderId,
-          date: todayDate(),
-          time: timeNow(),
-          customer_phone: safe(state.customer.phone),
-          customer_name: safe(state.customer.name),
-          rep_id: rep ? safe(rep.rep_id) : '',
-          mode: tier ? 'tier' : rep ? 'rep' : 'normal',
-          tier: tier ? safe(tier.tier_id || tier.tier_name) : '',
-          total: cartTotals().grand,
-          status: 'new',
-          pdf_link: '',
-          whatsapp_status: 'pending',
-          notes: safe(state.customer.notes || '')
-        }],
-        Order_Items: lines.map(line => ({
-          order_id: orderId,
-          line_type: line.line_type,
-          product_code: line.product_code,
-          name: line.name,
-          company: line.company,
-          unit: line.unit,
-          qty: line.qty,
-          price: line.price,
-          total: line.total,
-          bundle_id: line.bundle_id,
-          notes: ''
-        }))
-      },
-      meta: {
-        source: 'Alahram Co Single File App',
-        currency: setting('currency_label', 'EGP')
+  async function finalSend(){
+    const { order, notes, formErrors } = collectOrder();
+    if(formErrors.length){
+      toast('error','تحقق من البيانات', formErrors[0]);
+      return;
+    }
+    if(state.currentTier && notes.length){
+      toast('error','الشريحة تحتاج تصحيح', notes[0]);
+      return;
+    }
+    if(state.saving) return;
+    state.saving = true;
+    $('finalSendBtn').disabled = true;
+    try{
+      const payload = {
+        action:'saveOrder',
+        order
+      };
+      const result = await apiCall('apiSaveOrder', payload);
+      if(!result || result.ok === false){
+        throw new Error(result && result.message ? result.message : 'فشل حفظ الطلب');
       }
+      const phone = getSettingsValue('whatsapp_number', DEFAULT_WHATSAPP);
+      const wa = `https://wa.me/${phone}?text=${whatsappMessage(order)}`;
+      window.open(wa, '_blank');
+      state.cart = [];
+      persist();
+      renderAll();
+      closeModal('checkoutModal');
+      toast('success','تم الإرسال', `تم حفظ الطلب برقم ${result.order_id || order.order_id}.`);
+    }catch(err){
+      toast('error','فشل', err.message || 'تعذر إرسال الطلب.');
+    }finally{
+      state.saving = false;
+      $('finalSendBtn').disabled = false;
+    }
+  }
+
+  function openTierModal(){
+    renderTierOptions();
+    $('tierPinInput').value = state.currentTier?.pin || '';
+    openModal('tierModal');
+  }
+
+  function applyTier(){
+    const tierId = $('tierSelect').value;
+    if(!tierId){
+      state.currentTier = null;
+      persist();
+      refreshTierDataAfterSelect();
+      closeModal('tierModal');
+      toast('success','تم الإلغاء','تم إيقاف الشريحة والعودة للوضع الطبيعي.');
+      return;
+    }
+    const tier = state.tiers.find(t => t.id === tierId);
+    if(!tier) return toast('error','خطأ','الشريحة غير موجودة.');
+    const pin = $('tierPinInput').value.trim();
+    if(tier.password && tier.password.trim() && tier.password.trim() !== pin){
+      return toast('error','PIN غير صحيح','كود الشريحة غير مطابق.');
+    }
+    state.currentTier = {
+      id:tier.id,
+      name:tier.name,
+      minTarget:num(tier.minTarget),
+      pin:pin
     };
+    persist();
+    refreshTierDataAfterSelect();
+    closeModal('tierModal');
+    toast('success','تم التفعيل', `تم تفعيل شريحة ${tier.name}.`);
   }
 
-  async function finalSendOrder() {
-    closeConfirmModal();
-    syncCustomerForm();
-    const issues = checkoutChecks();
-    if (issues.length) {
-      showToast('لا يمكن الإرسال قبل إصلاح الملاحظات', 'danger');
-      return render();
+  function clearTier(){
+    state.currentTier = null;
+    persist();
+    refreshTierDataAfterSelect();
+    closeModal('tierModal');
+    toast('success','تم الإلغاء','تم إلغاء الشريحة.');
+  }
+
+  function openRepModal(){
+    if(state.currentRep){
+      $('repIdInput').value = state.currentRep.rep_id || '';
+      $('repAreaBox').value = `${state.currentRep.rep_name || ''} - ${state.currentRep.region || ''}`;
     }
-    if (state.busy) return;
-    state.busy = true;
-    render();
-    try {
-      const payload = buildOrderPayload();
-      const response = await apiPostOrder(payload);
-      const success = response?.success !== false && response?.ok !== false;
-      if (success) {
-        showToast('تم إرسال الطلب بنجاح', 'success');
-        clearCart();
-        state.reviewMode = false;
-        state.view = 'home';
-        render();
-      } else {
-        throw new Error(response?.message || response?.error || 'فشل غير معروف');
+    openModal('repModal');
+  }
+
+  async function loginRep(){
+    const repId = $('repIdInput').value.trim();
+    const repPin = $('repPinInput').value.trim();
+    if(!repId || !repPin) return toast('error','بيانات ناقصة','أدخل Rep ID و Password.');
+    const rep = state.reps.find(r => String(r.rep_id).trim() === repId && String(r.rep_password).trim() === repPin);
+    if(!rep) return toast('error','رفض الدخول','بيانات المندوب غير صحيحة.');
+    state.currentRep = {
+      rep_id: rep.rep_id,
+      rep_name: rep.rep_name,
+      region: rep.region,
+      target: rep.target,
+      commission_type: rep.commission_type,
+      commission_value: rep.commission_value
+    };
+    persist();
+    renderAll();
+    closeModal('repModal');
+    toast('success','أهلاً بك', `تم تسجيل ${rep.rep_name} بنجاح.`);
+  }
+
+  function logoutRep(){
+    state.currentRep = null;
+    persist();
+    renderAll();
+    toast('success','تم الخروج','تم حذف بيانات المندوب من المتصفح.');
+  }
+
+  async function bootstrap(){
+    loadPersisted();
+    renderAll();
+    try{
+      const data = await apiCall('apiBootstrap', {});
+      normalizeBootstrap(data || {});
+      state.booted = true;
+      $('connPill').textContent = 'الاتصال: متصل';
+      setStatus('جاهز للعمل');
+      renderAll();
+    }catch(err){
+      $('connPill').textContent = 'الاتصال: وضع محلي';
+      toast('error','تعذر الاتصال', 'تعذر تحميل البيانات من الشيت. تأكد من نشر الـ API.');
+      state.booted = false;
+      // Fallback demo defaults so the interface remains usable.
+      normalizeBootstrap({ settings:{ company_name:'Alahram Co', whatsapp_number:DEFAULT_WHATSAPP }, products:[], deals:[], flashOffers:[], reps:[], tierPrices:[], tiers:TIER_DEFS });
+      renderAll();
+    }
+  }
+
+  function wireEvents(){
+    $('searchInput').addEventListener('input', e => {
+      state.search = e.target.value;
+      renderAll();
+    });
+    $('clearSearchBtn').addEventListener('click', () => {
+      state.search = '';
+      $('searchInput').value = '';
+      renderAll();
+    });
+    $('flashPinInput').addEventListener('input', e => {
+      state.flashPin = e.target.value.trim();
+      persist();
+    });
+    $('openCartBtn').addEventListener('click', () => $('checkoutModal').classList.add('open'));
+    $('checkoutBtn').addEventListener('click', checkout);
+    $('saveLocalBtn').addEventListener('click', () => { persist(); toast('success','تم','تم حفظ السلة محلياً.'); });
+    $('repBtn').addEventListener('click', openRepModal);
+    $('tierBtn').addEventListener('click', openTierModal);
+    $('geoBtn').addEventListener('click', fetchGeo);
+    $('applyTierBtn').addEventListener('click', applyTier);
+    $('clearTierBtn').addEventListener('click', clearTier);
+    $('loginRepBtn').addEventListener('click', loginRep);
+    $('logoutRepBtn').addEventListener('click', logoutRep);
+    $('finalSendBtn').addEventListener('click', finalSend);
+    $('flashPinInput').addEventListener('blur', persist);
+
+    document.addEventListener('click', e => {
+      const close = e.target.closest('[data-close]');
+      if(close) closeModal(close.dataset.close);
+
+      const unitBtn = e.target.closest('.unitBtn[data-unit]');
+      if(unitBtn && unitBtn.closest('.unitBtns[data-product-card]')){
+        const group = unitBtn.closest('.unitBtns[data-product-card]');
+        group.querySelectorAll('.unitBtn').forEach(b => b.classList.remove('active'));
+        unitBtn.classList.add('active');
+        const productId = group.dataset.productCard;
+        const card = unitBtn.closest('.card');
+        const product = findProduct(productId);
+        if(product){
+          const unit = unitBtn.dataset.unit;
+          const priceBox = card.querySelector('.price');
+          if(priceBox) priceBox.textContent = money(getUnitPrice(product, unit));
+          state.selectedUnits[String(productId)] = unit;
+          group.dataset.selectedUnit = unit;
+          persist();
+        }
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      showToast(err.message || 'فشل إرسال الطلب', 'danger');
-      // Keep the order draft so the user does not lose work.
-    } finally {
-      state.busy = false;
-      render();
-    }
-  }
 
-  async function boot() {
-    try {
-      const cached = loadJSON(STORAGE_KEYS.bootCache, null);
-      if (cached) {
-        state.data = cached;
-        state.currentDataSource = 'cache';
-        buildIndexes();
-      } else {
-        buildIndexes();
+      const addProductBtn = e.target.closest('[data-add-product]');
+      if(addProductBtn){
+        const id = addProductBtn.dataset.addProduct;
+        const card = addProductBtn.closest('.card');
+        const unitGroup = card.querySelector('.unitBtns[data-product-card]');
+        const unit = (unitGroup && unitGroup.dataset.selectedUnit) || state.selectedUnits[String(id)] || state.currentUnitFilter || 'piece';
+        addProduct(id, unit);
+        return;
       }
-      state.cart = loadJSON(STORAGE_KEYS.cart, []);
-      state.view = loadJSON(STORAGE_KEYS.page, 'home');
-      render();
-      updateFooter();
 
-      const remote = await apiBootstrap();
-      if (remote?.dataset) {
-        state.data = mergeDataset(FALLBACK_DATA, remote.dataset);
-        state.currentDataSource = remote.source;
-        saveJSON(STORAGE_KEYS.bootCache, state.data);
-        buildIndexes();
-        showToast('تم تحديث البيانات من الـ API', 'success');
-      } else {
-        state.data = clone(FALLBACK_DATA);
-        state.currentDataSource = 'fallback';
-        buildIndexes();
-        showToast('تعذر الوصول إلى الـ API، تم تشغيل النسخة المحلية', 'gold');
+      const addDealBtn = e.target.closest('[data-add-deal]');
+      if(addDealBtn){
+        addDeal(addDealBtn.dataset.addDeal);
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      state.data = clone(FALLBACK_DATA);
-      state.currentDataSource = 'fallback';
-      buildIndexes();
-      showToast('تم تشغيل النسخة المحلية الاحتياطية', 'gold');
-    } finally {
-      state.loading = false;
-      state.liveClock = Date.now();
-      render();
-      tickTicker();
-      setInterval(() => {
-        state.liveClock = Date.now();
-        updateLiveBits();
-      }, 1000);
-      setInterval(tickTicker, 4500);
-      setTimeout(() => {
-        const s = document.getElementById('searchInput');
-        if (s) s.focus();
-      }, 120);
-    }
-  }
 
-  function mergeDataset(base, incoming) {
-    const out = clone(base);
-    const keys = Object.keys(out);
-    for (const key of keys) {
-      if (Array.isArray(incoming?.[key]) && incoming[key].length) out[key] = incoming[key];
-    }
-    return out;
-  }
-
-  function updateLiveBits() {
-    updateFooter();
-    const activeFlashEl = document.querySelector('[data-live-countdown]');
-    if (activeFlashEl) {
-      const flashId = activeFlashEl.getAttribute('data-live-countdown');
-      const flash = state.flashMap?.get(flashId);
-      if (flash) {
-        const st = flashStatus(flash);
-        const { start, end } = flashRange(flash);
-        activeFlashEl.textContent = st === 'upcoming' ? countdownText(start) : st === 'active' ? countdownText(end) : 'انتهى العرض';
+      const addFlashBtn = e.target.closest('[data-add-flash]');
+      if(addFlashBtn){
+        addFlash(addFlashBtn.dataset.addFlash);
+        return;
       }
-    }
+
+      const qtyMinus = e.target.closest('[data-qty-minus]');
+      if(qtyMinus){ changeQty(Number(qtyMinus.dataset.qtyMinus), -1); return; }
+      const qtyPlus = e.target.closest('[data-qty-plus]');
+      if(qtyPlus){ changeQty(Number(qtyPlus.dataset.qtyPlus), 1); return; }
+      const remove = e.target.closest('[data-remove]');
+      if(remove){ removeItem(Number(remove.dataset.remove)); return; }
+      const setUnit = e.target.closest('[data-set-unit]');
+      if(setUnit){ setItemUnit(Number(setUnit.dataset.setUnit), setUnit.dataset.unit); return; }
+      const preview = e.target.closest('[data-preview]');
+      if(preview){
+        const p = findProduct(preview.dataset.id);
+        if(p){
+          toast('success', p.product_name || 'تفاصيل', `الشركة: ${p.company_name || '-'} | الكرتونة: ${money(p.base_carton_price)} | الدستة: ${money(p.base_pack_price)} | القطعة: ${money(p.base_piece_price)}`);
+        }
+      }
+    });
+
+    document.querySelectorAll('#unitFilterGroup .seg').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.currentUnitFilter = btn.dataset.unit;
+        persist();
+        renderAll();
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if(e.key === 'Escape'){
+        ['checkoutModal','tierModal','repModal'].forEach(closeModal);
+      }
+    });
   }
 
-  function render() {
-    renderPage();
+  function tickFlashTimers(){
+    document.querySelectorAll('[data-flash-timer]').forEach(el => {
+      const id = el.dataset.flashTimer;
+      const offer = findFlash(id);
+      if(!offer){
+        el.textContent = '00:00:00';
+        return;
+      }
+      const stateName = flashState(offer);
+      if(stateName === 'ended'){
+        el.textContent = '00:00:00';
+        const card = el.closest('.card');
+        if(card) card.classList.add('disabled');
+        const btn = card && card.querySelector('[data-add-flash]');
+        if(btn) btn.textContent = 'منتهية';
+      }else if(stateName === 'upcoming'){
+        el.textContent = 'قريباً';
+      }else{
+        el.textContent = flashRemaining(offer.end_datetime || offer.end_time);
+      }
+    });
   }
 
-  // Expose handlers to inline HTML.
-  window.gotoView = gotoView;
-  window.filterByCompany = filterByCompany;
-  window.filterByCategory = filterByCategory;
-  window.clearSearch = clearSearch;
-  window.changeQtyField = changeQtyField;
-  window.addProductFromUI = addProductFromUI;
-  window.addOffer = addOffer;
-  window.addFlash = addFlash;
-  window.updateCartQty = updateCartQty;
-  window.removeCart = removeCart;
-  window.deactivateTier = deactivateTier;
-  window.openRepModal = openRepModal;
-  window.closeRepModal = closeRepModal;
-  window.submitRepLogin = submitRepLogin;
-  window.submitTierPin = submitTierPin;
-  window.closePinModal = closePinModal;
-  window.viewTierDetails = viewTierDetails;
-  window.syncCustomerForm = syncCustomerForm;
-  window.openReview = openReview;
-  window.openConfirmOrder = openConfirmOrder;
-  window.finalSendOrder = finalSendOrder;
-  window.openConfirmModal = openConfirmModal;
-  window.closeConfirmModal = closeConfirmModal;
-  window.logoutRep = logoutRep;
-  window.render = render;
-  window.renderTopActions = renderTopActions;
+  async function init(){
+    loadPersisted();
+    wireEvents();
+    await bootstrap();
+    setInterval(tickFlashTimers, 1000);
+  }
 
-  // Close dialogs on backdrop click
-  els.pinModal.addEventListener('click', (e) => { if (e.target === els.pinModal) closePinModal(); });
-  els.repModal.addEventListener('click', (e) => { if (e.target === els.repModal) closeRepModal(); });
-  els.confirmModal.addEventListener('click', (e) => { if (e.target === els.confirmModal) closeConfirmModal(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closePinModal();
-      closeRepModal();
-      closeConfirmModal();
-    }
-  });
-
-  boot();
-  </script>
+  init();
+})();
+</script>
 </body>
 </html>
