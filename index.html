@@ -1,1 +1,2282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>الأهرام للتجارة والتوزيع</title>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <style>
+    :root{
+      --bg:#f7f7f3;
+      --card:#ffffff;
+      --text:#111;
+      --muted:#677085;
+      --blue:#0b4f8a;
+      --gold:#b58b23;
+      --red:#c93a3a;
+      --cream:#f4efe0;
+      --line:#e4e8ef;
+      --shadow:0 10px 30px rgba(17,24,39,.08);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    a{text-decoration:none;color:inherit}
+    .app{max-width:1380px;margin:0 auto;padding:10px}
+    .topbar{
+      position:sticky;top:0;z-index:30;background:rgba(247,247,243,.95);
+      backdrop-filter: blur(12px);border-bottom:1px solid var(--line);padding:8px 8px 10px;border-radius:0 0 18px 18px
+    }
+    .brandRow{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{
+      display:flex;gap:10px;align-items:center;min-width:240px
+    }
+    .logo{
+      width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--blue),var(--gold));
+      display:grid;place-items:center;color:#fff;font-weight:700;box-shadow:var(--shadow)
+    }
+    .brand h1{margin:0;font-size:15px;line-height:1.2}
+    .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+    .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .chip,.btn,.tab{
+      border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 12px;
+      font-size:13px;cursor:pointer;transition:.15s;box-shadow:0 1px 0 rgba(0,0,0,.02)
+    }
+    .chip.active,.btn.primary,.tab.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+    .chip.warn{background:var(--cream);border-color:#ead79d;color:#5f4b00}
+    .chip.red{background:#fff1f1;border-color:#f1c1c1;color:#912222}
+    .searchRow{display:grid;grid-template-columns:1fr auto auto;gap:8px;margin-top:10px}
+    .searchRow input,.field input,.field select,.field textarea{
+      width:100%;border:1px solid var(--line);border-radius:14px;background:#fff;padding:12px 14px;font-size:14px;outline:none
+    }
+    .searchRow input:focus,.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}
+    .tabs{display:flex;gap:8px;overflow:auto;padding:8px 0 2px}
+    .content{padding:10px 0 24px}
+    .grid{display:grid;gap:10px}
+    .companies{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}
+    .products{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+    .offers{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+    .flash{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+    .card{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden
+    }
+    .cardBody{padding:12px}
+    .companyCard{
+      min-height:112px;display:flex;flex-direction:column;justify-content:space-between;cursor:pointer
+    }
+    .companyBadge{
+      width:40px;height:40px;border-radius:14px;background:linear-gradient(135deg,#ebf2fb,#fff);border:1px solid var(--line);
+      display:grid;place-items:center;font-weight:700;color:var(--blue);margin-bottom:8px
+    }
+    .title{font-size:14px;font-weight:700;line-height:1.35;margin:0 0 6px}
+    .sub{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
+    .meta{display:flex;justify-content:space-between;gap:8px;margin-top:8px;font-size:11px;color:var(--muted)}
+    .productImg,.bundleImg{
+      height:92px;background:linear-gradient(135deg,#f5f7fb,#ece5d5);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px
+    }
+    .price{font-weight:800;color:var(--blue)}
+    .price.red{color:var(--red)}
+    .miniRow{display:grid;grid-template-columns:1fr 74px;gap:8px;margin-top:8px}
+    .miniRow2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+    .stack{display:flex;flex-direction:column;gap:8px}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    .qty{
+      width:74px;text-align:center
+    }
+    .small{padding:9px 10px;font-size:12px}
+    .sectionHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 10px}
+    .sectionHead h2{margin:0;font-size:16px}
+    .sectionHead .hint{font-size:12px;color:var(--muted)}
+    .panel{
+      background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:12px
+    }
+    .hidden{display:none !important}
+    .cartItem{
+      display:grid;grid-template-columns:1fr auto;gap:8px;padding:10px 0;border-bottom:1px dashed #e4e8ef
+    }
+    .cartItem:last-child{border-bottom:0}
+    .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 9px;font-size:11px;border:1px solid var(--line);background:#fff}
+    .pill.lock{background:#fff5dd;border-color:#ead18d}
+    .pill.tier{background:#eef7ff;border-color:#cde0f7}
+    .footerBar{
+      position:sticky;bottom:10px;z-index:25;display:flex;gap:8px;justify-content:space-between;align-items:center;
+      background:rgba(255,255,255,.96);border:1px solid var(--line);box-shadow:var(--shadow);border-radius:20px;padding:10px
+    }
+    .footerBar .sum{font-size:13px;font-weight:700}
+    .footerBar .sum small{display:block;color:var(--muted);font-weight:500}
+    .backBtn{background:#f2f4f8}
+    .timer{font-variant-numeric:tabular-nums;font-weight:800;color:var(--red)}
+    .warning{background:#fff5f5;border:1px solid #f3c9c9;color:#9c2222;border-radius:14px;padding:10px;font-size:13px}
+    @media (max-width:720px){
+      .brand h1{font-size:14px}
+      .searchRow{grid-template-columns:1fr auto}
+      .searchRow .wide{grid-column:1/-1}
+      .footerBar{bottom:6px}
+    }
 
+/* ===== AUTH LAYER ===== */
+.authLayer{
+  position:fixed;inset:0;z-index:5000;background:linear-gradient(180deg, rgba(8,15,25,.96), rgba(8,15,25,.90));
+  display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter: blur(12px);
+}
+.authCard{
+  width:min(1080px, 100%);background:#fff;border-radius:28px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.35);
+  border:1px solid rgba(255,255,255,.1)
+}
+.authGrid{display:grid;grid-template-columns:1.05fr .95fr;min-height:640px}
+.authHero{padding:28px;background:linear-gradient(135deg,#0b4f8a,#11335d 55%,#d1a54f);color:#fff;display:flex;flex-direction:column;gap:16px;justify-content:space-between}
+.authHero h2{margin:0;font-size:28px;line-height:1.2}
+.authHero p{margin:0;color:rgba(255,255,255,.92);line-height:1.8;font-size:14px}
+.authBadge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.18);padding:8px 12px;border-radius:999px;font-size:12px}
+.authStats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.authStat{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:12px}
+.authStat strong{display:block;font-size:18px;margin-bottom:6px}
+.authPanel{padding:24px;display:flex;flex-direction:column;gap:16px;background:#fff}
+.authTabs{display:flex;gap:8px;flex-wrap:wrap}
+.authTab{border:1px solid #dce4ee;background:#fff;border-radius:999px;padding:10px 14px;cursor:pointer;font-size:13px}
+.authTab.active{background:#0b4f8a;color:#fff;border-color:#0b4f8a}
+.authForm{display:none;flex-direction:column;gap:10px}
+.authForm.active{display:flex}
+.authField{display:flex;flex-direction:column;gap:6px}
+.authField label{font-size:12px;color:#556070;font-weight:700}
+.authField input,.authField textarea,.authField select{
+  width:100%;border:1px solid #d7dfea;border-radius:14px;padding:12px 14px;font-size:14px;outline:none;background:#fff
+}
+.authField input:focus,.authField textarea:focus,.authField select:focus{border-color:#0b4f8a;box-shadow:0 0 0 3px rgba(11,79,138,.09)}
+.authActions{display:flex;gap:8px;flex-wrap:wrap}
+.authMsg{border-radius:16px;padding:12px 14px;font-size:13px;line-height:1.7;border:1px solid #dce4ee;background:#f8fbff;color:#123}
+.authMsg.success{background:#effbf2;border-color:#bfe6c7;color:#165f2b}
+.authMsg.warn{background:#fff7e8;border-color:#f1d79a;color:#7a5500}
+.authMsg.error{background:#fff2f2;border-color:#f0bcbc;color:#8a1f1f}
+.authNote{font-size:12px;color:#6b7280;line-height:1.8}
+.authHidden{display:none !important}
+body.auth-locked .app{filter:blur(2px);pointer-events:none;user-select:none}
+@media (max-width: 960px){
+  .authGrid{grid-template-columns:1fr}
+  .authHero{min-height:280px}
+}
+  </style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brandRow">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div>
+          <h1 id="appName">الأهرام للتجارة والتوزيع</h1>
+          <p id="appHint">متجر B2B - بيع ذكي - أسعار لحظية</p>
+        </div>
+      </div>
+      <div class="actions">
+        <button class="chip" id="modeBtn">Normal Mode</button>
+        <button class="chip warn" id="tierBtn">Tier Off</button>
+        <button class="chip red" id="repBtn">Rep: OFF</button>
+      </div>
+    </div>
+    <div class="searchRow">
+      <input id="searchInput" class="wide" placeholder="ابحث عن شركة / صنف / عرض / رقم..." />
+      <button class="btn" id="clearSearch">×</button>
+      <button class="btn primary" id="refreshBtn">تحديث</button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-view="home">الرئيسية</button>
+      <button class="tab" data-view="companies">الشركات</button>
+      <button class="tab" data-view="offers">صفقة اليوم</button>
+      <button class="tab" data-view="flash">عرض الساعة</button>
+      <button class="tab" data-view="tiers">الشريحة</button>
+      <button class="tab" data-view="cart">السلة</button>
+      <button class="tab" data-view="orders">الطلبات</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div id="homeView">
+      <div class="sectionHead">
+        <h2>الشركات</h2>
+        <div class="hint">اعرض أكبر عدد ممكن من الكروت بدون زحمة</div>
+      </div>
+      <div id="companiesGrid" class="grid companies"></div>
+
+      <div class="sectionHead" style="margin-top:16px">
+        <h2>أحدث المنتجات</h2>
+        <div class="hint">الوحدة ثم الكمية ثم الشراء</div>
+      </div>
+      <div id="productsGrid" class="grid products"></div>
+    </div>
+
+    <div id="companyView" class="hidden">
+      <div class="sectionHead">
+        <button class="btn backBtn" id="backHome1">رجوع</button>
+        <h2 id="companyTitle">الشركة</h2>
+        <div class="hint">كروت شبكية مضغوطة</div>
+      </div>
+      <div id="companyProducts" class="grid products"></div>
+    </div>
+
+    <div id="offersView" class="hidden">
+      <div class="sectionHead">
+        <button class="btn backBtn" id="backHome2">رجوع</button>
+        <h2>صفقة اليوم</h2>
+        <div class="hint">باكدج ثابت لا يتفكك إلا عند حفظ الطلب</div>
+      </div>
+      <div id="offersGrid" class="grid offers"></div>
+    </div>
+
+    <div id="flashView" class="hidden">
+      <div class="sectionHead">
+        <button class="btn backBtn" id="backHome3">رجوع</button>
+        <h2>عرض الساعة</h2>
+        <div class="hint">يعمل بوقت محدد ويغلق تلقائيًا</div>
+      </div>
+      <div id="flashGrid" class="grid flash"></div>
+    </div>
+
+    <div id="tiersView" class="hidden">
+      <div class="sectionHead">
+        <button class="btn backBtn" id="backHome4">رجوع</button>
+        <h2>الشريحة</h2>
+        <div class="hint">5 شرائح - أسعار لحظية من الشيت</div>
+      </div>
+      <div class="panel" style="margin-bottom:10px">
+        <div class="row" id="tierButtons"></div>
+      </div>
+      <div id="tierProducts" class="grid products"></div>
+    </div>
+
+    <div id="cartView" class="hidden">
+      <div class="sectionHead">
+        <button class="btn backBtn" id="backHome5">رجوع</button>
+        <h2>السلة</h2>
+        <div class="hint">لا تخزن السعر - احسبه لحظيًا</div>
+      </div>
+      <div class="panel">
+        <div id="cartItems"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:8px;flex-wrap:wrap">
+          <div>
+            <div class="sum">الإجمالي: <span id="cartTotal">0</span></div>
+            <div class="sub" id="cartSummary">0 بند</div>
+          </div>
+          <div class="row">
+            <button class="btn" id="clearCart">تفريغ السلة</button>
+            <button class="btn primary" id="checkoutBtn">تأكيد الطلب</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="ordersView" class="hidden">
+      <div class="sectionHead">
+        <button class="btn backBtn" id="backHome6">رجوع</button>
+        <h2>الطلبات</h2>
+        <div class="hint">متابعة / إعادة طلب / PDF</div>
+      </div>
+      <div class="panel">
+        <div id="ordersList" class="stack"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footerBar">
+    <div class="sum">
+      <small>الوضع الحالي</small>
+      <span id="statusText">جاهز</span>
+    </div>
+    <div class="sum" style="text-align:left">
+      <small>السلة</small>
+      <span id="footerTotal">0</span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+/* =========================
+   Alahram B2B Store Starter + Sales Engine Layer
+   ========================= */
+
+// ===== DATA =====
+// الروابط الرسمية من المستخدم
+const CONFIG = {
+  companyName: "الأهرام للتجارة والتوزيع",
+  whatsappNumber: "201552670465",
+  apiUrl: "https://script.google.com/macros/s/AKfycbxMS8WGi17SEIM72ymez1GUD9X8OLehJVXtKlwwTWtGIhKnTQnr_d-FnK5vdrAShGcf4Q/exec",
+  sheets: {
+    products: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=876724211&single=true&output=csv",
+    categories: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=88030026&single=true&output=csv",
+    customers: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=1309694873&single=true&output=csv",
+    reps: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=358488055&single=true&output=csv",
+    orders: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=41007407&single=true&output=csv",
+    orderItems: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=897522352&single=true&output=csv",
+    offers: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=863899727&single=true&output=csv",
+    flashOffers: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=1448598336&single=true&output=csv",
+    tiers: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=801156952&single=true&output=csv",
+    tierPrices: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=1418167637&single=true&output=csv",
+    settings: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSkbig8ZQ9b3a4nPO9gZqVdWLPSUS_YDtfO7Jn74Td7EgGH1PIB02R4hH7fqq787kuz5GDD8ZqK91Yu/pub?gid=351877199&single=true&output=csv"
+  }
+};
+
+// ===== STATE =====
+// الحالة التشغيلية وحفظ الاختيارات
+const state = {
+  view: "home",
+  mode: "normal",   // normal | tier
+  tier: null,       // T1..T5
+  rep: null,
+  customerPhone: localStorage.getItem("alahram_phone") || "",
+  search: "",
+  companies: [],
+  categories: [],
+  products: [],
+  customers: [],
+  reps: [],
+  tiers: [],
+  tierPrices: [],
+  offers: [],
+  offerItems: [],
+  flashOffers: [],
+  flashItems: [],
+  orders: [],
+  customerPrices: [],
+  smartMessages: [],
+  messageRules: [],
+  settings: [],
+  settingsMap: {},
+  cart: JSON.parse(localStorage.getItem("alahram_cart") || "[]"),
+  lastMessageKey: localStorage.getItem("alahram_last_msg") || "",
+  selectedCompany: null,
+  selectedProductUnit: {},
+  loaded: false,
+  behavior: {
+    lastActivityAt: Date.now(),
+    idleTimer: null,
+    addCount: 0,
+    viewSwitchCount: 0,
+    searchCount: 0,
+    lastView: "home",
+    hasShownStart: false,
+    lastCartTotal: 0,
+    lastAddedAt: 0,
+    lastHoverNoteAt: 0
+  },
+  ui: {
+    salesBannerReady: false,
+    reviewModalOpen: false
+  },
+  salesState: {
+    currentPersona: "الجدع",
+    currentMessage: "",
+    currentTrigger: "",
+    lastShownAt: {},
+    lastShownText: ""
+  }
+};
+
+// ---------------------------
+// ===== HELPERS =====
+// أدوات عامة
+// ---------------------------
+const money = n => new Intl.NumberFormat("en-US",{maximumFractionDigits:2}).format(Number(n||0));
+const nowISODate = () => new Date().toISOString().slice(0,10);
+const nowTime = () => new Date().toTimeString().slice(0,5);
+const uid = prefix => `${prefix}-${Date.now().toString().slice(-6)}${Math.floor(Math.random()*90+10)}`;
+const normalize = s => (s ?? "").toString().trim().toLowerCase().replace(/\s+/g," ");
+const isOn = v => String(v).trim() === "1" || String(v).toLowerCase() === "true" || String(v).toLowerCase() === "active" || String(v).toLowerCase() === "yes" || String(v).toLowerCase() === "on";
+const byCompany = (items, company) => items.filter(x => normalize(x.company) === normalize(company));
+const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+const uniq = arr => [...new Set(arr)];
+const toNum = v => {
+  const n = Number(String(v ?? "").replace(/,/g,"").trim());
+  return Number.isFinite(n) ? n : 0;
+};
+
+function csvToObjects(csvText){
+  // ملاحظة: هذا parser بسيط ومناسب للـ CSV الخارجة من Google Sheets
+  const rows = [];
+  let row = [], cur = "", inQuotes = false;
+  const push = () => { row.push(cur); cur = ""; };
+  const commit = () => { rows.push(row); row = []; };
+  for (let i=0;i<csvText.length;i++){
+    const ch = csvText[i], next = csvText[i+1];
+    if (ch === '"' && inQuotes && next === '"') { cur += '"'; i++; continue; }
+    if (ch === '"') { inQuotes = !inQuotes; continue; }
+    if (ch === ',' && !inQuotes) { push(); continue; }
+    if ((ch === '\n' || ch === '\r') && !inQuotes) {
+      if (ch === '\r' && next === '\n') continue;
+      push();
+      if (row.some(v => String(v).trim() !== "")) commit();
+      else { row = []; cur = ""; }
+      continue;
+    }
+    cur += ch;
+  }
+  if (cur.length || row.length){ push(); if (row.some(v => String(v).trim() !== "")) commit(); }
+  if (!rows.length) return [];
+  const headers = rows[0].map(h => h.trim());
+  return rows.slice(2).filter(r => r.some(v => String(v).trim() !== "")).map(r => {
+    const obj = {};
+    headers.forEach((h,i) => obj[h] = (r[i] ?? "").trim());
+    return obj;
+  });
+}
+
+async function loadCsv(url){
+  try{
+    const res = await fetch(url, {cache:"no-store"});
+    const txt = await res.text();
+    return csvToObjects(txt);
+  }catch(e){
+    console.warn("CSV load failed:", url, e);
+    return [];
+  }
+}
+
+function loadJsonp(url){
+  // تحميل عبر JSONP لتجاوز CORS عند جلب Bootstrap من Apps Script
+  return new Promise((resolve, reject) => {
+    const cbName = `jsonp_${Date.now()}_${Math.floor(Math.random()*9999)}`;
+    const script = document.createElement("script");
+    const timeout = setTimeout(() => {
+      cleanup();
+      reject(new Error("jsonp_timeout"));
+    }, 8000);
+
+    function cleanup(){
+      clearTimeout(timeout);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    window[cbName] = (data) => {
+      cleanup();
+      resolve(data);
+    };
+
+    script.onerror = () => {
+      cleanup();
+      reject(new Error("jsonp_error"));
+    };
+
+    script.src = `${url}${url.includes("?") ? "&" : "?"}action=bootstrap&callback=${cbName}&_=${Date.now()}`;
+    document.head.appendChild(script);
+  });
+}
+
+function saveLocal(){
+  localStorage.setItem("alahram_cart", JSON.stringify(state.cart));
+  localStorage.setItem("alahram_phone", state.customerPhone || "");
+  localStorage.setItem("alahram_last_msg", state.lastMessageKey || "");
+}
+
+function parseSettings(rows){
+  const map = {};
+  (rows || []).forEach(row => {
+    const key = normalize(row.key || row.setting_key || row.name);
+    if (!key) return;
+    map[key] = row.value ?? row.setting_value ?? row.val ?? "";
+  });
+  return map;
+}
+
+function getSetting(keys, fallback = ""){
+  const arr = Array.isArray(keys) ? keys : [keys];
+  for (const key of arr){
+    const v = state.settingsMap[normalize(key)];
+    if (v !== undefined && String(v).trim() !== "") return v;
+  }
+  return fallback;
+}
+
+function settingsNumber(keys, fallback = 0){
+  const v = getSetting(keys, "");
+  const n = Number(String(v).replace(/,/g,"").trim());
+  return Number.isFinite(n) ? n : fallback;
+}
+
+// ---------------------------
+// منطق التسعير
+// ---------------------------
+// ===== PRICING ENGINE =====
+// منطق التسعير الموحد داخل نفس الملف
+function getTierPriceMap(){
+  const tierKey = state.tier || "T1";
+  const keyByTier = {T1:"tier_50k", T2:"tier_100k", T3:"tier_200k", T4:"tier_500k", T5:"tier_1m"};
+  return keyByTier[tierKey] || "tier_50k";
+}
+
+function getTierPrice(productCode, unit){
+  const key = getTierPriceMap();
+  const row = state.tierPrices.find(x =>
+    normalize(x.product_code) === normalize(productCode) &&
+    normalize(x.unit) === normalize(unit) &&
+    isOn(x.active)
+  );
+  if (!row) return null;
+  const v = row[key];
+  return v === "" || v === undefined ? null : Number(v);
+}
+
+function getCustomerPrice(phone, productCode, unit){
+  const row = state.customerPrices?.find(x =>
+    normalize(x.phone) === normalize(phone) &&
+    normalize(x.product_code) === normalize(productCode) &&
+    normalize(x.unit) === normalize(unit) &&
+    isOn(x.active)
+  );
+  if (!row) return null;
+  const v = row.customer_price;
+  return v === "" || v === undefined ? null : Number(v);
+}
+
+function getBasePrice(product, unit){
+  const map = {carton:"base_carton", pack:"base_pack", piece:"base_piece"};
+  const v = product?.[map[unit]];
+  return v === "" || v === undefined ? null : Number(v);
+}
+
+function getPriceDetails(product, unit, qty){
+  const productObj = typeof product === "string" ? getProductByCode(product) : product;
+  if (!productObj) return {price:0, source:"missing"};
+  const productCode = productObj.code || product;
+  const phone = state.customerPhone.trim();
+  if (state.mode === "tier" || state.tier){
+    const tierPrice = getTierPrice(productCode, unit);
+    if (tierPrice !== null) return {price:tierPrice, source:"tier"};
+  }
+  if (phone){
+    const customerPrice = getCustomerPrice(phone, productCode, unit);
+    if (customerPrice !== null) return {price:customerPrice, source:"customer"};
+  }
+  const base = getBasePrice(productObj, unit);
+  return {price: base ?? 0, source:"base"};
+}
+
+function getPrice(product, unit, qty){
+  return getPriceDetails(product, unit, qty).price;
+}
+
+function resolvePrice(productCode, unit){
+  return getPriceDetails(productCode, unit);
+}
+
+function getProductUnitOptions(product){
+  const units = [];
+  if (product.base_carton !== "" && product.base_carton != null) units.push("carton");
+  if (product.base_pack !== "" && product.base_pack != null) units.push("pack");
+  if (product.base_piece !== "" && product.base_piece != null) units.push("piece");
+  return units;
+}
+
+function getProductByCode(code){
+  return state.products.find(p => normalize(p.code) === normalize(code));
+}
+
+function getNextTierThreshold(total){
+  const tiers = (state.tiers || [])
+    .filter(t => isOn(t.active))
+    .map(t => ({ ...t, min: toNum(t.min_amount) }))
+    .filter(t => t.min > 0)
+    .sort((a,b) => a.min - b.min);
+  const next = tiers.find(t => total < t.min);
+  return next || null;
+}
+
+function isNearThreshold(total){
+  const next = getNextTierThreshold(total);
+  if (!next) return null;
+  const diff = next.min - total;
+  const closeEnough = diff > 0 && (diff <= 300 || diff / next.min <= 0.07);
+  return closeEnough ? { tier: next, diff } : null;
+}
+
+function getMinimumOrderAmount(){
+  return settingsNumber(["min_order_amount","minimum_order_amount","min_amount","minimum_order"], 0);
+}
+
+// ---------------------------
+// ===== SALES ENGINE =====
+// بيانات الطلبات الذكية
+// ---------------------------
+const FALLBACK_MESSAGES = [
+  {trigger_key:"add_success", persona:"الجدع", message_ar:"حلو أوي 🔥 كده البداية صح… كمّل عشان تاخد أفضل سعر", priority:1, active:"1"},
+  {trigger_key:"single_item", persona:"الخبير", message_ar:"لسه بدري 😏 العملاء الكبار بيبدأوا من 5 كراتين على الأقل", priority:1, active:"1"},
+  {trigger_key:"near_tier", persona:"الخبير", message_ar:"فاضلك كام جنيه وتدخل سعر الجملة التقيل 💰 تحب أوصلّك؟", priority:1, active:"1"},
+  {trigger_key:"idle_10s", persona:"المستعجل", message_ar:"واقف ليه بس 😄 كمل وخلص طلبك وريح دماغك", priority:1, active:"1"},
+  {trigger_key:"offer_open", persona:"المستعجل", message_ar:"العرض ده بيتسحب بسرعة ⚡ خلص قبل ما يخلص", priority:1, active:"1"},
+  {trigger_key:"review_order", persona:"المريح", message_ar:"تمام كده؟ جاهز أبعت الطلب؟", priority:1, active:"1"},
+  {trigger_key:"order_sent", persona:"المريح", message_ar:"طلبك وصل 🔥 هنتواصل معاك حالاً", priority:1, active:"1"},
+  {trigger_key:"minimum_order", persona:"المريح", message_ar:"الطلب لسه صغير 😅 كمل شوية عشان يتنفذ", priority:1, active:"1"},
+  {trigger_key:"upsell_piece", persona:"الخبير", message_ar:"خد كرتونة أوفر بفرق بسيط", priority:1, active:"1"},
+  {trigger_key:"cross_sell", persona:"الجدع", message_ar:"ضيف عليه كمان صنف مكمل ووفّر على نفسك", priority:1, active:"1"}
+];
+
+function normalizePersona(v){
+  const raw = normalize(v);
+  const map = {
+    "buddy":"الجدع",
+    "boss":"المستعجل",
+    "closer":"المريح",
+    "analyst":"الخبير",
+    "advisor":"المريح",
+    "الجدع":"الجدع",
+    "الخبير":"الخبير",
+    "المستعجل":"المستعجل",
+    "المريح":"المريح"
+  };
+  return map[raw] || v || "الجدع";
+}
+
+function choosePersona(triggerKey, context = {}){
+  const total = cartTotal();
+  if (triggerKey === "review_order" || triggerKey === "order_sent" || triggerKey === "minimum_order") return "المريح";
+  if (triggerKey === "idle_10s") return "المستعجل";
+  if (triggerKey === "near_tier") return "الخبير";
+  if (triggerKey === "offer_open") return "المستعجل";
+  if (triggerKey === "single_item") return "الخبير";
+  if (context.categorySwitches > 1 || context.searchCount > 2) return "الخبير";
+  if (total > 0 && total < getMinimumOrderAmount() * 1.15) return "المريح";
+  return "الجدع";
+}
+
+function getSmartMessages(){
+  const fromSheet = (state.smartMessages || [])
+    .filter(x => isOn(x.active))
+    .map(x => ({
+      ...x,
+      persona: normalizePersona(x.persona),
+      priority: toNum(x.priority) || 999
+    }));
+  return fromSheet.length ? fromSheet : FALLBACK_MESSAGES;
+}
+
+function canShowMessage(triggerKey, messageText){
+  const key = `${triggerKey}|${normalize(messageText)}`;
+  const lastAt = state.salesState.lastShownAt[key] || 0;
+  return (Date.now() - lastAt) > 12000;
+}
+
+function markShown(triggerKey, messageText){
+  const key = `${triggerKey}|${normalize(messageText)}`;
+  state.salesState.lastShownAt[key] = Date.now();
+  state.lastMessageKey = triggerKey;
+  saveLocal();
+}
+
+function pickSmartMessage(triggerKey, persona, context = {}){
+  const list = getSmartMessages()
+    .filter(x => normalize(x.trigger_key) === normalize(triggerKey))
+    .filter(x => !x.persona || normalizePersona(x.persona) === normalizePersona(persona) || normalize(x.persona) === "any");
+  const pool = list.length ? list : getSmartMessages().filter(x => normalize(x.trigger_key) === normalize(triggerKey));
+  if (!pool.length) return "";
+  pool.sort((a,b) => toNum(a.priority) - toNum(b.priority));
+  const chosen = pool[0];
+  return chosen?.message_ar || "";
+}
+
+function showSalesMessage(triggerKey, context = {}){
+  const persona = choosePersona(triggerKey, context);
+  const msg = pickSmartMessage(triggerKey, persona, context);
+  if (!msg) return "";
+  if (!canShowMessage(triggerKey, msg)) return "";
+  state.salesState.currentPersona = persona;
+  state.salesState.currentMessage = msg;
+  state.salesState.currentTrigger = triggerKey;
+  markShown(triggerKey, msg);
+  renderSalesBanner();
+  toast(msg);
+  return msg;
+}
+
+function renderSalesBanner(){
+  ensureSalesBanner();
+  const banner = document.getElementById("salesBanner");
+  if (!banner) return;
+  const message = state.salesState.currentMessage || "";
+  const persona = state.salesState.currentPersona || "الجدع";
+  const subtitle = salesSubtitle();
+  banner.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <div>
+        <div class="personaTag">${escapeHtml(persona)}</div>
+        <div class="salesText">${escapeHtml(message || subtitle)}</div>
+      </div>
+      <div class="row">
+        <button class="btn small" id="salesQuickReview">راجع السلة</button>
+        <button class="btn primary small" id="salesQuickCheckout">قفل الطلب</button>
+      </div>
+    </div>
+  `;
+  banner.classList.toggle("hidden", !(message || subtitle));
+  const rev = document.getElementById("salesQuickReview");
+  const chk = document.getElementById("salesQuickCheckout");
+  if (rev) rev.onclick = () => switchView("cart");
+  if (chk) chk.onclick = () => checkout();
+}
+
+function salesSubtitle(){
+  const total = cartTotal();
+  const min = getMinimumOrderAmount();
+  const near = isNearThreshold(total);
+  if (!state.cart.length) return "ابدأ بإضافة أول صنف… وأنا أوصلّك لأفضل تركيبة";
+  if (state.cart.length === 1) return "لسه بدري 😏 حط شوية أصناف وخلّي السلة تقفل صح";
+  if (min && total < min) return `الطلب لسه أقل من الحد الأدنى (${money(min)}). كمل شوية وخلاص`;
+  if (near) return `فاضلك ${money(near.diff)} جنيه وتدخل شريحة ${near.tier.tier_name || near.tier.tier_id}`;
+  return "بتمشي صح… خطوة واحدة وتبعت الطلب";
+}
+
+function ensureSalesBanner(){
+  if (state.ui.salesBannerReady) return;
+  const content = document.querySelector(".content");
+  if (!content) return;
+  const box = document.createElement("div");
+  box.id = "salesBanner";
+  box.className = "panel hidden";
+  box.style.margin = "0 0 10px";
+  box.style.border = "1px solid #e6d39a";
+  box.style.background = "linear-gradient(180deg, #fffaf0, #fff)";
+  box.innerHTML = "";
+  content.prepend(box);
+  state.ui.salesBannerReady = true;
+}
+
+function onActivity(kind, detail = {}){
+  state.behavior.lastActivityAt = Date.now();
+  if (kind === "search") state.behavior.searchCount += 1;
+  if (kind === "view") state.behavior.viewSwitchCount += 1;
+  if (kind === "add") state.behavior.addCount += 1;
+  if (kind === "add") state.behavior.lastAddedAt = Date.now();
+  restartIdleWatch();
+  maybePressureEngine(kind, detail);
+}
+
+function maybePressureEngine(kind, detail = {}){
+  const total = cartTotal();
+  const count = state.cart.length;
+  if (kind === "add"){
+    showSalesMessage("add_success", { total, count, ...detail });
+    if (count === 1) showSalesMessage("single_item", { total, count, ...detail });
+  }
+  if (kind === "view" && (detail.view === "offers" || detail.view === "flash")){
+    showSalesMessage("offer_open", { total, count, ...detail });
+  }
+  if (kind === "search" && state.behavior.searchCount >= 3){
+    showSalesMessage("single_item", { total, count, searchCount: state.behavior.searchCount, ...detail });
+  }
+  const min = getMinimumOrderAmount();
+  if (min > 0 && total > 0 && total < min){
+    showSalesMessage("minimum_order", { total, count, min, ...detail });
+  }
+  const near = isNearThreshold(total);
+  if (near){
+    showSalesMessage("near_tier", { total, count, near, ...detail });
+  }
+  if (detail.forceReview){
+    showSalesMessage("review_order", { total, count, ...detail });
+  }
+}
+
+function restartIdleWatch(){
+  clearTimeout(state.behavior.idleTimer);
+  state.behavior.idleTimer = setTimeout(() => {
+    if (state.cart.length > 0){
+      showSalesMessage("idle_10s", { total: cartTotal(), count: state.cart.length, idle: true });
+    }
+  }, 10000);
+}
+
+// ---------------------------
+// الكارت
+// ---------------------------
+// ===== CART SYSTEM =====
+// إدارة السلة والطلب والاحتساب
+function addToCart(item){
+  // item: {type, product_code, name, company, unit, qty, offer_id, flash_id, locked}
+  if (!item.unit && item.type === "product"){
+    toast(smartMessage("missing_unit") || "اختار الوحدة أولاً");
+    return;
+  }
+  if (state.mode === "tier" && (item.type === "offer" || item.type === "flash")){
+    toast("العروض غير متاحة داخل الشريحة");
+    return;
+  }
+  if (item.type !== "product") item.qty = 1; // الباكدج لا يتجزأ داخل السلة
+  const key = [item.type,item.product_code||"",item.unit||"",item.offer_id||"",item.flash_id||""].join("|");
+  const exists = state.cart.find(x => x._key === key);
+  const baseItem = {...item, _key:key};
+  if (exists){
+    if (exists.locked) {
+      toast("هذا الباكدج ثابت ولا يمكن تعديل كميته");
+      return;
+    }
+    exists.qty = (Number(exists.qty)||0) + Number(item.qty||1);
+  } else {
+    state.cart.push(baseItem);
+  }
+  saveLocal();
+  onActivity("add", { item });
+  renderAll();
+  toast(smartMessage("add_success") || "تمت الإضافة");
+}
+
+function removeFromCart(key){
+  state.cart = state.cart.filter(x => x._key !== key);
+  saveLocal();
+  renderAll();
+}
+
+function updateCartQty(key, qty){
+  const item = state.cart.find(x => x._key === key);
+  if (!item) return;
+  if (item.locked){
+    toast("الباكدج ثابت. احذفه فقط");
+    return;
+  }
+  item.qty = Math.max(1, Number(qty)||1);
+  saveLocal();
+  renderAll();
+}
+
+function cartLinePrice(item){
+  if (item.type === "offer"){
+    const offer = state.offers.find(o => normalize(o.offer_id) === normalize(item.offer_id));
+    return Number(offer?.price || 0);
+  }
+  if (item.type === "flash"){
+    const flash = state.flashOffers.find(o => normalize(o.flash_id) === normalize(item.flash_id));
+    return Number(flash?.price || 0);
+  }
+  const product = getProductByCode(item.product_code);
+  return getPrice(product || item.product_code, item.unit, item.qty);
+}
+
+function cartTotal(){
+  return state.cart.reduce((sum, item) => sum + (cartLinePrice(item) * Number(item.qty||1)), 0);
+}
+
+function explodeForOrder(){
+  // يفكك الباكدج إلى عناصر تفاصيل عند الحفظ فقط
+  const out = [];
+  state.cart.forEach(item => {
+    if (item.type === "product"){
+      out.push({...item, line_type:"product", price: cartLinePrice(item), total: cartLinePrice(item) * Number(item.qty||1)});
+      return;
+    }
+    if (item.type === "offer"){
+      const lines = (state.offerItems || []).filter(x => normalize(x.offer_id) === normalize(item.offer_id));
+      lines.forEach(li => out.push({
+        line_type:"offer",
+        bundle_id:item.offer_id,
+        product_code: li.product_code,
+        name: li.product_name,
+        company: li.company || "",
+        unit: li.unit,
+        qty: Number(li.qty||1),
+        price: 0,
+        total: 0,
+        notes: "تفكيك عند الحفظ"
+      }));
+      return;
+    }
+    if (item.type === "flash"){
+      const lines = (state.flashItems || []).filter(x => normalize(x.flash_id) === normalize(item.flash_id));
+      lines.forEach(li => out.push({
+        line_type:"flash",
+        bundle_id:item.flash_id,
+        product_code: li.product_code,
+        name: li.product_name,
+        company: li.company || "",
+        unit: li.unit,
+        qty: Number(li.qty||1),
+        price: 0,
+        total: 0,
+        notes: "تفكيك عند الحفظ"
+      }));
+      return;
+    }
+  });
+  return out;
+}
+
+function getCartUpsellSuggestions(){
+  const suggestions = [];
+  const firstProduct = state.cart.find(x => x.type === "product");
+  if (!firstProduct) return suggestions;
+  const product = getProductByCode(firstProduct.product_code);
+  if (!product) return suggestions;
+
+  const sameCategory = state.products.find(p =>
+    p.code !== product.code &&
+    normalize(p.category) === normalize(product.category) &&
+    isOn(p.status)
+  );
+  if (sameCategory) suggestions.push({
+    key: "cross_sell",
+    title: sameCategory.name,
+    text: `الناس اللي اشترت ده، جابت معاه ده`,
+    action: () => openProductQuick(sameCategory.code)
+  });
+
+  if (firstProduct.unit === "piece" && getProductUnitOptions(product).includes("carton")){
+    suggestions.push({
+      key: "upsell_piece",
+      title: product.name,
+      text: "خد كرتونة أوفر بفرق بسيط",
+      action: () => toast("غيّر الوحدة إلى كرتونة من كارت المنتج")
+    });
+  }
+  return suggestions.slice(0, 2);
+}
+
+function openProductQuick(code){
+  state.search = code;
+  document.getElementById("searchInput").value = code;
+  renderAll();
+  switchView("home");
+}
+
+// ---------------------------
+// التصفية والعرض
+// ---------------------------
+// ===== UI RENDER =====
+// عرض البيانات فقط بدون حسابات داخلية
+function getVisibleProducts(){
+  const q = normalize(state.search);
+  let items = state.products.filter(p => isOn(p.status));
+  if (state.selectedCompany) items = items.filter(p => normalize(p.company) === normalize(state.selectedCompany));
+  if (q){
+    items = items.filter(p =>
+      [p.code,p.name,p.company,p.category,p.notes].some(v => normalize(v).includes(q))
+    );
+  }
+  return items;
+}
+
+function getVisibleCompanies(){
+  const q = normalize(state.search);
+  let items = state.companies.filter(c => isOn(c.status));
+  if (q){
+    items = items.filter(c => [c.company_name,c.company_id,c.notes].some(v => normalize(v).includes(q)));
+  }
+  return items.sort((a,b) => Number(a.sort_order||999) - Number(b.sort_order||999));
+}
+
+function renderCompanies(){
+  const grid = document.getElementById("companiesGrid");
+  const items = getVisibleCompanies();
+  grid.innerHTML = items.map(c => `
+    <div class="card companyCard" data-company="${escapeHtml(c.company_name)}">
+      <div class="cardBody">
+        <div class="companyBadge">${shortName(c.company_name)}</div>
+        <h3 class="title">${escapeHtml(c.company_name)}</h3>
+        <p class="sub">${escapeHtml(c.notes || "شركة")}</p>
+        <div class="meta">
+          <span>كود: ${escapeHtml(c.company_id || "")}</span>
+          <span>${isOn(c.status) ? "فعال" : "موقوف"}</span>
+        </div>
+      </div>
+    </div>
+  `).join("") || `<div class="warning">لا توجد شركات مطابقة للبحث</div>`;
+  grid.querySelectorAll("[data-company]").forEach(el => {
+    el.onclick = () => {
+      openCompany(el.dataset.company);
+      onActivity("view", {type:"company", company: el.dataset.company});
+    };
+  });
+}
+
+function renderProducts(targetId, items){
+  const host = document.getElementById(targetId);
+  host.innerHTML = items.map(p => {
+    const units = getProductUnitOptions(p);
+    const initial = state.selectedProductUnit[p.code] || units[0] || "";
+    const priceInfo = initial ? resolvePrice(p.code, initial) : {price:0, source:"base"};
+    return `
+      <div class="card">
+        <div class="productImg">${p.image ? `<img src="${escapeAttr(p.image)}" style="width:100%;height:100%;object-fit:cover">` : "صورة المنتج"}</div>
+        <div class="cardBody">
+          <h3 class="title">${escapeHtml(p.name)}</h3>
+          <p class="sub">${escapeHtml(p.company)} - ${escapeHtml(p.category || "")}</p>
+          <div class="meta">
+            <span class="price">${money(priceInfo.price)} EGP</span>
+            <span>${priceInfo.source === "tier" ? "شريحة" : priceInfo.source === "customer" ? "عميل" : "أساسي"}</span>
+          </div>
+          <div class="miniRow2">
+            <select class="fieldSelect" data-unit="${escapeAttr(p.code)}" style="border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff">
+              <option value="">الوحدة</option>
+              ${units.map(u => `<option value="${u}" ${u===initial?'selected':''}>${unitLabel(u)}</option>`).join("")}
+            </select>
+            <input class="qty" type="number" min="1" value="1" data-qty="${escapeAttr(p.code)}" />
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary small" data-buy="${escapeAttr(p.code)}">شراء</button>
+            <button class="btn small" data-save="${escapeAttr(p.code)}">+ سلة</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join("") || `<div class="warning">لا توجد منتجات مطابقة</div>`;
+  host.querySelectorAll("[data-unit]").forEach(sel => {
+    sel.onchange = e => {
+      state.selectedProductUnit[e.target.dataset.unit] = e.target.value;
+      onActivity("touch", {type:"unit_change"});
+    };
+  });
+  host.querySelectorAll("[data-buy]").forEach(btn => {
+    btn.onclick = () => {
+      const code = btn.dataset.buy;
+      const p = state.products.find(x => x.code === code);
+      const unit = host.querySelector(`[data-unit="${CSS.escape(code)}"]`).value;
+      const qty = Number(host.querySelector(`[data-qty="${CSS.escape(code)}"]`).value || 1);
+      if (!unit) return toast(smartMessage("missing_unit") || "اختار الوحدة أولاً");
+      addToCart({
+        type:"product",
+        product_code: code,
+        name: p.name,
+        company: p.company,
+        unit,
+        qty,
+        locked:false
+      });
+      switchView("cart");
+    };
+  });
+  host.querySelectorAll("[data-save]").forEach(btn => {
+    btn.onclick = () => {
+      const code = btn.dataset.save;
+      const p = state.products.find(x => x.code === code);
+      const unit = host.querySelector(`[data-unit="${CSS.escape(code)}"]`).value;
+      const qty = Number(host.querySelector(`[data-qty="${CSS.escape(code)}"]`).value || 1);
+      if (!unit) return toast(smartMessage("missing_unit") || "اختار الوحدة أولاً");
+      addToCart({
+        type:"product",
+        product_code: code,
+        name: p.name,
+        company: p.company,
+        unit,
+        qty,
+        locked:false
+      });
+    };
+  });
+}
+
+function renderOffers(){
+  const grid = document.getElementById("offersGrid");
+  const q = normalize(state.search);
+  const items = state.offers.filter(o => isOn(o.status) && (!q || [o.title,o.description,o.offer_id].some(v => normalize(v).includes(q))));
+  grid.innerHTML = items.map(o => {
+    const lines = (state.offerItems || []).filter(x => normalize(x.offer_id) === normalize(o.offer_id));
+    return `
+      <div class="card">
+        <div class="bundleImg">${o.image ? `<img src="${escapeAttr(o.image)}" style="width:100%;height:100%;object-fit:cover">` : "صفقة اليوم"}</div>
+        <div class="cardBody">
+          <h3 class="title">${escapeHtml(o.title)}</h3>
+          <p class="sub">${escapeHtml(o.description || "")}</p>
+          <div class="meta"><span class="price red">${money(o.price)} EGP</span><span>${lines.length} أصناف</span></div>
+          <p class="sub" style="margin-top:8px">${lines.slice(0,3).map(x => `${escapeHtml(x.product_name)} x${escapeHtml(x.qty)} ${unitLabel(x.unit)}`).join(" • ")}</p>
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary small" data-offer="${escapeAttr(o.offer_id)}">شراء الباكدج</button>
+          </div>
+        </div>
+      </div>`;
+  }).join("") || `<div class="warning">لا توجد صفقات مطابقة</div>`;
+  grid.querySelectorAll("[data-offer]").forEach(btn => btn.onclick = () => {
+    if (state.mode === "tier") return toast("العروض غير متاحة داخل الشريحة");
+    const o = state.offers.find(x => normalize(x.offer_id) === normalize(btn.dataset.offer));
+    if (!o) return;
+    addToCart({type:"offer", offer_id:o.offer_id, product_code:o.offer_id, name:o.title, unit:"bundle", qty:1, locked:true});
+    showSalesMessage("offer_open", { offer: o.offer_id });
+  });
+}
+
+function flashStatus(o){
+  const start = new Date(`${o.start_date}T${o.start_time || "00:00"}`);
+  const duration = Number(o.duration_minutes || 60);
+  const end = new Date(start.getTime() + duration*60000);
+  const now = new Date();
+  if (now < start) return "upcoming";
+  if (now >= start && now <= end) return "active";
+  return "ended";
+}
+function formatTimer(ms){
+  const sec = Math.max(0, Math.floor(ms/1000));
+  const h = String(Math.floor(sec/3600)).padStart(2,'0');
+  const m = String(Math.floor((sec%3600)/60)).padStart(2,'0');
+  const s = String(sec%60).padStart(2,'0');
+  return `${h} : ${m} : ${s}`;
+}
+function updateFlashTimers(){
+  document.querySelectorAll("[data-timer]").forEach(el => {
+    const id = el.dataset.timer;
+    const o = state.flashOffers.find(x => normalize(x.flash_id) === normalize(id));
+    if (!o) return;
+    const start = new Date(`${o.start_date}T${o.start_time || "00:00"}`);
+    const duration = Number(o.duration_minutes || 60);
+    const end = new Date(start.getTime() + duration*60000);
+    const now = new Date();
+    let txt = "";
+    if (now < start){
+      const diff = start - now;
+      txt = "يبدأ خلال " + formatTimer(diff);
+    } else if (now <= end){
+      const diff = end - now;
+      txt = formatTimer(diff);
+    } else {
+      txt = "انتهى";
+    }
+    el.textContent = txt;
+  });
+}
+
+function renderFlash(){
+  const grid = document.getElementById("flashGrid");
+  const q = normalize(state.search);
+  const items = state.flashOffers.filter(o => (!q || [o.title,o.description,o.flash_id].some(v => normalize(v).includes(q))));
+  grid.innerHTML = items.map(o => {
+    const status = flashStatus(o);
+    const timeLabel = status === "active" ? `<span class="timer" data-timer="${escapeAttr(o.flash_id)}"></span>` : `<span>${status === "upcoming" ? "قريبًا" : "انتهى"}</span>`;
+    return `
+      <div class="card">
+        <div class="bundleImg">${o.image ? `<img src="${escapeAttr(o.image)}" style="width:100%;height:100%;object-fit:cover">` : "عرض الساعة"}</div>
+        <div class="cardBody">
+          <h3 class="title">${escapeHtml(o.title)}</h3>
+          <p class="sub">${escapeHtml(o.description || "")}</p>
+          <div class="meta">
+            <span class="price red">${money(o.price)} EGP</span>
+            <span>${timeLabel}</span>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn primary small" data-flash="${escapeAttr(o.flash_id)}" ${status === "ended" ? "disabled" : ""}>${status === "ended" ? "انتهى" : "شراء"}</button>
+          </div>
+        </div>
+      </div>`;
+  }).join("") || `<div class="warning">لا توجد عروض ساعة مطابقة</div>`;
+  grid.querySelectorAll("[data-flash]").forEach(btn => btn.onclick = () => {
+    if (state.mode === "tier") return toast("العروض غير متاحة داخل الشريحة");
+    const f = state.flashOffers.find(x => normalize(x.flash_id) === normalize(btn.dataset.flash));
+    if (!f) return;
+    const status = flashStatus(f);
+    if (status === "ended") return toast("العرض انتهى");
+    addToCart({type:"flash", flash_id:f.flash_id, product_code:f.flash_id, name:f.title, unit:"bundle", qty:1, locked:true});
+    showSalesMessage("offer_open", { flash: f.flash_id });
+  });
+  updateFlashTimers();
+}
+
+function renderTierButtons(){
+  const host = document.getElementById("tierButtons");
+  const items = state.tiers.filter(t => isOn(t.active));
+  host.innerHTML = items.map(t => `
+    <button class="chip ${state.tier===t.tier_id ? 'active':''}" data-tier="${escapeAttr(t.tier_id)}">
+      ${escapeHtml(t.visible_label || t.tier_name || t.tier_id)}
+    </button>
+  `).join("");
+  host.querySelectorAll("[data-tier]").forEach(btn => btn.onclick = () => {
+    state.tier = btn.dataset.tier;
+    state.mode = "tier";
+    // عند دخول الشريحة: حذف الباندلز فقط
+    state.cart = state.cart.filter(x => x.type === "product");
+    saveLocal();
+    renderAll();
+    toast(`تم تفعيل ${btn.textContent.trim()}`);
+    onActivity("view", {view:"tiers"});
+  });
+}
+
+function renderTierProducts(){
+  // في وضع الشريحة نعرض المنتجات فقط، والعروض محجوبة
+  renderProducts("tierProducts", getVisibleProducts());
+}
+
+function renderCart(){
+  const host = document.getElementById("cartItems");
+  if (!state.cart.length){
+    host.innerHTML = `<div class="warning">السلة فارغة</div>`;
+  } else {
+    const suggestions = getCartUpsellSuggestions();
+    const suggestionHtml = suggestions.length ? `
+      <div class="panel" style="margin-bottom:10px;background:#fffaf1;border-color:#ecd89f">
+        <div class="sectionHead" style="margin:0 0 8px">
+          <h2 style="font-size:15px;margin:0">ترشيحات ذكية</h2>
+          <div class="hint">بتطلع من السلة الحالية</div>
+        </div>
+        <div class="stack">
+          ${suggestions.map(s => `
+            <div class="card" style="box-shadow:none">
+              <div class="cardBody">
+                <div class="title" style="margin-bottom:4px">${escapeHtml(s.title)}</div>
+                <div class="sub">${escapeHtml(s.text)}</div>
+                <div class="row" style="margin-top:8px">
+                  <button class="btn small" data-suggest="${escapeAttr(s.key)}">شوف الاقتراح</button>
+                </div>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    ` : "";
+    host.innerHTML = suggestionHtml + state.cart.map(item => {
+      const linePrice = cartLinePrice(item);
+      const total = linePrice * Number(item.qty||1);
+      const tag = item.type === "product" ? `<span class="pill">منتج</span>` :
+                  item.type === "offer" ? `<span class="pill lock">صفقة اليوم</span>` :
+                  `<span class="pill lock">عرض الساعة</span>`;
+      return `
+        <div class="cartItem">
+          <div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              ${tag}
+              <strong>${escapeHtml(item.name)}</strong>
+            </div>
+            <div class="sub">${escapeHtml(item.company || "")} ${item.unit ? " - " + unitLabel(item.unit) : ""}</div>
+            <div class="sub">السعر: ${money(linePrice)} | الإجمالي: ${money(total)}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;align-items:end">
+            ${item.locked ? `<span class="pill lock">ثابت</span>` : `<input class="qty" type="number" min="1" value="${item.qty}" data-cart-qty="${escapeAttr(item._key)}" />`}
+            <button class="btn small" data-cart-del="${escapeAttr(item._key)}">حذف</button>
+          </div>
+        </div>
+      `;
+    }).join("");
+    host.querySelectorAll("[data-cart-del]").forEach(btn => btn.onclick = () => removeFromCart(btn.dataset.cartDel));
+    host.querySelectorAll("[data-cart-qty]").forEach(inp => inp.oninput = e => updateCartQty(e.target.dataset.cartQty, e.target.value));
+    host.querySelectorAll("[data-suggest]").forEach(btn => btn.onclick = () => {
+      const s = suggestions.find(x => x.key === btn.dataset.suggest);
+      if (s?.action) s.action();
+    });
+  }
+  const total = cartTotal();
+  document.getElementById("cartTotal").textContent = money(total);
+  document.getElementById("cartSummary").textContent = `${state.cart.length} بند`;
+  document.getElementById("footerTotal").textContent = money(total);
+
+  // ضغط ذكي عند تبديل السلة
+  const min = getMinimumOrderAmount();
+  if (min > 0 && total > 0 && total < min){
+    state.salesState.currentPersona = "المريح";
+    state.salesState.currentMessage = `الطلب لسه صغير 😅 كمل شوية عشان يتنفذ`;
+    state.salesState.currentTrigger = "minimum_order";
+    renderSalesBanner();
+  } else {
+    const near = isNearThreshold(total);
+    if (near){
+      state.salesState.currentPersona = "الخبير";
+      state.salesState.currentMessage = `فاضلك ${money(near.diff)} جنيه وتدخل شريحة ${near.tier.tier_name || near.tier.tier_id}`;
+      state.salesState.currentTrigger = "near_tier";
+      renderSalesBanner();
+    }
+  }
+}
+
+// ---------------------------
+// الطلبات
+// ---------------------------
+function renderOrders(){
+  const host = document.getElementById("ordersList");
+  const items = state.orders.slice(0,20);
+  host.innerHTML = items.map(o => `
+    <div class="card">
+      <div class="cardBody">
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <strong>${escapeHtml(o.order_id)}</strong>
+          <span class="pill">${escapeHtml(o.status || "")}</span>
+        </div>
+        <div class="sub">${escapeHtml(o.customer_name || "")} - ${escapeHtml(o.customer_phone || "")}</div>
+        <div class="sub">${escapeHtml(o.date || "")} ${escapeHtml(o.time || "")} - إجمالي ${money(o.total || 0)}</div>
+        <div class="row" style="margin-top:8px">
+          <button class="btn small" data-reorder="${escapeAttr(o.order_id)}">إعادة الطلب</button>
+          <button class="btn small" data-whats="${escapeAttr(o.order_id)}">واتساب</button>
+        </div>
+      </div>
+    </div>
+  `).join("") || `<div class="warning">لا توجد طلبات بعد</div>`;
+  host.querySelectorAll("[data-reorder]").forEach(btn => btn.onclick = () => toast("ميزة إعادة الطلب جاهزة للربط مع الشيت"));
+  host.querySelectorAll("[data-whats]").forEach(btn => btn.onclick = () => toast("توليد واتساب من الطلب"));
+}
+
+function buildWhatsAppText(payload){
+  const details = payload.items.map(it => `${it.name} - ${it.unit || ""} x${it.qty}`).join("، ");
+  return `🏢 ${CONFIG.companyName}
+
+🧾 طلب شراء
+
+👤 الاسم: ${payload.customer_name || "-"}
+📱 الهاتف: ${payload.customer_phone || "-"}
+
+📦 الطلب: ${details || "-"}
+💰 الإجمالي: ${money(payload.total)}
+🔐 الكود: ${payload.order_id}`;
+}
+
+async function buildPdf(payload){
+  try{
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({unit:"mm", format:"a4"});
+    doc.setFont("helvetica","bold");
+    doc.setFontSize(16);
+    doc.text("الأهرام للتجارة والتوزيع", 20, 18);
+    doc.setFontSize(11);
+    doc.setFont("helvetica","normal");
+    doc.text(`Order ID: ${payload.order_id}`, 20, 28);
+    doc.text(`Customer: ${payload.customer_name} / ${payload.customer_phone}`, 20, 35);
+    doc.text(`Mode: ${payload.mode} / Tier: ${payload.tier || "-"}`, 20, 42);
+    let y = 55;
+    doc.setFont("helvetica","bold");
+    doc.text("Items", 20, y);
+    y += 8;
+    doc.setFont("helvetica","normal");
+    payload.items.forEach((it, idx) => {
+      const line = `${idx+1}. ${it.name} | ${it.unit || ""} | Qty: ${it.qty} | ${money(it.total)}`;
+      const wrapped = doc.splitTextToSize(line, 170);
+      doc.text(wrapped, 20, y);
+      y += wrapped.length * 6 + 2;
+    });
+    doc.text(`Total: ${money(payload.total)}`, 20, Math.min(y + 6, 280));
+    const blob = doc.output("blob");
+    return URL.createObjectURL(blob);
+  } catch {
+    return "";
+  }
+}
+
+function openReviewModal(payload){
+  closeReviewModal();
+  state.ui.reviewModalOpen = true;
+  const overlay = document.createElement("div");
+  overlay.id = "reviewModal";
+  overlay.style.position = "fixed";
+  overlay.style.inset = "0";
+  overlay.style.background = "rgba(17,24,39,.48)";
+  overlay.style.zIndex = "2000";
+  overlay.style.display = "grid";
+  overlay.style.placeItems = "center";
+  overlay.innerHTML = `
+    <div class="panel" style="width:min(680px,94vw);max-height:86vh;overflow:auto;border-radius:24px">
+      <div class="sectionHead" style="margin-top:0">
+        <h2>راجع الطلب</h2>
+        <div class="hint">مراجعة ذكية قبل الإرسال</div>
+      </div>
+      <div class="warning" style="margin-bottom:10px">${escapeHtml(state.salesState.currentMessage || salesSubtitle())}</div>
+      <div class="stack" style="margin-bottom:12px">
+        <div class="sub">العميل: ${escapeHtml(payload.customer_name || "-")} / ${escapeHtml(payload.customer_phone || "-")}</div>
+        <div class="sub">الإجمالي: ${money(payload.total)} EGP</div>
+        <div class="sub">عدد البنود: ${payload.items.length}</div>
+      </div>
+      <div class="panel" style="background:#fafafa;margin-bottom:12px">
+        ${payload.items.slice(0,8).map(it => `
+          <div class="cartItem" style="padding:8px 0">
+            <div>
+              <strong>${escapeHtml(it.name)}</strong>
+              <div class="sub">${escapeHtml(it.unit || "")} × ${escapeHtml(it.qty)}</div>
+            </div>
+            <div class="sub">${money(it.total)}</div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="row" style="justify-content:flex-end">
+        <button class="btn" id="reviewCancel">رجوع</button>
+        <button class="btn primary" id="reviewConfirm">أبعت الطلب</button>
+      </div>
+    </div>
+  `;
+  overlay.addEventListener("click", e => {
+    if (e.target === overlay) closeReviewModal();
+  });
+  document.body.appendChild(overlay);
+  overlay.querySelector("#reviewCancel").onclick = () => closeReviewModal();
+  overlay.querySelector("#reviewConfirm").onclick = async () => {
+    closeReviewModal();
+    await submitOrder(payload);
+  };
+}
+
+function closeReviewModal(){
+  const existing = document.getElementById("reviewModal");
+  if (existing) existing.remove();
+  state.ui.reviewModalOpen = false;
+}
+
+async function saveOrderRemote(payload){
+  // أولوية 1: لو الكود شغال داخل Apps Script HTML Service
+  if (window.google && google.script && google.script.run){
+    return await new Promise((resolve, reject) => {
+      google.script.run
+        .withSuccessHandler(resolve)
+        .withFailureHandler(reject)
+        .saveOrder(payload);
+    });
+  }
+
+  // أولوية 2: إرسال مباشر للويب آب بطريقة بسيطة تصلح مع Apps Script
+  await fetch(CONFIG.apiUrl, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({ action: "saveOrder", payload })
+  });
+  return { ok: true, transport: "fetch-no-cors" };
+}
+
+async function submitOrder(payload){
+  const total = cartTotal();
+  try{
+    showSalesMessage("review_order", { total, count: state.cart.length, forceReview: true });
+    const orderId = payload.order_id || uid("ORD");
+    const finalPayload = { ...payload, order_id: orderId, total };
+    const pdfUrl = await buildPdf(finalPayload);
+    finalPayload.pdf_link = pdfUrl || "";
+
+    await saveOrderRemote(finalPayload);
+
+    state.orders.unshift({
+      order_id: finalPayload.order_id,
+      date: finalPayload.date,
+      time: finalPayload.time,
+      customer_phone: finalPayload.customer_phone,
+      customer_name: finalPayload.customer_name,
+      rep_id: finalPayload.rep_id,
+      mode: finalPayload.mode,
+      tier: finalPayload.tier,
+      total: finalPayload.total,
+      status: "new",
+      pdf_link: finalPayload.pdf_link,
+      whatsapp_status: "pending"
+    });
+
+    const waText = buildWhatsAppText(finalPayload);
+    const waLink = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(waText)}`;
+    state.cart = [];
+    saveLocal();
+    renderAll();
+
+    showSalesMessage("order_sent", { orderId: finalPayload.order_id });
+    toast("تم حفظ الطلب وفتح واتساب");
+    window.open(waLink, "_blank");
+    return { ok: true, order_id: finalPayload.order_id };
+  } catch (e){
+    console.error(e);
+    toast("في مشكلة بسيطة في التحميل… جرب تاني");
+    // fallback: نحافظ على الطلب محليًا بدل ما يضيع
+    state.orders.unshift({
+      order_id: payload.order_id || uid("ORD"),
+      date: payload.date,
+      time: payload.time,
+      customer_phone: payload.customer_phone,
+      customer_name: payload.customer_name,
+      rep_id: payload.rep_id,
+      mode: payload.mode,
+      tier: payload.tier,
+      total: payload.total,
+      status: "pending_local",
+      pdf_link: "",
+      whatsapp_status: "pending"
+    });
+    renderAll();
+    return { ok: false };
+  }
+}
+
+async function checkout(){
+  if (!state.cart.length) return toast("السلة فارغة");
+  const total = cartTotal();
+  const min = getMinimumOrderAmount();
+  if (min > 0 && total < min){
+    showSalesMessage("minimum_order", { total, count: state.cart.length, min, forceReview: true });
+  } else {
+    showSalesMessage("review_order", { total, count: state.cart.length, forceReview: true });
+  }
+
+  const orderId = uid("ORD");
+  const orderItems = explodeForOrder();
+  const payload = {
+    order_id: orderId,
+    date: nowISODate(),
+    time: nowTime(),
+    customer_phone: state.customerPhone || "",
+    customer_name: getCustomerName(state.customerPhone),
+    rep_id: state.rep?.rep_id || "",
+    mode: state.mode,
+    tier: state.tier || "",
+    total,
+    items: orderItems
+  };
+  openReviewModal(payload);
+}
+
+function smartMessage(triggerKey){
+  const options = getSmartMessages().filter(x => normalize(x.trigger_key) === normalize(triggerKey));
+  if (!options.length) return "";
+  options.sort((a,b) => toNum(a.priority) - toNum(b.priority));
+  const msg = options[0].message_ar || "";
+  if (state.lastMessageKey === triggerKey) return "";
+  state.lastMessageKey = triggerKey;
+  saveLocal();
+  return msg;
+}
+
+// ---------------------------
+// حالة الفلاش / البيانات
+// ---------------------------
+function inferCompanies(products){
+  const set = new Map();
+  products.forEach(p => {
+    const name = p.company || "";
+    if (!name) return;
+    if (!set.has(name)) set.set(name, {company_id:`CMP-${String(set.size+1).padStart(3,"0")}`, company_name:name, logo_url:"", status:1, sort_order:set.size+1, notes:"مستنتجة من المنتجات"});
+  });
+  return [...set.values()];
+}
+
+function shortName(name){
+  return (name || "?").split(/\s+/).slice(0,2).map(s => s[0] || "").join("").toUpperCase();
+}
+function unitLabel(u){
+  const map = {carton:"كرتونة", pack:"دستة", piece:"قطعة", bundle:"باكدج"};
+  return map[u] || u;
+}
+function getCustomerName(phone){
+  const c = state.customers.find(x => normalize(x.phone) === normalize(phone));
+  return c?.name || "";
+}
+function toast(msg){
+  if (!msg) return;
+  const el = document.createElement("div");
+  el.className = "panel";
+  el.style.position = "fixed";
+  el.style.left = "50%";
+  el.style.bottom = "90px";
+  el.style.transform = "translateX(-50%)";
+  el.style.zIndex = 1000;
+  el.style.maxWidth = "92vw";
+  el.style.background = "#111827";
+  el.style.color = "#fff";
+  el.style.padding = "12px 14px";
+  el.style.borderRadius = "16px";
+  el.style.boxShadow = "var(--shadow)";
+  el.style.direction = "rtl";
+  el.textContent = msg;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1800);
+}
+function escapeHtml(str){
+  return (str ?? "").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#39;");
+}
+function escapeAttr(str){ return escapeHtml(str).replaceAll("`","&#96;"); }
+
+function createFallbackBanner(){
+  ensureSalesBanner();
+  renderSalesBanner();
+}
+
+function showLoadFallbackMessage(){
+  state.salesState.currentPersona = "المريح";
+  state.salesState.currentMessage = "في مشكلة بسيطة في التحميل… جرب تاني";
+  state.salesState.currentTrigger = "load_error";
+  renderSalesBanner();
+}
+
+// ---------------------------
+// التنقل والعرض
+// ---------------------------
+function switchView(view){
+  state.view = view;
+  ["homeView","companyView","offersView","flashView","tiersView","cartView","ordersView"].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add("hidden");
+  });
+  const map = {
+    home:"homeView",
+    companies:"homeView",
+    offers:"offersView",
+    flash:"flashView",
+    tiers:"tiersView",
+    cart:"cartView",
+    orders:"ordersView"
+  };
+  document.getElementById(map[view] || "homeView").classList.remove("hidden");
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view === view));
+  if (view === "home") state.selectedCompany = null;
+  renderAll();
+  onActivity("view", {view});
+  history.pushState({view}, "", `#${view}`);
+}
+
+function openCompany(name){
+  state.selectedCompany = name;
+  state.view = "company";
+  document.getElementById("companyTitle").textContent = name;
+  document.getElementById("homeView").classList.add("hidden");
+  document.getElementById("companyView").classList.remove("hidden");
+  renderProducts("companyProducts", getVisibleProducts());
+  onActivity("view", {view:"company", company:name});
+}
+
+function backHome(){
+  state.selectedCompany = null;
+  switchView("home");
+}
+
+function renderAll(){
+  document.getElementById("appName").textContent = CONFIG.companyName;
+  document.getElementById("modeBtn").textContent = state.mode === "tier" ? "Tier Mode" : "Normal Mode";
+  document.getElementById("tierBtn").textContent = state.tier ? `Tier: ${state.tier}` : "Tier Off";
+  document.getElementById("repBtn").textContent = state.rep ? `Rep: ${state.rep.name}` : "Rep: OFF";
+  document.getElementById("statusText").textContent = state.loaded ? (state.mode === "tier" ? "شريحة مفعلة" : "جاهز") : "تحميل...";
+  renderCompanies();
+  renderProducts("productsGrid", getVisibleProducts().slice(0,12));
+  renderOffers();
+  renderFlash();
+  renderTierButtons();
+  renderTierProducts();
+  renderCart();
+  renderOrders();
+  updateFlashTimers();
+  renderSalesBanner();
+}
+
+async function loadBootstrapFromApi(){
+  try{
+    const data = await loadJsonp(CONFIG.apiUrl);
+    return data && typeof data === "object" ? data : null;
+  }catch(e){
+    console.warn("Bootstrap JSONP failed", e);
+    return null;
+  }
+}
+
+async function loadData(){
+  document.getElementById("statusText").textContent = "تحميل البيانات...";
+  let bootstrap = await loadBootstrapFromApi();
+  let settings, customers, reps, tiers, tierPrices, companies, categories, products, offers, offerItems, flashOffers, flashItems, orders, customerPrices, smartMessages, messageRules, activityLog;
+
+  if (bootstrap && bootstrap.products){
+    settings = bootstrap.settings || [];
+    customers = bootstrap.customers || [];
+    customerPrices = bootstrap.customerPrices || [];
+    reps = bootstrap.reps || [];
+    tiers = bootstrap.tiers || [];
+    tierPrices = bootstrap.tierPrices || [];
+    companies = bootstrap.companies || [];
+    categories = bootstrap.categories || [];
+    products = bootstrap.products || [];
+    offers = bootstrap.offers || [];
+    offerItems = bootstrap.offerItems || [];
+    flashOffers = bootstrap.flashOffers || [];
+    flashItems = bootstrap.flashItems || [];
+    orders = bootstrap.orders || [];
+    smartMessages = bootstrap.smartMessages || [];
+    messageRules = bootstrap.messageRules || [];
+    activityLog = bootstrap.activityLog || [];
+  } else {
+    const csvs = await Promise.all([
+      loadCsv(CONFIG.sheets.settings),
+      loadCsv(CONFIG.sheets.customers),
+      loadCsv(CONFIG.sheets.reps),
+      loadCsv(CONFIG.sheets.tiers),
+      loadCsv(CONFIG.sheets.tierPrices),
+      loadCsv(CONFIG.sheets.products),
+      loadCsv(CONFIG.sheets.categories),
+      loadCsv(CONFIG.sheets.offers),
+      loadCsv(CONFIG.sheets.flashOffers),
+      loadCsv(CONFIG.sheets.orders)
+    ]);
+    [settings, customers, reps, tiers, tierPrices, products, categories, offers, flashOffers, orders] = csvs;
+    companies = inferCompanies(products);
+    offerItems = [];
+    flashItems = [];
+    customerPrices = [];
+    smartMessages = [];
+    messageRules = [];
+    activityLog = [];
+  }
+
+  state.settings = settings || [];
+  state.settingsMap = parseSettings(settings || []);
+  state.customers = customers || [];
+  state.customerPrices = customerPrices || [];
+  state.reps = reps || [];
+  state.tiers = tiers || [];
+  state.tierPrices = tierPrices || [];
+  state.companies = (companies && companies.length ? companies : inferCompanies(products || []));
+  state.categories = categories || [];
+  state.products = products || [];
+  state.offers = offers || [];
+  state.offerItems = offerItems || [];
+  state.flashOffers = flashOffers || [];
+  state.flashItems = flashItems || [];
+  state.orders = orders || [];
+  state.smartMessages = smartMessages || [];
+  state.messageRules = messageRules || [];
+  state.activityLog = activityLog || [];
+
+  // لو في حد أدنى من الشيت استخدمه
+  const minAmount = getMinimumOrderAmount();
+  if (!state.salesState.currentMessage && minAmount > 0){
+    state.salesState.currentMessage = `الحد الأدنى للطلب: ${money(minAmount)} جنيه`;
+    state.salesState.currentPersona = "المريح";
+  }
+
+  state.loaded = true;
+  saveLocal();
+  renderAll();
+  createFallbackBanner();
+  restartIdleWatch();
+  onActivity("view", {view: state.view || "home"});
+}
+
+function switchTopStateHints(){
+  const total = cartTotal();
+  const near = isNearThreshold(total);
+  if (!state.cart.length){
+    state.salesState.currentPersona = "الجدع";
+    state.salesState.currentMessage = "ابدأ بإضافة أول صنف… وأنا أوصلّك لأفضل تركيبة";
+    state.salesState.currentTrigger = "start";
+  } else if (near){
+    state.salesState.currentPersona = "الخبير";
+    state.salesState.currentMessage = `فاضلك ${money(near.diff)} جنيه وتدخل شريحة ${near.tier.tier_name || near.tier.tier_id}`;
+    state.salesState.currentTrigger = "near_tier";
+  } else if (state.cart.length === 1){
+    state.salesState.currentPersona = "الخبير";
+    state.salesState.currentMessage = "لسه بدري 😏 العملاء الكبار بيبدأوا من 5 كراتين على الأقل";
+    state.salesState.currentTrigger = "single_item";
+  } else {
+    state.salesState.currentPersona = choosePersona("review_order", {total});
+    state.salesState.currentMessage = salesSubtitle();
+    state.salesState.currentTrigger = "context";
+  }
+  renderSalesBanner();
+}
+
+function maybeShowStartMessage(){
+  if (!state.salesState.hasShownStart){
+    state.salesState.hasShownStart = true;
+    state.salesState.currentPersona = "الجدع";
+    state.salesState.currentMessage = "يلا نبدأ 🔥 اختار أول صنف وأنا أوصلّك لأفضل تركيبة";
+    state.salesState.currentTrigger = "start";
+    renderSalesBanner();
+  }
+}
+
+function maybeAutoHint(){
+  switchTopStateHints();
+  const total = cartTotal();
+  const min = getMinimumOrderAmount();
+  if (min > 0 && total < min && total > 0) {
+    showSalesMessage("minimum_order", { total, count: state.cart.length });
+  }
+}
+
+// ---------------------------
+// أحداث الواجهة
+// ---------------------------
+// ===== EVENTS =====
+// ربط أزرار الواجهة والأحداث
+document.querySelectorAll(".tab").forEach(btn => btn.onclick = () => switchView(btn.dataset.view));
+document.getElementById("clearSearch").onclick = () => { state.search=""; document.getElementById("searchInput").value=""; onActivity("search", {clear:true}); renderAll(); };
+document.getElementById("refreshBtn").onclick = () => loadData();
+document.getElementById("searchInput").addEventListener("input", e => { state.search = e.target.value; onActivity("search", {value:e.target.value}); renderAll(); });
+
+document.getElementById("modeBtn").onclick = () => {
+  if (state.mode === "normal"){
+    state.mode = "tier";
+    state.tier = state.tier || "T1";
+    // عند دخول الشريحة نحذف الباكدجات
+    state.cart = state.cart.filter(x => x.type === "product");
+    saveLocal();
+    toast("Tier Mode فعال");
+  } else {
+    state.mode = "normal";
+    toast("Normal Mode فعال");
+  }
+  renderAll();
+  onActivity("view", {view:"mode_toggle"});
+};
+document.getElementById("tierBtn").onclick = () => {
+  state.mode = state.mode === "tier" ? "normal" : "tier";
+  if (state.mode === "tier"){
+    state.tier = state.tier || "T1";
+    state.cart = state.cart.filter(x => x.type === "product");
+  } else {
+    state.tier = null;
+  }
+  saveLocal(); renderAll();
+};
+document.getElementById("repBtn").onclick = () => {
+  // تبديل بسيط للتجربة
+  state.rep = state.rep ? null : (state.reps[0] || {rep_id:"REP-01", name:"مندوب 1"});
+  renderAll();
+};
+
+["backHome1","backHome2","backHome3","backHome4","backHome5","backHome6"].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.onclick = () => backHome();
+});
+
+document.getElementById("clearCart").onclick = () => { state.cart = []; saveLocal(); renderAll(); onActivity("view", {view:"cart_clear"}); };
+document.getElementById("checkoutBtn").onclick = () => checkout();
+
+window.onpopstate = function(){
+  if (state.view !== "home"){
+    backHome();
+  } else {
+    try { history.back(); } catch {}
+  }
+};
+
+// ---------------------------
+// Helpers للعناصر التي قد تكون ناقصة
+// ---------------------------
+function renderSmartBannerIfNeeded(){
+  ensureSalesBanner();
+  renderSalesBanner();
+}
+
+function smartFallbackOnError(){
+  showLoadFallbackMessage();
+  toast("في مشكلة بسيطة في التحميل… جرب تاني");
+}
+
+// Init
+setTimeout(() => bootApp(), 0);
+
+setInterval(() => {
+  if (state.loaded) updateFlashTimers();
+}, 1000);
+
+setInterval(() => {
+  if (!state.loaded) return;
+  if (state.ui.reviewModalOpen) return;
+  maybeAutoHint();
+}, 7000);
+
+</script>
+
+
+<script>
+/* =========================
+   AUTH + API SOURCE OF TRUTH LAYER
+   ========================= */
+(function(){
+  const AUTH_KEY = "alahram_auth_session";
+  const AUTH_ROLE_KEY = "alahram_auth_role";
+  const AUTH_TOKEN_KEY = "alahram_auth_token";
+  const AUTH_PHONE_KEY = "alahram_auth_phone";
+  const AUTH_NAME_KEY = "alahram_auth_name";
+  const AUTH_STATUS_KEY = "alahram_auth_status";
+  const AUTH_ID_KEY = "alahram_auth_id";
+
+  const AUTH = {
+    token: localStorage.getItem(AUTH_TOKEN_KEY) || "",
+    role: localStorage.getItem(AUTH_ROLE_KEY) || "",
+    phone: localStorage.getItem(AUTH_PHONE_KEY) || "",
+    name: localStorage.getItem(AUTH_NAME_KEY) || "",
+    status: localStorage.getItem(AUTH_STATUS_KEY) || "",
+    id: localStorage.getItem(AUTH_ID_KEY) || ""
+  };
+
+  let authLayerEl = null;
+  let authMode = "login";
+  let locationPicked = "";
+
+  function persistAuth(){
+    localStorage.setItem(AUTH_TOKEN_KEY, AUTH.token || "");
+    localStorage.setItem(AUTH_ROLE_KEY, AUTH.role || "");
+    localStorage.setItem(AUTH_PHONE_KEY, AUTH.phone || "");
+    localStorage.setItem(AUTH_NAME_KEY, AUTH.name || "");
+    localStorage.setItem(AUTH_STATUS_KEY, AUTH.status || "");
+    localStorage.setItem(AUTH_ID_KEY, AUTH.id || "");
+    localStorage.setItem(AUTH_KEY, JSON.stringify(AUTH));
+  }
+
+  function clearAuth(){
+    AUTH.token = ""; AUTH.role = ""; AUTH.phone = ""; AUTH.name = ""; AUTH.status = ""; AUTH.id = "";
+    [AUTH_TOKEN_KEY, AUTH_ROLE_KEY, AUTH_PHONE_KEY, AUTH_NAME_KEY, AUTH_STATUS_KEY, AUTH_ID_KEY, AUTH_KEY].forEach(k => localStorage.removeItem(k));
+    persistAuth();
+  }
+
+  function setAuth(user){
+    AUTH.token = user.token || "";
+    AUTH.role = user.role || "";
+    AUTH.phone = user.phone || "";
+    AUTH.name = user.name || "";
+    AUTH.status = user.status || "";
+    AUTH.id = user.id || user.rep_id || user.customer_id || "";
+    persistAuth();
+  }
+
+  function qs(params){
+    return Object.entries(params)
+      .filter(([,v]) => v !== undefined && v !== null && String(v).trim() !== "")
+      .map(([k,v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
+      .join("&");
+  }
+
+  function jsonp(params){
+    return new Promise((resolve, reject) => {
+      const cb = `cb_${Date.now()}_${Math.floor(Math.random()*99999)}`;
+      const script = document.createElement('script');
+      const timer = setTimeout(() => {
+        cleanup();
+        reject(new Error('timeout'));
+      }, 12000);
+      function cleanup(){
+        clearTimeout(timer);
+        delete window[cb];
+        if (script.parentNode) script.parentNode.removeChild(script);
+      }
+      window[cb] = (data) => { cleanup(); resolve(data); };
+      script.onerror = () => { cleanup(); reject(new Error('network_error')); };
+      script.src = `${CONFIG.apiUrl}?${qs(params)}&callback=${cb}`;
+      document.head.appendChild(script);
+    });
+  }
+
+  function setBodyLock(lock){
+    document.body.classList.toggle('auth-locked', !!lock);
+  }
+
+  function authMsg(text, type=''){
+    const box = authLayerEl?.querySelector('#authMsg');
+    if (!box) return;
+    box.textContent = text || '';
+    box.className = 'authMsg' + (type ? ` ${type}` : '');
+    box.classList.toggle('authHidden', !text);
+  }
+
+  function createAuthLayer(){
+    if (document.getElementById('authLayer')) return;
+    authLayerEl = document.createElement('div');
+    authLayerEl.id = 'authLayer';
+    authLayerEl.className = 'authLayer';
+    authLayerEl.innerHTML = `
+      <div class="authCard">
+        <div class="authGrid">
+          <div class="authHero">
+            <div>
+              <div class="authBadge">🔐 نظام دخول وصلاحيات موحد</div>
+              <h2>دخول العملاء والمناديب من نفس الصفحة الرئيسية</h2>
+              <p>العملاء والمناديب يشوفوا طلباتهم فقط، والنظام هو الوحيد اللي يكتب على الشيت. التسجيل الجديد يدخل كطلب عضوية ويظهر في الشيت مباشرة مع حالة انتظار.</p>
+            </div>
+            <div class="authStats">
+              <div class="authStat"><strong>Read Only</strong><span>عرض الطلبات السابقة فقط</span></div>
+              <div class="authStat"><strong>API Only</strong><span>مصدر واحد للحقيقة</span></div>
+              <div class="authStat"><strong>Safe Write</strong><span>النظام يكتب المستجدات</span></div>
+            </div>
+          </div>
+          <div class="authPanel">
+            <div>
+              <div class="sectionHead" style="margin-top:0">
+                <h2 style="font-size:18px;margin:0">دخول / تسجيل</h2>
+                <div class="hint">من هنا يبدأ التشغيل</div>
+              </div>
+              <div class="authTabs">
+                <button type="button" class="authTab active" data-auth-tab="login">دخول</button>
+                <button type="button" class="authTab" data-auth-tab="register">تسجيل عضوية</button>
+              </div>
+            </div>
+            <div id="authMsg" class="authMsg authHidden"></div>
+            <form id="loginForm" class="authForm active">
+              <div class="authField"><label>رقم الهاتف</label><input id="loginPhone" inputmode="tel" placeholder="01xxxxxxxxx" required></div>
+              <div class="authField"><label>كلمة المرور</label><input id="loginPassword" type="password" placeholder="••••••••" required></div>
+              <div class="authActions">
+                <button class="btn primary" type="submit">دخول</button>
+                <button class="btn" type="button" id="openRegisterBtn">تسجيل جديد</button>
+              </div>
+              <div class="authNote">لو الحساب لسه في انتظار التفعيل، هتظهر لك رسالة مباشرة.</div>
+            </form>
+            <form id="registerForm" class="authForm">
+              <div class="authField"><label>رقم الهاتف</label><input id="regPhone" inputmode="tel" placeholder="01xxxxxxxxx" required></div>
+              <div class="authField"><label>الاسم</label><input id="regName" placeholder="اسم العميل / المنشأة" required></div>
+              <div class="authField"><label>العنوان</label><input id="regAddress" placeholder="العنوان الكامل" required></div>
+              <div class="authField"><label>كلمة المرور</label><input id="regPassword" type="password" placeholder="••••••••" required></div>
+              <div class="authField"><label>اللوكيشن (اختياري)</label><textarea id="regLocation" rows="3" placeholder="رابط خرائط أو إحداثيات"></textarea></div>
+              <div class="authActions">
+                <button class="btn" type="button" id="pickLocationBtn">تحديد لوكيشن</button>
+                <button class="btn primary" type="submit">إرسال طلب العضوية</button>
+              </div>
+              <div class="authNote">الحقول الأساسية إجبارية. بعد الإرسال يظهر لك إشعار بأن التفعيل سيتم خلال خمس دقائق.</div>
+            </form>
+          </div>
+        </div>
+      </div>`;
+    document.body.appendChild(authLayerEl);
+    bindAuthLayer();
+  }
+
+  function bindAuthLayer(){
+    authLayerEl.querySelectorAll('[data-auth-tab]').forEach(btn => {
+      btn.onclick = () => {
+        authMode = btn.dataset.authTab;
+        authLayerEl.querySelectorAll('[data-auth-tab]').forEach(x => x.classList.toggle('active', x === btn));
+        authLayerEl.querySelector('#loginForm').classList.toggle('active', authMode === 'login');
+        authLayerEl.querySelector('#registerForm').classList.toggle('active', authMode === 'register');
+        authMsg('');
+      };
+    });
+
+    authLayerEl.querySelector('#openRegisterBtn').onclick = () => {
+      authLayerEl.querySelector('[data-auth-tab="register"]').click();
+    };
+
+    authLayerEl.querySelector('#pickLocationBtn').onclick = async () => {
+      if (!navigator.geolocation){
+        authMsg('الجهاز لا يدعم تحديد الموقع.', 'warn');
+        return;
+      }
+      authMsg('جارٍ تحديد الموقع...', 'warn');
+      navigator.geolocation.getCurrentPosition(pos => {
+        const lat = pos.coords.latitude.toFixed(6);
+        const lng = pos.coords.longitude.toFixed(6);
+        locationPicked = `${lat},${lng}`;
+        authLayerEl.querySelector('#regLocation').value = `https://www.google.com/maps?q=${lat},${lng}`;
+        authMsg('تم تحديد الموقع بنجاح.', 'success');
+      }, () => {
+        authMsg('تعذر تحديد الموقع. أكمل التسجيل بدون لوكيشن.', 'warn');
+      }, {enableHighAccuracy:true, timeout:10000, maximumAge:0});
+    };
+
+    authLayerEl.querySelector('#loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = authLayerEl.querySelector('#loginPhone').value.trim();
+      const password = authLayerEl.querySelector('#loginPassword').value.trim();
+      if (!phone || !password){ authMsg('املأ رقم الهاتف وكلمة المرور.', 'error'); return; }
+      try{
+        authMsg('جارٍ تسجيل الدخول...', 'warn');
+        const res = await jsonp({action:'login', phone, password});
+        if (!res || !res.ok){
+          authMsg(res?.message || 'بيانات الدخول غير صحيحة.', 'error');
+          return;
+        }
+        if (res.status === 'pending'){
+          authMsg(res.message || 'تم استلام طلبك، وسيتم التفعيل خلال خمس دقائق.', 'success');
+          return;
+        }
+        setAuth(res.user || res);
+        setBodyLock(false);
+        hideAuthLayer();
+        await window.loadData();
+      } catch(err){
+        console.error(err);
+        authMsg('في مشكلة بسيطة في تسجيل الدخول. حاول مرة أخرى.', 'error');
+      }
+    });
+
+    authLayerEl.querySelector('#registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        phone: authLayerEl.querySelector('#regPhone').value.trim(),
+        name: authLayerEl.querySelector('#regName').value.trim(),
+        address: authLayerEl.querySelector('#regAddress').value.trim(),
+        password: authLayerEl.querySelector('#regPassword').value.trim(),
+        location: authLayerEl.querySelector('#regLocation').value.trim() || locationPicked || ''
+      };
+      if (!payload.phone || !payload.name || !payload.address || !payload.password){
+        authMsg('كل الحقول الأساسية مطلوبة.', 'error');
+        return;
+      }
+      try{
+        authMsg('جارٍ إرسال طلب العضوية...', 'warn');
+        const res = await jsonp({action:'registerCustomer', payload: JSON.stringify(payload)});
+        if (!res || !res.ok){
+          authMsg(res?.message || 'تعذر إنشاء الحساب.', 'error');
+          return;
+        }
+        authMsg('تم استلام طلب العضوية بنجاح. سيتم تفعيل حسابك خلال خمس دقائق.', 'success');
+        authLayerEl.querySelector('#loginPhone').value = payload.phone;
+        authLayerEl.querySelector('#loginPassword').value = '';
+        authLayerEl.querySelector('[data-auth-tab="login"]').click();
+      } catch(err){
+        console.error(err);
+        authMsg('في مشكلة بسيطة أثناء التسجيل. جرب مرة أخرى.', 'error');
+      }
+    });
+  }
+
+  function showAuthLayer(message='', type='warn'){
+    createAuthLayer();
+    setBodyLock(true);
+    authLayerEl.classList.remove('authHidden');
+    if (message) authMsg(message, type);
+  }
+
+  function hideAuthLayer(){
+    if (authLayerEl) authLayerEl.classList.add('authHidden');
+    setBodyLock(false);
+  }
+
+  async function bootstrapApi(){
+    return await jsonp({action:'bootstrap', token: AUTH.token});
+  }
+
+  function syncUiFromAuth(){
+    const appHint = document.getElementById('appHint');
+    if (appHint){
+      appHint.textContent = AUTH.name ? `${CONFIG.companyName} • ${AUTH.name}` : 'متجر B2B - بيع ذكي - أسعار لحظية';
+    }
+  }
+
+  const __origRenderOrders = window.renderOrders;
+  window.renderOrders = function(){
+    if (!AUTH.token) return;
+    const host = document.getElementById('ordersList');
+    const items = (state.orders || []).slice(0, 20);
+    host.innerHTML = items.map(o => {
+      const canAct = AUTH.role === 'admin';
+      return `
+        <div class="card">
+          <div class="cardBody">
+            <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+              <strong>${escapeHtml(o.order_id)}</strong>
+              <span class="pill">${escapeHtml(o.status || '')}</span>
+            </div>
+            <div class="sub">${escapeHtml(o.customer_name || '')} - ${escapeHtml(o.customer_phone || '')}</div>
+            <div class="sub">${escapeHtml(o.date || '')} ${escapeHtml(o.time || '')} - إجمالي ${money(o.total || 0)}</div>
+            <div class="row" style="margin-top:8px">
+              ${canAct ? `<button class="btn small" data-reorder="${escapeAttr(o.order_id)}">إعادة الطلب</button>` : ''}
+              ${canAct ? `<button class="btn small" data-whats="${escapeAttr(o.order_id)}">واتساب</button>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('') || `<div class="warning">لا توجد طلبات بعد</div>`;
+    if (AUTH.role === 'admin'){
+      host.insertAdjacentHTML('afterbegin', `
+        <div class="panel" style="margin-bottom:10px;background:#f8fbff">
+          <div class="sectionHead" style="margin-top:0"><h2 style="font-size:15px">وضع الإدارة</h2><div class="hint">عرض كامل للتقارير</div></div>
+          <div class="sub">يمكنك متابعة الطلبات والتقارير بدون تعديل طلبات العملاء القديمة.</div>
+        </div>
+      `);
+    }
+    host.querySelectorAll('[data-reorder]').forEach(btn => btn.onclick = () => toast('إعادة الطلب متاحة للإدارة فقط'));
+    host.querySelectorAll('[data-whats]').forEach(btn => btn.onclick = () => toast('واتساب متاح للإدارة فقط'));
+  };
+
+  const __origRenderAll = window.renderAll;
+  window.renderAll = function(){
+    if (!AUTH.token){
+      setBodyLock(true);
+      showAuthLayer();
+      return;
+    }
+    setBodyLock(false);
+    syncUiFromAuth();
+    __origRenderAll();
+    const repBtn = document.getElementById('repBtn');
+    if (repBtn) repBtn.textContent = AUTH.role ? `Role: ${AUTH.role}` : 'Rep: OFF';
+  };
+
+  window.saveOrderRemote = async function(payload){
+    if (!AUTH.token) throw new Error('UNAUTHORIZED');
+    const safePayload = {
+      ...payload,
+      order_id: '',
+      __auth_token: AUTH.token,
+      __auth_role: AUTH.role,
+      __auth_phone: AUTH.phone,
+      __auth_name: AUTH.name
+    };
+    await fetch(CONFIG.apiUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type':'application/json;charset=utf-8'},
+      body: JSON.stringify({ action: 'saveOrder', token: AUTH.token, payload: safePayload })
+    });
+    return { ok: true };
+  };
+
+  const __origCheckout = window.checkout;
+  window.checkout = async function(){
+    if (!AUTH.token){
+      showAuthLayer('سجّل دخولك أو أنشئ حسابك أولاً.', 'warn');
+      return;
+    }
+    return await __origCheckout();
+  };
+
+  window.loadData = async function(){
+    if (!AUTH.token){
+      showAuthLayer('سجّل دخولك أو أنشئ حسابك أولاً.', 'warn');
+      return { ok:false };
+    }
+    try{
+      const bootstrap = await bootstrapApi();
+      if (!bootstrap || bootstrap.ok === false || bootstrap.error){
+        clearAuth();
+        showAuthLayer(bootstrap?.message || 'الدخول غير صالح. حاول تسجيل الدخول مرة أخرى.', 'error');
+        return { ok:false };
+      }
+
+      state.settings = bootstrap.settings || [];
+      state.settingsMap = parseSettings(bootstrap.settings || []);
+      state.customers = bootstrap.customers || [];
+      state.customerPrices = bootstrap.customerPrices || [];
+      state.reps = bootstrap.reps || [];
+      state.tiers = bootstrap.tiers || [];
+      state.tierPrices = bootstrap.tierPrices || [];
+      state.companies = bootstrap.companies || inferCompanies(bootstrap.products || []);
+      state.categories = bootstrap.categories || [];
+      state.products = bootstrap.products || [];
+      state.offers = bootstrap.offers || [];
+      state.offerItems = bootstrap.offerItems || [];
+      state.flashOffers = bootstrap.flashOffers || [];
+      state.flashItems = bootstrap.flashItems || [];
+      state.orders = bootstrap.orders || [];
+      state.smartMessages = bootstrap.smartMessages || [];
+      state.messageRules = bootstrap.messageRules || [];
+      state.activityLog = bootstrap.activityLog || [];
+
+      const user = bootstrap.user || {};
+      if (user.phone) state.customerPhone = user.phone;
+      if (user.role === 'rep' || user.role === 'admin'){
+        state.rep = { rep_id: user.id || user.rep_id || user.phone || '', name: user.name || '', role: user.role };
+      } else {
+        state.rep = null;
+      }
+
+      state.loaded = true;
+      saveLocal();
+      hideAuthLayer();
+      __origRenderAll();
+      maybeShowStartMessage();
+      maybeAutoHint();
+      return { ok:true };
+    } catch(err){
+      console.error(err);
+      showAuthLayer('في مشكلة بسيطة في التحميل… جرب تاني.', 'error');
+      return { ok:false };
+    }
+  };
+
+  window.bootApp = async function(){
+    createAuthLayer();
+    if (!AUTH.token){
+      setBodyLock(true);
+      showAuthLayer();
+      return;
+    }
+    await window.loadData();
+  };
+
+  window.getScopedOrdersByUser = async function(){
+    if (!AUTH.token) return [];
+    const res = await jsonp({action:'getOrdersByUser', token: AUTH.token});
+    if (res && res.ok && Array.isArray(res.orders)) return res.orders;
+    return [];
+  };
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === AUTH_TOKEN_KEY && !e.newValue){
+      clearAuth();
+      showAuthLayer('انتهت الجلسة. سجل دخولك من جديد.', 'warn');
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
