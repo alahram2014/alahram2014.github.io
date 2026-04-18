@@ -1,1 +1,1728 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Alahram Co B2B</title>
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --text:#102033;
+      --muted:#64748b;
+      --line:#e5eaf1;
+      --primary:#1f3a5f;
+      --primary2:#0ea5e9;
+      --good:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --shadow:0 14px 40px rgba(16,32,51,.10);
+      --radius:22px;
+      --radius-sm:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%, #f8fbff 26%, var(--bg) 100%);
+      color:var(--text);
+      min-height:100vh;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      padding-bottom:92px;
+    }
+    button,input,select,textarea{font:inherit}
+    button{border:0;background:none}
+    a{text-decoration:none;color:inherit}
+    .app{max-width:1300px;margin:0 auto}
+    .topbar{
+      position:sticky;top:0;z-index:40;
+      backdrop-filter:blur(12px);
+      background:rgba(246,248,251,.86);
+      border-bottom:1px solid rgba(229,234,241,.8);
+    }
+    .topbar-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:14px 14px 12px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;min-width:0;
+    }
+    .brand-badge{
+      width:46px;height:46px;border-radius:16px;
+      background:linear-gradient(135deg,var(--primary),#345f98);
+      color:#fff;display:grid;place-items:center;
+      font-weight:900;box-shadow:var(--shadow);
+      flex:0 0 auto;
+    }
+    .brand h1{margin:0;font-size:16px;line-height:1.1}
+    .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+    .top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+    .chip-btn,.icon-btn,.pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      border:1px solid var(--line);background:#fff;color:var(--text);
+      border-radius:999px;padding:10px 14px;min-height:42px;
+      box-shadow:0 6px 18px rgba(16,32,51,.05);cursor:pointer;
+      transition:.18s ease transform,.18s ease background,.18s ease border-color;
+      gap:8px;
+    }
+    .chip-btn:hover,.icon-btn:hover,.pill:hover{transform:translateY(-1px)}
+    .chip-btn.primary{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .chip-btn.good{background:var(--good);color:#fff;border-color:var(--good)}
+    .chip-btn.ghost{background:#fff}
+    .page{padding:14px}
+    .hero{
+      display:grid;gap:12px;
+      grid-template-columns:repeat(12,1fr);
+      margin-top:6px;
+    }
+    .hero-card{
+      grid-column:span 12;
+      background:linear-gradient(135deg,#102033,#1f3a5f 45%,#245a91);
+      color:#fff;border-radius:26px;padding:18px;
+      box-shadow:var(--shadow);position:relative;overflow:hidden;
+    }
+    .hero-card:before{
+      content:"";position:absolute;inset:auto -70px -70px auto;width:190px;height:190px;border-radius:50%;
+      background:rgba(255,255,255,.08);
+    }
+    .hero-title{margin:0 0 8px;font-size:22px}
+    .hero-sub{margin:0;color:rgba(255,255,255,.82);max-width:60ch;line-height:1.7;font-size:13px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+    .hero-actions .chip-btn{border:0}
+    .search-wrap{
+      grid-column:span 12;
+      background:#fff;border:1px solid var(--line);border-radius:24px;
+      padding:12px;box-shadow:var(--shadow)
+    }
+    .search-row{display:flex;gap:10px;align-items:center}
+    .search-input{
+      flex:1;min-width:0;border:0;outline:0;background:transparent;
+      font-size:15px;padding:8px 4px;
+    }
+    .search-clear{
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+      display:grid;place-items:center;cursor:pointer;background:#fff;color:var(--muted);
+    }
+    .suggestions{
+      margin-top:10px;border-top:1px dashed var(--line);padding-top:10px;
+      display:none;gap:8px;flex-direction:column;
+      max-height:320px;overflow:auto;
+    }
+    .suggestions.show{display:flex}
+    .suggest-item{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px;border-radius:18px;background:#f8fbff;border:1px solid #e8eef8;cursor:pointer;
+    }
+    .suggest-item strong{display:block;font-size:14px}
+    .suggest-item span{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+    .grid-3{
+      display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;
+      margin-top:10px;
+    }
+    .action-card{
+      background:#fff;border:1px solid var(--line);border-radius:22px;
+      min-height:82px;padding:14px;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;justify-content:space-between;cursor:pointer;
+      transition:.18s ease transform,.18s ease box-shadow;
+    }
+    .action-card:hover{transform:translateY(-1px)}
+    .action-card .label{font-weight:800;font-size:15px}
+    .action-card .desc{font-size:12px;color:var(--muted);line-height:1.5}
+    .section-head{
+      margin:18px 0 10px;display:flex;align-items:end;justify-content:space-between;gap:12px;
+    }
+    .section-head h2{margin:0;font-size:17px}
+    .section-head p{margin:0;color:var(--muted);font-size:12px}
+    .companies{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;
+    }
+    .company{
+      background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px;
+      box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;
+      min-height:102px;
+    }
+    .company.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,58,95,.08),var(--shadow)}
+    .company img,.company .logo{
+      width:48px;height:48px;border-radius:16px;object-fit:cover;background:#edf2f7;
+      display:grid;place-items:center;font-weight:800;color:var(--primary);
+    }
+    .company .name{font-size:12px;font-weight:700;text-align:center;line-height:1.35}
+    .company .count{font-size:11px;color:var(--muted)}
+    .products-toolbar{
+      display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .products-toolbar .pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .catalog{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin-top:12px;
+    }
+    .card{
+      background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;min-height:100%;
+    }
+    .card .img{
+      aspect-ratio:1/1;background:#eef3fb;position:relative;overflow:hidden;
+    }
+    .card .img img{
+      width:100%;height:100%;object-fit:contain;display:block;
+      background:#fff;padding:12px;
+    }
+    .badge{
+      position:absolute;top:10px;left:10px;background:rgba(16,32,51,.78);color:#fff;
+      padding:6px 10px;border-radius:999px;font-size:11px;backdrop-filter:blur(6px)
+    }
+    .card .body{padding:12px;display:flex;flex-direction:column;gap:10px;flex:1}
+    .card .title{font-weight:800;font-size:14px;line-height:1.45;min-height:40px}
+    .subline{font-size:12px;color:var(--muted)}
+    .unit-tabs{display:flex;gap:6px;flex-wrap:wrap}
+    .unit-tab{
+      border:1px solid var(--line);background:#f8fbff;border-radius:999px;padding:7px 10px;
+      font-size:12px;cursor:pointer;min-width:58px;text-align:center;
+    }
+    .unit-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .price-box{
+      display:flex;flex-direction:column;gap:2px;align-items:flex-start;
+      border-top:1px dashed var(--line);padding-top:8px;
+    }
+    .old-price{font-size:12px;color:var(--muted);text-decoration:line-through}
+    .new-price{font-size:20px;font-weight:900;color:#0f172a;line-height:1.2}
+    .qty-row{display:flex;gap:8px;align-items:center}
+    .stepper{
+      display:flex;align-items:center;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;
+      min-width:106px;
+    }
+    .stepper button{
+      width:36px;height:36px;cursor:pointer;font-size:18px;background:#f8fbff;color:var(--text)
+    }
+    .stepper span{min-width:34px;text-align:center;font-weight:800}
+    .add-btn{
+      width:100%;height:56px;border-radius:18px;font-size:16px;font-weight:900;
+      background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;cursor:pointer;
+      box-shadow:0 10px 24px rgba(22,163,74,.22);
+      transition:.2s ease transform,.2s ease filter,.2s ease background;
+    }
+    .add-btn.remove{background:var(--bad)}
+    .add-btn:active{transform:scale(.98)}
+    .card.flash{border-color:#f7c948}
+    .card.offer{border-color:#9e77ed}
+    .card.pulse{animation:pulse .45s ease}
+    @keyframes pulse{
+      0%{transform:scale(1)}
+      45%{transform:scale(1.015)}
+      100%{transform:scale(1)}
+    }
+    .drawer{
+      position:fixed;inset:0 auto 0 0;z-index:60;width:min(420px,100%);
+      background:#fff;border-left:1px solid var(--line);box-shadow:-16px 0 40px rgba(0,0,0,.10);
+      transform:translateX(-102%);transition:.24s ease transform;display:flex;flex-direction:column;
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer-head{
+      padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;
+    }
+    .drawer-head h3{margin:0;font-size:17px}
+    .drawer-body{padding:14px;overflow:auto;flex:1}
+    .cart-item{
+      border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:10px;background:#fbfdff
+    }
+    .cart-item .row{display:flex;justify-content:space-between;gap:10px}
+    .cart-item .name{font-weight:800;font-size:13px;line-height:1.45}
+    .cart-item .meta{font-size:12px;color:var(--muted);margin-top:4px}
+    .cart-item .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+    .cart-footer{
+      padding:14px;border-top:1px solid var(--line);background:#fff;position:sticky;bottom:0
+    }
+    .form-grid{display:grid;gap:10px}
+    .input{
+      width:100%;border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:#fff;outline:0;
+    }
+    .submit-btn{
+      width:100%;height:56px;border-radius:18px;background:var(--good);color:#fff;font-weight:900;font-size:16px;cursor:pointer;
+    }
+    .muted{color:var(--muted)}
+    .overlay{
+      position:fixed;inset:0;background:rgba(15,23,42,.46);z-index:70;display:none;align-items:center;justify-content:center;padding:16px;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(520px,100%);background:#fff;border-radius:24px;box-shadow:var(--shadow);overflow:hidden;
+    }
+    .modal .head{
+      padding:16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;
+    }
+    .modal .body{padding:16px}
+    .modal h3{margin:0;font-size:18px}
+    .tiers-grid{
+      display:grid;gap:10px;
+      grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    }
+    .tier-card{
+      border:1px solid var(--line);border-radius:22px;padding:14px;background:#fff;box-shadow:var(--shadow);cursor:pointer;
+    }
+    .tier-card.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,58,95,.08),var(--shadow)}
+    .tier-card .title{font-weight:900}
+    .tier-card .min{font-size:13px;color:var(--muted);margin-top:6px}
+    .empty{
+      padding:24px;border:1px dashed var(--line);border-radius:22px;background:#fff;text-align:center;color:var(--muted)
+    }
+    .toast-zone{
+      position:fixed;left:14px;bottom:104px;z-index:80;display:flex;flex-direction:column;gap:8px;
+      max-width:min(360px,calc(100vw - 28px));
+    }
+    .toast{
+      background:#0f172a;color:#fff;border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);font-size:13px;line-height:1.55;
+      opacity:0;transform:translateY(10px);animation:toastIn .22s ease forwards;
+    }
+    .toast.good{background:#146c43}
+    .toast.warn{background:#8a5a00}
+    .toast.bad{background:#7f1d1d}
+    @keyframes toastIn{to{opacity:1;transform:translateY(0)}}
+    .bottom-bar{
+      position:fixed;left:0;right:0;bottom:0;z-index:55;
+      background:rgba(255,255,255,.86);backdrop-filter:blur(12px);
+      border-top:1px solid rgba(229,234,241,.95);
+      padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    }
+    .bottom-inner{
+      max-width:1300px;margin:0 auto;display:flex;gap:10px;align-items:center;justify-content:space-between;
+    }
+    .smart-tier{
+      flex:1;height:56px;border-radius:18px;background:#fff;border:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    .smart-tier.ok{background:linear-gradient(135deg,#16a34a,#22c55e);border-color:#16a34a;color:#fff}
+    .smart-tier .main{font-weight:900}
+    .smart-tier .sub{font-size:12px;color:inherit;opacity:.82}
+    .small-btn{
+      width:56px;height:56px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+      display:grid;place-items:center;cursor:pointer;font-size:18px
+    }
 
+    .footer-total{
+      flex:1;height:56px;border-radius:18px;background:#fff;border:1px solid var(--line);
+      display:flex;align-items:center;justify-content:center;font-weight:900;color:#173a84;
+      box-shadow:var(--shadow);cursor:pointer;
+    }
+    .footer-checkout{
+      min-width:110px;height:56px;border-radius:18px;border:1px solid #16a34a;
+      background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;font-weight:900;cursor:pointer;
+      box-shadow:0 10px 24px rgba(22,163,74,.22);
+    }
+    .footer-tier{
+      flex:1;height:56px;border-radius:18px;background:#fff;border:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    .footer-tier.ok{background:linear-gradient(135deg,#16a34a,#22c55e);border-color:#16a34a;color:#fff}
+    .location-block{
+      margin-top:12px;padding:12px;border:1px solid var(--line);border-radius:18px;background:#f8fbff;
+      display:flex;flex-direction:column;gap:10px;
+    }
+    .location-block .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .location-btn{min-height:44px;border:none;border-radius:14px;background:#0ea5e9;color:#fff;font-weight:800;padding:0 14px;cursor:pointer}
+    .location-pill{font-size:12px;color:var(--muted);word-break:break-all}
+    .skeleton-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:12px;margin-top:12px}
+    .skeleton-card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:12px;box-shadow:var(--shadow);overflow:hidden}
+    .skeleton-img{aspect-ratio:1/1;border-radius:18px;background:linear-gradient(90deg,#edf2f7,#f7fafc,#edf2f7);background-size:200% 100%;animation:shimmer 1.2s infinite linear}
+    .skeleton-bar{height:12px;border-radius:999px;background:linear-gradient(90deg,#edf2f7,#f7fafc,#edf2f7);background-size:200% 100%;animation:shimmer 1.2s infinite linear}
+    .skeleton-bar.lg{height:16px;width:72%;margin-top:12px}
+    .skeleton-bar.md{width:52%;margin-top:8px}
+    .skeleton-bar.sm{width:36%;margin-top:8px}
+    @keyframes shimmer{
+      0%{background-position:200% 0}
+      100%{background-position:-200% 0}
+    }
+    .hidden{display:none !important}
+    @media (max-width: 900px){
+      .hero{grid-template-columns:1fr}
+      .grid-3{grid-template-columns:1fr}
+      .catalog{grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
+    }
+    @media (max-width: 520px){
+      .topbar-inner{padding:12px 12px 10px}
+      .page{padding:12px}
+      .brand h1{font-size:15px}
+      .brand p{font-size:11px}
+      .catalog{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .companies{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .toast-zone{left:10px;right:10px;bottom:108px;max-width:none}
+      .drawer{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand" role="button" onclick="goHome()">
+          <div class="brand-badge">A</div>
+          <div>
+            <h1>Alahram Co</h1>
+            <p id="brandSub">نظام بيع ذكي لتجارة الجملة</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="chip-btn ghost" id="repBtn" onclick="openAuthModal()">دخول مندوب</button>
+          <button class="icon-btn" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="page">
+      <div class="empty">جارٍ تحميل البيانات…</div>
+    </main>
+  </div>
+
+  <div id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <h3>السلة</h3>
+        <div class="muted" id="cartSummary">0 صنف</div>
+      </div>
+      <button class="icon-btn" onclick="closeCart()">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div id="cartList"></div>
+
+      <div class="section-head">
+        <div>
+          <h2>بيانات الطلب</h2>
+          <p>نقوم بالتسجيل على الشيت مباشرة عند التأكيد</p>
+        </div>
+      </div>
+
+      <div class="form-grid">
+        <input class="input" id="custName" placeholder="اسم العميل" />
+        <input class="input" id="custPhone" placeholder="رقم الهاتف" />
+        <textarea class="input" id="custAddress" rows="3" placeholder="العنوان"></textarea>
+      </div>
+
+      <div class="location-block">
+        <div class="row">
+          <button class="location-btn" type="button" onclick="pickLocation()">📍 تحديد الموقع (اختياري)</button>
+          <span class="muted">لو العميل عايز يرسل اللوكيشن</span>
+        </div>
+        <div class="location-pill" id="locationPreview">لم يتم تحديد الموقع بعد</div>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <strong>الإجمالي</strong>
+        <strong id="cartTotal">0</strong>
+      </div>
+      <button class="submit-btn" onclick="checkout()">تأكيد الطلب</button>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay" onclick="overlayClose(event)">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="head">
+        <h3 id="modalTitle">عنوان</h3>
+        <button class="icon-btn" onclick="closeModal()">✕</button>
+      </div>
+      <div class="body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast-zone" id="toastZone"></div>
+
+  <div class="bottom-bar">
+    <div class="bottom-inner">
+      <button class="footer-checkout" id="checkoutFooterBtn" onclick="openCart()">إتمام الشراء</button>
+      <button class="footer-total" id="footerTotalBtn" onclick="openCart()">0 ج.م</button>
+      <button class="footer-tier" id="tierBtn" onclick="openTierView()">
+        <div>
+          <div class="main" id="tierBtnMain">اختار شريحتك</div>
+          <div class="sub" id="tierBtnSub">الضغط هنا ينقلك للشريحة / الشركات</div>
+        </div>
+        <div id="tierBtnRight" style="font-weight:900">→</div>
+      </button>
+    </div>
+  </div>
+
+<script>
+/* =========================
+   إعدادات الربط
+   ========================= */
+const API_BASE = 'https://script.google.com/macros/s/AKfycbwq10iAV8etL-55n701nYObRkfPYhYZ6m0xubbGcSFXcCzxMF8Itpk4XzgmrLtlq9elSQ/exec'; // API الجديد
+const UNIT_ORDER = ['carton','dozen','piece'];
+const UNIT_LABELS = { carton:'كرتونة', dozen:'دستة', piece:'قطعة' };
+
+/* =========================
+   الحالة العامة
+   ========================= */
+const state = {
+  products: [],
+  companies: [],
+  tiers: [],
+  reps: [],
+  settings: {},
+  offers: [],
+  flashOffers: [],
+  search: '',
+  company: 'ALL',
+  view: 'home',
+  selectedTierId: '',
+  selectedTier: null,
+  cart: loadCart(),
+  auth: loadAuth(),
+  suggestions: [],
+  toastHistory: [],
+  loading: true,
+  bootErrors: [],
+  productsPage: 1,
+  productsPageSize: 20,
+  productsHasMore: true,
+  productsLoading: false,
+  productsRequestSeq: 0,
+  searchTimer: null,
+  selectedLocation: '',
+  salesMemory: [],
+  salesLastAt: 0
+};
+
+const el = (id) => document.getElementById(id);
+const money = (n) => formatMoney(n);
+
+function formatMoney(value){
+  const n = Number(value || 0);
+  return new Intl.NumberFormat('ar-EG').format(Math.round(n));
+}
+
+function loadCart(){
+  try { return JSON.parse(localStorage.getItem('alahram_cart') || '[]'); } catch(e){ return []; }
+}
+function saveCart(){
+  localStorage.setItem('alahram_cart', JSON.stringify(state.cart));
+}
+function loadAuth(){
+  try { return JSON.parse(localStorage.getItem('alahram_auth') || 'null'); } catch(e){ return null; }
+}
+function saveAuth(){
+  if (state.auth) localStorage.setItem('alahram_auth', JSON.stringify(state.auth));
+  else localStorage.removeItem('alahram_auth');
+}
+
+/* =========================
+   أدوات API
+   ========================= */
+async function api(endpoint, method='GET', body=null, params={}){
+  const normalizedEndpoint = String(endpoint || '').trim().replace(/^\/+/, '');
+  const qs = new URLSearchParams({ endpoint: normalizedEndpoint });
+  Object.entries(params || {}).forEach(([k, v]) => {
+    if (v !== undefined && v !== null && String(v).length) qs.set(k, String(v));
+  });
+  const url = API_BASE + '?' + qs.toString();
+  const opts = { method: String(method || 'GET').toUpperCase(), headers: { 'Accept': 'application/json' } };
+  if (body !== null && opts.method !== 'GET') {
+    opts.headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+  console.log('[API REQUEST]', opts.method, normalizedEndpoint, params || {}, body || {});
+  const res = await fetch(url, opts);
+  const txt = await res.text();
+  console.log('[API RESPONSE]', res.status, normalizedEndpoint, txt.slice(0, 500));
+  let json;
+  try {
+    json = JSON.parse(txt);
+  } catch (e) {
+    const err = new Error('API response is not JSON: ' + normalizedEndpoint);
+    err.status = res.status;
+    err.endpoint = normalizedEndpoint;
+    err.raw = txt;
+    throw err;
+  }
+  if (!res.ok || !json.success) {
+    const err = new Error((json && json.error) ? json.error : ('API error: ' + normalizedEndpoint));
+    err.status = res.status;
+    err.endpoint = normalizedEndpoint;
+    err.raw = txt;
+    err.debug = json && json.debug ? json.debug : null;
+    throw err;
+  }
+  return json.data;
+}
+
+/* =========================
+   البداية
+   ========================= */
+document.addEventListener('DOMContentLoaded', init);
+
+async function init(){
+  state.loading = true;
+  render();
+
+  state.bootErrors = [];
+  state.productsPage = 1;
+  state.productsHasMore = true;
+  state.productsLoading = false;
+  state.productsRequestSeq = 0;
+
+  try {
+    // تحميل تدريجي: settings ثم tiers ثم reps ثم offers ثم flash_offers ثم products
+    await safeBootLoad_('settings', async () => {
+      const payload = await api('api/settings');
+      state.settings = payload.settings || {};
+    });
+
+    await safeBootLoad_('tiers', async () => {
+      const payload = await api('api/tiers');
+      state.tiers = payload.tiers || [];
+    });
+
+    await safeBootLoad_('reps', async () => {
+      const payload = await api('api/reps');
+      state.reps = payload.reps || [];
+    });
+
+    await safeBootLoad_('offers', async () => {
+      const payload = await api('api/offers');
+      state.offers = payload.items || [];
+    });
+
+    await safeBootLoad_('flash_offers', async () => {
+      const payload = await api('api/flash_offers');
+      state.flashOffers = payload.items || [];
+    });
+
+    await safeBootLoad_('products', async () => {
+      await loadProductsPage_(1, false);
+    });
+
+    if (state.auth?.token) {
+      await safeBootLoad_('auth', async () => {
+        const authCheck = await api('api/auth', 'GET', null, { token: state.auth.token });
+        if (authCheck && authCheck.valid === false) {
+          state.auth = null;
+          saveAuth();
+          toast('انتهت الجلسة، سجل الدخول مرة أخرى', 'warn');
+        }
+      });
+    }
+
+    restoreTierFromStorage();
+    ensureSelectedTierObject();
+    ensureSelectedCompany();
+    syncAuthUi();
+
+    state.loading = false;
+    render();
+    updateFooter();
+    updateCartUi();
+    if (!state.selectedTier) smartWelcome();
+  } catch (err) {
+    state.loading = false;
+    renderError(err);
+  }
+}
+
+function safeBootLoad_(label, fn){
+  return Promise.resolve()
+    .then(fn)
+    .catch(err => {
+      console.warn('[BOOT ERROR]', label, err);
+      state.bootErrors.push({ label, error: err });
+      toast('تعذر تحميل: ' + label, 'warn');
+      return null;
+    });
+}
+
+async function reloadProductsData_(){
+  return loadProductsPage_(1, false);
+}
+
+async function loadProductsPage_(page, append){
+  if (state.productsLoading) return null;
+  const seq = ++state.productsRequestSeq;
+  state.productsLoading = true;
+
+  try {
+    const payload = await api('api/products', 'GET', null, {
+      page: page || 1,
+      limit: state.productsPageSize || 20,
+      q: state.search || '',
+      company: state.company && state.company !== 'ALL' ? state.company : '',
+      tier: state.selectedTier ? (state.selectedTier.tier_name || state.selectedTier.tier_id || '') : ''
+    });
+
+    if (seq !== state.productsRequestSeq) return payload;
+
+    const items = payload.items || [];
+    state.products = append ? (state.products || []).concat(items) : items;
+    state.companies = payload.companies || state.companies || [];
+    state.productsPage = payload.page || page || 1;
+    state.productsHasMore = !!payload.has_more;
+    state.productsLoading = false;
+    render();
+    return payload;
+  } catch (err) {
+    state.productsLoading = false;
+    throw err;
+  }
+}
+
+function handleLazyScroll_(){
+  if (state.view !== 'products') return;
+  if (!state.productsHasMore || state.productsLoading) return;
+  const nearBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 700);
+  if (nearBottom) {
+    loadMoreProducts_();
+  }
+}
+
+async function loadMoreProducts_(){
+  if (!state.productsHasMore || state.productsLoading) return;
+  await loadProductsPage_((state.productsPage || 1) + 1, true);
+}
+
+function retryBoot(){
+  state.bootErrors = [];
+  init();
+}
+
+function restoreTierFromStorage(){
+  try{
+    const raw = localStorage.getItem('alahram_tier');
+    if (!raw) return;
+    const tierId = String(raw);
+    const tier = state.tiers.find(t => String(t.tier_id) === tierId);
+    if (tier){
+      state.selectedTierId = tierId;
+      state.selectedTier = tier;
+    }
+  } catch(e){}
+}
+
+function ensureSelectedTierObject(){
+  if (!state.selectedTierId && state.selectedTier){
+    state.selectedTierId = String(state.selectedTier.tier_id);
+  }
+  if (state.selectedTierId && !state.selectedTier){
+    state.selectedTier = state.tiers.find(t => String(t.tier_id) === String(state.selectedTierId)) || null;
+  }
+}
+
+function ensureSelectedCompany(){
+  if (!state.company) state.company = 'ALL';
+}
+
+/* =========================
+   التنقل
+   ========================= */
+function goHome(){ openView('home'); }
+function openView(view){
+  state.view = view;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function openTierView(){
+  state.view = 'tiers';
+  render();
+}
+function openCompanyView(company){
+  state.company = company || 'ALL';
+  state.view = 'companies';
+  render();
+}
+function openProductView(){
+  state.view = 'products';
+  render();
+}
+
+/* =========================
+   render
+   ========================= */
+function render(){
+  if (state.loading){
+    el('main').innerHTML = '<div class="empty">جارٍ تحميل البيانات…</div>';
+    return;
+  }
+  switch(state.view){
+    case 'tiers': renderTiers(); break;
+    case 'companies': renderCompanies(); break;
+    case 'products': renderProducts(); break;
+    case 'offers': renderOffers(); break;
+    case 'flash': renderFlashOffers(); break;
+    default: renderHome(); break;
+  }
+  updateFooter();
+  updateCartUi();
+}
+
+function renderHome(){
+  const q = state.search.trim();
+  const suggestions = q ? getSuggestions(q).slice(0,6) : [];
+  const featured = q ? searchProducts(q).slice(0,12) : state.products.slice(0,12);
+  el('main').innerHTML = `
+    <section class="hero">
+      <div class="hero-card">
+        <h2 class="hero-title">سرعة قرار. أقل تفكير. متوسط فاتورة أعلى.</h2>
+        <p class="hero-sub">
+          واجهة مبيعات تعتمد على الشريحة، البحث الذكي، والعروض السريعة.
+          اعرض السعر المناسب فورًا، واسمح للعميل بالوصول للمنتج المناسب بأقل عدد ضغطات.
+        </p>
+        <div class="hero-actions">
+          <button class="chip-btn" onclick="openTierView()">الشريحة</button>
+          <button class="chip-btn" onclick="openView('offers')">صفقة اليوم</button>
+          <button class="chip-btn" onclick="openView('flash')">عرض الساعة</button>
+        </div>
+      </div>
+
+      <div class="search-wrap">
+        <div class="search-row">
+          <input id="searchInput" class="search-input" placeholder="ابحث بالاسم أو الكود أو الشركة..." value="${escapeHtml(state.search)}" oninput="onSearchInput(this.value)" />
+          <button class="search-clear" onclick="clearSearch()">✕</button>
+        </div>
+        <div id="suggestions" class="suggestions ${suggestions.length ? 'show' : ''}">
+          ${suggestions.map(s => `
+            <div class="suggest-item" onclick="selectSuggestion('${escapeAttr(s.id)}')">
+              <div>
+                <strong>${escapeHtml(s.name)}</strong>
+                <span>${escapeHtml(s.company)} • ${escapeHtml(String(s.id))}</span>
+              </div>
+              <div>→</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="action-card" onclick="openTierView()">
+          <div class="label">اختيار الشريحة</div>
+          <div class="desc">اختيار سريع مع حفظ السلة وإعادة التسعير تلقائيًا.</div>
+        </div>
+        <div class="action-card" onclick="openView('offers')">
+          <div class="label">صفقة اليوم</div>
+          <div class="desc">عرض دائم الشراء ولا يدخل في احتساب الشريحة.</div>
+        </div>
+        <div class="action-card" onclick="openView('flash')">
+          <div class="label">عرض الساعة</div>
+          <div class="desc">عرض بزمن محدد مع عداد تنازلي وقرار أسرع.</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-head">
+      <div>
+        <h2>الشركات</h2>
+        <p>اضغط على الشركة لفتح المنتجات المرتبطة بها</p>
+      </div>
+      <button class="pill ${state.company === 'ALL' ? 'active' : ''}" onclick="openCompanyView('ALL')">الكل</button>
+    </div>
+    <div class="companies">
+      ${state.companies.slice(0, 18).map(c => `
+        <div class="company ${state.company === c.name ? 'active' : ''}" onclick="setCompany('${escapeAttr(c.name)}')">
+          ${c.logo ? `<img src="${escapeAttr(c.logo)}" alt="${escapeAttr(c.name)}">` : `<div class="logo">${escapeHtml(companyInitials(c.name))}</div>`}
+          <div class="name">${escapeHtml(c.name)}</div>
+          <div class="count">${Number(c.count || 0)} صنف</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="section-head">
+      <div>
+        <h2>منتجات مقترحة</h2>
+        <p>${q ? 'نتائج البحث' : 'أول المنتجات المتاحة'}</p>
+      </div>
+      <button class="pill" onclick="openProductView()">فتح الكتالوج</button>
+    </div>
+    <div id="catalogArea" class="catalog">
+      ${renderProductCards(featured)}
+    </div>
+  `;
+}
+
+function renderCompanies(){
+  const filteredCompanies = state.company === 'ALL'
+    ? state.companies
+    : state.companies.filter(c => c.name === state.company);
+
+  el('main').innerHTML = `
+    <div class="section-head">
+      <div>
+        <h2>صفحة الشركات</h2>
+        <p>الشريحة الحالية: ${state.selectedTier ? escapeHtml(state.selectedTier.visible_label) : 'لم يتم الاختيار بعد'}</p>
+      </div>
+      <button class="pill" onclick="openView('home')">رجوع</button>
+    </div>
+    <div class="companies">
+      ${filteredCompanies.map(c => `
+        <div class="company ${state.company === c.name ? 'active' : ''}" onclick="openCompanyView('${escapeAttr(c.name)}'); openProductView();">
+          ${c.logo ? `<img src="${escapeAttr(c.logo)}" alt="${escapeAttr(c.name)}">` : `<div class="logo">${escapeHtml(companyInitials(c.name))}</div>`}
+          <div class="name">${escapeHtml(c.name)}</div>
+          <div class="count">${Number(c.count || 0)} صنف</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function renderProducts(){
+  const q = state.search.trim();
+  if (state.productsLoading) {
+    el('main').innerHTML = `
+      <div class="section-head">
+        <div>
+          <h2>المنتجات</h2>
+          <p>جارٍ تحميل أصناف الشركة المختارة...</p>
+        </div>
+        <button class="pill" onclick="openView('home')">رجوع</button>
+      </div>
+      <div class="skeleton-grid">
+        ${Array.from({length: 8}).map(() => `
+          <div class="skeleton-card">
+            <div class="skeleton-img"></div>
+            <div class="skeleton-bar lg"></div>
+            <div class="skeleton-bar md"></div>
+            <div class="skeleton-bar sm"></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    return;
+  }
+
+  const list = q ? searchProducts(q) : filterByCompany(state.company);
+  el('main').innerHTML = `
+    <div class="section-head">
+      <div>
+        <h2>المنتجات</h2>
+        <p>${list.length} صنف ظاهر الآن</p>
+      </div>
+      <button class="pill" onclick="openView('home')">رجوع</button>
+    </div>
+    <div class="products-toolbar">
+      <button class="pill ${state.company === 'ALL' ? 'active' : ''}" onclick="setCompany('ALL')">الكل</button>
+      ${state.companies.slice(0, 12).map(c => `
+        <button class="pill ${state.company === c.name ? 'active' : ''}" onclick="setCompany('${escapeAttr(c.name)}')">${escapeHtml(c.name)}</button>
+      `).join('')}
+    </div>
+    <div class="catalog">
+      ${renderProductCards(list)}
+    </div>
+    ${state.productsHasMore ? `<div class="pageActions"><button class="primaryBtn" onclick="loadMoreProducts_()">تحميل المزيد</button></div>` : ''}
+  `;
+}
+
+function renderOffers(){
+  const activeOffers = state.offers.filter(o => o.active !== false);
+  el('main').innerHTML = `
+    <div class="section-head">
+      <div>
+        <h2>صفقة اليوم</h2>
+        <p>العرض ده مش هيتحسب ضمن الشريحة</p>
+      </div>
+      <button class="pill" onclick="openView('home')">رجوع</button>
+    </div>
+    ${activeOffers.length ? `<div class="catalog">${activeOffers.map(o => renderOfferCard(o)).join('')}</div>` : '<div class="empty">لا توجد عروض مفعلة الآن.</div>'}
+  `;
+}
+
+function renderFlashOffers(){
+  const active = state.flashOffers.filter(o => o.active !== false && o.is_live);
+  el('main').innerHTML = `
+    <div class="section-head">
+      <div>
+        <h2>عرض الساعة</h2>
+        <p>يظهر فقط إذا كان داخل النطاق الزمني الحالي</p>
+      </div>
+      <button class="pill" onclick="openView('home')">رجوع</button>
+    </div>
+    ${active.length ? `<div class="catalog">${active.map(o => renderFlashCard(o)).join('')}</div>` : '<div class="empty">لا يوجد عرض ساعة نشط الآن.</div>'}
+  `;
+}
+
+function renderTiers(){
+  el('main').innerHTML = `
+    <div class="section-head">
+      <div>
+        <h2>اختيار الشريحة</h2>
+        <p>تغيير الشريحة لا يمسح السلة ويعيد التسعير تلقائيًا</p>
+      </div>
+      <button class="pill" onclick="openView('home')">رجوع</button>
+    </div>
+    <div class="tiers-grid">
+      ${state.tiers.map(t => `
+        <div class="tier-card ${state.selectedTierId === String(t.tier_id) ? 'active' : ''}" onclick="pickTier('${escapeAttr(String(t.tier_id))}')">
+          <div class="title">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div>
+          <div class="min">الحد الأدنى: ${money(t.tier_min)} ج.م</div>
+          <div class="min">${escapeHtml(t.tier_description || '')}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+/* =========================
+   البطاقات
+   ========================= */
+function renderProductCards(list){
+  if (!list || !list.length) return '<div class="empty">لا توجد منتجات مطابقة الآن.</div>';
+  return list.map(productCard).join('');
+}
+
+function productCard(p){
+  const units = availableUnits(p);
+  const activeUnit = getCardUnit(p.id, units[0]?.unit || 'carton');
+  const priced = priceFor(p, activeUnit);
+  const inCart = cartKey(p.id, activeUnit);
+  const qty = cartQty(p.id, activeUnit);
+
+  return `
+    <article class="card ${isOfferProduct(p) ? 'offer' : ''}">
+      <div class="img">
+        <img src="${escapeAttr(p.image || fallbackImage())}" alt="${escapeAttr(p.name)}" loading="lazy" />
+        <div class="badge">${escapeHtml(p.company || '')}</div>
+      </div>
+      <div class="body">
+        <div class="title">${escapeHtml(p.name)}</div>
+        <div class="subline">الكود: ${escapeHtml(String(p.id))}</div>
+
+        <div class="unit-tabs">
+          ${units.map(u => `
+            <button class="unit-tab ${activeUnit === u.unit ? 'active' : ''}" onclick="setCardUnit('${escapeAttr(String(p.id))}','${escapeAttr(u.unit)}')">${escapeHtml(u.label)}</button>
+          `).join('')}
+        </div>
+
+        <div class="price-box">
+          <div class="old-price">${money(priced.base)} ج.م</div>
+          <div class="new-price">${money(priced.current)} ج.م</div>
+        </div>
+
+        <div class="qty-row">
+          <div class="stepper">
+            <button onclick="changeQty('${escapeAttr(String(p.id))}','${escapeAttr(activeUnit)}',-1)">−</button>
+            <span>${qty}</span>
+            <button onclick="changeQty('${escapeAttr(String(p.id))}','${escapeAttr(activeUnit)}',1)">+</button>
+          </div>
+          <button class="add-btn ${inCart ? 'remove' : ''}" onclick="toggleCart('${escapeAttr(String(p.id))}','${escapeAttr(activeUnit)}')">
+            ${inCart ? 'إزالة' : 'شراء'}
+          </button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function renderOfferCard(o){
+  const price = Number(o.price || 0);
+  return `
+    <article class="card offer">
+      <div class="img">
+        <img src="${escapeAttr(o.image || fallbackImage())}" alt="${escapeAttr(o.name)}" loading="lazy" />
+        <div class="badge">صفقة اليوم</div>
+      </div>
+      <div class="body">
+        <div class="title">${escapeHtml(o.name || 'عرض')}</div>
+        <div class="subline">${escapeHtml(o.details || '')}</div>
+        <div class="price-box">
+          <div class="old-price">—</div>
+          <div class="new-price">${money(price)} ج.م</div>
+        </div>
+        <button class="add-btn" onclick="addOfferToCart('${escapeAttr(String(o.id))}','${escapeAttr(o.name || '')}',${price},'offer')">إضافة</button>
+      </div>
+    </article>
+  `;
+}
+
+function renderFlashCard(o){
+  const price = Number(o.price || 0);
+  return `
+    <article class="card flash">
+      <div class="img">
+        <img src="${escapeAttr(o.image || fallbackImage())}" alt="${escapeAttr(o.name)}" loading="lazy" />
+        <div class="badge">عرض الساعة</div>
+      </div>
+      <div class="body">
+        <div class="title">${escapeHtml(o.display_title || o.name || 'عرض ساعة')}</div>
+        <div class="subline">${escapeHtml(o.details || o.description || '')}</div>
+        <div class="subline" id="countdown_${escapeAttr(String(o.id))}">${countdownText(o.end_at)}</div>
+        <div class="price-box">
+          <div class="old-price">—</div>
+          <div class="new-price">${money(price)} ج.م</div>
+        </div>
+        <button class="add-btn" onclick="addOfferToCart('${escapeAttr(String(o.id))}','${escapeAttr(o.name || '')}',${price},'flash')">إضافة</button>
+      </div>
+    </article>
+  `;
+}
+
+function fallbackImage(){
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+    <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
+      <rect width="100%" height="100%" fill="#eef3fb"/>
+      <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="28" fill="#64748b">Alahram Co</text>
+    </svg>
+  `);
+}
+
+/* =========================
+   التسعير
+   ========================= */
+function availableUnits(p){
+  const out = [];
+  UNIT_ORDER.forEach(u => {
+    if (p.base_prices && Number(p.base_prices[u] || 0) > 0) out.push({ unit:u, label:UNIT_LABELS[u] });
+  });
+  if (!out.length) out.push({ unit:'carton', label:'كرتونة' });
+  return out;
+}
+
+function getCardUnit(productId, defaultUnit){
+  const key = 'u_' + productId;
+  return localStorage.getItem(key) || defaultUnit || 'carton';
+}
+function setCardUnit(productId, unit){
+  localStorage.setItem('u_' + productId, unit);
+  render();
+}
+function priceFor(product, unit){
+  const base = Number(product.base_prices?.[unit] || 0);
+  let current = base;
+  if (state.selectedTier){
+    const tierKey = state.selectedTier.tier_name;
+    const tp = product.tier_prices?.[tierKey] || product.tier_prices?.[String(state.selectedTierId)] || null;
+    if (tp && Number(tp[unit] || 0) > 0) current = Number(tp[unit]);
+  }
+  return { base: base, current: current };
+}
+
+function isOfferProduct(p){
+  return false;
+}
+
+/* =========================
+   البحث
+   ========================= */
+function onSearchInput(value){
+  state.search = value || '';
+  const box = el('suggestions');
+  if (!box) return;
+  const list = state.search.trim() ? getSuggestions(state.search).slice(0,6) : [];
+  box.innerHTML = list.map(s => `
+    <div class="suggest-item" onclick="selectSuggestion('${escapeAttr(s.id)}')">
+      <div>
+        <strong>${escapeHtml(s.name)}</strong>
+        <span>${escapeHtml(s.company)} • ${escapeHtml(String(s.id))}</span>
+      </div>
+      <div>→</div>
+    </div>
+  `).join('');
+  box.classList.toggle('show', list.length > 0);
+
+  clearTimeout(state.searchTimer);
+  state.searchTimer = setTimeout(() => {
+    if (!state.loading) {
+      loadProductsPage_(1, false).catch(err => console.warn('search reload failed', err));
+    }
+  }, 250);
+  render();
+}
+function clearSearch(){
+  state.search = '';
+  const inp = el('searchInput');
+  if (inp) inp.value = '';
+  clearTimeout(state.searchTimer);
+  loadProductsPage_(1, false).catch(err => console.warn('clear search reload failed', err));
+  render();
+}
+function getSuggestions(q){
+  const term = normalizeText(q);
+  if (!term) return [];
+  const scored = state.products.map(p => ({ p, score: scoreProduct(p, term) }))
+    .filter(x => x.score > 0)
+    .sort((a,b) => b.score - a.score)
+    .slice(0,12);
+  return scored.map(x => x.p);
+}
+function searchProducts(q){
+  const term = normalizeText(q);
+  if (!term) return filterByCompany(state.company);
+  return state.products
+    .map(p => ({ p, score: scoreProduct(p, term) }))
+    .filter(x => x.score > 0)
+    .sort((a,b) => b.score - a.score)
+    .map(x => x.p);
+}
+function scoreProduct(p, q){
+  const hay = normalizeText([p.name, p.company, p.id].join(' '));
+  if (!hay.includes(q)) return 0;
+  let score = 1;
+  if (normalizeText(p.name).startsWith(q)) score += 7;
+  if (normalizeText(String(p.id)).startsWith(q)) score += 6;
+  if (normalizeText(p.company).startsWith(q)) score += 4;
+  score += Math.max(0, 20 - hay.indexOf(q));
+  return score;
+}
+function normalizeText(v){
+  return String(v || '').trim().toLowerCase().replace(/\s+/g,' ');
+}
+function selectSuggestion(id){
+  const item = state.products.find(p => String(p.id) === String(id));
+  if (!item) return;
+  state.search = item.name;
+  const inp = el('searchInput'); if (inp) inp.value = item.name;
+  state.company = item.company || 'ALL';
+  state.view = 'products';
+  state.productsLoading = true;
+  state.products = [];
+  state.productsPage = 1;
+  state.productsHasMore = true;
+  render();
+  loadProductsPage_(1, false).catch(err => console.warn('suggestion reload failed', err));
+}
+function setCompany(company){
+  state.company = company || 'ALL';
+  state.view = 'products';
+  state.productsLoading = true;
+  state.products = [];
+  state.productsPage = 1;
+  state.productsHasMore = true;
+  render();
+  loadProductsPage_(1, false).catch(err => console.warn('company reload failed', err));
+}
+function filterByCompany(company){
+  if (!company || company === 'ALL') return state.products;
+  return state.products.filter(p => p.company === company);
+}
+
+/* =========================
+   السلة
+   ========================= */
+function cartKey(id, unit){ return String(id) + '::' + String(unit); }
+function cartQty(id, unit){
+  const item = state.cart.find(x => x.id === String(id) && x.unit === String(unit));
+  return item ? Number(item.qty || 0) : 0;
+}
+function toggleCart(id, unit){
+  const key = cartKey(id, unit);
+  const idx = state.cart.findIndex(x => cartKey(x.id, x.unit) === key);
+  const product = state.products.find(p => String(p.id) === String(id));
+  if (idx >= 0){
+    state.cart.splice(idx,1);
+    saveCart();
+    toast('تمت الإزالة من السلة', 'bad');
+    updateCartUi();
+    render();
+    return;
+  }
+  addToCart(id, unit, 1, product, true);
+}
+function changeQty(id, unit, delta){
+  const item = state.cart.find(x => x.id === String(id) && x.unit === String(unit));
+  const product = state.products.find(p => String(p.id) === String(id));
+  const next = Math.max(0, (item ? Number(item.qty || 0) : 0) + delta);
+  if (!item && next > 0){
+    addToCart(id, unit, next, product, false);
+    return;
+  }
+  if (next <= 0){
+    if (item){
+      state.cart = state.cart.filter(x => !(x.id === String(id) && x.unit === String(unit)));
+      toast('تم حذف الصنف', 'bad');
+    }
+  } else {
+    item.qty = next;
+    toast('تم تحديث الكمية', 'good');
+  }
+  saveCart();
+  updateCartUi();
+  render();
+}
+function addToCart(id, unit, qty, product, fromButton){
+  if (!product) return;
+  const price = priceFor(product, unit).current;
+  const key = cartKey(id, unit);
+  const existing = state.cart.find(x => cartKey(x.id, x.unit) === key);
+  if (existing){
+    existing.qty += qty;
+  } else {
+    state.cart.push({
+      id: String(id),
+      unit: String(unit),
+      qty: Number(qty || 1),
+      price: Number(price),
+      name: product.name,
+      company: product.company,
+      source: 'product'
+    });
+  }
+  saveCart();
+  updateCartUi();
+  if (fromButton) pulseCard(id);
+  toastSmart('add', product.name);
+  runSalesEngine('add', { product: product, unit: unit, price: price });
+  render();
+}
+function addOfferToCart(id, name, price, sourceType){
+  const key = cartKey('offer_' + id, sourceType);
+  const existing = state.cart.find(x => cartKey(x.id, x.unit) === key);
+  if (existing){
+    existing.qty += 1;
+  } else {
+    state.cart.push({
+      id: 'offer_' + String(id),
+      unit: sourceType,
+      qty: 1,
+      price: Number(price || 0),
+      name: name,
+      company: sourceType === 'flash' ? 'عرض الساعة' : 'صفقة اليوم',
+      source: sourceType
+    });
+  }
+  saveCart();
+  updateCartUi();
+  toast('العرض ده مش هيتحسب ضمن الشريحة', 'warn');
+  runSalesEngine('offer', {});
+  render();
+}
+function pulseCard(id){
+  const card = [...document.querySelectorAll('.card')].find(x => x.innerText.includes(String(id)));
+  if (!card) return;
+  card.classList.remove('pulse');
+  void card.offsetWidth;
+  card.classList.add('pulse');
+}
+function cartTotal(){
+  return state.cart.reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 0), 0);
+}
+function eligibleSubtotal(){
+  return state.cart
+    .filter(x => x.source === 'product')
+    .reduce((sum, item) => sum + Number(item.price || 0) * Number(item.qty || 0), 0);
+}
+function updateCartUi(){
+  const count = state.cart.reduce((sum, x) => sum + Number(x.qty || 0), 0);
+  el('cartCount').textContent = String(count);
+  el('cartSummary').textContent = `${count} قطعة / ${state.cart.length} أصناف`;
+  el('cartTotal').textContent = money(cartTotal()) + ' ج.م';
+
+  const list = el('cartList');
+  if (!list) return;
+  if (!state.cart.length){
+    list.innerHTML = '<div class="empty">السلة فارغة الآن.</div>';
+  } else {
+    list.innerHTML = state.cart.map((item, idx) => `
+      <div class="cart-item">
+        <div class="row">
+          <div>
+            <div class="name">${escapeHtml(item.name)}</div>
+            <div class="meta">${escapeHtml(item.company || '')} • ${escapeHtml(item.unit)} • ${money(item.price)} ج.م</div>
+          </div>
+          <button class="icon-btn" onclick="removeCartIndex(${idx})">✕</button>
+        </div>
+        <div class="foot">
+          <div class="stepper">
+            <button onclick="cartStep(${idx},-1)">−</button>
+            <span>${item.qty}</span>
+            <button onclick="cartStep(${idx},1)">+</button>
+          </div>
+          <strong>${money(Number(item.qty || 0) * Number(item.price || 0))} ج.م</strong>
+        </div>
+      </div>
+    `).join('');
+  }
+  updateFooter();
+}
+function removeCartIndex(i){
+  state.cart.splice(i,1);
+  saveCart();
+  updateCartUi();
+  render();
+}
+function cartStep(i, delta){
+  if (!state.cart[i]) return;
+  state.cart[i].qty = Math.max(0, Number(state.cart[i].qty || 0) + delta);
+  if (state.cart[i].qty <= 0) state.cart.splice(i,1);
+  saveCart();
+  updateCartUi();
+  render();
+}
+
+/* =========================
+   الفوتر الذكي للشريحة
+   ========================= */
+function updateFooter(){
+  const btn = el('tierBtn');
+  const main = el('tierBtnMain');
+  const sub = el('tierBtnSub');
+  const right = el('tierBtnRight');
+  const totalBtn = el('footerTotalBtn');
+  if (!btn || !main || !sub || !right || !totalBtn) return;
+
+  totalBtn.textContent = `${money(cartTotal())} ج.م`;
+
+  if (!state.selectedTier){
+    btn.classList.remove('ok');
+    main.textContent = state.settings.tier_welcome || 'اختار شريحتك';
+    sub.textContent = 'اضغط هنا لاختيار الشريحة ثم الانتقال للشركات';
+    right.textContent = '→';
+    return;
+  }
+
+  const need = Number(state.selectedTier.tier_min || 0);
+  const used = eligibleSubtotal();
+  const remaining = Math.max(0, need - used);
+
+  if (remaining <= 0){
+    btn.classList.add('ok');
+    main.textContent = state.selectedTier.visible_label || state.selectedTier.tier_name;
+    sub.textContent = 'اكتملت الشريحة';
+    right.textContent = '✓';
+  } else {
+    btn.classList.remove('ok');
+    main.textContent = state.selectedTier.visible_label || state.selectedTier.tier_name;
+    sub.textContent = `المتبقي ${money(remaining)} ج.م`;
+    right.textContent = '→';
+  }
+}
+
+/* =========================
+   الشريحة / المندوب
+   ========================= */
+function pickTier(tierId){
+  const tier = state.tiers.find(t => String(t.tier_id) === String(tierId));
+  if (!tier) return;
+  if (tier.tier_password){
+    const pwd = prompt('أدخل كلمة سر الشريحة:');
+    if (pwd === null) return;
+    if (String(pwd).trim() !== String(tier.tier_password).trim()){
+      toast('كلمة السر غير صحيحة', 'bad');
+      return;
+    }
+  }
+  state.selectedTierId = String(tier.tier_id);
+  state.selectedTier = tier;
+  localStorage.setItem('alahram_tier', String(tier.tier_id));
+  toast('تم اختيار الشريحة', 'good');
+  runSalesEngine('tier', { tier: tier });
+  state.view = 'products';
+  state.productsLoading = true;
+  state.products = [];
+  state.productsPage = 1;
+  state.productsHasMore = true;
+  render();
+  loadProductsPage_(1, false).catch(err => console.warn('tier reload failed', err));
+}
+function smartWelcome(){
+  const welcome = state.settings.tier_welcome || 'اختار شريحتك';
+  toast(welcome, 'good');
+  runSalesEngine('open', {});
+}
+
+function runSalesEngine(event, context={}){
+  const total = cartTotal();
+  const subtotal = eligibleSubtotal();
+  const count = state.cart.length;
+  const remaining = state.selectedTier ? Math.max(0, Number(state.selectedTier.tier_min || 0) - subtotal) : null;
+
+  const now = Date.now();
+  if (now - state.salesLastAt < 1800 && event !== 'checkout') return;
+  state.salesLastAt = now;
+
+  const pools = {
+    add: [
+      'حلو كده 👌 كمل صنف تاني وهيبقى الطلب أقوى.',
+      'تمام يا باشا، الصنف دخل السلة.',
+      'اختيار موفق جدًا، شوف حاجة كمان تزبط الفاتورة.'
+    ],
+    tier: [
+      'الشريحة اتظبطت 👏 كده الأسعار بقت أفضل.',
+      'اختيار الشريحة صح هو اللي يفرق.',
+      'قربت من أفضل مستوى شراء.'
+    ],
+    open: [
+      'نورتنا 👋 اختار اللي محتاجه وأنا أظبطهولك.',
+      'جاهزين نطلع طلب محترم؟',
+      'تعالى نخلص الفاتورة بأذكى شكل.'
+    ],
+    checkout: [
+      'ممتاز يا كبير، خلصنا الطلب ✔️',
+      'الفاتورة بقت جاهزة للإرسال.',
+      'كده الطلب مستني التأكيد الأخير.'
+    ],
+    offer: [
+      'العرض ده فرصة حلوة، بس خليك ماشي على الشريحة الأول.',
+      'عرض موفّق 👌 كمل الشريحة وبعدين ارجعله.',
+      'العروض موجودة، لكن الشريحة أولًا.'
+    ]
+  };
+
+  let msg = '';
+  if (event === 'add') {
+    if (remaining !== null && remaining <= 500 && remaining > 0) {
+      msg = `فاضلك ${money(remaining)} ج.م بس وتكمل الشريحة 🔥`;
+    } else if (count <= 2) {
+      msg = 'تمام 👌 كمل شوية وخلي الطلب أحسن.';
+    } else {
+      msg = pools.add[Math.floor(Math.random() * pools.add.length)];
+    }
+  } else if (event === 'tier') {
+    msg = pools.tier[Math.floor(Math.random() * pools.tier.length)];
+  } else if (event === 'checkout') {
+    msg = pools.checkout[Math.floor(Math.random() * pools.checkout.length)];
+  } else if (event === 'offer') {
+    msg = pools.offer[Math.floor(Math.random() * pools.offer.length)];
+  } else {
+    msg = pools.open[Math.floor(Math.random() * pools.open.length)];
+  }
+
+  if (msg && !state.salesMemory.includes(msg)) {
+    toast(msg, event === 'checkout' ? 'good' : 'info');
+    state.salesMemory.push(msg);
+    if (state.salesMemory.length > 12) state.salesMemory.shift();
+  }
+
+  // اقتراح ذكي لرفع الفاتورة
+  if (event === 'add' && context.product && count >= 1) {
+    const sameCompany = state.products.find(p => p.company === context.product.company && String(p.id) !== String(context.product.id));
+    if (sameCompany && Math.random() > 0.5) {
+      const upsellMsg = `ممكن تزود ${sameCompany.name} كمان، هتفرق معاك في الفاتورة.`;
+      if (!state.salesMemory.includes(upsellMsg)) {
+        setTimeout(() => toast(upsellMsg, 'warn'), 1200);
+        state.salesMemory.push(upsellMsg);
+      }
+    }
+  }
+}
+
+/* =========================
+   العروض
+   ========================= */
+function countdownText(endAt){
+  if (!endAt) return '';
+  const target = new Date(endAt);
+  if (isNaN(target.getTime())) return '';
+  return formatCountdown(target);
+}
+function formatCountdown(target){
+  const diff = Math.max(0, target.getTime() - Date.now());
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  return `ينتهي خلال ${pad2(h)}:${pad2(m)}:${pad2(s)}`;
+}
+function pad2(n){ return String(n).padStart(2,'0'); }
+
+/* =========================
+   التوست الذكي
+   ========================= */
+const voices = {
+  friendly: [
+    'تمام يا كبير 👌 كده الطلب ماشي مظبوط.',
+    'اختيار موفق جدًا، الصنف دخل السلة.',
+    'كمل بنفس النسق، الشغل كده حلو.'
+  ],
+  accountant: [
+    'الحسبة اتحدثت فورًا.',
+    'السعر اتظبط حسب الشريحة.',
+    'قربت من أفضل قيمة في الفاتورة.'
+  ],
+  motivator: [
+    'خطوة ذكية 👏 كمل شوية وارجع تكسب أكثر.',
+    'إنت ماشي صح جدًا.',
+    'فاضل حاجة بسيطة وتوصل لأحسن نتيجة.'
+  ],
+  playful: [
+    'الصنف دخل اللعبة 😄',
+    'السلة ابتسمت.',
+    'أنت كده سخّنت الفاتورة 🔥'
+  ]
+};
+
+function toastSmart(action, label){
+  const groups = ['friendly','accountant','motivator','playful'];
+  const group = groups[Math.floor(Math.random() * groups.length)];
+  const candidates = voices[group].filter(t => !state.toastHistory.includes(t));
+  const msg = (candidates[0] || voices[group][0]).replace('{label}', label || '');
+  pushToast(msg, action === 'add' ? 'good' : 'warn');
+  state.toastHistory.push(msg);
+  if (state.toastHistory.length > 10) state.toastHistory.shift();
+}
+function toast(msg, type){
+  pushToast(msg, type || '');
+}
+function pushToast(msg, type){
+  const zone = el('toastZone');
+  const node = document.createElement('div');
+  node.className = 'toast ' + (type || '');
+  node.textContent = msg;
+  zone.appendChild(node);
+  setTimeout(() => {
+    node.style.opacity = '0';
+    node.style.transform = 'translateY(10px)';
+    setTimeout(() => node.remove(), 220);
+  }, 2600);
+}
+
+/* =========================
+   المودال
+   ========================= */
+function openModal(title, html){
+  el('modalTitle').textContent = title;
+  el('modalBody').innerHTML = html;
+  el('overlay').classList.add('show');
+}
+function closeModal(){ el('overlay').classList.remove('show'); }
+function overlayClose(e){ if (e.target.id === 'overlay') closeModal(); }
+
+function openAuthModal(){
+  openModal('دخول مندوب', `
+    <div class="form-grid">
+      <input class="input" id="authRepId" placeholder="كود المندوب" />
+      <input class="input" id="authPassword" placeholder="كلمة السر" type="password" />
+      <button class="submit-btn" onclick="loginRep()">دخول</button>
+      <div class="muted">الدخول يحفظ الجلسة مؤقتًا لمدة محددة.</div>
+    </div>
+  `);
+}
+async function loginRep(){
+  try{
+    const rep_id = el('authRepId').value.trim();
+    const password = el('authPassword').value.trim();
+    const data = await api('api/auth', 'POST', { mode:'rep', rep_id, password });
+    state.auth = { token: data.token, session: data.session, expires_in: data.expires_in };
+    saveAuth();
+    syncAuthUi();
+    closeModal();
+    toast('تم تسجيل الدخول بنجاح', 'good');
+  }catch(err){
+    toast(err.message || 'فشل تسجيل الدخول', 'bad');
+  }
+}
+function syncAuthUi(){
+  const btn = el('repBtn');
+  if (!btn) return;
+  if (state.auth && state.auth.session){
+    btn.textContent = state.auth.session.rep_name || 'مندوب';
+  } else {
+    btn.textContent = 'دخول مندوب';
+  }
+}
+
+/* =========================
+   الدفع / حفظ الطلب
+   ========================= */
+async function checkout(){
+  if (!state.cart.length){
+    toast('السلة فارغة', 'warn');
+    return;
+  }
+  const customer_name = el('custName').value.trim();
+  const phone = el('custPhone').value.trim();
+  const address = el('custAddress').value.trim();
+  if (!customer_name || !phone){
+    toast('اسم العميل ورقم الهاتف مطلوبان', 'bad');
+    return;
+  }
+
+  try{
+    const body = {
+      customer_name,
+      phone,
+      address,
+      location: state.selectedLocation || '',
+      total: cartTotal(),
+      rep_id: state.auth?.session?.rep_id || '',
+      tier: state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name) : '',
+      status: 'pending',
+      items: state.cart.map(x => ({
+        product_id: x.id,
+        name: x.name,
+        unit: x.unit,
+        qty: x.qty,
+        price: x.price
+      }))
+    };
+    const res = await api('api/orders', 'POST', body);
+    toast('تم حفظ الطلب بنجاح #' + res.order_id, 'good');
+    runSalesEngine('checkout', {});
+    state.cart = [];
+    saveCart();
+    updateCartUi();
+    closeCart();
+    render();
+  }catch(err){
+    toast(err.message || 'فشل حفظ الطلب', 'bad');
+  }
+}
+
+/* =========================
+   drawer
+   ========================= */
+function openCart(){
+  el('drawer').classList.add('open');
+  el('drawer').setAttribute('aria-hidden','false');
+}
+function closeCart(){
+  el('drawer').classList.remove('open');
+  el('drawer').setAttribute('aria-hidden','true');
+}
+
+function pickLocation(){
+  if (!navigator.geolocation){
+    toast('المتصفح لا يدعم تحديد الموقع', 'bad');
+    return;
+  }
+  toast('جارٍ تحديد الموقع...', 'info');
+  navigator.geolocation.getCurrentPosition((pos) => {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    const link = `https://maps.google.com/?q=${lat},${lng}`;
+    state.selectedLocation = link;
+    const preview = el('locationPreview');
+    if (preview) preview.textContent = link;
+    toast('تم حفظ الموقع الاختياري', 'good');
+  }, () => {
+    toast('تعذر تحديد الموقع', 'bad');
+  }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 });
+}
+
+/* =========================
+   أدوات عامة
+   ========================= */
+function renderError(err){
+  const msg = err && err.message ? err.message : String(err);
+  const raw = err && err.raw ? String(err.raw).slice(0, 600) : '';
+  el('main').innerHTML = `
+    <div class="empty">
+      <strong>تعذر تحميل البيانات</strong><br><br>
+      <div class="muted">${escapeHtml(msg)}</div>
+      ${raw ? `<div style="margin-top:10px;font-size:12px;color:#7f1d1d;white-space:pre-wrap;direction:ltr;text-align:left">${escapeHtml(raw)}</div>` : ''}
+      <div style="margin-top:14px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <button class="chip-btn primary" onclick="retryBoot()">إعادة المحاولة</button>
+        <button class="chip-btn" onclick="location.reload()">تحديث الصفحة</button>
+      </div>
+    </div>
+  `;
+}
+function escapeHtml(str){
+  return String(str ?? '').replace(/[&<>"']/g, s => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[s]));
+}
+function escapeAttr(str){
+  return escapeHtml(str).replace(/`/g,'&#96;');
+}
+function companyInitials(name){
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'A';
+  return parts.slice(0,2).map(p => p[0]).join('').toUpperCase();
+}
+
+/* =========================
+   تحديث دوري للعد التنازلي
+   ========================= */
+window.addEventListener('scroll', handleLazyScroll_, { passive: true });
+setInterval(() => {
+  const ids = state.flashOffers.filter(o => o.active !== false && o.is_live).map(o => String(o.id));
+  ids.forEach(id => {
+    const elBox = document.getElementById('countdown_' + id);
+    const offer = state.flashOffers.find(o => String(o.id) === id);
+    if (elBox && offer) elBox.textContent = countdownText(offer.end_at);
+  });
+  updateFooter();
+}, 1000);
+</script>
+</body>
+</html>
