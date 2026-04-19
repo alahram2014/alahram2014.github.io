@@ -1815,5 +1815,484 @@ function updateTierFooterAndMaybeHome() {
   if (state.view === 'home') renderHome();
 }
 </script>
+
+<script>
+/* =========================
+   UX / STATE PATCH
+   - instant cart update
+   - instant company filtering
+   - footer rewrite
+   - mobile back button navigation
+   ========================= */
+(function () {
+  const original = {
+    updateCartUI: window.updateCartUI,
+    updateTierFooter: window.updateTierFooter,
+    renderHome: window.renderHome,
+    renderTiers: window.renderTiers,
+    renderCompanies: window.renderCompanies,
+    renderOffers: window.renderOffers,
+    renderFlashOffers: window.renderFlashOffers,
+    renderCurrentView: window.renderCurrentView,
+    renderProductsList: window.renderProductsList,
+    goHome: window.goHome,
+    goTiers: window.goTiers,
+    goCompanies: window.goCompanies,
+    goProducts: window.goProducts,
+    goOffers: window.goOffers,
+    goFlash: window.goFlash,
+    setCompanyFilter: window.setCompanyFilter,
+    startSearch: window.startSearch,
+    clearSearch: window.clearSearch,
+    selectSearchSuggestion: window.selectSearchSuggestion,
+    toggleProductToCart: window.toggleProductToCart,
+    stepQty: window.stepQty,
+    addOfferToCart: window.addOfferToCart,
+    removeCartIndex: window.removeCartIndex,
+    cartQtyStep: window.cartQtyStep,
+    checkout: window.checkout,
+  };
+
+  function norm(v) {
+    return String(v || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  }
+
+  function currentRouteSnapshot(view) {
+    return {
+      view: view || state.view || 'home',
+      companyFilter: state.companyFilter || '',
+      searchMode: !!state.searchMode,
+      searchQuery: state.searchQuery || '',
+      selectedTierName: state.selectedTier ? (state.selectedTier.tier_name || state.selectedTier.visible_label || '') : ''
+    };
+  }
+
+  function applyRouteSnapshot(route) {
+    const r = route || {};
+    state.view = r.view || 'home';
+    state.companyFilter = r.companyFilter || '';
+    state.searchMode = !!r.searchMode;
+    state.searchQuery = r.searchQuery || '';
+
+    if (r.selectedTierName) {
+      const wanted = norm(r.selectedTierName);
+      const found = (state.tiers || []).find(t =>
+        norm(t.tier_name) === wanted ||
+        norm(t.visible_label) === wanted ||
+        String(t.tier_id || '') === String(r.selectedTierName)
+      );
+      if (found) state.selectedTier = found;
+    }
+
+    if (state.view === 'home') {
+      if (typeof original.renderHome === 'function') original.renderHome();
+    } else if (state.view === 'tiers') {
+      if (typeof original.renderTiers === 'function') original.renderTiers();
+    } else if (state.view === 'companies') {
+      if (typeof original.renderCompanies === 'function') original.renderCompanies();
+    } else if (state.view === 'offers') {
+      if (typeof original.renderOffers === 'function') original.renderOffers();
+    } else if (state.view === 'flash') {
+      if (typeof original.renderFlashOffers === 'function') original.renderFlashOffers();
+    } else {
+      window.renderProductsList(true);
+    }
+
+    updateCartUI();
+    updateTierFooter();
+  }
+
+  function pushRoute(view, replace = false) {
+    const snapshot = currentRouteSnapshot(view);
+    const url = location.pathname + location.search + location.hash;
+    if (replace) history.replaceState(snapshot, '', url);
+    else history.pushState(snapshot, '', url);
+  }
+
+  function injectStyles() {
+    if (document.getElementById('ux-patch-style')) return;
+    const style = document.createElement('style');
+    style.id = 'ux-patch-style';
+    style.textContent = `
+      .bottom-inner{gap:10px;align-items:stretch}
+      .footer-total,.footer-checkout{
+        display:flex;align-items:center;justify-content:center;
+        height:56px;border-radius:18px;box-shadow:var(--shadow);
+        font-weight:900;cursor:pointer;transition:.18s ease transform,.18s ease filter;
+        min-width:0;flex:1;
+      }
+      .footer-total{
+        background:#fff;border:1px solid var(--line);color:var(--primary);
+      }
+      .footer-checkout{
+        background:linear-gradient(135deg,var(--good),#22c55e);border:1px solid var(--good);color:#fff;
+        flex:0 0 132px;
+      }
+      .footer-checkout:active,.footer-total:active,.smart-tier:active{transform:scale(.99)}
+      @media (max-width: 520px){
+        .footer-checkout{flex-basis:104px;font-size:14px}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function patchFooter() {
+    const bottomInner = document.querySelector('.bottom-inner');
+    if (!bottomInner) return;
+
+    bottomInner.innerHTML = `
+      <button class="smart-tier" id="tierBtn" type="button">
+        <div>
+          <div class="main" id="tierBtnMain">اختار شريحتك</div>
+          <div class="sub" id="tierBtnSub">اضغط هنا لفتح الشرائح</div>
+        </div>
+        <div id="tierBtnRight" style="font-weight:900">→</div>
+      </button>
+      <button class="footer-total" id="footerTotalBtn" type="button">0 ج.م</button>
+      <button class="footer-checkout" id="checkoutFooterBtn" type="button">إتمام الشراء</button>
+    `;
+
+    const tierBtn = document.getElementById('tierBtn');
+    const footerTotalBtn = document.getElementById('footerTotalBtn');
+    const checkoutFooterBtn = document.getElementById('checkoutFooterBtn');
+
+    if (tierBtn) tierBtn.addEventListener('click', () => goTiers());
+    if (footerTotalBtn) footerTotalBtn.addEventListener('click', () => openCart());
+    if (checkoutFooterBtn) checkoutFooterBtn.addEventListener('click', () => openCart());
+  }
+
+  function updateFooterTotal() {
+    const btn = document.getElementById('footerTotalBtn');
+    if (!btn) return;
+    const total = (typeof cartTotals === 'function') ? cartTotals().total : 0;
+    btn.textContent = `${formatMoney(total)} ج.م`;
+  }
+
+  function getVisibleProducts() {
+    let items = Array.isArray(state.products) ? state.products.slice() : [];
+
+    if (state.companyFilter) {
+      const target = norm(state.companyFilter);
+      items = items.filter(p => norm(p.company) === target);
+    }
+
+    if (state.searchMode && state.searchQuery) {
+      const q = norm(state.searchQuery);
+      items = items.filter(p => norm([p.id, p.name, p.company].join(' ')).includes(q));
+    }
+
+    return items;
+  }
+
+  function renderProductsListPatched(resetScroll = false) {
+    const items = getVisibleProducts();
+    const main = document.getElementById('main');
+    if (!main) return;
+
+    main.innerHTML = `
+      <div class="section-head">
+        <div>
+          <h2>المنتجات</h2>
+          <p>${items.length ? items.length + ' صنف ظاهر الآن' : (state.loadingProducts ? 'جارٍ التحميل...' : 'لا توجد منتجات مطابقة الآن.')}</p>
+        </div>
+        <button class="pill" onclick="goHome()">رجوع</button>
+      </div>
+
+      <div class="toolbar">
+        <button class="pill ${state.companyFilter ? '' : 'active'}" onclick="setCompanyFilter('')">الكل</button>
+        ${(state.companies || []).slice(0, 12).map(c => `
+          <button class="pill ${state.companyFilter === c.name ? 'active' : ''}" onclick="setCompanyFilter('${escapeAttr(c.name)}')">${escapeHtml(c.name)}</button>
+        `).join('')}
+        ${state.searchMode ? `<button class="pill active" onclick="clearSearch()">إلغاء البحث</button>` : ''}
+      </div>
+
+      <div id="productsGrid" class="catalog">
+        ${state.loadingProducts && state.products.length === 0
+          ? renderSkeletonCards(8)
+          : (items.length
+              ? items.map(renderProductCard).join('')
+              : (state.productsError
+                  ? `<div class="empty"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px" class="muted">${escapeHtml(state.productsError)}</div><div style="margin-top:12px"><button class="chip-btn primary" onclick="retryProducts()">إعادة المحاولة</button></div></div>`
+                  : '<div class="empty">لا توجد منتجات مطابقة الآن.</div>'))}
+      </div>
+
+      <div id="productsSentinel" style="height:1px"></div>
+
+      ${state.loadingProducts && state.products.length > 0 ? '<div style="margin-top:10px" class="muted">جارٍ تحميل المزيد...</div>' : ''}
+      ${state.hasMore ? '' : '<div style="margin-top:10px" class="muted">تم الوصول لنهاية النتائج.</div>'}
+    `;
+
+    updateTierFooter();
+    updateCartUI();
+    initSearchBox();
+
+    const sentinel = document.getElementById('productsSentinel');
+    if (state.productsObserver) {
+      try { state.productsObserver.disconnect(); } catch (e) {}
+    }
+    if (sentinel && state.productsObserver) {
+      try { state.productsObserver.observe(sentinel); } catch (e) {}
+    }
+
+    if (resetScroll) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateCartUIPatched() {
+    if (typeof original.updateCartUI === 'function') original.updateCartUI();
+    updateFooterTotal();
+  }
+
+  function updateTierFooterPatched() {
+    if (typeof original.updateTierFooter === 'function') original.updateTierFooter();
+    updateFooterTotal();
+  }
+
+  function renderCurrentViewPatched() {
+    if (state.view === 'home') {
+      if (typeof original.renderHome === 'function') original.renderHome();
+    } else if (state.view === 'tiers') {
+      if (typeof original.renderTiers === 'function') original.renderTiers();
+    } else if (state.view === 'companies') {
+      if (typeof original.renderCompanies === 'function') original.renderCompanies();
+    } else if (state.view === 'products') {
+      renderProductsListPatched();
+    } else if (state.view === 'offers') {
+      if (typeof original.renderOffers === 'function') original.renderOffers();
+    } else if (state.view === 'flash') {
+      if (typeof original.renderFlashOffers === 'function') original.renderFlashOffers();
+    }
+    updateCartUIPatched();
+    updateTierFooterPatched();
+  }
+
+  function goHomePatched() {
+    state.companyFilter = '';
+    state.searchMode = false;
+    state.searchQuery = '';
+    state.view = 'home';
+    pushRoute('home');
+    if (typeof original.renderHome === 'function') original.renderHome();
+  }
+
+  function goTiersPatched() {
+    state.view = 'tiers';
+    pushRoute('tiers');
+    if (typeof original.renderTiers === 'function') original.renderTiers();
+  }
+
+  function goCompaniesPatched() {
+    state.view = 'companies';
+    pushRoute('companies');
+    if (typeof original.renderCompanies === 'function') original.renderCompanies();
+  }
+
+  function goProductsPatched(company = '') {
+    state.companyFilter = company || '';
+    state.searchMode = false;
+    state.searchQuery = '';
+    state.view = 'products';
+    pushRoute('products');
+    renderProductsListPatched(true);
+  }
+
+  function goOffersPatched() {
+    state.view = 'offers';
+    pushRoute('offers');
+    if (typeof original.renderOffers === 'function') original.renderOffers();
+  }
+
+  function goFlashPatched() {
+    state.view = 'flash';
+    pushRoute('flash');
+    if (typeof original.renderFlashOffers === 'function') original.renderFlashOffers();
+  }
+
+  function setCompanyFilterPatched(company = '') {
+    state.companyFilter = company || '';
+    state.searchMode = false;
+    state.searchQuery = '';
+    state.view = 'products';
+    pushRoute('products');
+    renderProductsListPatched(true);
+  }
+
+  function startSearchPatched(q) {
+    state.searchMode = !!(q && q.trim());
+    state.searchQuery = String(q || '').trim();
+    state.view = 'products';
+    pushRoute('products');
+    renderProductsListPatched(true);
+  }
+
+  function clearSearchPatched() {
+    state.searchMode = false;
+    state.searchQuery = '';
+    state.view = 'products';
+    pushRoute('products');
+    renderProductsListPatched(true);
+  }
+
+  function selectSearchSuggestionPatched(id) {
+    const item = state.productIndex.get(String(id)) || (state.products || []).find(p => String(p.id) === String(id));
+    if (!item) return;
+    state.searchQuery = item.name || '';
+    state.searchMode = true;
+    state.companyFilter = item.company || '';
+    state.view = 'products';
+    pushRoute('products');
+    renderProductsListPatched(true);
+    toast('تم اختيار الصنف', 'good');
+  }
+
+  function toggleProductToCartPatched(productId, unit) {
+    const product = state.productIndex.get(String(productId)) || (state.products || []).find(p => String(p.id) === String(productId));
+    if (!product) return toast('الصنف غير متاح الآن', 'bad');
+
+    const key = productCartKey(String(productId), unit);
+    const idx = state.cart.findIndex(x => x.type === 'product' && productCartKey(String(x.id), String(x.unit)) === key);
+
+    if (idx >= 0) {
+      state.cart.splice(idx, 1);
+      saveCart();
+      toast('تمت الإزالة من السلة', 'bad');
+    } else {
+      state.cart.push({
+        type: 'product',
+        id: String(product.id),
+        name: product.name,
+        company: product.company,
+        image: product.image,
+        company_logo: product.company_logo || '',
+        unit: unit,
+        qty: 1,
+        base_prices: product.base_prices,
+        tier_prices: product.tier_prices || {},
+        units_per_carton: product.units_per_carton || ''
+      });
+      saveCart();
+      toastSmart('add', product.name);
+    }
+
+    updateCartUIPatched();
+    renderCurrentViewPatched();
+  }
+
+  function stepQtyPatched(productId, unit, delta) {
+    const key = productCartKey(String(productId), unit);
+    const idx = state.cart.findIndex(x => x.type === 'product' && productCartKey(String(x.id), String(x.unit)) === key);
+    if (idx >= 0) {
+      const next = Math.max(1, Number(state.cart[idx].qty || 1) + delta);
+      state.cart[idx].qty = next;
+      saveCart();
+      updateCartUIPatched();
+      renderCurrentViewPatched();
+      return;
+    }
+    if (delta > 0) toggleProductToCartPatched(productId, unit);
+  }
+
+  function addOfferToCartPatched(id, name, price, sourceType) {
+    const existingIdx = state.cart.findIndex(x => x.type === sourceType && String(x.id) === String(id));
+    if (existingIdx >= 0) {
+      state.cart[existingIdx].qty = Number(state.cart[existingIdx].qty || 1) + 1;
+    } else {
+      state.cart.push({
+        type: sourceType,
+        id: String(id),
+        name: name,
+        price: Number(price || 0),
+        qty: 1,
+        unit: sourceType,
+        company: sourceType === 'flash' ? 'عرض الساعة' : 'صفقة اليوم'
+      });
+    }
+    saveCart();
+    updateCartUIPatched();
+    toast('العرض ده مش هيتحسب ضمن الشريحة', 'warn');
+    renderCurrentViewPatched();
+  }
+
+  function removeCartIndexPatched(idx) {
+    state.cart.splice(idx, 1);
+    saveCart();
+    updateCartUIPatched();
+    renderCurrentViewPatched();
+  }
+
+  function cartQtyStepPatched(idx, delta) {
+    const item = state.cart[idx];
+    if (!item) return;
+    if (delta < 0 && Number(item.qty || 1) <= 1) {
+      removeCartIndexPatched(idx);
+      return;
+    }
+    item.qty = Math.max(1, Number(item.qty || 1) + delta);
+    saveCart();
+    updateCartUIPatched();
+    renderCurrentViewPatched();
+  }
+
+  function openCartPatched() {
+    const drawer = document.getElementById('drawer');
+    if (!drawer) return;
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeCartPatched() {
+    const drawer = document.getElementById('drawer');
+    if (!drawer) return;
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+  }
+
+  function installFooterCheckoutHandler() {
+    const btn = document.getElementById('checkoutFooterBtn');
+    if (btn) btn.onclick = () => openCartPatched();
+  }
+
+  function bindHistory() {
+    if (!history.state) history.replaceState(currentRouteSnapshot(state.view), '', location.href);
+    window.onpopstate = (ev) => {
+      applyRouteSnapshot(ev.state || { view: 'home' });
+    };
+  }
+
+  function install() {
+    injectStyles();
+    patchFooter();
+    installFooterCheckoutHandler();
+    bindHistory();
+    updateCartUIPatched();
+    updateTierFooterPatched();
+  }
+
+  // expose patched functions
+  window.updateCartUI = updateCartUIPatched;
+  window.updateTierFooter = updateTierFooterPatched;
+  window.renderCurrentView = renderCurrentViewPatched;
+  window.renderProductsList = renderProductsListPatched;
+  window.goHome = goHomePatched;
+  window.goTiers = goTiersPatched;
+  window.goCompanies = goCompaniesPatched;
+  window.goProducts = goProductsPatched;
+  window.goOffers = goOffersPatched;
+  window.goFlash = goFlashPatched;
+  window.setCompanyFilter = setCompanyFilterPatched;
+  window.startSearch = startSearchPatched;
+  window.clearSearch = clearSearchPatched;
+  window.selectSearchSuggestion = selectSearchSuggestionPatched;
+  window.toggleProductToCart = toggleProductToCartPatched;
+  window.stepQty = stepQtyPatched;
+  window.addOfferToCart = addOfferToCartPatched;
+  window.removeCartIndex = removeCartIndexPatched;
+  window.cartQtyStep = cartQtyStepPatched;
+  window.openCart = openCartPatched;
+  window.closeCart = closeCartPatched;
+
+  document.addEventListener('DOMContentLoaded', install);
+})();
+</script>
+
 </body>
 </html>
