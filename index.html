@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Alahram Co B2B</title>
-  <meta name="theme-color" content="#0f172a" />
+  <meta name="theme-color" content="#1f3a5f" />
   <style>
     :root{--bg:#f6f9ff;--card:#fff;--text:#102033;--muted:#64748b;--line:#e6ebf2;--primary:#1f3a5f;--primary2:#245a91;--good:#16a34a;--bad:#ef4444;--warn:#f59e0b;--gold:#f7c948;--shadow:0 14px 36px rgba(16,32,51,.10);--shadow-soft:0 10px 24px rgba(16,32,51,.08);--radius:22px}
     *{box-sizing:border-box} html,body{height:100%} html{scroll-behavior:smooth}
@@ -63,162 +63,6 @@
     .sticky-search{position:sticky;top:58px;z-index:20}.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.filter-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;box-shadow:var(--shadow-soft)}.filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
     @media (max-width: 900px){.shortcut-row,.action-row{grid-template-columns:1fr 1fr}.catalog{grid-template-columns:repeat(auto-fill,minmax(148px,1fr))}.companies{grid-template-columns:repeat(3,minmax(0,1fr))}.bottom-inner{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width: 520px){.topbar-inner{padding:8px 10px}.page{padding:8px 10px 18px}.brand-text h1{font-size:15px}.brand-text p{font-size:10px;max-width:55vw}.catalog{grid-template-columns:repeat(2,minmax(0,1fr))}.companies{grid-template-columns:repeat(3,minmax(0,1fr))}.toast-zone{left:8px;right:8px;bottom:106px;max-width:none}.cart-drawer{width:100%}.search-input{font-size:12px}.chip{min-height:50px;padding:11px 8px}.bottom-inner{gap:8px}.bottom-tier,.bottom-total{padding:9px 11px}.cart-top-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
-  
-    /* ===== Dark Theme Overrides ===== */
-    :root{
-      --bg:#0f172a;
-      --card:#111827;
-      --text:#f9fafb;
-      --muted:#9ca3af;
-      --line:#1f2937;
-      --primary:#3b82f6;
-      --primary2:#1d4ed8;
-      --good:#22c55e;
-      --bad:#ef4444;
-      --warn:#f59e0b;
-      --gold:#f7c948;
-      --shadow:0 18px 48px rgba(0,0,0,.34);
-      --shadow-soft:0 12px 30px rgba(0,0,0,.22);
-    }
-    body{
-      background:radial-gradient(circle at top, rgba(30,41,59,.95) 0%, #0f172a 44%, #020617 100%) !important;
-      color:var(--text) !important;
-    }
-    .topbar,.bottom-bar{
-      background:rgba(15,23,42,.88) !important;
-      backdrop-filter:blur(16px);
-      border-color:rgba(31,41,55,.9) !important;
-    }
-    .panel,.card,.company-card,.special-card,.action-card,.tier-card,.cart-item,.stat-pill,.readonly,.input,.search-wrap,.drawer-head,.drawer-body,.drawer-footer,.modal,.bottom-tier,.bottom-total,.chip,.filter-chip{
-      background:var(--card) !important;
-      color:var(--text) !important;
-      border-color:var(--line) !important;
-    }
-    .company-name,.card .title,.special-card .title,.action-card .label,.tier-card .label,.cart-item .name,.modal h3,.drawer-head h3,.brand-text h1{
-      color:var(--text) !important;
-    }
-    .brand-text p,.section-head p,.card .meta,.special-card .meta,.action-card .desc,.tier-card .desc,.msg,.stat-pill span,.bottom-total .sub,.bottom-tier .sub,.cart-item .meta,.signature,.readonly,.search-clear,.checkout-field-error{
-      color:var(--muted) !important;
-    }
-    .search-clear{
-      background:#0b1220 !important;
-    }
-    .search-clear,.unit-btn,.filter-chip,.back-btn,.home-btn,.contact-link{
-      background:#0b1220 !important;
-      color:var(--text) !important;
-      border-color:var(--line) !important;
-    }
-    .chip.primary,.buy-btn,.submit-btn{
-      background:linear-gradient(135deg,var(--green),#16a34a) !important;
-      color:#fff !important;
-      border-color:rgba(34,197,94,.4) !important;
-    }
-    .chip.good{
-      background:linear-gradient(135deg,var(--blue),#2563eb) !important;
-      color:#fff !important;
-      border-color:rgba(59,130,246,.35) !important;
-    }
-    .chip.gold{
-      background:linear-gradient(135deg,var(--gold),#f59e0b) !important;
-      color:#111827 !important;
-      border-color:rgba(247,201,72,.6) !important;
-    }
-    .buy-btn.remove,.buy-btn.done{
-      color:#fff !important;
-    }
-    .buy-btn.remove{
-      background:linear-gradient(135deg,var(--red),#b91c1c) !important;
-      border-color:rgba(239,68,68,.4) !important;
-    }
-    .buy-btn.done{
-      background:linear-gradient(135deg,var(--green),#16a34a) !important;
-    }
-    .company-logo,.company-img{
-      background:#0b1220 !important;
-    }
-    .card .img,.special-card .img{
-      background:#0b1220 !important;
-    }
-    .catalog{
-      grid-template-columns:repeat(auto-fill,minmax(110px,1fr)) !important;
-      gap:8px !important;
-    }
-    .card .body{
-      padding:8px !important;
-      gap:6px !important;
-    }
-    .card .title{
-      font-size:12px !important;
-      min-height:34px !important;
-    }
-    .card .price .now{
-      font-size:16px !important;
-    }
-    .special-list{
-      grid-template-columns:1fr !important;
-      gap:16px !important;
-    }
-    .special-card{
-      min-height:380px !important;
-      border:1px solid var(--gold) !important;
-      box-shadow:0 18px 48px rgba(0,0,0,.35) !important;
-      width:100% !important;
-    }
-    .special-card .img{
-      aspect-ratio:1/1 !important;
-    }
-    .special-card .body{
-      padding:16px !important;
-    }
-    .special-card .title{
-      font-size:19px !important;
-    }
-    .special-card .price .now{
-      font-size:24px !important;
-    }
-    .action-row{
-      grid-template-columns:repeat(3,minmax(0,1fr)) !important;
-    }
-    .status-box{
-      background:#0b1220 !important;
-    }
-    .status-box.good{
-      background:rgba(34,197,94,.12) !important;
-      border-color:rgba(34,197,94,.35) !important;
-    }
-    .status-box.bad{
-      background:rgba(239,68,68,.12) !important;
-      border-color:rgba(239,68,68,.35) !important;
-    }
-    .bottom-tier.ok{
-      background:linear-gradient(135deg,var(--green),#16a34a) !important;
-      color:#fff !important;
-      border-color:rgba(34,197,94,.4) !important;
-    }
-    .bottom-total{
-      background:#0b1220 !important;
-    }
-    .checkout-summary{
-      background:#0b1220 !important;
-    }
-    .filter-chip.active{
-      background:var(--blue) !important;
-      color:#fff !important;
-      border-color:rgba(59,130,246,.35) !important;
-    }
-    .chip.live{
-      background:linear-gradient(135deg,#991b1b,#f97316) !important;
-      color:#fff !important;
-      border-color:rgba(249,115,22,.45) !important;
-    }
-    .chip.live small{
-      color:rgba(255,255,255,.9) !important;
-    }
-    .company-card:hover,.card:hover,.special-card:hover,.action-card:hover,.tier-card:hover,.cart-item:hover,.bottom-tier:hover,.bottom-total:hover,.chip:hover{
-      transform:translateY(-1px);
-      box-shadow:0 16px 36px rgba(0,0,0,.26) !important;
-    }
-
   </style>
 </head>
 <body>
@@ -348,11 +192,7 @@ function resolvePrice(product, unit, tierSlug=currentTierSlug()){ const base=bas
 function productKey(ctx){ return `company:${norm(ctx.company || '')}|q:${norm(ctx.q || '')}`; }
 function getContext(){ return { company: state.selectedCompany || '', q: state.searchMode ? state.searchQuery : '' }; }
 function getSelectedUnit(productId, units){ const key=`alahram_unit_${productId}`; const saved=localStorage.getItem(key); if (saved && units.includes(saved)) return saved; const first=units[0] || 'piece'; localStorage.setItem(key, first); return first; }
-function setSelectedUnit(productId, unit){
-  try{ localStorage.setItem(`alahram_unit_${productId}`, unit); }catch(e){}
-  renderCurrentView();
-  updateCardUI(productId, unit);
-}
+function setSelectedUnit(productId, unit){ try{ localStorage.setItem(`alahram_unit_${productId}`, unit); }catch(e){} renderCurrentView(); }
 function normalizeQty(v){ const s = String(v ?? '').replace(/[^\d]/g,''); if (!s) return 0; const n = parseInt(s, 10); return Number.isFinite(n) ? n : 0; }
 function getDraftQty(pid, unit){ try{ return localStorage.getItem(`alahram_draft_qty_${pid}_${unit}`) || ''; }catch(e){ return ''; } }
 function setDraftQty(pid, unit, value){ try{ localStorage.setItem(`alahram_draft_qty_${pid}_${unit}`, String(value || '')); }catch(e){} }
@@ -364,24 +204,6 @@ function itemLinePrice(item){ if (!item) return 0; if (item.type === 'special') 
 function getCartAnalysis(cart = state.cart){ const companiesMap={}; let total=0; let eligible=0; let hasOffer=false; let hasFlash=false; for (const item of cart || []) { const price = itemLinePrice(item); const qty = Number(item.qty || 1); const sum = qty * price; total += sum; if (item.type === 'product') { eligible += sum; const company = String(item.company || 'غير معروف').trim(); companiesMap[company] = (companiesMap[company] || 0) + sum; } if (item.type === 'offer') hasOffer = true; if (item.type === 'flash') hasFlash = true; } return { total, eligible, companiesMap, companiesCount: Object.keys(companiesMap).length, hasOffer, hasFlash }; }
 function isCartContainsSpecial(id, type){ return state.cart.some(x => x.type === type && String(x.id) === String(id)); }
 function findCartIndex(key){ return state.cart.findIndex(x => x.type === 'product' && cartKey(String(x.id), String(x.unit)) === key); }
-
-function cardButtonId(productId, unit){ return `buyBtn_${String(productId)}_${String(unit)}`; }
-function updateCardUI(productId, unit){
-  const key = cartKey(String(productId), String(unit));
-  const inCart = state.cart.some(x => x.type === 'product' && cartKey(String(x.id), String(x.unit)) === key);
-  const btn = document.getElementById(cardButtonId(productId, unit));
-  if (!btn) return;
-  btn.textContent = inCart ? 'تمت الإضافة' : 'شراء';
-  btn.classList.toggle('done', inCart);
-  btn.classList.toggle('remove', false);
-}
-function updateSpecialCardUI(id, type){
-  const inCart = isCartContainsSpecial(id, type);
-  const btn = document.getElementById(`specialBtn_${type}_${id}`);
-  if (!btn) return;
-  btn.textContent = inCart ? 'تم الشراء' : 'شراء';
-  btn.classList.toggle('done', inCart);
-}
 function popSmartToast(reason='generic'){ const tally = getCartAnalysis(); const remaining = state.selectedTier ? Math.max(0, Number(state.selectedTier.tier_min || 0) - tally.eligible) : null; const groups = { add:['تمام يا معلم 👌 اتحط في السلة','حلو كده، نكمل الصنف الجاي','قفلناه في السلة، خطوة مظبوطة'], remove:['اتشال، كمل على الهدوء','تم الحذف، السلة فضيت شوية','شيلناه، وهنكمل على السريع'], tier:['الشريحة اشتغلت صح 👏','كده انت ماشي مظبوط مع الشريحة','ممتاز، قربت تحقق المطلوب'], order:['تم تجهيز الطلب، برافو عليك','الطلب جاهز، خلصناها بشكل شيك','تمام، الطلب اتجهز واتساب'], generic:['شغلك منظم 👌','كمل بنفس الوتيرة','أداء حلو، استمر'] }; let bank = groups[reason] || groups.generic; if (state.selectedTier && remaining !== null) { if (remaining <= 0) bank = ['مبروك 👏 الشريحة اكتملت','كده الشريحة اتحققت','ممتاز، الشريحة قفلت']; else if (tally.companiesCount < 5) bank = ['وزّع السلة على شركات أكثر','كمل من أكثر من شركة','جرّب أصناف من شركات إضافية']; } const pick = bank[(state.smartSeed++ + state.toastLog.length) % bank.length]; if (state.toastLog.slice(-2).includes(pick)) return toast(reason === 'remove' ? 'اتشال من السلة' : 'تمام', reason === 'remove' ? 'bad' : 'good'); state.toastLog.push(pick); if (state.toastLog.length > 12) state.toastLog.shift(); toast(pick, reason === 'remove' ? 'bad' : reason === 'tier' || reason === 'order' ? 'good' : 'info'); }
 function currentFlash(){ return getLiveFlashOffers()[0] || null; }
 function flashCountdownText(endIso){ if (!endIso) return 'لا يوجد عرض نشط'; const diff = Math.max(0, new Date(endIso).getTime() - Date.now()); const h = String(Math.floor(diff / 3600000)).padStart(2,'0'); const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0'); const s = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0'); return `ينتهي خلال ${h}:${m}:${s}`; }
@@ -409,97 +231,27 @@ async function loadCompanies(){ try{ const data = await fetchApi('companies'); s
 async function loadOffers(){ try{ const data = await fetchApi('offers'); state.offers = data.items || []; } catch(e){ state.offers = loadJSON('alahram_cache_offers', []); } saveJSON('alahram_cache_offers', state.offers); }
 async function loadFlashOffers(){ try{ const data = await fetchApi('flash_offers'); state.flashOffers = data.items || []; } catch(e){ state.flashOffers = loadJSON('alahram_cache_flash', []); } saveJSON('alahram_cache_flash', state.flashOffers); }
 function agentIsActive(){ return !!(state.agent && state.agent.active); }
-function agentDisplayName(){ return agentIsActive() ? String(state.agent.agent_name || state.agent.name || state.agent.rep_name || '').trim() : ''; }
-function agentDisplayPhone(){ return agentIsActive() ? String(state.agent.agent_phone || state.agent.phone || state.agent.rep_phone || '').trim() : ''; }
-function agentDisplayArea(){ return agentIsActive() ? String(state.agent.agent_region || state.agent.region || state.agent.area || '').trim() : ''; }
+function agentDisplayName(){ return agentIsActive() ? String(state.agent.agent_name || state.agent.name || '').trim() : ''; }
+function agentDisplayPhone(){ return agentIsActive() ? String(state.agent.agent_phone || state.agent.phone || '').trim() : ''; }
+function agentDisplayArea(){ return agentIsActive() ? String(state.agent.agent_region || state.agent.area || '').trim() : ''; }
 function normalizeBoolean(v){ if (typeof v === 'boolean') return v; const s = String(v ?? '').trim().toLowerCase(); return ['1','true','yes','y','active','نشط','مفعل','on'].includes(s); }
 function normalizeAgentRow(row){ const r = row && typeof row === 'object' ? row : {}; const code = String(r.agent_id ?? r.code ?? r['كود المندوب'] ?? r['AGENT_ID'] ?? '').trim(); const password = String(r.agent_password ?? r.password ?? r.pass ?? r['الباسورد'] ?? r['AGENT_PASSWORD'] ?? '').trim(); const name = String(r.agent_name ?? r.name ?? r['اسم المندوب'] ?? r['AGENT_NAME'] ?? '').trim(); const phone = String(r.agent_phone ?? r.phone ?? r['رقم التليفون'] ?? r['AGENT_PHONE'] ?? '').trim(); const area = String(r.agent_region ?? r.region ?? r.area ?? r['المنطقة'] ?? r['AGENT_REGION'] ?? '').trim(); const active = normalizeBoolean(r.active ?? r.status ?? r.enabled ?? r['ACTIVE']); return { agent_id: code, agent_password: password, agent_name: name, agent_phone: phone, agent_region: area, active, raw: r }; }
 function hydrateAgentDirectory(){ const sources = [state.settings?.agents, state.settings?.agent_users, state.settings?.sales_agents, state.settings?.users, state.settings?.data]; const list = []; for (const src of sources) { if (Array.isArray(src)) list.push(...src); else if (src && typeof src === 'object') { for (const k of ['items','rows','data','agents','agent_users','sales_agents','users']) { if (Array.isArray(src[k])) list.push(...src[k]); } } } state.agentDirectory = list.map(normalizeAgentRow).filter(r => r.agent_id || r.agent_password || r.agent_name); state.agentDirectoryLoaded = true; }
 async function loadAgentDirectory(force=false){ if (state.agentDirectoryLoaded && !force) return state.agentDirectory; hydrateAgentDirectory(); if (state.agentDirectory.length) return state.agentDirectory; try{ const data = await fetchApi('auth/login', { agent_id:'__ping__', password:'__ping__' }); }catch(e){} return state.agentDirectory; }
 function findAgentRecord(agent_id, password){ const a = String(agent_id || '').trim(); const p = String(password || '').trim(); return (state.agentDirectory || []).find(x => String(x.agent_id || '').trim() === a && String(x.agent_password || '').trim() === p) || null; }
-function updateAgentHeader(){
-  const sub = $('brandSub');
-  const badge = document.querySelector('.brand-badge');
-  if (badge) {
-    badge.textContent = agentIsActive() && agentDisplayName() ? String(agentDisplayName()).trim().charAt(0) : 'A';
-  }
-  if (sub) {
-    if (agentIsActive()) {
-      sub.textContent = `👤 ${agentDisplayName() || 'المندوب'}${agentDisplayArea() ? ' • ' + agentDisplayArea() : ''}`;
-    } else {
-      const live = currentFlash();
-      sub.textContent = live ? flashCountdownText(live.end_datetime || (live.end_date && live.end_time ? `${live.end_date}T${live.end_time}` : '')) : 'نظام بيع ذكي لتجارة الجملة';
-    }
-  }
-}
+function updateAgentHeader(){ /* لا يوجد زر في الهيدر */ }
 function renderAgentOverlay(){ const active = agentIsActive(); const agent = state.agent || {}; const statusClass = active ? 'good' : 'bad'; const statusText = active ? 'نشط' : 'غير مفعل'; const buttonText = active ? 'تسجيل خروج' : 'تسجيل الدخول'; const loading = state.agentLoading ? `<div class="msg">جارٍ التحقق من بيانات المندوب…</div>` : ''; const feedback = state.agentFeedback ? `<div class="msg" style="color:${state.agentFeedbackType === 'bad' ? 'var(--bad)' : 'var(--good)'};font-weight:700">${escapeHtml(state.agentFeedback)}</div>` : ''; const codeValue = active ? escapeHtml(String(agent.agent_id || agent.code || '')) : ''; const nameValue = active ? escapeHtml(String(agent.agent_name || agent.name || '')) : ''; const phoneValue = active ? escapeHtml(String(agent.agent_phone || agent.phone || '')) : ''; const areaValue = active ? escapeHtml(String(agent.agent_region || agent.area || '')) : ''; $('agentModalTitle').textContent = 'تسجيل دخول المندوب'; $('agentModalBody').innerHTML = `<div class="form-grid"><div class="status-box ${statusClass}"><strong>الحالة</strong><strong>${statusText}</strong></div><input class="input" id="agentIdInput" placeholder="كود المندوب" value="${codeValue}" ${active ? 'readonly' : ''} /><input class="input" id="agentPasswordInput" type="password" placeholder="الباسورد" ${active ? 'readonly' : ''} /><div class="readonly">${active ? nameValue : 'الاسم'}</div><div class="readonly">${active ? phoneValue : 'رقم التليفون'}</div><div class="readonly">${active ? areaValue : 'المنطقة'}</div>${feedback}${loading}<button class="buy-btn ${active ? 'remove' : ''}" id="agentSubmitBtn" type="button">${buttonText}</button></div>`; $('agentSubmitBtn').onclick = active ? logoutAgent : submitAgentLogin; }
-async function submitAgentLogin(){
-  const agent_id = String($('agentIdInput')?.value || '').trim();
-  const password = String($('agentPasswordInput')?.value || '').trim();
-  if (!agent_id || !password) {
-    state.agentFeedback = 'البيانات غير صحيحة';
-    state.agentFeedbackType = 'bad';
-    renderAgentOverlay();
-    toast('البيانات غير صحيحة', 'bad');
-    return;
-  }
-  state.agentLoading = true;
-  state.agentFeedback = '';
-  renderAgentOverlay();
-  hydrateAgentDirectory();
-  try {
-    const data = await fetchApi('auth/login', { agent_id, password });
-    const safeAgent = {
-      agent_id: data.agent_id || data.rep_id || agent_id,
-      agent_name: data.agent_name || data.rep_name || '',
-      agent_phone: data.agent_phone || data.rep_phone || '',
-      agent_region: data.agent_region || data.region || data.agent_area || '',
-      active: true
-    };
-    state.agent = safeAgent;
-    saveJSON('alahram_agent', state.agent);
-    state.agentLoading = false;
-    state.agentFeedback = `أهلاً بيك يا ${safeAgent.agent_name || 'صديقي'} 👋`;
-    state.agentFeedbackType = 'good';
-    updateFooterTier();
-    updateCartUI();
-    updateAgentHeader();
-    renderAgentOverlay();
-    setTimeout(() => closeOverlay('agentOverlay'), 250);
-    toast(state.agentFeedback, 'good');
-  } catch (err) {
-    state.agentLoading = false;
-    state.agentFeedback = err.message || 'البيانات غير صحيحة';
-    state.agentFeedbackType = 'bad';
-    renderAgentOverlay();
-    toast(state.agentFeedback, 'bad');
-  }
-}
-function logoutAgent(){
-  state.agent = null;
-  try{ localStorage.removeItem('alahram_agent'); }catch(e){}
-  state.agentFeedback = 'تم تسجيل الخروج';
-  state.agentFeedbackType = 'info';
-  updateFooterTier();
-  updateCartUI();
-  updateAgentHeader();
-  closeOverlay('agentOverlay');
-  toast('تم تسجيل الخروج', 'info');
-}
+async function submitAgentLogin(){ const agent_id = String($('agentIdInput')?.value || '').trim(); const password = String($('agentPasswordInput')?.value || '').trim(); if (!agent_id || !password) { state.agentFeedback = 'البيانات غير صحيحة'; state.agentFeedbackType = 'bad'; renderAgentOverlay(); toast('البيانات غير صحيحة', 'bad'); return; } state.agentLoading = true; state.agentFeedback = ''; renderAgentOverlay(); hydrateAgentDirectory(); try { const data = await fetchApi('auth/login', { agent_id, password }); state.agent = { agent_id, agent_name: data.agent_name || '', agent_phone: data.agent_phone || '', agent_region: data.agent_region || '', active: true }; saveJSON('alahram_agent', state.agent); state.agentLoading = false; state.agentFeedback = `أهلاً بيك يا ${state.agent.agent_name} 👋`; state.agentFeedbackType = 'good'; updateFooterTier(); updateCartUI(); updateAgentHeader(); renderAgentOverlay(); setTimeout(() => closeOverlay('agentOverlay'), 250); toast(state.agentFeedback, 'good'); renderCurrentView(); } catch (err) { state.agentLoading = false; state.agentFeedback = err.message || 'البيانات غير صحيحة'; state.agentFeedbackType = 'bad'; renderAgentOverlay(); toast(state.agentFeedback, 'bad'); } }
+function logoutAgent(){ state.agent = null; try{ localStorage.removeItem('alahram_agent'); }catch(e){} state.agentFeedback = 'تم تسجيل الخروج'; state.agentFeedbackType = 'info'; updateFooterTier(); updateCartUI(); updateAgentHeader(); closeOverlay('agentOverlay'); toast('تم تسجيل الخروج', 'info'); renderCurrentView(); }
 function renderHomeSkeleton(){ $('main').innerHTML = `<div class="shortcut-row"><div class="skeleton" style="height:54px;border-radius:18px"></div><div class="skeleton" style="height:54px;border-radius:18px"></div><div class="skeleton" style="height:54px;border-radius:18px"></div></div><div class="search-wrap panel"><div class="skeleton skeleton-line" style="width:100%;height:34px;border-radius:16px"></div></div><div class="section-head"><div><h2>الشركات</h2><p>جارٍ التحميل…</p></div></div><div class="companies">${Array.from({length:9}).map(()=>'<div class="company-card"><div class="skeleton" style="width:58px;height:58px;border-radius:18px"></div><div class="skeleton" style="width:70px;height:12px"></div></div>').join('')}</div>`; }
 function renderHome(){ const companies = state.companies || []; const live = currentFlash(); $('main').innerHTML = `<div class="shortcut-row"><button class="chip primary" onclick="goTiers()">الشريحة</button><button class="chip good" onclick="goOffers()">صفقة اليوم</button><button class="chip gold ${live ? 'live' : ''}" id="homeFlashBtn" onclick="goFlash()"><strong>عرض الساعة</strong><small id="homeFlashCountdown">${live ? flashCountdownText(live.end_datetime || (live.end_date && live.end_time ? `${live.end_date}T${live.end_time}` : '')) : 'لا يوجد عرض نشط'}</small></button></div>${renderSearchBox()}<div class="section-head"><div><h2>الشركات</h2><p>اضغط على الشركة لفتح منتجاتها فورًا</p></div></div><div class="companies">${companies.slice(0,60).map(c => `<div class="company-card ${state.selectedCompany === c.name ? 'active' : ''}" onclick='goCompany(${JSON.stringify(c.name)})'>${c.logo ? `<img class="company-img" src="${escapeHtml(c.logo)}" alt="${escapeHtml(c.name)}" loading="lazy" />` : `<div class="company-logo">${escapeHtml(companyInitials(c.name))}</div>`}<div class="company-name">${escapeHtml(c.name)}</div></div>`).join('')}</div>${pageFooterHTML()}`; initSearchBox(); }
-function renderTiers(){
-  const tiers = (state.tiers || []).map(t => `<button class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick='pickTier(${JSON.stringify(t.tier_name)})'><div class="label">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div><div class="desc">الحد الأدنى: ${formatMoney(t.tier_min || 0)} ج.م</div><div class="desc">${escapeHtml(t.tier_description || '')}</div></button>`).join('');
-  const tierExit = state.selectedTier ? `<button class="action-card" onclick="exitTier()"><div class="label">إلغاء الشريحة</div><div class="desc">خروج من الشريحة الحالية وإعادة التسعير</div></button>` : '';
-  $('main').innerHTML = `${renderSearchBox('ابحث في النظام...')}<div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div><div class="action-row">${tiers}${tierExit}<button class="action-card" onclick="openAgentOverlay()"><div class="label">دخول المندوب</div><div class="desc">تسجيل الدخول أو الخروج من الحساب</div></button><button class="action-card" onclick="goCompanies()"><div class="label">الشركات</div><div class="desc">ارجع لعرض الشركات والمنتجات</div></button></div>${pageFooterHTML()}`;
-  initSearchBox(); updateFooterTier();
-}
+function renderTiers(){ $('main').innerHTML = `${renderSearchBox('ابحث في النظام...')}<div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div><div class="action-row"><${'button'} class="action-card" onclick="openAgentOverlay()"><div class="label">دخول المندوب</div><div class="desc">تسجيل الدخول أو الخروج من الحساب</div></${'button'}>${(state.tiers || []).map(t => `<button class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick='pickTier(${JSON.stringify(t.tier_name)})'><div class="label">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div><div class="desc">الحد الأدنى: ${formatMoney(t.tier_min || 0)} ج.م</div><div class="desc">${escapeHtml(t.tier_description || '')}</div></button>`).join('')}<button class="action-card" onclick="goCompanies()"><div class="label">الشركات</div><div class="desc">ارجع لعرض الشركات والمنتجات</div></button></div>${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
 function renderCompaniesPage(){ const companies = state.companies || []; $('main').innerHTML = `${renderSearchBox()}<div class="companies">${companies.map(c => `<div class="company-card ${state.selectedCompany === c.name ? 'active' : ''}" onclick='goCompany(${JSON.stringify(c.name)})'>${c.logo ? `<img class="company-img" src="${escapeHtml(c.logo)}" alt="${escapeHtml(c.name)}" loading="lazy" />` : `<div class="company-logo">${escapeHtml(companyInitials(c.name))}</div>`}<div class="company-name">${escapeHtml(c.name)}</div></div>`).join('')}</div>${pageFooterHTML()}`; initSearchBox(); }
-function renderOfferCard(o){ const purchased = isCartContainsSpecial(o.id, 'offer'); const price = Number(o.price || 0); return `<div class="special-card"><div class="img">${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.name)}" loading="lazy" />` : `<div class="skeleton" style="width:100%;height:100%"></div>`}</div><div class="body"><div class="title">${escapeHtml(o.name || '')}</div><div class="meta">${escapeHtml(o.details || '')}</div><div class="price"><div class="now">${formatMoney(Math.round(price))} ج.م</div></div><button class="buy-btn ${purchased ? 'done' : ''}" id="specialBtn_offer_${escapeHtml(String(o.id))}" onclick='addSpecialToCart(${JSON.stringify(String(o.id))}, "offer")'>${purchased ? 'تم الشراء' : 'شراء'}</button></div></div>`; }
-function renderFlashCard(o){ const purchased = isCartContainsSpecial(o.id, 'flash'); const price = Number(o.price || 0); const endIso = o.end_datetime || (o.end_date && o.end_time ? `${o.end_date}T${o.end_time}` : ''); return `<div class="special-card"><div class="img">${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.name)}" loading="lazy" />` : `<div class="skeleton" style="width:100%;height:100%"></div>`}</div><div class="body"><div class="title">${escapeHtml(o.display_title || o.name || '')}</div><div class="meta">${escapeHtml(o.display_subtitle || o.details || '')}</div><div class="msg" id="flashCountdown_${escapeHtml(String(o.id))}">${escapeHtml(flashCountdownText(endIso))}</div><div class="price"><div class="now">${formatMoney(Math.round(price))} ج.م</div></div><button class="buy-btn ${purchased ? 'done' : ''}" id="specialBtn_flash_${escapeHtml(String(o.id))}" onclick='addSpecialToCart(${JSON.stringify(String(o.id))}, "flash")'>${purchased ? 'تم الشراء' : 'شراء'}</button></div></div>`; }
+function renderOfferCard(o){ const purchased = isCartContainsSpecial(o.id, 'offer'); const price = Number(o.price || 0); return `<div class="special-card"><div class="img">${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.name)}" loading="lazy" />` : `<div class="skeleton" style="width:100%;height:100%"></div>`}</div><div class="body"><div class="title">${escapeHtml(o.name || '')}</div><div class="meta">${escapeHtml(o.details || '')}</div><div class="price"><div class="now">${formatMoney(Math.round(price))} ج.م</div></div><button class="buy-btn ${purchased ? 'done' : ''}" onclick='addSpecialToCart(${JSON.stringify(String(o.id))}, "offer")'>${purchased ? 'تم الشراء' : 'شراء'}</button></div></div>`; }
+function renderFlashCard(o){ const purchased = isCartContainsSpecial(o.id, 'flash'); const price = Number(o.price || 0); const endIso = o.end_datetime || (o.end_date && o.end_time ? `${o.end_date}T${o.end_time}` : ''); return `<div class="special-card"><div class="img">${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.name)}" loading="lazy" />` : `<div class="skeleton" style="width:100%;height:100%"></div>`}</div><div class="body"><div class="title">${escapeHtml(o.display_title || o.name || '')}</div><div class="meta">${escapeHtml(o.display_subtitle || o.details || '')}</div><div class="msg" id="flashCountdown_${escapeHtml(String(o.id))}">${escapeHtml(flashCountdownText(endIso))}</div><div class="price"><div class="now">${formatMoney(Math.round(price))} ج.م</div></div><button class="buy-btn ${purchased ? 'done' : ''}" onclick='addSpecialToCart(${JSON.stringify(String(o.id))}, "flash")'>${purchased ? 'تم الشراء' : 'شراء'}</button></div></div>`; }
 function renderOffers(){ const active = (state.offers || []).filter(o => o.active !== false); $('main').innerHTML = `${renderSearchBox()}<div class="section-head"><div><h2>صفقة اليوم</h2><p>العروض هنا لا تدخل في احتساب الشريحة</p></div></div>${active.length ? `<div class="special-list">${active.map(renderOfferCard).join('')}</div>` : '<div class="empty">لا توجد عروض مفعلة الآن.</div>'}${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
 function renderFlashOffers(){ const live = getLiveFlashOffers(); $('main').innerHTML = `${renderSearchBox()}<div class="section-head"><div><h2>عرض الساعة</h2><p>العرض يظهر فقط إذا كان نشطًا الآن</p></div></div>${live.length ? `<div class="special-list">${live.map(renderFlashCard).join('')}</div>` : '<div class="empty">لا يوجد عرض ساعة نشط الآن.</div>'}${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
-function renderProductCard(product){ const units = UNIT_ORDER.filter(u => Number((product.base_prices || {})[u] || 0) > 0); const selectedUnit = getSelectedUnit(product.id, units); const pr = resolvePrice(product, selectedUnit); const qty = getDraftQty(product.id, selectedUnit); return `<div class="card"><div class="img"><img src="${escapeHtml(product.image || fallbackImage())}" alt="${escapeHtml(product.name || '')}" loading="lazy" /></div><div class="body"><button class="title" type="button" onclick='openProductOverlay(${JSON.stringify(String(product.id))})'>${escapeHtml(product.name || '')}</button><div class="meta">${escapeHtml(product.company || '')}</div><div class="units">${units.map(u => `<button class="unit-btn ${selectedUnit===u?'active':''}" onclick='setSelectedUnit(${JSON.stringify(String(product.id))}, ${JSON.stringify(u)})'>${unitLabel(u)}</button>`).join('')}</div><div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div><div class="qty-row"><button class="unit-btn" type="button" onclick='stepCardQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1)'>−</button><input class="qty-input" id="cardQty_${escapeHtml(String(product.id))}_${escapeHtml(selectedUnit)}" inputmode="numeric" placeholder="الكمية" value="${escapeHtml(qty)}" oninput='draftCardQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value)' /><button class="unit-btn" type="button" onclick='stepCardQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1)'>+</button></div><button class="buy-btn" id="${cardButtonId(String(product.id), selectedUnit)}" onclick='toggleProductToCartFromCard(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>شراء</button></div></div>`; }
+function renderProductCard(product){ const units = UNIT_ORDER.filter(u => Number((product.base_prices || {})[u] || 0) > 0); const selectedUnit = getSelectedUnit(product.id, units); const pr = resolvePrice(product, selectedUnit); const qty = getDraftQty(product.id, selectedUnit); return `<div class="card"><div class="img"><img src="${escapeHtml(product.image || fallbackImage())}" alt="${escapeHtml(product.name || '')}" loading="lazy" /></div><div class="body"><button class="title" type="button" onclick='openProductOverlay(${JSON.stringify(String(product.id))})'>${escapeHtml(product.name || '')}</button><div class="meta">${escapeHtml(product.company || '')}</div><div class="units">${units.map(u => `<button class="unit-btn ${selectedUnit===u?'active':''}" onclick='setSelectedUnit(${JSON.stringify(String(product.id))}, ${JSON.stringify(u)})'>${unitLabel(u)}</button>`).join('')}</div><div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div><div class="qty-row"><button class="unit-btn" type="button" onclick='stepCardQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1)'>−</button><input class="qty-input" id="cardQty_${escapeHtml(String(product.id))}_${escapeHtml(selectedUnit)}" inputmode="numeric" placeholder="الكمية" value="${escapeHtml(qty)}" oninput='draftCardQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value)' /><button class="unit-btn" type="button" onclick='stepCardQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1)'>+</button></div><button class="buy-btn" onclick='toggleProductToCartFromCard(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>شراء</button></div></div>`; }
 function stepCardQty(productId, unit, delta){ const input = $(`cardQty_${productId}_${unit}`); const current = normalizeQty(input?.value || getDraftQty(productId, unit)); const next = Math.max(0, current + Number(delta || 0)); if (input) input.value = next ? String(next) : ''; draftCardQty(productId, unit, input ? input.value : next); }
 function draftCardQty(productId, unit, raw){ setDraftQty(productId, unit, String(raw || '').replace(/[^\d]/g,'')); }
 function renderProductsList(resetScroll=false){ const hasProducts = state.products && state.products.length > 0; const isFirstLoad = state.productsMeta.loading && !hasProducts; const header = `${renderSearchBox()}${state.selectedCompany || state.searchMode ? `<div class="filter-row">${state.selectedCompany ? `<span class="filter-chip active">${escapeHtml(state.selectedCompany)}</span>` : ''}${state.searchMode && state.searchQuery ? `<span class="filter-chip active">${escapeHtml(state.searchQuery)}</span>` : ''}<button class="filter-chip" type="button" onclick="clearProductFilters()">مسح الفلاتر</button></div>` : ''}`; const content = isFirstLoad ? `<div class="catalog">${Array.from({length:8}).map(()=>`<div class="card"><div class="img"><div class="skeleton skeleton-box" style="width:100%;height:100%"></div></div><div class="body"><div class="skeleton skeleton-line" style="width:85%"></div><div class="skeleton skeleton-line" style="width:45%"></div><div class="skeleton" style="height:34px;border-radius:14px"></div><div class="skeleton" style="height:38px;border-radius:14px"></div><div class="skeleton" style="height:42px;border-radius:14px"></div></div></div>`).join('')}</div>` : (hasProducts ? `<div class="catalog">${state.products.map(renderProductCard).join('')}</div>` : (state.productsMeta.error ? `<div class="empty"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px">${escapeHtml(state.productsMeta.error)}</div><div style="margin-top:12px"><button class="chip primary" onclick="retryProducts()">إعادة المحاولة</button></div></div>` : '<div class="empty">لا توجد منتجات مطابقة الآن.</div>')); $('main').innerHTML = `${header}${content}<div id="productsSentinel" style="height:1px"></div>${state.productsMeta.loading && hasProducts ? '<div class="msg" style="margin-top:10px">جارٍ تحميل المزيد…</div>' : ''}${!state.productsMeta.hasMore && hasProducts ? '<div class="msg" style="margin-top:10px">تم الوصول لنهاية النتائج.</div>' : ''}${pageFooterHTML()}`; initSearchBox(); ensureProductsObserved(); updateCartUI(); updateFooterTier(); updateFlashUI(); if (resetScroll) window.scrollTo({ top: 0, behavior: 'auto' }); }
@@ -516,135 +268,19 @@ function changeModalQty(productId, unit, delta){ const input = $('modalQtyInput'
 function setModalQtyFromInput(productId, unit, rawValue){ setDraftQty(productId, unit, String(rawValue || '').replace(/[^\d]/g,'')); }
 function syncCardQty(productId, unit, rawValue){ setDraftQty(productId, unit, String(rawValue || '').replace(/[^\d]/g,'')); }
 function toggleProductToCartFromModal(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product; if (!product) return; const input = $('modalQtyInput'); const qty = normalizeQty(input?.value || getDraftQty(productId, unit)); if (!qty) { toast('لا يمكن إضافة كمية صفر', 'bad'); return; } toggleProductToCart(productId, unit, qty, product); }
-function toggleProductToCartFromCard(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)); if (!product) return; const input = $(`cardQty_${productId}_${unit}`); const qty = normalizeQty(input?.value || getDraftQty(productId, unit)); if (!qty) { toast('لا يمكن إضافة كمية صفر', 'bad'); return; } toggleProductToCart(productId, unit, qty, product); updateCardUI(productId, unit); }
-function toggleProductToCart(productId, unit, qty, product){
-  const key = cartKey(String(productId), String(unit));
-  const idx = findCartIndex(key);
-  if (idx >= 0) {
-    state.cart.splice(idx, 1);
-    saveCart();
-    updateCartUI();
-    updateFooterTier();
-    updateCardUI(productId, unit);
-    popSmartToast('remove');
-    return;
-  }
-  state.cart.push({ type:'product', id:String(productId), name:product.name || '', company:product.company || '', unit:String(unit), qty:Number(qty || 1), price:itemLinePrice({ type:'product', unit, product_snapshot: product }), product_snapshot: product });
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  updateCardUI(productId, unit);
-  popSmartToast('add');
-}
+function toggleProductToCartFromCard(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)); if (!product) return; const input = $(`cardQty_${productId}_${unit}`); const qty = normalizeQty(input?.value || getDraftQty(productId, unit)); if (!qty) { toast('لا يمكن إضافة كمية صفر', 'bad'); return; } toggleProductToCart(productId, unit, qty, product); }
+function toggleProductToCart(productId, unit, qty, product){ const key = cartKey(String(productId), String(unit)); const idx = findCartIndex(key); if (idx >= 0) { state.cart.splice(idx, 1); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('remove'); return; } state.cart.push({ type:'product', id:String(productId), name:product.name || '', company:product.company || '', unit:String(unit), qty:Number(qty || 1), price:itemLinePrice({ type:'product', unit, product_snapshot: product }), product_snapshot: product }); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('add'); }
 function changeModalQtyFromInput(productId, unit, rawValue){ setDraftQty(productId, unit, String(rawValue || '').replace(/[^\d]/g,'')); }
 function setCardQtyFromInput(productId, unit, rawValue){ syncCardQty(productId, unit, rawValue); }
-function addSpecialToCart(id, type){
-  const source = type === 'flash' ? (state.flashOffers || []).find(x => String(x.id) === String(id)) : (state.offers || []).find(x => String(x.id) === String(id));
-  if (!source) return;
-  if (isCartContainsSpecial(id, type)) { toast('تم الشراء', 'good'); updateSpecialCardUI(id, type); return; }
-  const item = { type, id:String(id), name:source.display_title || source.name || '', company:type, unit:'', qty:1, price:Number(source.price || 0), details:source.details || source.display_subtitle || '', image:source.image || '' };
-  state.cart.push(item);
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  updateSpecialCardUI(id, type);
-  popSmartToast('order');
-  toast('تم الشراء', 'good');
-}
+function addSpecialToCart(id, type){ const source = type === 'flash' ? (state.flashOffers || []).find(x => String(x.id) === String(id)) : (state.offers || []).find(x => String(x.id) === String(id)); if (!source) return; if (isCartContainsSpecial(id, type)) { toast('تم الشراء', 'good'); return; } const item = { type, id:String(id), name:source.display_title || source.name || '', company:type, unit:'', qty:1, price:Number(source.price || 0), details:source.details || source.display_subtitle || '', image:source.image || '' }; state.cart.push(item); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('order'); toast('تم الشراء', 'good'); }
 function addSpecialFromModal(id, type){ addSpecialToCart(id, type); }
-function removeCartIndex(idx){
-  const item = state.cart[idx];
-  if (!item) return;
-  state.cart.splice(idx, 1);
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  if (item.type === 'product') updateCardUI(item.id, item.unit);
-  if (item.type === 'offer' || item.type === 'flash') updateSpecialCardUI(item.id, item.type);
-  popSmartToast('remove');
-}
-function cartQtyStep(idx, delta){
-  const item = state.cart[idx];
-  if (!item) return;
-  if (item.type === 'offer' || item.type === 'flash') return;
-  const next = Math.max(1, Number(item.qty || 1) + Number(delta || 0));
-  item.qty = next;
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  if (item.type === 'product') updateCardUI(item.id, item.unit);
-}
+function removeCartIndex(idx){ state.cart.splice(idx, 1); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('remove'); }
+function cartQtyStep(idx, delta){ const item = state.cart[idx]; if (!item) return; if (item.type === 'offer' || item.type === 'flash') return; const next = Math.max(1, Number(item.qty || 1) + Number(delta || 0)); item.qty = next; saveCart(); updateCartUI(); renderCurrentView(); }
 function openOfferModalById(id){ const offer = (state.offers || []).find(x => String(x.id) === String(id)); if (!offer) return; openGenericModal('صفقة اليوم', `<div class="special-card"><div class="img">${offer.image ? `<img src="${escapeHtml(offer.image)}" alt="${escapeHtml(offer.name)}" />` : ''}</div><div class="body"><div class="title">${escapeHtml(offer.name || '')}</div><div class="meta">${escapeHtml(offer.details || '')}</div><button class="buy-btn ${isCartContainsSpecial(id, 'offer') ? 'done' : ''}" onclick='addSpecialFromModal(${JSON.stringify(String(id))}, "offer")'>${isCartContainsSpecial(id, 'offer') ? 'تم الشراء' : 'شراء'}</button></div></div>`); }
 function openGenericModal(title, html){ $('modalTitle').textContent = title; $('modalBody').innerHTML = html; openOverlay('overlay'); }
 function openCheckoutModal(){ const tally = getCartAnalysis(); if (!state.cart.length) { toast('السلة فارغة', 'warn'); return; } const buyerName = agentIsActive() ? agentDisplayName() : ''; const buyerPhone = agentIsActive() ? agentDisplayPhone() : ''; const buyerAddress = agentIsActive() ? agentDisplayArea() : ''; $('checkoutBody').innerHTML = `<div class="checkout-grid"><div class="checkout-summary"><div><strong>الإجمالي</strong> <strong>${formatMoney(tally.total)} ج.م</strong></div><div class="msg">${state.selectedTier ? `الشريحة: ${escapeHtml(state.selectedTier.visible_label || state.selectedTier.tier_name || 'لا يوجد')}` : 'الشريحة: لا يوجد'}</div><div class="checkout-location"><small>اللوكيشن: <span id="checkoutLocationText">${escapeHtml(state.checkoutGeo || 'لا يوجد')}</span></small><button class="filter-chip" type="button" onclick="addCheckoutLocation()">إضافة اللوكيشن</button></div></div><input id="checkoutName" class="input" placeholder="اسم العميل" value="${escapeHtml(buyerName)}" /><input id="checkoutPhone" class="input" placeholder="رقم التليفون" value="${escapeHtml(buyerPhone)}" /><input id="checkoutAddress" class="input" placeholder="العنوان" value="${escapeHtml(buyerAddress)}" /><textarea id="checkoutNotes" class="input" rows="3" placeholder="ملاحظات"></textarea><div class="checkout-field-error" id="checkoutErr">أكمل البيانات المطلوبة</div><div class="checkout-actions"><button class="submit-btn" type="button" onclick="sendWhatsappInvoice()">إرسال واتساب</button><button class="buy-btn" type="button" onclick="closeOverlay('checkoutOverlay')">إغلاق</button></div></div>`; openOverlay('checkoutOverlay'); }
 function addCheckoutLocation(){ if (!navigator.geolocation) { toast('الموقع غير مدعوم على الجهاز', 'warn'); return; } toast('جارٍ جلب الموقع…', 'info'); navigator.geolocation.getCurrentPosition(pos => { const { latitude, longitude } = pos.coords || {}; const link = `https://maps.google.com/?q=${latitude},${longitude}`; state.checkoutGeo = link; const txt = $('checkoutLocationText'); if (txt) txt.textContent = link; toast('تم إضافة اللوكيشن', 'good'); }, () => toast('تعذر تحديد الموقع', 'bad'), { enableHighAccuracy: true, timeout: 10000 }); }
-function buildInvoiceMessage(input={}){
-  const tally = getCartAnalysis();
-  const customerName = String(input.name || '').trim();
-  const phone = String(input.phone || '').trim();
-  const address = String(input.address || '').trim();
-  const location = String(state.checkoutGeo || input.location || 'لا يوجد').trim() || 'لا يوجد';
-  const tier = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || 'لا يوجد') : 'لا يوجد';
-  const senderName = agentIsActive() ? (agentDisplayName() || customerName) : customerName;
-  let lines = [];
-  lines.push('🧾 طلب فاتورة شراء');
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-  lines.push('');
-  lines.push('👤 من:');
-  lines.push(senderName || '');
-  lines.push('');
-  lines.push('📞 رقم التليفون:');
-  lines.push(phone || '');
-  lines.push('');
-  lines.push('📍 العنوان:');
-  lines.push(address || '');
-  lines.push('');
-  lines.push('📌 اللوكيشن:');
-  lines.push(location || 'لا يوجد');
-  lines.push('');
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-  lines.push('');
-  lines.push('📊 الشريحة:');
-  lines.push(tier || 'لا يوجد');
-  lines.push('');
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-  lines.push('');
-  lines.push('📦 تفاصيل الطلب:');
-  lines.push('');
-  (state.cart || []).forEach((item, i) => {
-    if (item.type === 'product') {
-      const displayQty = Number(item.qty || 1);
-      const line = resolvePrice(item.product_snapshot || item, item.unit);
-      const total = Math.round(displayQty * line.current);
-      lines.push(`${i + 1}️⃣ ${String(item.id || '').trim()} ${item.name || ''}`);
-      lines.push(`الوحدة: ${unitLabel(item.unit)}`);
-      lines.push(`سعر الوحدة: ${Math.round(line.current)} ج`);
-      lines.push(`الكمية: ${displayQty}`);
-      lines.push(`الإجمالي: ${total} ج`);
-      lines.push('');
-    } else {
-      const total = Math.round(Number(item.price || 0));
-      lines.push(`${i + 1}️⃣ ${String(item.id || '').trim()} ${item.name || ''}`);
-      lines.push(`النوع: ${item.type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم'}`);
-      lines.push(`الإجمالي: ${total} ج`);
-      lines.push('');
-    }
-  });
-  if (tally.hasOffer) {
-    lines.push('🔥 ملاحظات:');
-    lines.push('يحتوي على صفقة اليوم ✔️');
-  }
-  if (tally.hasFlash) {
-    lines.push('يحتوي على عرض الساعة ✔️');
-  }
-  lines.push('');
-  lines.push('💰 الإجمالي الكلي:');
-  lines.push(`${Math.round(tally.total)} ج`);
-  lines.push('');
-  lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-  lines.push('📌 تم الارسال من متجر الاهرام');
-  return lines.join('\n');
-}
+function buildInvoiceMessage(input={}){ const tally = getCartAnalysis(); const name = String(input.name || '').trim(); const phone = String(input.phone || '').trim(); const address = String(input.address || '').trim(); const location = String(state.checkoutGeo || input.location || 'لا يوجد').trim() || 'لا يوجد'; const tier = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || 'لا يوجد') : 'لا يوجد'; const sender = agentIsActive() ? agentDisplayName() : name; let lines = []; lines.push('🧾 طلب فاتورة شراء'); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push(''); lines.push('👤 من:'); lines.push(sender || ''); lines.push(''); lines.push('📞 رقم التليفون:'); lines.push(phone || ''); lines.push(''); lines.push('📍 العنوان:'); lines.push(address || ''); lines.push(''); lines.push('📌 اللوكيشن:'); lines.push(location || 'لا يوجد'); lines.push(''); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push(''); lines.push('📊 الشريحة:'); lines.push(tier || 'لا يوجد'); lines.push(''); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push(''); lines.push('📦 تفاصيل الطلب:'); lines.push(''); (state.cart || []).forEach((item, i) => { if (item.type === 'product') { const displayQty = Number(item.qty || 1); const line = resolvePrice(item.product_snapshot || item, item.unit); const total = Math.round(displayQty * line.current); lines.push(`${i + 1}️⃣ ${String(item.id || '').trim()} ${item.name || ''}`); lines.push(`الوحدة: ${unitLabel(item.unit)}`); lines.push(`سعر الوحدة: ${Math.round(line.current)} ج`); lines.push(`الكمية: ${displayQty}`); lines.push(`الإجمالي: ${total} ج`); lines.push(''); } else { const total = Math.round(Number(item.price || 0)); lines.push(`${i + 1}️⃣ ${String(item.id || '').trim()} ${item.name || ''}`); lines.push(`النوع: ${item.type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم'}`); lines.push(`الإجمالي: ${total} ج`); lines.push(''); } }); if (tally.hasOffer) { lines.push('🔥 ملاحظات:'); lines.push('يحتوي على صفقة اليوم ✔️'); } if (tally.hasFlash) { lines.push('يحتوي على عرض الساعة ✔️'); } lines.push(''); lines.push('💰 الإجمالي الكلي:'); lines.push(`${Math.round(tally.total)} ج`); lines.push(''); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push('📌 تم الارسال من متجر الاهرام'); return lines.join('\n'); }
 function sendWhatsappInvoice(){ const name = String($('checkoutName')?.value || '').trim(); const phone = String($('checkoutPhone')?.value || '').trim(); const address = String($('checkoutAddress')?.value || '').trim(); const err = $('checkoutErr'); if (!name || !phone || !address) { if (err) err.classList.add('show'); toast('أكمل البيانات المطلوبة', 'bad'); return; } if (err) err.classList.remove('show'); const message = buildInvoiceMessage({ name, phone, address, location: state.checkoutGeo || 'لا يوجد' }); const url = `https://wa.me/201552670465?text=${encodeURIComponent(message)}`; window.open(url, '_blank', 'noopener'); popSmartToast('order'); }
 function openFlash(){ goFlash(); }
 function openOfferModal(){ goOffers(); }
@@ -658,40 +294,11 @@ function goOffers(replace=false){ state.view = 'offers'; if (!replace) setRoute(
 function goFlash(replace=false){ state.view = 'flash'; if (!replace) setRoute('flash'); renderCurrentView(true); }
 function goProducts(replace=false){ state.view = 'products'; if (!replace) setRoute('products'); renderCurrentView(true); loadProducts({ reset:true }).catch(()=>{}); }
 function goCompany(companyName){ state.selectedCompany = companyName || ''; state.searchMode = false; state.searchQuery = ''; saveJSON('alahram_search_query', ''); goProducts(); }
-function pickTier(tierName){
-  const wanted = norm(tierName);
-  const found = state.tiers.find(t => norm(t.tier_name) === wanted || norm(t.visible_label) === wanted);
-  if (found) {
-    state.selectedTier = found;
-    saveJSON('alahram_selected_tier', found);
-    updateFooterTier();
-    updateCartUI();
-    toast(`تم اختيار الشريحة: ${found.visible_label || found.tier_name}`, 'good');
-    renderCurrentView();
-  }
-}
+function pickTier(tierName){ const wanted = norm(tierName); const found = state.tiers.find(t => norm(t.tier_name) === wanted || norm(t.visible_label) === wanted); if (found) { state.selectedTier = found; saveJSON('alahram_selected_tier', found); updateFooterTier(); updateCartUI(); toast(`تم اختيار الشريحة: ${found.visible_label || found.tier_name}`, 'good'); renderCurrentView(); } }
 function confirmTierPassword(){ return true; }
 function applyTier(){ return true; }
-function exitTier(){
-  if (!state.selectedTier) return;
-  if (!confirm('متأكد عايز تلغي الشريحة؟')) return;
-  state.selectedTier = null;
-  try{ localStorage.removeItem('alahram_selected_tier'); }catch(e){}
-  updateFooterTier();
-  updateCartUI();
-  renderCurrentView();
-}
-function cartQtyStep(idx, delta){
-  const item = state.cart[idx];
-  if (!item) return;
-  if (item.type === 'offer' || item.type === 'flash') return;
-  const next = Math.max(1, Number(item.qty || 1) + Number(delta || 0));
-  item.qty = next;
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  if (item.type === 'product') updateCardUI(item.id, item.unit);
-}
+function exitTier(){ state.selectedTier = null; try{ localStorage.removeItem('alahram_selected_tier'); }catch(e){} updateFooterTier(); renderCurrentView(); }
+function cartQtyStep(idx, delta){ const item = state.cart[idx]; if (!item) return; if (item.type === 'offer' || item.type === 'flash') return; const next = Math.max(1, Number(item.qty || 1) + Number(delta || 0)); item.qty = next; saveCart(); updateCartUI(); renderCurrentView(); }
 function renderCurrentView(resetScroll=false){ if (state.view === 'home') renderHome(); else if (state.view === 'tiers') renderTiers(); else if (state.view === 'companies') renderCompaniesPage(); else if (state.view === 'offers') renderOffers(); else if (state.view === 'flash') renderFlashOffers(); else if (state.view === 'products') renderProductsList(resetScroll); updateFooterTier(); updateCartUI(); updateFlashUI(); }
 function ensureProductsObserved(){ const sentinel = $('productsSentinel'); if (!sentinel || !state.productsObserver) return; try{ state.productsObserver.disconnect(); state.productsObserver.observe(sentinel); }catch(e){} }
 function setupProductsObserver(){ if (state.productsObserver) { try{ state.productsObserver.disconnect(); }catch(e){} } state.productsObserver = new IntersectionObserver(entries => { entries.forEach(entry => { if (entry.isIntersecting) loadMoreProductsIfNeeded(); }); }, { rootMargin: '450px 0px 700px 0px' }); }
@@ -703,7 +310,6 @@ function closeAgentOverlay(){ closeOverlay('agentOverlay'); }
 function validateCheckoutRealtime(){ return true; }
 function buildCartSimpleMessage(){ return buildInvoiceMessage({ name:'', phone:'', address:'' }); }
 function renderBootError(message){ $('main').innerHTML = `<div class="empty"><strong>تعذر تحميل البيانات</strong><div style="margin-top:8px">${escapeHtml(message)}</div><div style="margin-top:12px"><button class="chip primary" onclick="location.reload()">إعادة المحاولة</button></div></div>`; }
-async function safeLoad(fn, fallback=null){ try{ return await fn(); }catch(e){ console.error('SAFE LOAD ERROR:', e); return fallback; } }
 async function boot(){ bindUI(); setupProductsObserver(); renderHomeSkeleton(); try { await Promise.allSettled([loadSettings(), loadTiers(), loadCompanies(), loadOffers(), loadFlashOffers()]); hydrateAgentDirectory(); state.loadingInitial = false; normalizeTierFromStorage(); normalizeSearchFromStorage(); updateFooterTier(); updateCartUI(); updateFlashUI(); bindHistory(); goHome(true); if (state.selectedCompany || state.searchQuery) { /* يبقى الوضع محفوظاً */ } } catch (err) { renderBootError(err.message || 'تعذر تحميل البيانات'); } }
 function normalizeTierFromStorage(){ if (!state.selectedTier) return; const wanted = norm(state.selectedTier.tier_name || state.selectedTier.visible_label || ''); const found = state.tiers.find(t => norm(t.tier_name) === wanted || norm(t.visible_label) === wanted || String(t.tier_id || '') === String(state.selectedTier.tier_id || '')); if (found) { state.selectedTier = found; saveJSON('alahram_selected_tier', found); } else { state.selectedTier = null; localStorage.removeItem('alahram_selected_tier'); } }
 function normalizeSearchFromStorage(){ state.searchQuery = String(state.searchQuery || '').trim(); state.searchMode = !!state.searchQuery; }
@@ -713,57 +319,17 @@ function openCheckoutModal(){ const tally = getCartAnalysis(); if (!state.cart.l
 function addCheckoutLocation(){ if (!navigator.geolocation) { toast('الموقع غير مدعوم على الجهاز', 'warn'); return; } toast('جارٍ جلب الموقع…', 'info'); navigator.geolocation.getCurrentPosition(pos => { const { latitude, longitude } = pos.coords || {}; const link = `https://maps.google.com/?q=${latitude},${longitude}`; state.checkoutGeo = link; const txt = $('checkoutLocationText'); if (txt) txt.textContent = link; toast('تم إضافة اللوكيشن', 'good'); }, () => toast('تعذر تحديد الموقع', 'bad'), { enableHighAccuracy: true, timeout: 10000 }); }
 function sendWhatsappInvoice(){ const name = String($('checkoutName')?.value || '').trim(); const phone = String($('checkoutPhone')?.value || '').trim(); const address = String($('checkoutAddress')?.value || '').trim(); const err = $('checkoutErr'); if (!name || !phone || !address) { if (err) err.classList.add('show'); toast('أكمل البيانات المطلوبة', 'bad'); return; } if (err) err.classList.remove('show'); const message = buildInvoiceMessage({ name, phone, address, location: state.checkoutGeo || 'لا يوجد' }); const url = `https://wa.me/201552670465?text=${encodeURIComponent(message)}`; window.open(url, '_blank', 'noopener'); popSmartToast('order'); }
 function buildInvoiceMessage(input={}){ const tally = getCartAnalysis(); const phone = String(input.phone || '').trim(); const address = String(input.address || '').trim(); const location = String(state.checkoutGeo || input.location || 'لا يوجد').trim() || 'لا يوجد'; const tier = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || 'لا يوجد') : 'لا يوجد'; const sender = agentIsActive() ? agentDisplayName() : String(input.name || '').trim(); const lines = []; lines.push('🧾 طلب فاتورة شراء'); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push(''); lines.push('👤 من:'); lines.push(sender || ''); lines.push(''); lines.push('📞 رقم التليفون:'); lines.push(phone || ''); lines.push(''); lines.push('📍 العنوان:'); lines.push(address || ''); lines.push(''); lines.push('📌 اللوكيشن:'); lines.push(location || 'لا يوجد'); lines.push(''); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push(''); lines.push('📊 الشريحة:'); lines.push(tier || 'لا يوجد'); lines.push(''); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push(''); lines.push('📦 تفاصيل الطلب:'); lines.push(''); (state.cart || []).forEach((item, i) => { if (item.type === 'product') { const line = resolvePrice(item.product_snapshot || item, item.unit); const displayQty = Number(item.qty || 1); lines.push(`${i + 1}️⃣ ${String(item.id || '').trim()} ${item.name || ''}`); lines.push(`الوحدة: ${unitLabel(item.unit)}`); lines.push(`سعر الوحدة: ${Math.round(line.current)} ج`); lines.push(`الكمية: ${displayQty}`); lines.push(`الإجمالي: ${Math.round(displayQty * line.current)} ج`); lines.push(''); } else { lines.push(`${i + 1}️⃣ ${String(item.id || '').trim()} ${item.name || ''}`); lines.push(`النوع: ${item.type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم'}`); lines.push(`الإجمالي: ${Math.round(Number(item.price || 0))} ج`); lines.push(''); } }); if (tally.hasOffer) { lines.push('🔥 ملاحظات:'); lines.push('يحتوي على صفقة اليوم ✔️'); } if (tally.hasFlash) { lines.push('يحتوي على عرض الساعة ✔️'); } lines.push(''); lines.push('💰 الإجمالي الكلي:'); lines.push(`${Math.round(tally.total)} ج`); lines.push(''); lines.push('━━━━━━━━━━━━━━━━━━━━━━'); lines.push('📌 تم الارسال من متجر الاهرام'); return lines.join('\n'); }
-function addSpecialToCart(id, type){
-  const source = type === 'flash' ? (state.flashOffers || []).find(x => String(x.id) === String(id)) : (state.offers || []).find(x => String(x.id) === String(id));
-  if (!source) return;
-  if (isCartContainsSpecial(id, type)) { toast('تم الشراء', 'good'); updateSpecialCardUI(id, type); return; }
-  const item = { type, id:String(id), name:source.display_title || source.name || '', company:type, unit:'', qty:1, price:Number(source.price || 0), details:source.details || source.display_subtitle || '', image:source.image || '' };
-  state.cart.push(item);
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  updateSpecialCardUI(id, type);
-  popSmartToast('order');
-  toast('تم الشراء', 'good');
-}
+function addSpecialToCart(id, type){ const source = type === 'flash' ? (state.flashOffers || []).find(x => String(x.id) === String(id)) : (state.offers || []).find(x => String(x.id) === String(id)); if (!source) return; if (isCartContainsSpecial(id, type)) { toast('تم الشراء', 'good'); return; } const item = { type, id:String(id), name:source.display_title || source.name || '', company:type, unit:'', qty:1, price:Number(source.price || 0), details:source.details || source.display_subtitle || '', image:source.image || '' }; state.cart.push(item); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('order'); toast('تم الشراء', 'good'); }
 function addSpecialFromModal(id, type){ addSpecialToCart(id, type); }
 function isCartContainsSpecial(id, type){ return state.cart.some(x => x.type === type && String(x.id) === String(id)); }
-function removeCartIndex(idx){
-  const item = state.cart[idx];
-  if (!item) return;
-  state.cart.splice(idx, 1);
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  if (item.type === 'product') updateCardUI(item.id, item.unit);
-  if (item.type === 'offer' || item.type === 'flash') updateSpecialCardUI(item.id, item.type);
-  popSmartToast('remove');
-}
+function removeCartIndex(idx){ state.cart.splice(idx, 1); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('remove'); }
 function clearProductFilters(){ state.selectedCompany = ''; state.searchQuery = ''; state.searchMode = false; saveJSON('alahram_search_query', ''); goProducts(); }
 function retryProducts(){ loadProducts({ reset:true }).catch(()=>{}); }
 function stepCardQty(productId, unit, delta){ const input = $(`cardQty_${productId}_${unit}`); const current = normalizeQty(input?.value || getDraftQty(productId, unit)); const next = Math.max(0, current + Number(delta || 0)); if (input) input.value = next ? String(next) : ''; syncCardQty(productId, unit, input ? input.value : ''); }
 function syncCardQty(productId, unit, rawValue){ setDraftQty(productId, unit, String(rawValue || '').replace(/[^\d]/g,'')); }
-function toggleProductToCartFromCard(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)); if (!product) return; const input = $(`cardQty_${productId}_${unit}`); const qty = normalizeQty(input?.value || getDraftQty(productId, unit)); if (!qty) { toast('لا يمكن إضافة كمية صفر', 'bad'); return; } toggleProductToCart(productId, unit, qty, product); updateCardUI(productId, unit); }
+function toggleProductToCartFromCard(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)); if (!product) return; const input = $(`cardQty_${productId}_${unit}`); const qty = normalizeQty(input?.value || getDraftQty(productId, unit)); if (!qty) { toast('لا يمكن إضافة كمية صفر', 'bad'); return; } toggleProductToCart(productId, unit, qty, product); }
 function toggleProductToCartFromModal(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product; if (!product) return; const input = $('modalQtyInput'); const qty = normalizeQty(input?.value || getDraftQty(productId, unit)); if (!qty) { toast('لا يمكن إضافة كمية صفر', 'bad'); return; } toggleProductToCart(productId, unit, qty, product); }
-function toggleProductToCart(productId, unit, qty, product){
-  const key = cartKey(String(productId), String(unit));
-  const idx = findCartIndex(key);
-  if (idx >= 0) {
-    state.cart.splice(idx, 1);
-    saveCart();
-    updateCartUI();
-    updateFooterTier();
-    updateCardUI(productId, unit);
-    popSmartToast('remove');
-    return;
-  }
-  state.cart.push({ type:'product', id:String(productId), name:product.name || '', company:product.company || '', unit:String(unit), qty:Number(qty || 1), price:itemLinePrice({ type:'product', unit, product_snapshot: product }), product_snapshot: product });
-  saveCart();
-  updateCartUI();
-  updateFooterTier();
-  updateCardUI(productId, unit);
-  popSmartToast('add');
-}
+function toggleProductToCart(productId, unit, qty, product){ const key = cartKey(String(productId), String(unit)); const idx = findCartIndex(key); if (idx >= 0) { state.cart.splice(idx, 1); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('remove'); return; } state.cart.push({ type:'product', id:String(productId), name:product.name || '', company:product.company || '', unit:String(unit), qty:Number(qty || 1), price:itemLinePrice({ type:'product', unit, product_snapshot: product }), product_snapshot: product }); saveCart(); updateCartUI(); renderCurrentView(); popSmartToast('add'); }
 function itemLinePrice(item){ if (!item) return 0; if (item.type === 'special') return Number(item.price || 0); return resolvePrice(item.product_snapshot || item, item.unit).current; }
 function findCartIndex(key){ return state.cart.findIndex(x => x.type === 'product' && cartKey(String(x.id), String(x.unit)) === key); }
 function cartKey(id, unit){ return `${id}::${unit}`; }
