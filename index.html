@@ -33,7 +33,7 @@
       font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
-      padding-bottom:320px;
+      padding-bottom:92px;
       overflow-x:hidden;
     }
     button,input,textarea{font:inherit}
@@ -71,7 +71,7 @@
     .brand-text p{margin:3px 0 0;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
 
     .topbar-inner{gap:8px}
-    .agent-pill{
+    .rep-chip{
       display:flex;align-items:center;gap:10px;
       min-width:0;max-width:48vw;
       padding:9px 12px;
@@ -83,36 +83,36 @@
       text-align:right;
       flex:0 0 auto;
     }
-    .agent-pill .dot{
+    .rep-chip .dot{
       width:10px;height:10px;border-radius:999px;background:var(--bad);flex:0 0 auto;
       box-shadow:0 0 0 4px rgba(239,68,68,.10);
     }
-    .agent-pill.active .dot{
+    .rep-chip.active .dot{
       background:var(--good);
       box-shadow:0 0 0 4px rgba(22,163,74,.12);
     }
-    .agent-pill .meta{min-width:0;display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
-    .agent-pill .meta strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
-    .agent-pill .meta span{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw;margin-top:3px}
-    .agent-grid{display:grid;gap:12px}
-    .agent-status{
+    .rep-chip .meta{min-width:0;display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
+    .rep-chip .meta strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+    .rep-chip .meta span{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw;margin-top:3px}
+    .rep-modal-grid{display:grid;gap:12px}
+    .rep-status{
       border-radius:18px;padding:12px 14px;border:1px solid var(--line);background:#f8fbff;
       display:flex;align-items:center;justify-content:space-between;gap:10px
     }
-    .agent-status strong{font-size:14px}
-    .agent-status.good{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.18)}
-    .agent-status.bad{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.18)}
-    .agent-card{
+    .rep-status strong{font-size:14px}
+    .rep-status.good{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.18)}
+    .rep-status.bad{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.18)}
+    .rep-card{
       border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow-soft);padding:14px;display:grid;gap:10px
     }
-    .agent-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .agent-submit{
+    .rep-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .rep-submit{
       height:48px;border-radius:16px;background:var(--primary);color:#fff;font-weight:900;font-size:15px;
       width:100%
     }
-    .agent-submit.logout{background:var(--bad)}
-    .agent-note{font-size:12px;color:var(--muted);line-height:1.6}
-    .agent-readonly{
+    .rep-submit.logout{background:var(--bad)}
+    .rep-note{font-size:12px;color:var(--muted);line-height:1.6}
+    .rep-readonly{
       border:1px solid var(--line);background:#f8fbff;border-radius:16px;padding:12px 14px;font-size:14px;min-height:46px
     }
     .page{padding:10px 12px 18px}
@@ -171,11 +171,11 @@
     .company-card:active{transform:scale(.985)}
     .company-card.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,58,95,.08),var(--shadow)}
     .company-logo,.company-img{
-      width:52px;height:52px;border-radius:18px;object-fit:contain;background:#edf2f7;
+      width:52px;height:52px;border-radius:18px;object-fit:cover;background:#edf2f7;
       display:grid;place-items:center;font-weight:900;color:var(--primary)
     }
     .company-name{font-size:13px;line-height:1.35;font-weight:900;color:#0f172a}
-    .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(136px,1fr));gap:10px}
+    .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
     .card{
       border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft);border-radius:20px;overflow:hidden;
       display:flex;flex-direction:column;min-height:100%
@@ -337,13 +337,13 @@
             <p id="brandSub">نظام بيع ذكي لتجارة الجملة</p>
           </div>
         </div>
-        <div id="agentHeaderState" class="agent-pill" aria-label="حالة المندوب">
+        <button id="repHeaderBtn" class="rep-chip" type="button" aria-label="دخول المندوب">
           <span class="dot"></span>
           <span class="meta">
-            <strong id="agentHeaderName">دخول المندوب</strong>
-            <span id="agentHeaderSub">اضغط لتسجيل الدخول</span>
+            <strong id="repHeaderName">دخول المندوب</strong>
+            <span id="repHeaderSub">اضغط لتسجيل الدخول</span>
           </span>
-        </div>
+        </button>
       </div>
     </header>
 
@@ -398,14 +398,14 @@
     </div>
   </div>
 
-  <div id="agentOverlay" class="overlay" aria-hidden="true">
-    <div class="modal fullscreen" id="agentModal">
+  <div id="repOverlay" class="overlay" aria-hidden="true">
+    <div class="modal fullscreen" id="repModal">
       <div class="head">
         <button class="back-btn" id="closeRepBtn" type="button">رجوع</button>
-        <h3 id="agentModalTitle">تسجيل دخول المندوب</h3>
+        <h3 id="repModalTitle">تسجيل دخول المندوب</h3>
         <div style="width:58px"></div>
       </div>
-      <div class="body" id="agentModalBody"></div>
+      <div class="body" id="repModalBody"></div>
     </div>
   </div>
 
@@ -464,27 +464,27 @@ const state = {
   smartSeed: 0,
   productModalItem: null,
   checkoutGeo: '',
-  agent: loadJSON('alahram_agent', null),
-  agentDirectory: [],
-  agentDirectoryLoaded: false,
-  agentLoading: false,
-  agentError: null,
-  agentMode: 'login'
+  rep: loadJSON('alahram_rep', null),
+  repDirectory: [],
+  repDirectoryLoaded: false,
+  repLoading: false,
+  repError: null,
+  repMode: 'login'
 };
 
 const el = (id) => document.getElementById(id);
 
-function agentIsActive() {
-  return !!(state.agent && state.agent.active);
+function repIsActive() {
+  return !!(state.rep && state.rep.active);
 }
-function agentDisplayName() {
-  return agentIsActive() ? String(state.agent.name || '').trim() : '';
+function repDisplayName() {
+  return repIsActive() ? String(state.rep.name || '').trim() : '';
 }
-function agentDisplayPhone() {
-  return agentIsActive() ? String(state.agent.phone || '').trim() : '';
+function repDisplayPhone() {
+  return repIsActive() ? String(state.rep.phone || '').trim() : '';
 }
-function agentDisplayArea() {
-  return agentIsActive() ? String(state.agent.area || '').trim() : '';
+function repDisplayArea() {
+  return repIsActive() ? String(state.rep.area || '').trim() : '';
 }
 function unitLabel(unit) {
   return UNIT_LABELS[unit] || unit || '';
@@ -494,23 +494,23 @@ function normalizeBoolean(v) {
   const s = String(v ?? '').trim().toLowerCase();
   return ['1','true','yes','y','active','نشط','مفعل','on'].includes(s);
 }
-function normalizeAgentRow(row) {
+function normalizeRepRow(row) {
   const r = row && typeof row === 'object' ? row : {};
-  const code = String(r.code ?? r.agent_code ?? r.agentCode ?? r['كود المندوب'] ?? r['code'] ?? r['CODE'] ?? '').trim();
+  const code = String(r.code ?? r.rep_code ?? r.repCode ?? r['كود المندوب'] ?? r['code'] ?? r['CODE'] ?? '').trim();
   const password = String(r.password ?? r.pass ?? r.pwd ?? r['الباسورد'] ?? r['password'] ?? r['PASSWORD'] ?? '').trim();
-  const name = String(r.name ?? r.agent_name ?? r.agentName ?? r['اسم المندوب'] ?? r['name'] ?? r['NAME'] ?? '').trim();
+  const name = String(r.name ?? r.rep_name ?? r.repName ?? r['اسم المندوب'] ?? r['name'] ?? r['NAME'] ?? '').trim();
   const phone = String(r.phone ?? r.mobile ?? r.tel ?? r['رقم التليفون'] ?? r['phone'] ?? r['PHONE'] ?? '').trim();
   const area = String(r.area ?? r.region ?? r.zone ?? r['المنطقة'] ?? r['area'] ?? r['AREA'] ?? '').trim();
   const active = normalizeBoolean(r.active ?? r.status ?? r.enabled ?? r['الحالة'] ?? r['active'] ?? r['ACTIVE']);
   return { code, password, name, phone, area, active, raw: r };
 }
-function extractAgentRowsFromPayload(payload) {
+function extractRepRowsFromPayload(payload) {
   const candidates = [];
   const push = (value) => {
     if (!value) return;
     if (Array.isArray(value)) candidates.push(...value);
     else if (typeof value === 'object') {
-      for (const key of ['items','rows','data','agents','agent_users','sales_agents','salesmen','agents','users']) {
+      for (const key of ['items','rows','data','reps','rep_users','sales_reps','salesmen','representatives','users']) {
         if (Array.isArray(value[key])) candidates.push(...value[key]);
       }
     }
@@ -520,175 +520,175 @@ function extractAgentRowsFromPayload(payload) {
     for (const key of ['settings','config','metadata','sheet']) push(payload[key]);
   }
   return candidates
-    .map(normalizeAgentRow)
+    .map(normalizeRepRow)
     .filter(r => r.code || r.password || r.name || r.phone || r.area);
 }
-function agentDirectoryFromSettings(settings = state.settings) {
+function repDirectoryFromSettings(settings = state.settings) {
   const list = [];
   const sources = [
-    settings?.agents,
-    settings?.agent_users,
-    settings?.sales_agents,
+    settings?.reps,
+    settings?.rep_users,
+    settings?.sales_reps,
     settings?.salesmen,
-    settings?.agents,
-    settings?.agent_list,
-    settings?.agentData,
+    settings?.representatives,
+    settings?.rep_list,
+    settings?.repData,
     settings?.users,
     settings?.data
   ];
   for (const src of sources) {
     if (Array.isArray(src)) list.push(...src);
     else if (src && typeof src === 'object') {
-      for (const k of ['items','rows','data','agents','agent_users','sales_agents','salesmen','agents','users']) {
+      for (const k of ['items','rows','data','reps','rep_users','sales_reps','salesmen','representatives','users']) {
         if (Array.isArray(src[k])) list.push(...src[k]);
       }
     }
   }
-  return list.map(normalizeAgentRow).filter(r => r.code || r.password || r.name);
+  return list.map(normalizeRepRow).filter(r => r.code || r.password || r.name);
 }
-function hydrateAgentDirectory() {
-  const fromSettings = agentDirectoryFromSettings(state.settings);
+function hydrateRepDirectory() {
+  const fromSettings = repDirectoryFromSettings(state.settings);
   if (fromSettings.length) {
-    state.agentDirectory = fromSettings;
-    state.agentDirectoryLoaded = true;
-    state.agentError = null;
-    return state.agentDirectory;
+    state.repDirectory = fromSettings;
+    state.repDirectoryLoaded = true;
+    state.repError = null;
+    return state.repDirectory;
   }
-  if (!state.agentDirectoryLoaded) {
-    state.agentDirectory = [];
-    state.agentError = null;
+  if (!state.repDirectoryLoaded) {
+    state.repDirectory = [];
+    state.repError = null;
   }
-  return state.agentDirectory;
+  return state.repDirectory;
 }
-async function loadAgentDirectory(force = false) {
-  if (state.agentDirectoryLoaded && !force && state.agentDirectory.length) return state.agentDirectory;
-  if (state.agentLoading) return state.agentDirectory;
-  state.agentLoading = true;
+async function loadRepDirectory(force = false) {
+  if (state.repDirectoryLoaded && !force && state.repDirectory.length) return state.repDirectory;
+  if (state.repLoading) return state.repDirectory;
+  state.repLoading = true;
   try {
-    const fromSettings = agentDirectoryFromSettings(state.settings);
+    const fromSettings = repDirectoryFromSettings(state.settings);
     if (fromSettings.length) {
-      state.agentDirectory = fromSettings;
-      state.agentDirectoryLoaded = true;
-      state.agentError = null;
-      return state.agentDirectory;
+      state.repDirectory = fromSettings;
+      state.repDirectoryLoaded = true;
+      state.repError = null;
+      return state.repDirectory;
     }
-    state.agentDirectory = [];
-    state.agentDirectoryLoaded = true;
-    state.agentError = null;
-    return state.agentDirectory;
+    state.repDirectory = [];
+    state.repDirectoryLoaded = true;
+    state.repError = null;
+    return state.repDirectory;
   } catch (err) {
-    state.agentError = err.message || 'تعذر تحميل بيانات المندوبين';
-    state.agentDirectory = [];
-    state.agentDirectoryLoaded = true;
-    return state.agentDirectory;
+    state.repError = err.message || 'تعذر تحميل بيانات المندوبين';
+    state.repDirectory = [];
+    state.repDirectoryLoaded = true;
+    return state.repDirectory;
   } finally {
-    state.agentLoading = false;
+    state.repLoading = false;
   }
 }
-function findAgentRecord(code, password) {
+function findRepRecord(code, password) {
   const c = String(code || '').trim();
   const p = String(password || '').trim();
-  return (state.agentDirectory || []).find(agent => {
-    const codeOk = String(agent.code || '').trim() === c;
-    const passOk = String(agent.password || '').trim() === p;
+  return (state.repDirectory || []).find(rep => {
+    const codeOk = String(rep.code || '').trim() === c;
+    const passOk = String(rep.password || '').trim() === p;
     return codeOk && passOk;
   }) || null;
 }
-function updateAgentHeader() {
-  const btn = el('agentHeaderState');
-  const name = el('agentHeaderName');
-  const sub = el('agentHeaderSub');
+function updateRepHeader() {
+  const btn = el('repHeaderBtn');
+  const name = el('repHeaderName');
+  const sub = el('repHeaderSub');
   if (!btn || !name || !sub) return;
-  const active = agentIsActive();
+  const active = repIsActive();
   btn.classList.toggle('active', active);
-  btn.setAttribute('aria-label', active ? `المندوب ${agentDisplayName()}` : 'دخول المندوب');
-  name.textContent = active ? agentDisplayName() : 'دخول المندوب';
-  sub.textContent = active ? `${agentDisplayPhone()}${agentDisplayArea() ? ' • ' + agentDisplayArea() : ''}` : 'اضغط لتسجيل الدخول';
+  btn.setAttribute('aria-label', active ? `المندوب ${repDisplayName()}` : 'دخول المندوب');
+  name.textContent = active ? repDisplayName() : 'دخول المندوب';
+  sub.textContent = active ? `${repDisplayPhone()}${repDisplayArea() ? ' • ' + repDisplayArea() : ''}` : 'اضغط لتسجيل الدخول';
 }
-function openAgentOverlay(mode = 'login') {
-  state.agentMode = mode;
-  renderAgentOverlay(mode);
-  const overlay = el('agentOverlay');
+function openRepOverlay(mode = 'login') {
+  state.repMode = mode;
+  renderRepOverlay(mode);
+  const overlay = el('repOverlay');
   overlay.classList.add('show');
   overlay.setAttribute('aria-hidden', 'false');
 }
-function closeAgentOverlay() {
-  const overlay = el('agentOverlay');
+function closeRepOverlay() {
+  const overlay = el('repOverlay');
   overlay.classList.remove('show');
   overlay.setAttribute('aria-hidden', 'true');
 }
-function renderAgentOverlay(mode = 'login') {
-  const active = agentIsActive();
-  const agent = state.agent || {};
+function renderRepOverlay(mode = 'login') {
+  const active = repIsActive();
+  const rep = state.rep || {};
   const statusClass = active ? 'good' : 'bad';
   const statusText = active ? 'نشط' : 'غير مفعل';
   const buttonText = active ? 'تسجيل خروج' : 'تسجيل الدخول';
-  const buttonClass = active ? 'agent-submit logout' : 'agent-submit';
-  const codeValue = active ? escapeHtml(String(agent.code || '')) : '';
+  const buttonClass = active ? 'rep-submit logout' : 'rep-submit';
+  const codeValue = active ? escapeHtml(String(rep.code || '')) : '';
   const passValue = '';
-  const nameValue = active ? escapeHtml(String(agent.name || '')) : '';
-  const phoneValue = active ? escapeHtml(String(agent.phone || '')) : '';
-  const areaValue = active ? escapeHtml(String(agent.area || '')) : '';
-  const loading = state.agentLoading ? `<div class="agent-note">جارٍ التحقق من بيانات المندوب…</div>` : '';
-  document.getElementById('agentModalTitle').textContent = 'تسجيل دخول المندوب';
-  document.getElementById('agentModalBody').innerHTML = `
-    <div class="agent-grid">
-      <div class="agent-card">
-        <div class="agent-status ${statusClass}">
+  const nameValue = active ? escapeHtml(String(rep.name || '')) : '';
+  const phoneValue = active ? escapeHtml(String(rep.phone || '')) : '';
+  const areaValue = active ? escapeHtml(String(rep.area || '')) : '';
+  const loading = state.repLoading ? `<div class="rep-note">جارٍ التحقق من بيانات المندوب…</div>` : '';
+  document.getElementById('repModalTitle').textContent = 'تسجيل دخول المندوب';
+  document.getElementById('repModalBody').innerHTML = `
+    <div class="rep-modal-grid">
+      <div class="rep-card">
+        <div class="rep-status ${statusClass}">
           <strong>الحالة</strong>
           <strong>${statusText}</strong>
         </div>
         <div class="form-grid">
-          <input class="input" id="agentIdInput" placeholder="كود المندوب" value="${codeValue}" ${active ? 'readonly' : ''} />
-          <input class="input" id="agentPasswordInput" type="password" placeholder="الباسورد" value="${passValue}" ${active ? 'readonly' : ''} />
-          <div class="agent-readonly">${active ? nameValue : 'الاسم'}</div>
-          <div class="agent-readonly">${active ? phoneValue : 'رقم التليفون'}</div>
-          <div class="agent-readonly">${active ? areaValue : 'المنطقة'}</div>
+          <input class="input" id="repCodeInput" placeholder="كود المندوب" value="${codeValue}" ${active ? 'readonly' : ''} />
+          <input class="input" id="repPasswordInput" type="password" placeholder="الباسورد" value="${passValue}" ${active ? 'readonly' : ''} />
+          <div class="rep-readonly">${active ? nameValue : 'الاسم'}</div>
+          <div class="rep-readonly">${active ? phoneValue : 'رقم التليفون'}</div>
+          <div class="rep-readonly">${active ? areaValue : 'المنطقة'}</div>
         </div>
-        <div class="agent-note">سيتم حفظ تسجيل الدخول على الجهاز الحالي فقط.</div>
+        <div class="rep-note">سيتم حفظ تسجيل الدخول على الجهاز الحالي فقط.</div>
         ${loading}
-        <button class="${buttonClass}" type="button" id="agentSubmitBtn">${buttonText}</button>
+        <button class="${buttonClass}" type="button" id="repSubmitBtn">${buttonText}</button>
       </div>
     </div>
   `;
-  const submitBtn = document.getElementById('agentSubmitBtn');
-  if (submitBtn) submitBtn.onclick = active ? logoutAgent : submitAgentLogin;
-  const codeInput = document.getElementById('agentIdInput');
-  const passInput = document.getElementById('agentPasswordInput');
+  const submitBtn = document.getElementById('repSubmitBtn');
+  if (submitBtn) submitBtn.onclick = active ? logoutRep : submitRepLogin;
+  const codeInput = document.getElementById('repCodeInput');
+  const passInput = document.getElementById('repPasswordInput');
   if (!active && codeInput) codeInput.focus();
   if (!active && codeInput) codeInput.oninput = () => {};
   if (!active && passInput) passInput.oninput = () => {};
 }
-async function submitAgentLogin() {
-  const code = String(document.getElementById('agentIdInput')?.value || '').trim();
-  const password = String(document.getElementById('agentPasswordInput')?.value || '').trim();
+async function submitRepLogin() {
+  const code = String(document.getElementById('repCodeInput')?.value || '').trim();
+  const password = String(document.getElementById('repPasswordInput')?.value || '').trim();
   if (!code || !password) {
     toast('البيانات غير صحيحة', 'bad');
     return;
   }
-  state.agentLoading = true;
-  renderAgentOverlay('login');
-  await loadAgentDirectory();
-  const found = findAgentRecord(code, password);
-  state.agentLoading = false;
+  state.repLoading = true;
+  renderRepOverlay('login');
+  await loadRepDirectory();
+  const found = findRepRecord(code, password);
+  state.repLoading = false;
   if (!found) {
-    renderAgentOverlay('login');
+    renderRepOverlay('login');
     toast('البيانات غير صحيحة', 'bad');
     return;
   }
-  state.agent = { name: found.name || 'المندوب', phone: found.phone || '', area: found.area || '', active: true, code: found.code || code };
-  saveJSON('alahram_agent', state.agent);
-  updateAgentHeader();
-  renderAgentOverlay('profile');
-  closeAgentOverlay();
-  toast(`أهلاً بيك يا ${state.agent.name} 👋`, 'good');
+  state.rep = { name: found.name || 'المندوب', phone: found.phone || '', area: found.area || '', active: true, code: found.code || code };
+  saveJSON('alahram_rep', state.rep);
+  updateRepHeader();
+  renderRepOverlay('profile');
+  closeRepOverlay();
+  toast(`أهلاً بيك يا ${state.rep.name} 👋`, 'good');
 }
-function logoutAgent() {
-  state.agent = null;
-  try { localStorage.removeItem('alahram_agent'); } catch (e) {}
-  updateAgentHeader();
-  renderAgentOverlay('login');
-  closeAgentOverlay();
+function logoutRep() {
+  state.rep = null;
+  try { localStorage.removeItem('alahram_rep'); } catch (e) {}
+  updateRepHeader();
+  renderRepOverlay('login');
+  closeRepOverlay();
   toast('تم تسجيل الخروج', 'info');
 }
 function loadJSON(key, fallback) {
@@ -1005,12 +1005,12 @@ function bindUI() {
   el('closeProductBtn').addEventListener('click', closeProductOverlay);
   el('productOverlay').addEventListener('click', (e) => { if (e.target.id === 'productOverlay') closeProductOverlay(); });
   el('tierBtn').addEventListener('click', () => goTiers());
-  const agentHeaderState = el('agentHeaderState');
-  if (agentHeaderState) agentHeaderState.addEventListener('click', () => openAgentOverlay(agentIsActive() ? 'profile' : 'login'));
+  const repHeaderBtn = el('repHeaderBtn');
+  if (repHeaderBtn) repHeaderBtn.addEventListener('click', () => openRepOverlay(repIsActive() ? 'profile' : 'login'));
   const closeRepBtn = el('closeRepBtn');
-  if (closeRepBtn) closeRepBtn.addEventListener('click', closeAgentOverlay);
-  const agentOverlay = el('agentOverlay');
-  if (agentOverlay) agentOverlay.addEventListener('click', (e) => { if (e.target.id === 'agentOverlay') closeAgentOverlay(); });
+  if (closeRepBtn) closeRepBtn.addEventListener('click', closeRepOverlay);
+  const repOverlay = el('repOverlay');
+  if (repOverlay) repOverlay.addEventListener('click', (e) => { if (e.target.id === 'repOverlay') closeRepOverlay(); });
   setInterval(() => {
     state.flashTick = Date.now();
     if (state.view === 'home') updateHomeFlashChip();
@@ -1036,7 +1036,7 @@ async function loadSettings() {
   try {
     const data = await apiRequest('settings');
     state.settings = data && data.settings ? data.settings : {};
-    hydrateAgentDirectory();
+    hydrateRepDirectory();
   } catch (e) { state.settings = {}; }
 }
 async function loadTiers() {
@@ -1265,7 +1265,7 @@ function renderTiers() {
     ${renderSearchBox('ابحث في النظام...')}
     <div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div>
     <div class="action-row">
-      <button class="action-card" onclick="openAgentOverlay(agentIsActive() ? 'profile' : 'login')">
+      <button class="action-card" onclick="openRepOverlay(repIsActive() ? 'profile' : 'login')">
         <div class="label">دخول المندوب</div>
         <div class="desc">تسجيل الدخول أو الخروج من الحساب</div>
       </button>
@@ -1359,7 +1359,7 @@ function renderCurrentView(resetScroll = false) {
   updateFooterTier();
   updateCartUI();
   updateFlashUI();
-  updateAgentHeader();
+  updateRepHeader();
   if (state.view === 'home') updateHomeFlashChip();
 }
 function updateFooterTier() {
@@ -1947,22 +1947,22 @@ function openCheckoutModal() {
     return;
   }
   const totals = getCartAnalysis();
-  const senderName = agentIsActive() ? agentDisplayName() : '';
-  const senderPhone = agentIsActive() ? agentDisplayPhone() : '';
+  const senderName = repIsActive() ? repDisplayName() : '';
+  const senderPhone = repIsActive() ? repDisplayPhone() : '';
   openOverlay('إتمام الطلب', `
     <div class="checkout-grid">
       <div class="checkout-summary">
         <div><strong>عدد الأصناف:</strong> ${state.cart.length}</div>
         <div><strong>الإجمالي:</strong> ${formatMoney(totals.total)} ج.م</div>
         <div><strong>الشريحة:</strong> ${escapeHtml(state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || '') : 'لا يوجد')}</div>
-        <div><strong>المرسل:</strong> ${escapeHtml(agentIsActive() ? senderName : 'العميل')}</div>
+        <div><strong>المرسل:</strong> ${escapeHtml(repIsActive() ? senderName : 'العميل')}</div>
       </div>
       <div class="form-grid">
-        <input class="input" id="checkoutName" placeholder="${agentIsActive() ? 'اسم العميل (اختياري)' : 'اسم العميل *'}" oninput="validateCheckoutRealtime()" />
+        <input class="input" id="checkoutName" placeholder="${repIsActive() ? 'اسم العميل (اختياري)' : 'اسم العميل *'}" oninput="validateCheckoutRealtime()" />
         <div id="checkoutNameError" class="checkout-field-error">اسم العميل مطلوب</div>
-        <input class="input" id="checkoutPhone" placeholder="${agentIsActive() ? 'رقم العميل (اختياري)' : 'رقم التليفون *'}" inputmode="tel" oninput="validateCheckoutRealtime()" />
+        <input class="input" id="checkoutPhone" placeholder="${repIsActive() ? 'رقم العميل (اختياري)' : 'رقم التليفون *'}" inputmode="tel" oninput="validateCheckoutRealtime()" />
         <div id="checkoutPhoneError" class="checkout-field-error">رقم التليفون غير صحيح</div>
-        <textarea class="input" id="checkoutAddress" rows="3" placeholder="${agentIsActive() ? 'العنوان (اختياري)' : 'العنوان *'}" oninput="validateCheckoutRealtime()"></textarea>
+        <textarea class="input" id="checkoutAddress" rows="3" placeholder="${repIsActive() ? 'العنوان (اختياري)' : 'العنوان *'}" oninput="validateCheckoutRealtime()"></textarea>
         <div id="checkoutAddressError" class="checkout-field-error">العنوان مطلوب</div>
         <div class="checkout-location">
           <button class="chip" type="button" onclick="addCheckoutLocation()">📍 أضف لوكيشن</button>
@@ -1977,13 +1977,13 @@ function openCheckoutModal() {
     </div>
   `);
   setTimeout(() => {
-    if (agentIsActive()) {
+    if (repIsActive()) {
       const nameEl = document.getElementById('checkoutName');
       const phoneEl = document.getElementById('checkoutPhone');
       const addressEl = document.getElementById('checkoutAddress');
       if (nameEl && !nameEl.value) nameEl.value = '';
       if (phoneEl && !phoneEl.value && senderPhone) phoneEl.value = senderPhone;
-      if (addressEl && !addressEl.value && agentDisplayArea()) addressEl.value = agentDisplayArea();
+      if (addressEl && !addressEl.value && repDisplayArea()) addressEl.value = repDisplayArea();
     }
     validateCheckoutRealtime();
   }, 0);
@@ -2000,7 +2000,7 @@ function validateCheckoutRealtime() {
   const n = String(name.value || '').trim();
   const p = String(phone.value || '').trim();
   const a = String(address.value || '').trim();
-  const allowOptional = agentIsActive();
+  const allowOptional = repIsActive();
   const phoneOk = allowOptional ? (!p || /^01\d{9}$/.test(p.replace(/\s+/g, ''))) : /^01\d{9}$/.test(p.replace(/\s+/g, ''));
   const okName = allowOptional ? true : !!n;
   const okAddress = allowOptional ? true : !!a;
@@ -2035,8 +2035,8 @@ function buildWhatsAppMessage() {
   const address = String(document.getElementById('checkoutAddress')?.value || '').trim();
   const location = String(document.getElementById('checkoutLocation')?.value || state.checkoutGeo || '').trim();
   const tierName = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || '') : 'لا يوجد';
-  const senderName = agentIsActive() ? agentDisplayName() : clientName;
-  const senderPhone = agentIsActive() ? agentDisplayPhone() : clientPhone;
+  const senderName = repIsActive() ? repDisplayName() : clientName;
+  const senderPhone = repIsActive() ? repDisplayPhone() : clientPhone;
   const lines = [];
   const hasOffer = state.cart.some(item => item.isOffer || String(item.type) === 'offer');
   const hasFlash = state.cart.some(item => item.isFlash || String(item.type) === 'flash');
@@ -2209,501 +2209,5 @@ function renderCurrentView(resetScroll = false) {
   if (state.view === 'home') updateHomeFlashChip();
 }
 </script>
-
-<style>
-  /* تعديلات الواجهة النهائية */
-  .topbar-inner{gap:8px}
-  .companies{gap:12px}
-  .company-card{min-height:130px}
-  .catalog{grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
-  .special-list{grid-template-columns:1fr}
-  .page-footer{padding-bottom:8px}
-</style>
-<script>
-(function(){
-  // ====== Agent ======
-  function agentIsActive(){ return !!(state.agent && state.agent.active); }
-  function agentDisplayName(){ return agentIsActive() ? String(state.agent.agent_name || state.agent.name || '').trim() : ''; }
-  function agentDisplayPhone(){ return agentIsActive() ? String(state.agent.agent_phone || state.agent.phone || '').trim() : ''; }
-  function agentDisplayArea(){ return agentIsActive() ? String(state.agent.agent_region || state.agent.area || '').trim() : ''; }
-
-  function updateAgentHeader(){
-    const pill = $('agentHeaderState');
-    const name = $('agentHeaderName');
-    const sub = $('agentHeaderSub');
-    const active = agentIsActive();
-    if (pill) pill.classList.toggle('active', active);
-    if (name) name.textContent = active ? agentDisplayName() : 'دخول المندوب';
-    if (sub) sub.textContent = active ? `${agentDisplayPhone()}${agentDisplayArea() ? ' • ' + agentDisplayArea() : ''}` : 'جاهز للتسجيل';
-  }
-
-  function renderAgentOverlay(){
-    const active = agentIsActive();
-    const statusClass = active ? 'good' : 'bad';
-    const statusText = active ? 'نشط' : 'غير مفعل';
-    const buttonText = active ? 'تسجيل خروج' : 'تسجيل الدخول';
-    const codeValue = active ? String(state.agent.agent_id || state.agent.agentCode || state.agent.code || '') : '';
-    const nameValue = active ? String(state.agent.agent_name || state.agent.name || '') : '';
-    const phoneValue = active ? String(state.agent.agent_phone || state.agent.phone || '') : '';
-    const areaValue = active ? String(state.agent.agent_region || state.agent.area || '') : '';
-    $('agentModalTitle').textContent = 'تسجيل دخول المندوب';
-    $('agentModalBody').innerHTML = `
-      <div class="agent-grid">
-        <div class="agent-card">
-          <div class="agent-status ${statusClass}"><strong>الحالة</strong><strong>${statusText}</strong></div>
-          <div class="form-grid">
-            <input class="input" id="agentIdInput" placeholder="كود المندوب" value="${escapeHtml(codeValue)}" ${active ? 'readonly' : ''} />
-            <input class="input" id="agentPasswordInput" type="password" placeholder="الباسورد" value="" ${active ? 'readonly' : ''} />
-            <div class="agent-readonly">${active ? escapeHtml(nameValue) : 'الاسم'}</div>
-            <div class="agent-readonly">${active ? escapeHtml(phoneValue) : 'رقم التليفون'}</div>
-            <div class="agent-readonly">${active ? escapeHtml(areaValue) : 'المنطقة'}</div>
-          </div>
-          <div class="msg">سيتم حفظ تسجيل الدخول على الجهاز الحالي فقط.</div>
-          <div class="msg" id="agentFeedback" style="min-height:20px;color:${active ? 'var(--good)' : 'var(--muted)'}">${state.agentBusy ? 'جارٍ التحقق من البيانات…' : escapeHtml(state.agentError || '')}</div>
-          <button class="submit-btn" id="agentSubmitBtn" type="button">${buttonText}</button>
-        </div>
-      </div>
-    `;
-    const submitBtn = $('agentSubmitBtn');
-    if (submitBtn) submitBtn.onclick = active ? logoutAgent : submitAgentLogin;
-    if (!active && $('agentIdInput')) $('agentIdInput').focus();
-  }
-
-  function openAgentOverlay(){
-    renderAgentOverlay();
-    $('agentOverlay').classList.add('show');
-    $('agentOverlay').setAttribute('aria-hidden','false');
-  }
-  function closeAgentOverlay(){
-    $('agentOverlay').classList.remove('show');
-    $('agentOverlay').setAttribute('aria-hidden','true');
-  }
-
-  async function submitAgentLogin(){
-    const agent_id = String($('agentIdInput')?.value || '').trim();
-    const password = String($('agentPasswordInput')?.value || '').trim();
-    if (!agent_id || !password) { toast('البيانات غير صحيحة', 'bad'); return; }
-    state.agentError = '';
-    state.agentBusy = true;
-    renderAgentOverlay();
-    try {
-      const data = await apiPost('auth/login', { agent_id, password });
-      state.agent = {
-        active: true,
-        agent_id,
-        agent_name: data?.agent_name || '',
-        agent_phone: data?.agent_phone || '',
-        agent_region: data?.agent_region || ''
-      };
-      saveJSON('alahram_agent', state.agent);
-      updateAgentHeader();
-      closeAgentOverlay();
-      toast(`أهلاً بيك يا ${state.agent.agent_name || 'المندوب'} 👋`, 'good');
-    } catch (err) {
-      state.agentError = err && err.message ? err.message : 'البيانات غير صحيحة';
-      renderAgentOverlay();
-      toast('البيانات غير صحيحة', 'bad');
-    } finally {
-      state.agentBusy = false;
-    }
-  }
-
-  function logoutAgent(){
-    state.agent = null;
-    state.agentError = '';
-    try { localStorage.removeItem('alahram_agent'); } catch(e){}
-    updateAgentHeader();
-    renderAgentOverlay();
-    closeAgentOverlay();
-    toast('تم تسجيل الخروج', 'info');
-  }
-
-  // ====== Footer / Navigation ======
-  function pageFooterHTML(){
-    return `
-      <div class="page-footer">
-        <div class="footer-actions">
-          <button class="back-btn" type="button" onclick="goHome()">الرئيسية</button>
-          <button class="back-btn" type="button" onclick="history.back()">رجوع</button>
-        </div>
-        <div class="contact-row">
-          <a class="contact-link" href="${CONTACT.waLink}" target="_blank" rel="noopener" aria-label="واتساب">📲</a>
-          <a class="contact-link" href="tel:${CONTACT.phone}" aria-label="اتصال">📞</a>
-          <a class="contact-link" href="${CONTACT.facebook}" target="_blank" rel="noopener" aria-label="فيسبوك">f</a>
-        </div>
-        <div class="signature">تم التصميم بواسطة YaSsEr EL Joker</div>
-      </div>`;
-  }
-
-  // ====== Products / cards ======
-  function renderProductCard(p){
-    const availableUnits = UNIT_ORDER.filter(u => Number((p.base_prices || {})[u] || 0) > 0);
-    const unit = getSelectedUnit(p.id, availableUnits);
-    const price = resolvePrice(p, unit);
-    const inCart = findCartIndex('product', p.id, unit) >= 0;
-    const current = state.cart.find(x => x.type === 'product' && String(x.id) === String(p.id) && String(x.unit) === String(unit));
-    const qtyDraft = current ? String(current.qty || '') : getQtyDraft(p.id, unit);
-    return `
-      <article class="card">
-        <button class="img" type="button" onclick='openProductById(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)})'>
-          <img src="${escapeHtml(cardImage(p.image))}" alt="${escapeHtml(p.name || '')}" loading="lazy" />
-        </button>
-        <div class="body">
-          <button class="title-btn" type="button" onclick='openProductById(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)})'><div class="title">${escapeHtml(p.name || '')}</div></button>
-          ${availableUnits.length ? `<div class="units">${availableUnits.map(u => `<button class="unit-btn ${unit === u ? 'active' : ''}" onclick='setSelectedUnit(${JSON.stringify(String(p.id))}, ${JSON.stringify(u)})'>${UNIT_LABELS[u]}</button>`).join('')}</div>` : ''}
-          <div class="price">${price.changed ? `<div class="old">${formatMoney(price.base)} ج.م</div>` : ''}<div class="now">${formatMoney(price.current)} ج.م</div></div>
-          <div style="display:grid;grid-template-columns:34px 1fr 34px;gap:6px;align-items:center">
-            <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, -1)'>−</button>
-            <input class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" placeholder="الكمية" value="${escapeHtml(qtyDraft)}" oninput='setCardQtyFromInput(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, this.value)' />
-            <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, 1)'>+</button>
-          </div>
-          <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCart(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
-        </div>
-      </article>`;
-  }
-
-  function openProductOverlay(product, unit){
-    state.productModalItem = { product, unit };
-    const availableUnits = UNIT_ORDER.filter(u => Number((product.base_prices || {})[u] || 0) > 0);
-    const selectedUnit = unit && availableUnits.includes(unit) ? unit : (availableUnits[0] || 'piece');
-    const pr = resolvePrice(product, selectedUnit);
-    const inCart = findCartIndex('product', product.id, selectedUnit) >= 0;
-    const current = state.cart.find(x => x.type === 'product' && String(x.id) === String(product.id) && String(x.unit) === String(selectedUnit));
-    const draft = current ? String(current.qty || '') : getQtyDraft(product.id, selectedUnit);
-    $('productModalTitle').textContent = product.name || 'تفاصيل المنتج';
-    $('productModalBody').innerHTML = `
-      <div class="card" style="border-radius:22px;overflow:hidden;margin-bottom:12px">
-        <div class="img" style="aspect-ratio:auto;height:min(44vh,420px)">
-          <img src="${escapeHtml(cardImage(product.image))}" alt="${escapeHtml(product.name || '')}" style="width:100%;height:100%;object-fit:contain;padding:12px" />
-        </div>
-        <div class="body">
-          <div class="title" style="font-size:16px;min-height:auto">${escapeHtml(product.name || '')}</div>
-          <div class="units">${availableUnits.map(u => `<button class="unit-btn ${selectedUnit===u?'active':''}" onclick='setModalUnit(${JSON.stringify(String(product.id))}, ${JSON.stringify(u)})'>${UNIT_LABELS[u]}</button>`).join('')}</div>
-          <div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div>
-          <div style="display:grid;grid-template-columns:34px 1fr 34px;gap:6px;align-items:center">
-            <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1)'>−</button>
-            <input id="modalQtyInput" class="input" style="text-align:center;padding:10px 8px;border-radius:14px" inputmode="numeric" placeholder="الكمية" value="${escapeHtml(draft)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value)' />
-            <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1)'>+</button>
-          </div>
-          <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCartFromModal(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
-          ${product.company ? `<div class="msg"><strong>الشركة:</strong> ${escapeHtml(product.company)}</div>` : ''}
-          ${product.id ? `<div class="msg"><strong>الكود:</strong> ${escapeHtml(String(product.id))}</div>` : ''}
-          ${product.description ? `<div class="msg"><strong>الوصف:</strong> ${escapeHtml(product.description)}</div>` : ''}
-        </div>
-      </div>`;
-    $('productOverlay').classList.add('show');
-    $('productOverlay').setAttribute('aria-hidden','false');
-  }
-
-  function toggleProductToCart(productId, unit, directProduct = null){
-    const product = directProduct || state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
-    if (!product) { toast('الصنف غير متاح الآن', 'bad'); return; }
-    const idx = findCartIndex('product', productId, unit);
-    if (idx >= 0) {
-      state.cart.splice(idx, 1);
-      saveCart();
-      renderCart();
-      renderCurrentView();
-      toast('تمت الإزالة من السلة', 'bad');
-      return;
-    }
-    const qty = parseQty(getQtyDraft(productId, unit));
-    if (qty <= 0) { toast('لا يمكن إضافة كمية صفر', 'warn'); return; }
-    const allowed = canAddProductQty(product, unit, qty, -1);
-    if (!allowed.ok) { toast('الكمية دي أكبر من الحد المناسب للشريحة', 'bad'); return; }
-    state.cart.push({ type:'product', id:String(product.id), name:product.name, company:product.company, image:product.image, unit, qty, base_prices:product.base_prices, tier_prices:product.tier_prices || {}, product_snapshot:product, isOffer:false, isFlash:false });
-    saveCart();
-    renderCart();
-    renderCurrentView();
-    toast('تمت الإضافة للسلة', 'good');
-  }
-  function toggleProductToCartFromModal(productId, unit){ const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product; if (!product) return; toggleProductToCart(productId, unit, product); }
-  function changeCardQty(productId, unit, delta){ const product = state.products.find(p => String(p.id) === String(productId)); if (!product) return; const idx = findCartIndex('product', productId, unit); const current = idx >= 0 ? Number(state.cart[idx].qty || 0) : parseQty(getQtyDraft(productId, unit)); const base = current > 0 ? current : 0; const next = Math.max(1, base + Number(delta || 0)); if (idx >= 0) { state.cart[idx].qty = next; saveCart(); } else { setQtyDraft(productId, unit, String(next)); } renderCurrentView(); }
-  function setCardQtyFromInput(productId, unit, rawValue){ const idx = findCartIndex('product', productId, unit); if (idx >= 0) { const q = parseQty(rawValue); state.cart[idx].qty = q > 0 ? q : 1; saveCart(); } else { setQtyDraft(productId, unit, rawValue); } }
-  function changeModalQty(productId, unit, delta){ const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product; if (!product) return; const idx = findCartIndex('product', productId, unit); const current = idx >= 0 ? Number(state.cart[idx].qty || 0) : parseQty(getQtyDraft(productId, unit)); const base = current > 0 ? current : 0; const next = Math.max(1, base + Number(delta || 0)); if (idx >= 0) { state.cart[idx].qty = next; saveCart(); } else { setQtyDraft(productId, unit, String(next)); } openProductOverlay(product, unit); }
-  function setModalQtyFromInput(productId, unit, rawValue){ const idx = findCartIndex('product', productId, unit); if (idx >= 0) { const q = parseQty(rawValue); state.cart[idx].qty = q > 0 ? q : 1; saveCart(); } else { setQtyDraft(productId, unit, rawValue); } }
-  function setModalUnit(productId, unit){ localStorage.setItem(`alahram_unit_${productId}`, unit); if (state.productModalItem && String(state.productModalItem.product.id) === String(productId)) openProductOverlay(state.productModalItem.product, unit); }
-
-  function addSpecialToCart(type, item){
-    if (state.cart.some(x => x.type === type && String(x.id) === String(item.id))) { toast('تم شراء العرض بالفعل', 'info'); return; }
-    state.cart.push({ type, id:String(item.id), unit:type, name:item.name, company:type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم', price:Number(item.price || 0), qty:1, image:item.image, details:item.details || '', isOffer:type === 'offer', isFlash:type === 'flash' });
-    saveCart();
-    renderCart();
-    renderCurrentView();
-    toast(type === 'flash' ? 'تم شراء عرض الساعة' : 'تم شراء صفقة اليوم', 'good');
-  }
-
-  function renderOfferCard(o){
-    const already = state.cart.some(x => x.type === 'offer' && String(x.id) === String(o.id));
-    return `
-      <article class="special-card">
-        <button class="img" type="button" onclick='openOfferModalById(${JSON.stringify('offer')}, ${JSON.stringify(String(o.id))})'><img src="${escapeHtml(cardImage(o.image))}" alt="${escapeHtml(o.name || '')}" loading="lazy" /></button>
-        <div class="body">
-          <button class="title-btn" type="button" onclick='openOfferModalById(${JSON.stringify('offer')}, ${JSON.stringify(String(o.id))})'><div class="title">${escapeHtml(o.name || 'عرض')}</div></button>
-          <div class="meta">${escapeHtml(o.details || '')}</div>
-          <div class="price"><div class="now">${formatMoney(o.price || 0)} ج.م</div></div>
-          <button class="buy-btn ${already ? 'done' : ''}" ${already ? 'disabled' : ''} onclick='addSpecialById(${JSON.stringify('offer')}, ${JSON.stringify(String(o.id))})'>${already ? 'تم الشراء' : 'شراء'}</button>
-        </div>
-      </article>`;
-  }
-  function renderFlashCard(o){
-    const already = state.cart.some(x => x.type === 'flash' && String(x.id) === String(o.id));
-    return `
-      <article class="special-card">
-        <button class="img" type="button" onclick='openOfferModalById(${JSON.stringify('flash')}, ${JSON.stringify(String(o.id))})'><img src="${escapeHtml(cardImage(o.image))}" alt="${escapeHtml(o.display_title || o.name || '')}" loading="lazy" /></button>
-        <div class="body">
-          <button class="title-btn" type="button" onclick='openOfferModalById(${JSON.stringify('flash')}, ${JSON.stringify(String(o.id))})'><div class="title">${escapeHtml(o.display_title || o.name || 'عرض الساعة')}</div></button>
-          <div class="meta">${escapeHtml(o.display_subtitle || o.details || o.description || '')}</div>
-          <div class="meta" id="flashCountdown_${escapeHtml(String(o.id))}">${escapeHtml(flashCountdownText(flashEndIso(o)))}</div>
-          <div class="price"><div class="now">${formatMoney(o.price || 0)} ج.م</div></div>
-          <button class="buy-btn ${already ? 'done' : ''}" ${already ? 'disabled' : ''} onclick='addSpecialById(${JSON.stringify('flash')}, ${JSON.stringify(String(o.id))})'>${already ? 'تم الشراء' : 'شراء'}</button>
-        </div>
-      </article>`;
-  }
-  function openOfferModalById(type, id){
-    const source = type === 'flash' ? state.flashOffers : state.offers;
-    const item = (source || []).find(x => String(x.id) === String(id));
-    if (!item) return;
-    openOfferModal({ id:item.id, name:item.name || item.display_title || 'عرض', price:item.price || 0, image:item.image, details:item.details || item.display_subtitle || item.description || '' }, type);
-  }
-  function addSpecialById(type, id){ const source = type === 'flash' ? state.flashOffers : state.offers; const item = (source || []).find(x => String(x.id) === String(id)); if (!item) return; addSpecialToCart(type, { id:item.id, name:item.name || item.display_title || 'عرض', price:item.price || 0, image:item.image, details:item.details || item.display_subtitle || item.description || '' }); }
-  function openOfferModal(item, type){ const already = state.cart.some(x => x.type === type && String(x.id) === String(item.id)); openOverlay(type === 'flash' ? 'عرض الساعة' : 'تفاصيل العرض', `<div class="special-card"><div class="img"><img src="${escapeHtml(cardImage(item.image))}" alt="${escapeHtml(item.name || '')}" /></div><div class="body"><div class="title">${escapeHtml(item.name || '')}</div><div class="meta">${escapeHtml(item.details || '')}</div>${type === 'flash' ? `<div class="meta" id="flashPopupCountdown_${escapeHtml(String(item.id))}">${escapeHtml(flashCountdownText(flashEndIso(item)))}</div>` : ''}<div class="price"><div class="now">${formatMoney(item.price || 0)} ج.م</div></div><button class="buy-btn ${already ? 'done' : ''}" ${already ? 'disabled' : ''} onclick='addSpecialFromModal(${JSON.stringify(type)}, ${JSON.stringify(String(item.id))})'>${already ? 'تم الشراء' : 'شراء'}</button></div></div>`); }
-  function addSpecialFromModal(type, id){ addSpecialById(type, id); closeOverlay(); }
-  function renderOffers(){ const active = (state.offers || []).filter(o => o.active !== false); $('main').innerHTML = `${renderSearchBox()}<div class="section-head"><div><h2>صفقة اليوم</h2><p>العروض هنا لا تدخل في احتساب الشريحة</p></div></div>${active.length ? `<div class="special-list">${active.map(renderOfferCard).join('')}</div>` : '<div class="empty">لا توجد عروض مفعلة الآن.</div>'}${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
-  function renderFlashOffers(){ const live = getLiveFlashOffers(); $('main').innerHTML = `${renderSearchBox()}<div class="section-head"><div><h2>عرض الساعة</h2><p>العرض يظهر فقط إذا كان نشطًا الآن</p></div></div>${live.length ? `<div class="special-list">${live.map(renderFlashCard).join('')}</div>` : '<div class="empty">لا يوجد عرض ساعة نشط الآن.</div>'}${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
-  function renderCompaniesPage(){ const companies = state.companies || []; $('main').innerHTML = `${renderSearchBox()}<div class="companies">${companies.map(c => `<div class="company-card ${state.selectedCompany === c.name ? 'active' : ''}" onclick='goCompany(${JSON.stringify(c.name)})'>${c.logo ? `<img class="company-img" src="${escapeHtml(cardImage(c.logo))}" alt="${escapeHtml(c.name)}" loading="lazy" />` : `<div class="company-logo">${escapeHtml(companyInitials(c.name))}</div>`}<div class="company-name">${escapeHtml(c.name)}</div></div>`).join('')}</div>${pageFooterHTML()}`; initSearchBox(); }
-  function renderTiers(){ $('main').innerHTML = `${renderSearchBox('ابحث في النظام...')}<div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div><div class="action-row"><button class="action-card" onclick="goCompanies()"><div class="label">الشركات</div><div class="desc">ارجع لعرض الشركات والمنتجات</div></button>${(state.tiers || []).map(t => `<button class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick='pickTier(${JSON.stringify(t.tier_name)})'><div class="label">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div><div class="desc">الحد الأدنى: ${formatMoney(t.tier_min || 0)} ج.م</div><div class="desc">${escapeHtml(t.tier_description || '')}</div></button>`).join('')}<button class="action-card" onclick="openAgentOverlay()"><div class="label">دخول المندوب</div><div class="desc">تسجيل الدخول أو الخروج من الحساب</div></button></div>${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
-  function renderHome(){ const companies = state.companies || []; $('main').innerHTML = `<div class="shortcut-row"><button class="chip primary" onclick="goTiers()">الشريحة</button><button class="chip good" onclick="goOffers()">صفقة اليوم</button><button class="chip gold" id="homeFlashBtn" onclick="goFlash()"><strong>عرض الساعة</strong><small id="homeFlashCountdown">لا يوجد عرض نشط</small></button></div>${renderSearchBox()}<div class="section-head"><div><h2>الشركات</h2><p>اضغط على الشركة لفتح منتجاتها فورًا</p></div></div><div class="companies">${companies.slice(0,60).map(c => `<div class="company-card ${state.selectedCompany === c.name ? 'active' : ''}" onclick='goCompany(${JSON.stringify(c.name)})'>${c.logo ? `<img class="company-img" src="${escapeHtml(cardImage(c.logo))}" alt="${escapeHtml(c.name)}" loading="lazy" />` : `<div class="company-logo">${escapeHtml(companyInitials(c.name))}</div>`}<div class="company-name">${escapeHtml(c.name)}</div></div>`).join('')}</div>${pageFooterHTML()}`; initSearchBox(); updateHomeFlashChip(); }
-
-  // ====== Checkout ======
-  function openCheckoutModal(){
-    if (!state.cart.length) { toast('السلة فارغة', 'warn'); return; }
-    const totals = currentCartAnalysis();
-    openOverlay('إتمام الطلب', `
-      <div class="checkout-grid">
-        <div class="checkout-summary">
-          <div><strong>عدد الأصناف:</strong> ${state.cart.length}</div>
-          <div><strong>الإجمالي:</strong> ${formatMoney(totals.total)} ج.م</div>
-          <div><strong>الشريحة:</strong> ${escapeHtml(state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || '') : 'لا يوجد')}</div>
-          <div><strong>المرسل:</strong> ${escapeHtml(agentIsActive() ? agentDisplayName() : 'العميل')}</div>
-        </div>
-        <div class="form-grid">
-          <input class="input" id="checkoutName" placeholder="اسم العميل" />
-          <div id="checkoutNameError" class="checkout-field-error">اسم العميل مطلوب</div>
-          <input class="input" id="checkoutPhone" placeholder="رقم التليفون" inputmode="tel" />
-          <div id="checkoutPhoneError" class="checkout-field-error">رقم التليفون غير صحيح</div>
-          <textarea class="input" id="checkoutAddress" rows="3" placeholder="العنوان"></textarea>
-          <div id="checkoutAddressError" class="checkout-field-error">العنوان مطلوب</div>
-          <div class="checkout-location">
-            <button class="chip" type="button" onclick="addCheckoutLocation()">📍 أضف لوكيشن</button>
-            <small id="checkoutLocationText">اختياري — يمكن إرسال الطلب بدونه</small>
-          </div>
-          <input type="hidden" id="checkoutLocation" value="" />
-        </div>
-        <div class="checkout-actions">
-          <button class="chip primary" id="checkoutSendBtn" type="button" onclick="checkout()">إرسال على واتساب</button>
-          <button class="chip" type="button" onclick="closeOverlay()">إلغاء</button>
-        </div>
-      </div>
-    `);
-    setTimeout(() => { if (agentIsActive()) { if ($('checkoutPhone') && agentDisplayPhone()) $('checkoutPhone').value = agentDisplayPhone(); if ($('checkoutAddress') && agentDisplayArea()) $('checkoutAddress').value = agentDisplayArea(); } validateCheckoutRealtime(); }, 0);
-  }
-  function buildInvoiceMessage(){
-    const clientName = String($('checkoutName')?.value || '').trim();
-    const clientPhone = String($('checkoutPhone')?.value || '').trim();
-    const address = String($('checkoutAddress')?.value || '').trim();
-    const location = String($('checkoutLocation')?.value || state.checkoutGeo || '').trim();
-    const tierName = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || 'لا يوجد') : 'لا يوجد';
-    const senderName = agentIsActive() ? agentDisplayName() : clientName;
-    const senderPhone = agentIsActive() ? agentDisplayPhone() : clientPhone;
-    const hasOffer = state.cart.some(item => item.isOffer || item.type === 'offer');
-    const hasFlash = state.cart.some(item => item.isFlash || item.type === 'flash');
-    const lines = [];
-    lines.push('🧾 طلب فاتورة شراء');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-    lines.push('');
-    lines.push('👤 من:');
-    lines.push(senderName || 'لا يوجد');
-    lines.push('');
-    lines.push('📞 رقم التليفون:');
-    lines.push(senderPhone || 'لا يوجد');
-    lines.push('');
-    lines.push('📍 العنوان:');
-    lines.push(address || 'لا يوجد');
-    lines.push('');
-    lines.push('📌 اللوكيشن:');
-    lines.push(location || 'لا يوجد');
-    lines.push('');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-    lines.push('');
-    lines.push('📊 الشريحة:');
-    lines.push(tierName || 'لا يوجد');
-    lines.push('');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-    lines.push('');
-    lines.push('📦 تفاصيل الطلب:');
-    lines.push('');
-    state.cart.forEach((item, index) => {
-      const qty = Number(item.qty || 1);
-      const unitPrice = Math.round(Number(itemLinePrice(item) || 0));
-      const total = Math.round(qty * Number(itemLinePrice(item) || 0));
-      const unit = item.type === 'product' ? unitLabel(item.unit) : (item.isFlash || item.type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم');
-      lines.push(`${index + 1}️⃣ [${item.id}] ${item.name}`);
-      lines.push(`الوحدة: ${unit}`);
-      lines.push(`سعر الوحدة: ${formatMoney(unitPrice)} ج`);
-      lines.push(`الكمية: ${qty}`);
-      lines.push(`الإجمالي: ${formatMoney(total)} ج`);
-      lines.push('');
-    });
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-    lines.push('');
-    lines.push('🔥 ملاحظات:');
-    if (hasOffer) lines.push('يحتوي على صفقة اليوم ✔️');
-    if (hasFlash) lines.push('يحتوي على عرض الساعة ✔️');
-    if (!hasOffer && !hasFlash) lines.push('لا يوجد');
-    lines.push('');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-    lines.push('');
-    lines.push('💰 الإجمالي الكلي:');
-    lines.push(`${formatMoney(Math.round(currentCartAnalysis().total))} ج`);
-    lines.push('');
-    lines.push('━━━━━━━━━━━━━━━━━━━━━━');
-    lines.push('📌 تم الارسال من متجر الاهرام');
-    return lines.join('\\n');
-  }
-  function checkout(){
-    if (!state.cart.length) { toast('السلة فارغة', 'warn'); return; }
-    if (!validateCheckoutRealtime()) { toast('راجع بيانات العميل أولاً', 'bad'); return; }
-    const message = buildInvoiceMessage();
-    window.open(`${CONTACT.waLink}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
-    closeOverlay();
-    clearCart(false, true);
-    toast('تم تجهيز الطلب على واتساب', 'good');
-  }
-
-  // ====== Validation / agents binding ======
-  function validateCheckoutRealtime(){
-    const name = $('checkoutName'), phone = $('checkoutPhone'), address = $('checkoutAddress');
-    const nameErr = $('checkoutNameError'), phoneErr = $('checkoutPhoneError'), addressErr = $('checkoutAddressError'), sendBtn = $('checkoutSendBtn');
-    if (!name || !phone || !address) return false;
-    const okName = !!String(name.value || '').trim();
-    const okPhone = !String(phone.value || '').trim() || /^01\\d{9}$/.test(String(phone.value || '').replace(/\\s+/g, ''));
-    const okAddress = !!String(address.value || '').trim();
-    if (nameErr) nameErr.classList.toggle('show', !okName);
-    if (phoneErr) phoneErr.classList.toggle('show', !okPhone);
-    if (addressErr) addressErr.classList.toggle('show', !okAddress);
-    if (sendBtn) sendBtn.disabled = !(okName && okPhone && okAddress);
-    return okName && okPhone && okAddress;
-  }
-  function addCheckoutLocation(){
-    const txt = $('checkoutLocationText'), hidden = $('checkoutLocation');
-    if (!navigator.geolocation) { toast('الموقع غير مدعوم على الجهاز', 'warn'); return; }
-    toast('جارٍ جلب الموقع…', 'info');
-    navigator.geolocation.getCurrentPosition(pos => {
-      const { latitude, longitude } = pos.coords || {};
-      const link = `https://maps.google.com/?q=${latitude},${longitude}`;
-      state.checkoutGeo = link;
-      if (hidden) hidden.value = link;
-      if (txt) txt.textContent = link;
-      toast('تم إضافة اللوكيشن', 'good');
-    }, () => toast('تعذر تحديد الموقع', 'bad'), { enableHighAccuracy: true, timeout: 10000 });
-  }
-
-  function bindUI(){
-    $('homeBtn').addEventListener('click', () => goHome());
-    $('cartTotalBtn').addEventListener('click', () => openCart());
-    $('closeCartBtn').addEventListener('click', () => closeCart());
-    $('clearCartBtn').addEventListener('click', () => clearCart(true));
-    $('checkoutBtn').addEventListener('click', () => openCheckoutModal());
-    $('closeOverlayBtn').addEventListener('click', closeOverlay);
-    $('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') closeOverlay(); });
-    $('closeProductBtn').addEventListener('click', closeProductOverlay);
-    $('productOverlay').addEventListener('click', (e) => { if (e.target.id === 'productOverlay') closeProductOverlay(); });
-    $('tierBtn').addEventListener('click', () => goTiers());
-    $('closeAgentBtn').addEventListener('click', closeAgentOverlay);
-    $('agentOverlay').addEventListener('click', (e) => { if (e.target.id === 'agentOverlay') closeAgentOverlay(); });
-    // لا يوجد زر دخول في الهيدر؛ فقط بطاقة حالة ثابتة
-    setInterval(() => {
-      state.flashTick = Date.now();
-      if (state.view === 'home') updateHomeFlashChip();
-      updateFlashUI();
-      updateFlashCountdowns();
-      updateFooterTier();
-    }, 1000);
-  }
-
-  function renderCurrentView(resetScroll = false){
-    if (state.view === 'home') renderHome();
-    else if (state.view === 'tiers') renderTiers();
-    else if (state.view === 'companies') renderCompaniesPage();
-    else if (state.view === 'offers') renderOffers();
-    else if (state.view === 'flash') renderFlashOffers();
-    else if (state.view === 'products') renderProductsList(resetScroll);
-    updateFooterTier(); renderCart(); updateFlashUI(); updateAgentHeader(); if (state.view === 'home') updateHomeFlashChip();
-  }
-
-  async function bootPatch(){
-    updateAgentHeader();
-    renderCart();
-    renderCurrentView();
-  }
-
-  // expose overrides
-  window.agentIsActive = agentIsActive;
-  window.agentDisplayName = agentDisplayName;
-  window.agentDisplayPhone = agentDisplayPhone;
-  window.agentDisplayArea = agentDisplayArea;
-  window.updateAgentHeader = updateAgentHeader;
-  window.renderAgentOverlay = renderAgentOverlay;
-  window.openAgentOverlay = openAgentOverlay;
-  window.closeAgentOverlay = closeAgentOverlay;
-  window.submitAgentLogin = submitAgentLogin;
-  window.logoutAgent = logoutAgent;
-  window.pageFooterHTML = pageFooterHTML;
-  window.renderProductCard = renderProductCard;
-  window.openProductOverlay = openProductOverlay;
-  window.toggleProductToCart = toggleProductToCart;
-  window.toggleProductToCartFromModal = toggleProductToCartFromModal;
-  window.changeCardQty = changeCardQty;
-  window.setCardQtyFromInput = setCardQtyFromInput;
-  window.changeModalQty = changeModalQty;
-  window.setModalQtyFromInput = setModalQtyFromInput;
-  window.setModalUnit = setModalUnit;
-  window.addSpecialToCart = addSpecialToCart;
-  window.renderOfferCard = renderOfferCard;
-  window.renderFlashCard = renderFlashCard;
-  window.openOfferModalById = openOfferModalById;
-  window.addSpecialById = addSpecialById;
-  window.openOfferModal = openOfferModal;
-  window.addSpecialFromModal = addSpecialFromModal;
-  window.renderOffers = renderOffers;
-  window.renderFlashOffers = renderFlashOffers;
-  window.renderCompaniesPage = renderCompaniesPage;
-  window.renderTiers = renderTiers;
-  window.renderHome = renderHome;
-  window.openCheckoutModal = openCheckoutModal;
-  window.buildInvoiceMessage = buildInvoiceMessage;
-  window.checkout = checkout;
-  window.validateCheckoutRealtime = validateCheckoutRealtime;
-  window.addCheckoutLocation = addCheckoutLocation;
-  window.bindUI = bindUI;
-  window.renderCurrentView = renderCurrentView;
-  window.pickTier = pickTier;
-  window.confirmTierPassword = confirmTierPassword;
-  window.applyTier = applyTier;
-  window.exitTier = exitTier;
-  window.clearCart = clearCart;
-  window.goHome = goHome;
-  window.goTiers = goTiers;
-  window.goCompanies = goCompanies;
-  window.goOffers = goOffers;
-  window.goFlash = goFlash;
-  window.goProducts = goProducts;
-  window.goCompany = goCompany;
-  window.clearProductFilters = clearProductFilters;
-  window.retryProducts = retryProducts;
-})();
-</script>
-
 </body>
 </html>
