@@ -446,7 +446,7 @@
 /* =========================
    إعدادات الربط
    ========================= */
-const API_BASE = 'https://script.google.com/macros/s/AKfycbwx648-pSutdrm5lCVKQQGmm4oYzTPEvk41P9fmbiTOAZhLFGfxPsCHm5i25GKGs4I7xA/exec'; // API الجديد
+const API_BASE = 'https://script.google.com/macros/s/AKfycbwq10iAV8etL-55n701nYObRkfPYhYZ6m0xubbGcSFXcCzxMF8Itpk4XzgmrLtlq9elSQ/exec'; // API الجديد
 const UNIT_ORDER = ['carton','dozen','piece'];
 const UNIT_LABELS = { carton:'كرتونة', dozen:'دستة', piece:'قطعة' };
 
@@ -1724,42 +1724,5 @@ setInterval(() => {
   updateFooter();
 }, 1000);
 </script>
-  <script>
-
-window.APP_SETTINGS = {};
-
-async function loadSettingsFixed() {
-  try {
-    const res = await fetch(API_URL + "?endpoint=settings");
-    const data = await res.json();
-
-    if (data.settings) {
-      window.APP_SETTINGS = data.settings;
-    } else if (data.items) {
-      const obj = {};
-      data.items.forEach(i => {
-        if (i.key) obj[i.key] = i.value;
-      });
-      window.APP_SETTINGS = obj;
-    }
-
-  } catch (e) {
-    console.error("Settings Error", e);
-  }
-}
-
-const oldShowToast = window.showToast;
-
-window.showToast = function (input) {
-  if (window.APP_SETTINGS && window.APP_SETTINGS[input]) {
-    oldShowToast(window.APP_SETTINGS[input]);
-  } else {
-    oldShowToast(input);
-  }
-};
-
-document.addEventListener("DOMContentLoaded", loadSettingsFixed);
-
-  </script>
 </body>
 </html>
