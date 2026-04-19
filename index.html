@@ -1723,6 +1723,78 @@ setInterval(() => {
   });
   updateFooter();
 }, 1000);
+// ================= SETTINGS FIX (FINAL) =================
+
+// تخزين الإعدادات
+window.APP_SETTINGS = {};
+
+// توحيد شكل البيانات (يدعم أي API)
+function normalizeSettingsResponse(data) {
+  if (data.settings && typeof data.settings === "object") {
+    return data.settings;
+  }
+
+  if (Array.isArray(data.items)) {
+    const obj = {};
+    data.items.forEach(i => {
+      if (i.key) obj[i.key] = i.value;
+    });
+    return obj;
+  }
+
+  return {};
+}
+
+// تحميل الإعدادات
+async function loadSettingsFixed() {
+  try {
+    const res = await fetch(API_BASE + "?endpoint=settings");
+    const data = await res.json();
+
+    window.APP_SETTINGS = normalizeSettingsResponse(data);
+
+    console.log("✅ Settings Loaded:", window.APP_SETTINGS);
+
+  } catch (err) {
+    console.error("❌ Settings Error:", err);
+
+    window.APP_SETTINGS = {
+      error_load: "حصل مشكلة في تحميل البيانات",
+      welcome_msg: "أهلاً بيك 👋"
+    };
+  }
+}
+
+// عرض رسالة صح
+function showMessage(key) {
+  if (!window.APP_SETTINGS) return;
+
+  const msg = window.APP_SETTINGS[key];
+
+  if (msg && typeof msg === "string") {
+    showToast(msg);
+  } else {
+    console.warn("⚠️ Missing setting:", key);
+  }
+}
+
+// ================= AUTO FIX لأي Toast =================
+
+// لو الكود القديم بيبعت key بدل message
+const oldShowToast = window.showToast;
+
+window.showToast = function(input) {
+  if (window.APP_SETTINGS && window.APP_SETTINGS[input]) {
+    oldShowToast(window.APP_SETTINGS[input]);
+  } else {
+    oldShowToast(input);
+  }
+};
+
+// ================= INIT =================
+document.addEventListener("DOMContentLoaded", function () {
+  loadSettingsFixed();
+});
 </script>
 </body>
 </html>
