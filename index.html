@@ -115,7 +115,7 @@
     .rep-readonly{
       border:1px solid var(--line);background:#f8fbff;border-radius:16px;padding:12px 14px;font-size:14px;min-height:46px
     }
-    .page{padding:10px 12px 18px}
+    .page{padding:10px 12px 320px}
     .panel{
       border:1px solid var(--line);
       background:#fff;
@@ -175,32 +175,32 @@
       display:grid;place-items:center;font-weight:900;color:var(--primary)
     }
     .company-name{font-size:13px;line-height:1.35;font-weight:900;color:#0f172a}
-    .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+    .catalog{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:8px}
     .card{
-      border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft);border-radius:20px;overflow:hidden;
+      border:1px solid var(--line);background:#fff;box-shadow:var(--shadow-soft);border-radius:18px;overflow:hidden;
       display:flex;flex-direction:column;min-height:100%
     }
     .card .img{
       aspect-ratio:1/1;background:#f1f5fb;position:relative;overflow:hidden;display:grid;place-items:center
     }
-    .card .img img{width:100%;height:100%;object-fit:contain;display:block;padding:8px}
-    .card .body{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .card .img img{width:100%;height:100%;object-fit:contain;display:block;padding:6px}
+    .card .body{padding:8px;display:flex;flex-direction:column;gap:6px;flex:1}
     .title-btn{padding:0;text-align:right;width:100%}
     .card .title{
-      font-size:13px;line-height:1.45;font-weight:900;min-height:38px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
+      font-size:12px;line-height:1.35;font-weight:900;min-height:32px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden
     }
-    .card .meta{font-size:11px;color:var(--muted);line-height:1.5}
-    .units{display:flex;flex-wrap:wrap;gap:6px}
+    .card .meta{font-size:10px;color:var(--muted);line-height:1.35}
+    .units{display:flex;flex-wrap:wrap;gap:4px}
     .unit-btn{
-      border:1px solid var(--line);background:#f8fbff;border-radius:999px;padding:6px 9px;font-size:11px;
-      min-width:54px;text-align:center;color:var(--text)
+      border:1px solid var(--line);background:#f8fbff;border-radius:999px;padding:5px 7px;font-size:10px;
+      min-width:44px;text-align:center;color:var(--text)
     }
     .unit-btn.active{background:var(--primary);color:#fff;border-color:var(--primary)}
-    .price{border-top:1px dashed var(--line);padding-top:8px}
+    .price{border-top:1px dashed var(--line);padding-top:6px}
     .price .old{font-size:11px;color:var(--muted);text-decoration:line-through}
-    .price .now{font-size:18px;font-weight:900;color:#0f172a;line-height:1.15}
+    .price .now{font-size:15px;font-weight:900;color:#0f172a;line-height:1.1}
     .buy-btn{
-      width:100%;height:42px;border-radius:14px;font-weight:900;font-size:15px;
+      width:100%;height:38px;border-radius:12px;font-weight:900;font-size:13px;
       background:var(--primary);color:#fff
     }
     .buy-btn.remove{background:var(--bad)}
@@ -259,18 +259,18 @@
     .checkout-location{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
     .checkout-location small{color:var(--muted);font-size:11px;line-height:1.4}
     .toast-zone{
-      position:fixed;left:12px;bottom:98px;z-index:120;display:flex;flex-direction:column;gap:8px;
-      max-width:min(360px,calc(100vw - 24px));pointer-events:none
+      position:fixed;left:12px;right:12px;top:12px;z-index:120;display:flex;flex-direction:column;gap:8px;
+      max-width:min(420px,calc(100vw - 24px));pointer-events:none;align-items:flex-start
     }
     .toast{
-      background:#0f172a;color:#fff;border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);font-size:13px;line-height:1.55;
-      opacity:0;transform:translateY(8px);animation:toastIn .22s ease forwards
+      background:rgba(15,23,42,.96);color:#fff;border-radius:14px;padding:10px 12px;box-shadow:var(--shadow);font-size:12px;line-height:1.45;
+      opacity:0;transform:translateY(-8px);animation:toastIn .24s ease forwards;backdrop-filter:blur(10px)
     }
     .toast.good{background:#146c43}
     .toast.bad{background:#7f1d1d}
     .toast.warn{background:#8a5a00}
     .toast.info{background:#173a84}
-    @keyframes toastIn{to{opacity:1;transform:translateY(0)}}
+    @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
     .bottom-bar{
       position:fixed;left:0;right:0;bottom:0;z-index:60;
       background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
@@ -316,7 +316,7 @@
       .brand-text p{font-size:10px;max-width:55vw}
       .catalog{grid-template-columns:repeat(2,minmax(0,1fr))}
       .companies{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .toast-zone{left:8px;right:8px;bottom:106px;max-width:none}
+      .toast-zone{left:8px;right:8px;top:8px;max-width:none}
       .cart-drawer{width:100%}
       .search-input{font-size:12px}
       .chip{min-height:50px;padding:11px 8px}
@@ -469,10 +469,65 @@ const state = {
   repDirectoryLoaded: false,
   repLoading: false,
   repError: null,
-  repMode: 'login'
+  repMode: 'login',
+  offerPurchases: loadJSON('alahram_offer_purchases', {})
 };
 
 const el = (id) => document.getElementById(id);
+
+const toastQueue = [];
+let toastActive = null;
+const toastRepeatGuard = new Map();
+
+function draftQtyKey(productId, unit) {
+  return `alahram_draft_qty_${String(productId)}_${String(unit)}`;
+}
+function getDraftQtyText(productId, unit) {
+  try {
+    const raw = localStorage.getItem(draftQtyKey(productId, unit));
+    return raw === null ? '' : String(raw).replace(/\D+/g, '');
+  } catch (e) {
+    return '';
+  }
+}
+function setDraftQtyText(productId, unit, value) {
+  try {
+    const text = String(value ?? '').replace(/\D+/g, '');
+    localStorage.setItem(draftQtyKey(productId, unit), text);
+  } catch (e) {}
+}
+function qtyTextToNumber(value) {
+  const text = String(value ?? '').replace(/\D+/g, '');
+  return text ? parseInt(text, 10) : 0;
+}
+function readQtyFromField(fieldEl, fallback = '') {
+  return fieldEl ? String(fieldEl.value ?? '').replace(/\D+/g, '') : String(fallback ?? '').replace(/\D+/g, '');
+}
+function setQtyFieldValue(fieldEl, value) {
+  if (!fieldEl) return;
+  fieldEl.value = String(value ?? '');
+}
+function qtyFieldFromControl(controlEl) {
+  if (!controlEl) return null;
+  if (controlEl.tagName === 'INPUT') return controlEl;
+  return controlEl.closest?.('.qty-box')?.querySelector('input') || null;
+}
+function offerPurchaseKey(type, id) {
+  return `${String(type || 'offer')}::${String(id)}`;
+}
+function isOfferPurchased(type, id) {
+  return !!state.offerPurchases[offerPurchaseKey(type, id)];
+}
+function setOfferPurchased(type, id, value) {
+  const key = offerPurchaseKey(type, id);
+  if (value) state.offerPurchases[key] = true;
+  else delete state.offerPurchases[key];
+  saveJSON('alahram_offer_purchases', state.offerPurchases);
+}
+function clearAllOfferPurchases() {
+  state.offerPurchases = {};
+  saveJSON('alahram_offer_purchases', state.offerPurchases);
+}
 
 function repIsActive() {
   return !!(state.rep && state.rep.active);
@@ -496,12 +551,12 @@ function normalizeBoolean(v) {
 }
 function normalizeRepRow(row) {
   const r = row && typeof row === 'object' ? row : {};
-  const code = String(r.code ?? r.rep_code ?? r.repCode ?? r['كود المندوب'] ?? r['code'] ?? r['CODE'] ?? '').trim();
-  const password = String(r.password ?? r.pass ?? r.pwd ?? r['الباسورد'] ?? r['password'] ?? r['PASSWORD'] ?? '').trim();
-  const name = String(r.name ?? r.rep_name ?? r.repName ?? r['اسم المندوب'] ?? r['name'] ?? r['NAME'] ?? '').trim();
-  const phone = String(r.phone ?? r.mobile ?? r.tel ?? r['رقم التليفون'] ?? r['phone'] ?? r['PHONE'] ?? '').trim();
-  const area = String(r.area ?? r.region ?? r.zone ?? r['المنطقة'] ?? r['area'] ?? r['AREA'] ?? '').trim();
-  const active = normalizeBoolean(r.active ?? r.status ?? r.enabled ?? r['الحالة'] ?? r['active'] ?? r['ACTIVE']);
+  const code = String(r.agent_code ?? r.code ?? r.rep_code ?? r.repCode ?? r['agent_code'] ?? r['agent code'] ?? r['كود المندوب'] ?? r['code'] ?? r['CODE'] ?? '').trim();
+  const password = String(r.agent_password ?? r.password ?? r.pass ?? r.pwd ?? r['agent_password'] ?? r['password'] ?? r['PASSWORD'] ?? r['الباسورد'] ?? '').trim();
+  const name = String(r.agent_name ?? r.name ?? r.rep_name ?? r.repName ?? r['agent_name'] ?? r['اسم المندوب'] ?? r['name'] ?? r['NAME'] ?? '').trim();
+  const phone = String(r.agent_phone ?? r.phone ?? r.mobile ?? r.tel ?? r['agent_phone'] ?? r['رقم التليفون'] ?? r['phone'] ?? r['PHONE'] ?? '').trim();
+  const area = String(r.agent_area ?? r.area ?? r.region ?? r.zone ?? r['agent_area'] ?? r['المنطقة'] ?? r['area'] ?? r['AREA'] ?? '').trim();
+  const active = normalizeBoolean(r.agent_active ?? r.active ?? r.status ?? r.enabled ?? r['agent_active'] ?? r['الحالة'] ?? r['active'] ?? r['ACTIVE']);
   return { code, password, name, phone, area, active, raw: r };
 }
 function extractRepRowsFromPayload(payload) {
@@ -526,6 +581,13 @@ function extractRepRowsFromPayload(payload) {
 function repDirectoryFromSettings(settings = state.settings) {
   const list = [];
   const sources = [
+    settings?.agents,
+    settings?.agent_list,
+    settings?.agentList,
+    settings?.agent_users,
+    settings?.agentUsers,
+    settings?.agent_directory,
+    settings?.agentDirectory,
     settings?.reps,
     settings?.rep_users,
     settings?.sales_reps,
@@ -539,12 +601,12 @@ function repDirectoryFromSettings(settings = state.settings) {
   for (const src of sources) {
     if (Array.isArray(src)) list.push(...src);
     else if (src && typeof src === 'object') {
-      for (const k of ['items','rows','data','reps','rep_users','sales_reps','salesmen','representatives','users']) {
+      for (const k of ['items','rows','data','agents','agent_users','agentUsers','agent_list','agentList','reps','rep_users','sales_reps','salesmen','representatives','users']) {
         if (Array.isArray(src[k])) list.push(...src[k]);
       }
     }
   }
-  return list.map(normalizeRepRow).filter(r => r.code || r.password || r.name);
+  return list.map(normalizeRepRow).filter(r => r.code || r.password || r.name || r.phone);
 }
 function hydrateRepDirectory() {
   const fromSettings = repDirectoryFromSettings(state.settings);
@@ -568,6 +630,13 @@ async function loadRepDirectory(force = false) {
     const fromSettings = repDirectoryFromSettings(state.settings);
     if (fromSettings.length) {
       state.repDirectory = fromSettings;
+      state.repDirectoryLoaded = true;
+      state.repError = null;
+      return state.repDirectory;
+    }
+    const extracted = extractRepRowsFromPayload(state.settings);
+    if (extracted.length) {
+      state.repDirectory = extracted;
       state.repDirectoryLoaded = true;
       state.repError = null;
       return state.repDirectory;
@@ -793,10 +862,7 @@ function setSelectedUnit(productId, unit) {
 }
 function normalizeQty(value) {
   const n = parseInt(String(value || '').replace(/[^\d]/g, ''), 10);
-  return Number.isFinite(n) && n > 0 ? n : 1;
-}
-function draftQtyKey(productId, unit) {
-  return `alahram_draft_qty_${String(productId)}_${String(unit)}`;
+  return Number.isFinite(n) && n > 0 ? n : 0;
 }
 function getDraftQty(productId, unit, fallback = 1) {
   try {
@@ -807,19 +873,42 @@ function getDraftQty(productId, unit, fallback = 1) {
   }
 }
 function setDraftQty(productId, unit, value) {
-  try { localStorage.setItem(draftQtyKey(productId, unit), String(normalizeQty(value))); } catch {}
+  try { localStorage.setItem(draftQtyKey(productId, unit), String(value ?? '').replace(/\D+/g, '')); } catch {}
 }
 function toast(message, type = 'info') {
+  const text = String(message || '').trim();
+  if (!text) return;
+  const signature = `${type}::${text}`;
+  const now = Date.now();
+  const prev = toastRepeatGuard.get(signature) || { count: 0, ts: 0 };
+  if (now - prev.ts > 7000) prev.count = 0;
+  if (prev.count >= 2) return;
+  prev.count += 1;
+  prev.ts = now;
+  toastRepeatGuard.set(signature, prev);
+  toastQueue.push({ message: text, type });
+  if (!toastActive) processToastQueue();
+}
+function processToastQueue() {
   const zone = el('toastZone');
+  if (!zone || toastActive || !toastQueue.length) return;
+  const next = toastQueue.shift();
   const node = document.createElement('div');
-  node.className = `toast ${type}`;
-  node.textContent = message;
+  node.className = `toast ${next.type}`;
+  node.textContent = next.message;
   zone.appendChild(node);
-  setTimeout(() => {
+  toastActive = node;
+  const finish = () => {
+    if (toastActive !== node) return;
     node.style.opacity = '0';
-    node.style.transform = 'translateY(8px)';
-    setTimeout(() => node.remove(), 240);
-  }, 2200);
+    node.style.transform = 'translateY(-10px)';
+    setTimeout(() => {
+      node.remove();
+      if (toastActive === node) toastActive = null;
+      processToastQueue();
+    }, 260);
+  };
+  setTimeout(finish, 3200);
 }
 function popSmartToast(reason = 'generic') {
   const tally = getCartAnalysis();
@@ -1465,6 +1554,7 @@ function updateCartUI() {
 function clearCart(showConfirm = false, silent = false) {
   if (showConfirm && !confirm('متأكد عايز تمسح السلة؟')) return;
   state.cart = [];
+  clearAllOfferPurchases();
   saveCart();
   updateCartUI();
   renderCurrentView();
@@ -1499,7 +1589,7 @@ function openProductOverlay(product, unit) {
   const selectedUnit = unit && availableUnits.includes(unit) ? unit : availableUnits[0] || 'piece';
   const pr = resolvePrice(product, selectedUnit);
   const inCart = findCartIndex(cartKey(String(product.id), selectedUnit)) >= 0;
-  const qty = getDraftQty(product.id, selectedUnit, inCart ? (state.cart.find(x => x.type === 'product' && String(x.id) === String(product.id) && String(x.unit) === String(selectedUnit))?.qty || 1) : 1);
+  const qty = inCart ? String(state.cart.find(x => x.type === 'product' && String(x.id) === String(product.id) && String(x.unit) === String(selectedUnit))?.qty || 1) : getDraftQtyText(product.id, selectedUnit);
   const img = escapeHtml(product.image || fallbackImage());
   const metaRows = [
     product.company ? `<div class="msg"><strong>الشركة:</strong> ${escapeHtml(product.company)}</div>` : '',
@@ -1516,10 +1606,10 @@ function openProductOverlay(product, unit) {
         <div class="title" style="font-size:16px;min-height:auto">${escapeHtml(product.name || '')}</div>
         <div class="units">${availableUnits.map(u => `<button class="unit-btn ${selectedUnit===u?'active':''}" onclick='setModalUnit(${JSON.stringify(String(product.id))}, ${JSON.stringify(u)})'>${UNIT_LABELS[u]}</button>`).join('')}</div>
         <div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div>
-        <div class="qty-box" style="display:grid;grid-template-columns:38px 1fr 38px;gap:8px;align-items:center">
-          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1)'>−</button>
-          <input id="modalQtyInput" class="input" style="text-align:center;padding:10px 8px;border-radius:14px" inputmode="numeric" value="${qty}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value)' />
-          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1)'>+</button>
+        <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
+          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1, this)'>−</button>
+          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
+          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1, this)'>+</button>
         </div>
         <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCartFromModal(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
         ${metaRows}
@@ -1534,21 +1624,42 @@ function setModalUnit(productId, unit) {
   const active = state.productModalItem && state.productModalItem.product && String(state.productModalItem.product.id) === String(productId);
   if (active) openProductOverlay(state.productModalItem.product, unit);
 }
-function changeModalQty(productId, unit, delta) {
+function changeModalQty(productId, unit, delta, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
   if (!product) return;
   const key = cartKey(String(productId), unit);
   const idx = findCartIndex(key);
-  const currentQty = idx >= 0 ? Number(state.cart[idx].qty || 1) : normalizeQty(getDraftQty(productId, unit, 1));
-  const next = Math.max(1, currentQty + Number(delta || 0));
-  setModalQtyValue(product, productId, unit, next, idx);
+  const field = qtyFieldFromControl(controlEl);
+  const currentQty = idx >= 0
+    ? Number(state.cart[idx].qty || 1)
+    : qtyTextToNumber(readQtyFromField(field, getDraftQtyText(productId, unit)));
+  const next = idx >= 0
+    ? Math.max(1, currentQty + Number(delta || 0))
+    : Math.max(0, currentQty + Number(delta || 0));
+  setQtyFieldValue(field, next > 0 ? String(next) : '');
+  if (idx >= 0) {
+    state.cart[idx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
+  }
 }
-function setModalQtyFromInput(productId, unit, rawValue) {
+function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
   if (!product) return;
-  const next = normalizeQty(rawValue);
   const idx = findCartIndex(cartKey(String(productId), unit));
-  setModalQtyValue(product, productId, unit, next, idx);
+  const field = qtyFieldFromControl(controlEl);
+  const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
+  setQtyFieldValue(field, cleaned);
+  if (idx >= 0) {
+    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
+    state.cart[idx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, cleaned);
+  }
 }
 function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
@@ -1556,10 +1667,7 @@ function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
     saveCart();
     updateCartUI();
   } else {
-    setDraftQty(productId, unit, nextQty);
-  }
-  if (state.productModalItem && String(state.productModalItem.product.id) === String(productId)) {
-    openProductOverlay(product, unit);
+    setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
 }
 function toggleProductToCartFromModal(productId, unit) {
@@ -1583,7 +1691,11 @@ function toggleProductToCart(productId, unit, directProduct = null) {
     popSmartToast('remove');
     return;
   }
-  const qty = normalizeQty(getDraftQty(productId, unit, 1));
+  const qty = qtyTextToNumber(getDraftQtyText(productId, unit));
+  if (qty <= 0) {
+    toast('اكتب كمية صحيحة الأول', 'warn');
+    return;
+  }
   const allowed = canSetProductQty(product, unit, qty, -1);
   if (!allowed.ok) {
     toast('الكمية دي أكبر من الحد المناسب للشريحة', 'bad');
@@ -1607,34 +1719,55 @@ function toggleProductToCart(productId, unit, directProduct = null) {
   if (state.selectedTier && getCartAnalysis().companiesCount < 5) toast('وزّع السلة على أكتر من شركة عشان الشريحة تمشي صح', 'info');
   popSmartToast('add');
 }
-function changeCardQty(productId, unit, delta) {
+function changeCardQty(productId, unit, delta, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId));
   if (!product) return;
   const currentIdx = findCartIndex(cartKey(String(productId), unit));
-  const currentQty = currentIdx >= 0 ? Number(state.cart[currentIdx].qty || 1) : normalizeQty(getDraftQty(productId, unit, 1));
-  const next = Math.max(1, currentQty + Number(delta || 0));
-  setCardQtyValue(product, productId, unit, next, currentIdx);
+  const field = qtyFieldFromControl(controlEl);
+  const currentQty = currentIdx >= 0
+    ? Number(state.cart[currentIdx].qty || 1)
+    : qtyTextToNumber(readQtyFromField(field, getDraftQtyText(productId, unit)));
+  const next = currentIdx >= 0
+    ? Math.max(1, currentQty + Number(delta || 0))
+    : Math.max(0, currentQty + Number(delta || 0));
+  setQtyFieldValue(field, next > 0 ? String(next) : '');
+  if (currentIdx >= 0) {
+    state.cart[currentIdx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
+  }
 }
-function setCardQtyFromInput(productId, unit, rawValue) {
+function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId));
   if (!product) return;
-  const next = normalizeQty(rawValue);
   const currentIdx = findCartIndex(cartKey(String(productId), unit));
-  setCardQtyValue(product, productId, unit, next, currentIdx);
+  const field = qtyFieldFromControl(controlEl);
+  const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
+  setQtyFieldValue(field, cleaned);
+  if (currentIdx >= 0) {
+    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
+    state.cart[currentIdx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, cleaned);
+  }
 }
 function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
     state.cart[currentIdx].qty = nextQty;
     saveCart();
     updateCartUI();
-    renderCurrentView();
   } else {
-    setDraftQty(productId, unit, nextQty);
-    renderCurrentView();
+    setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
 }
 function removeCartIndex(idx) {
-  if (!state.cart[idx]) return;
+  const item = state.cart[idx];
+  if (!item) return;
+  if (item.type === 'offer' || item.type === 'flash') setOfferPurchased(item.type, item.id, false);
   state.cart.splice(idx, 1);
   saveCart();
   updateCartUI();
@@ -1645,8 +1778,7 @@ function cartQtyStep(idx, delta) {
   const item = state.cart[idx];
   if (!item) return;
   const next = Math.max(1, Number(item.qty || 1) + Number(delta || 0));
-  if (next <= 0) state.cart.splice(idx, 1);
-  else item.qty = next;
+  item.qty = next;
   saveCart();
   updateCartUI();
   renderCurrentView();
@@ -1656,7 +1788,7 @@ function renderProductCard(p) {
   const unit = getSelectedUnit(p.id, availableUnits);
   const pr = resolvePrice(p, unit);
   const inCart = findCartIndex(cartKey(String(p.id), unit)) >= 0;
-  const qty = getDraftQty(p.id, unit, inCart ? (state.cart.find(x => x.type === 'product' && String(x.id) === String(p.id) && String(x.unit) === String(unit))?.qty || 1) : 1);
+  const qty = inCart ? String(state.cart.find(x => x.type === 'product' && String(x.id) === String(p.id) && String(x.unit) === String(unit))?.qty || 1) : getDraftQtyText(p.id, unit);
   const unitHtml = availableUnits.map(u => `
     <button class="unit-btn ${unit === u ? 'active' : ''}" onclick='setSelectedUnit(${JSON.stringify(String(p.id))}, ${JSON.stringify(u)})'>${UNIT_LABELS[u]}</button>
   `).join('');
@@ -1674,10 +1806,10 @@ function renderProductCard(p) {
           ${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}
           <div class="now">${formatMoney(pr.current)} ج.م</div>
         </div>
-        <div class="qty-box" style="display:grid;grid-template-columns:38px 1fr 38px;gap:8px;align-items:center">
-          <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, -1)'>−</button>
-          <input class="input" style="text-align:center;padding:10px 8px;border-radius:14px" inputmode="numeric" value="${qty}" oninput='setCardQtyFromInput(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, this.value)' />
-          <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, 1)'>+</button>
+        <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
+          <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, -1, this)'>−</button>
+          <input class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" value="${escapeHtml(qty)}" oninput='setCardQtyFromInput(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, this.value, this)' />
+          <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, 1, this)'>+</button>
         </div>
         <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCart(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
       </div>
@@ -1690,6 +1822,7 @@ function openProductOverlayById(productId, unit) {
   openProductOverlay(found, unit);
 }
 function renderOfferCard(o) {
+  const purchased = isOfferPurchased('offer', o.id);
   return `
     <article class="card">
       <button class="img" type="button" onclick='openOfferModal(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.name || '')}, ${JSON.stringify(Number(o.price || 0))}, ${JSON.stringify(o.details || '')}, ${JSON.stringify(o.image || fallbackImage())})'>
@@ -1701,26 +1834,27 @@ function renderOfferCard(o) {
         </button>
         <div class="meta">${escapeHtml(o.details || '')}</div>
         <div class="price"><div class="now">${formatMoney(o.price || 0)} ج.م</div></div>
-        <button class="buy-btn" onclick='addOfferToCart(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.name || '')}, ${JSON.stringify(Number(o.price || 0))}, "offer")'>شراء</button>
+        <button class="buy-btn ${purchased ? 'remove' : ''}" onclick='addOfferToCart(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.name || '')}, ${JSON.stringify(Number(o.price || 0))}, "offer")'>${purchased ? 'تم الشراء' : 'شراء'}</button>
       </div>
     </article>
   `;
 }
 function renderFlashCard(o) {
   const endIso = o.end_datetime || (o.end_date && o.end_time ? `${o.end_date}T${o.end_time}` : '');
+  const purchased = isOfferPurchased('flash', o.id);
   return `
     <article class="card">
-      <button class="img" type="button" onclick='openOfferModal(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.display_title || o.name || 'عرض الساعة')}, ${JSON.stringify(Number(o.price || 0))}, ${JSON.stringify(o.display_subtitle || o.details || o.description || '')}, ${JSON.stringify(o.image || fallbackImage())})'>
+      <button class="img" type="button" onclick='openOfferModal(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.display_title || o.name || "عرض الساعة")}, ${JSON.stringify(Number(o.price || 0))}, ${JSON.stringify(o.display_subtitle || o.details || o.description || '')}, ${JSON.stringify(o.image || fallbackImage())})'>
         <img src="${escapeHtml(o.image || fallbackImage())}" alt="${escapeHtml(o.display_title || o.name || '')}" loading="lazy" />
       </button>
       <div class="body">
-        <button class="title-btn" type="button" onclick='openOfferModal(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.display_title || o.name || 'عرض الساعة')}, ${JSON.stringify(Number(o.price || 0))}, ${JSON.stringify(o.display_subtitle || o.details || o.description || '')}, ${JSON.stringify(o.image || fallbackImage())})'>
+        <button class="title-btn" type="button" onclick='openOfferModal(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.display_title || o.name || "عرض الساعة")}, ${JSON.stringify(Number(o.price || 0))}, ${JSON.stringify(o.display_subtitle || o.details || o.description || '')}, ${JSON.stringify(o.image || fallbackImage())})'>
           <div class="title">${escapeHtml(o.display_title || o.name || 'عرض الساعة')}</div>
         </button>
         <div class="meta">${escapeHtml(o.display_subtitle || o.details || o.description || '')}</div>
         <div class="meta" id="flashCountdown_${escapeHtml(String(o.id))}">${escapeHtml(flashCountdownText(endIso))}</div>
         <div class="price"><div class="now">${formatMoney(o.price || 0)} ج.م</div></div>
-        <button class="buy-btn" onclick='addOfferToCart(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.display_title || o.name || '')}, ${JSON.stringify(Number(o.price || 0))}, "flash")'>شراء</button>
+        <button class="buy-btn ${purchased ? 'remove' : ''}" onclick='addOfferToCart(${JSON.stringify(String(o.id))}, ${JSON.stringify(o.display_title || o.name || '')}, ${JSON.stringify(Number(o.price || 0))}, "flash")'>${purchased ? 'تم الشراء' : 'شراء'}</button>
       </div>
     </article>
   `;
@@ -1744,8 +1878,16 @@ function openOfferModal(id, name, price, details, image) {
 }
 function addOfferToCart(id, name, price, type) {
   const idx = state.cart.findIndex(x => x.type === type && String(x.id) === String(id));
-  if (idx >= 0) state.cart[idx].qty = Number(state.cart[idx].qty || 1) + 1;
-  else state.cart.push({ type, id: String(id), name, price: Number(price || 0), qty: 1, unit: type, company: type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم', isOffer: type === 'offer', isFlash: type === 'flash' });
+  if (isOfferPurchased(type, id) && idx < 0) {
+    toast('تم شراء العرض بالفعل 👌', 'warn');
+    return;
+  }
+  if (idx >= 0) {
+    toast('تم شراء العرض بالفعل 👌', 'warn');
+    return;
+  }
+  state.cart.push({ type, id: String(id), name, price: Number(price || 0), qty: 1, unit: type, company: type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم', isOffer: type === 'offer', isFlash: type === 'flash' });
+  setOfferPurchased(type, id, true);
   saveCart();
   updateCartUI();
   renderCurrentView();
@@ -1890,7 +2032,11 @@ function toggleProductToCart(productId, unit, directProduct = null) {
     popSmartToast('remove');
     return;
   }
-  const qty = normalizeQty(getDraftQty(productId, unit, 1));
+  const qty = qtyTextToNumber(getDraftQtyText(productId, unit));
+  if (qty <= 0) {
+    toast('اكتب كمية صحيحة الأول', 'warn');
+    return;
+  }
   const allowed = canSetProductQty(product, unit, qty, -1);
   if (!allowed.ok) {
     toast('الكمية دي أكبر من الحد المناسب للشريحة', 'bad');
@@ -1914,30 +2060,49 @@ function toggleProductToCart(productId, unit, directProduct = null) {
   if (state.selectedTier && getCartAnalysis().companiesCount < 5) toast('وزّع السلة على أكتر من شركة عشان الشريحة تمشي صح', 'info');
   popSmartToast('add');
 }
-function changeCardQty(productId, unit, delta) {
+function changeCardQty(productId, unit, delta, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId));
   if (!product) return;
   const currentIdx = findCartIndex(cartKey(String(productId), unit));
-  const currentQty = currentIdx >= 0 ? Number(state.cart[currentIdx].qty || 1) : normalizeQty(getDraftQty(productId, unit, 1));
-  const next = Math.max(1, currentQty + Number(delta || 0));
-  setCardQtyValue(product, productId, unit, next, currentIdx);
+  const field = qtyFieldFromControl(controlEl);
+  const currentQty = currentIdx >= 0
+    ? Number(state.cart[currentIdx].qty || 1)
+    : qtyTextToNumber(readQtyFromField(field, getDraftQtyText(productId, unit)));
+  const next = currentIdx >= 0
+    ? Math.max(1, currentQty + Number(delta || 0))
+    : Math.max(0, currentQty + Number(delta || 0));
+  setQtyFieldValue(field, next > 0 ? String(next) : '');
+  if (currentIdx >= 0) {
+    state.cart[currentIdx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
+  }
 }
-function setCardQtyFromInput(productId, unit, rawValue) {
+function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId));
   if (!product) return;
-  const next = normalizeQty(rawValue);
   const currentIdx = findCartIndex(cartKey(String(productId), unit));
-  setCardQtyValue(product, productId, unit, next, currentIdx);
+  const field = qtyFieldFromControl(controlEl);
+  const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
+  setQtyFieldValue(field, cleaned);
+  if (currentIdx >= 0) {
+    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
+    state.cart[currentIdx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, cleaned);
+  }
 }
 function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
     state.cart[currentIdx].qty = nextQty;
     saveCart();
     updateCartUI();
-    renderCurrentView();
   } else {
-    setDraftQty(productId, unit, nextQty);
-    renderCurrentView();
+    setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
 }
 function renderProductFooterButtons() {}
@@ -2124,7 +2289,7 @@ function openProductOverlay(product, unit) {
   const selectedUnit = unit && availableUnits.includes(unit) ? unit : availableUnits[0] || 'piece';
   const pr = resolvePrice(product, selectedUnit);
   const inCart = findCartIndex(cartKey(String(product.id), selectedUnit)) >= 0;
-  const qty = getDraftQty(product.id, selectedUnit, inCart ? (state.cart.find(x => x.type === 'product' && String(x.id) === String(product.id) && String(x.unit) === String(selectedUnit))?.qty || 1) : 1);
+  const qty = inCart ? String(state.cart.find(x => x.type === 'product' && String(x.id) === String(product.id) && String(x.unit) === String(selectedUnit))?.qty || 1) : getDraftQtyText(product.id, selectedUnit);
   const metaRows = [
     product.company ? `<div class="msg"><strong>الشركة:</strong> ${escapeHtml(product.company)}</div>` : '',
     product.id ? `<div class="msg"><strong>الكود:</strong> ${escapeHtml(String(product.id))}</div>` : '',
@@ -2140,10 +2305,10 @@ function openProductOverlay(product, unit) {
         <div class="title" style="font-size:16px;min-height:auto">${escapeHtml(product.name || '')}</div>
         <div class="units">${availableUnits.map(u => `<button class="unit-btn ${selectedUnit===u?'active':''}" onclick='setModalUnit(${JSON.stringify(String(product.id))}, ${JSON.stringify(u)})'>${UNIT_LABELS[u]}</button>`).join('')}</div>
         <div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div>
-        <div class="qty-box" style="display:grid;grid-template-columns:38px 1fr 38px;gap:8px;align-items:center">
-          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1)'>−</button>
-          <input id="modalQtyInput" class="input" style="text-align:center;padding:10px 8px;border-radius:14px" inputmode="numeric" value="${qty}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value)' />
-          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1)'>+</button>
+        <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
+          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1, this)'>−</button>
+          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
+          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1, this)'>+</button>
         </div>
         <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCartFromModal(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
         ${metaRows}
@@ -2163,21 +2328,42 @@ function setModalUnit(productId, unit) {
   const active = state.productModalItem && state.productModalItem.product && String(state.productModalItem.product.id) === String(productId);
   if (active) openProductOverlay(state.productModalItem.product, unit);
 }
-function changeModalQty(productId, unit, delta) {
+function changeModalQty(productId, unit, delta, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
   if (!product) return;
   const key = cartKey(String(productId), unit);
   const idx = findCartIndex(key);
-  const currentQty = idx >= 0 ? Number(state.cart[idx].qty || 1) : normalizeQty(getDraftQty(productId, unit, 1));
-  const next = Math.max(1, currentQty + Number(delta || 0));
-  setModalQtyValue(product, productId, unit, next, idx);
+  const field = qtyFieldFromControl(controlEl);
+  const currentQty = idx >= 0
+    ? Number(state.cart[idx].qty || 1)
+    : qtyTextToNumber(readQtyFromField(field, getDraftQtyText(productId, unit)));
+  const next = idx >= 0
+    ? Math.max(1, currentQty + Number(delta || 0))
+    : Math.max(0, currentQty + Number(delta || 0));
+  setQtyFieldValue(field, next > 0 ? String(next) : '');
+  if (idx >= 0) {
+    state.cart[idx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
+  }
 }
-function setModalQtyFromInput(productId, unit, rawValue) {
+function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
   if (!product) return;
-  const next = normalizeQty(rawValue);
   const idx = findCartIndex(cartKey(String(productId), unit));
-  setModalQtyValue(product, productId, unit, next, idx);
+  const field = qtyFieldFromControl(controlEl);
+  const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
+  setQtyFieldValue(field, cleaned);
+  if (idx >= 0) {
+    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
+    state.cart[idx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, cleaned);
+  }
 }
 function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
@@ -2185,10 +2371,7 @@ function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
     saveCart();
     updateCartUI();
   } else {
-    setDraftQty(productId, unit, nextQty);
-  }
-  if (state.productModalItem && String(state.productModalItem.product.id) === String(productId)) {
-    openProductOverlay(product, unit);
+    setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
 }
 function itemLinePrice(item) {
