@@ -1749,14 +1749,40 @@ function normalizeSettingsResponse(data) {
 async function loadSettingsFixed() {
   try {
     const res = await fetch(API_BASE + "?endpoint=settings");
-    const data = await res.json();
 
-    window.APP_SETTINGS = normalizeSettingsResponse(data);
+    if (!res.ok) throw new Error("Network error");
 
-    console.log("✅ Settings Loaded:", window.APP_SETTINGS);
+    const text = await res.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("❌ JSON Error:", text);
+      throw new Error("Invalid JSON");
+    }
+
+    if (!data.success) {
+      console.error("❌ API Error:", data);
+      throw new Error("API failed");
+    }
+
+    let settings = {};
+
+    if (data.settings && typeof data.settings === "object") {
+      settings = data.settings;
+    } else if (Array.isArray(data.items)) {
+      data.items.forEach(i => {
+        if (i.key) settings[i.key] = i.value;
+      });
+    }
+
+    window.APP_SETTINGS = settings;
+
+    console.log("✅ Settings OK:", settings);
 
   } catch (err) {
-    console.error("❌ Settings Error:", err);
+    console.error("🔥 FINAL ERROR:", err);
 
     window.APP_SETTINGS = {
       error_load: "حصل مشكلة في تحميل البيانات",
