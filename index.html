@@ -2294,5 +2294,725 @@ function updateTierFooterAndMaybeHome() {
 })();
 </script>
 
+
+<script>
+(function () {
+  const OLD = {
+    renderHome: window.renderHome,
+    renderTiers: window.renderTiers,
+    renderCompanies: window.renderCompanies,
+    renderOffers: window.renderOffers,
+    renderFlashOffers: window.renderFlashOffers,
+    renderCurrentView: window.renderCurrentView,
+    renderProductCard: window.renderProductCard,
+    renderProductsList: window.renderProductsList,
+    updateTierFooter: window.updateTierFooter,
+    updateCartUI: window.updateCartUI,
+    goHome: window.goHome,
+    goTiers: window.goTiers,
+    goCompanies: window.goCompanies,
+    goProducts: window.goProducts,
+    goOffers: window.goOffers,
+    goFlash: window.goFlash,
+    setCompanyFilter: window.setCompanyFilter,
+    startSearch: window.startSearch,
+    clearSearch: window.clearSearch,
+    selectSearchSuggestion: window.selectSearchSuggestion,
+    submitRepLogin: window.submitRepLogin,
+  };
+
+  const norm = (v) => String(v || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  const esc = (s) => String(s == null ? '' : s)
+    .replace(/[&<>"']/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+
+  function getLiveFlashOffer() {
+    const items = Array.isArray(state.flashOffers) ? state.flashOffers.slice() : [];
+    const live = items.filter(o => {
+      if (!o) return false;
+      if (o.is_live === false || o.active === false) return false;
+      const end = o.end_datetime || (o.end_date && o.end_time ? `${o.end_date}T${o.end_time}` : '');
+      if (!end) return true;
+      return new Date(end).getTime() > Date.now();
+    });
+    live.sort((a, b) => {
+      const ae = new Date(a.end_datetime || (a.end_date && a.end_time ? `${a.end_date}T${a.end_time}` : 0)).getTime() || 0;
+      const be = new Date(b.end_datetime || (b.end_date && b.end_time ? `${b.end_date}T${b.end_time}` : 0)).getTime() || 0;
+      return ae - be;
+    });
+    return live[0] || null;
+  }
+
+  function countdownText(endIso) {
+    if (!endIso) return 'لا يوجد عرض نشط';
+    const end = new Date(endIso);
+    const diff = Math.max(0, end.getTime() - Date.now());
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    return `متبقي ${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+  }
+
+  function routeSnapshot(view) {
+    return {
+      view: view || state.view || 'home',
+      companyFilter: state.companyFilter || '',
+      searchMode: !!state.searchMode,
+      searchQuery: state.searchQuery || '',
+      selectedTierName: state.selectedTier ? (state.selectedTier.tier_name || state.selectedTier.visible_label || '') : ''
+    };
+  }
+
+  function pushRoute(view, replace = false) {
+    const snapshot = routeSnapshot(view);
+    const url = location.pathname + location.search + location.hash;
+    if (replace) history.replaceState(snapshot, '', url);
+    else history.pushState(snapshot, '', url);
+  }
+
+  function applyRoute(route) {
+    const r = route || {};
+    state.view = r.view || 'home';
+    state.companyFilter = r.companyFilter || '';
+    state.searchMode = !!r.searchMode;
+    state.searchQuery = r.searchQuery || '';
+
+    if (r.selectedTierName) {
+      const wanted = norm(r.selectedTierName);
+      const found = (state.tiers || []).find(t =>
+        norm(t.tier_name) === wanted ||
+        norm(t.visible_label) === wanted ||
+        String(t.tier_id || '') === String(r.selectedTierName)
+      );
+      if (found) state.selectedTier = found;
+    }
+
+    renderCurrentViewFinal();
+    updateTierFooterFinal();
+    updateHeaderNavFinal();
+  }
+
+  function injectStyles() {
+    if (document.getElementById('final-ux-style')) return;
+    const style = document.createElement('style');
+    style.id = 'final-ux-style';
+    style.textContent = `
+      :root{
+        --bg:#f5f8ff;
+        --card:#ffffff;
+        --text:#0b1730;
+        --muted:#64748b;
+        --line:#dce5f2;
+        --primary:#1f4f8c;
+        --primary2:#2d6cdf;
+        --good:#16a34a;
+        --warn:#d4a017;
+        --bad:#dc2626;
+        --shadow:0 14px 34px rgba(15,23,42,.10);
+      }
+      body{background:linear-gradient(180deg,#eef5ff 0%, #f7faff 30%, var(--bg) 100%) !important;color:var(--text) !important;}
+      .topbar{border-bottom:1px solid rgba(220,229,242,.9) !important;}
+      .topbar-inner{
+        padding:8px 12px 6px !important;
+        gap:8px !important;
+        min-height:58px;
+      }
+      .brand{gap:10px !important;}
+      .brand-badge{width:42px;height:42px;border-radius:14px}
+      .brand h1{font-size:15px}
+      .brand p{font-size:11px}
+      #repBtn{display:none !important;}
+      .header-nav{
+        display:grid;
+        grid-template-columns:repeat(3,minmax(0,1fr));
+        gap:8px;
+        padding:0 12px 10px;
+      }
+      .nav-btn{
+        border:1px solid var(--line);
+        background:#fff;
+        color:var(--text);
+        border-radius:18px;
+        padding:10px 10px 8px;
+        min-height:56px;
+        box-shadow:var(--shadow);
+        cursor:pointer;
+        text-align:center;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        gap:2px;
+        line-height:1.15;
+        transition:.18s ease transform,.18s ease border-color,.18s ease background;
+      }
+      .nav-btn:active{transform:scale(.99)}
+      .nav-btn strong{font-size:14px;font-weight:900}
+      .nav-btn small{font-size:10px;color:var(--muted);font-weight:700}
+      .nav-btn.active{
+        background:linear-gradient(135deg,var(--primary),var(--primary2));
+        border-color:var(--primary);
+        color:#fff;
+      }
+      .nav-btn.active small{color:rgba(255,255,255,.85)}
+      .nav-btn.flash-live{
+        border-color:rgba(212,160,23,.45);
+      }
+      .nav-btn.flash-live.active{
+        background:linear-gradient(135deg,#0f2547,#1f4f8c 45%,#2d6cdf);
+      }
+      .page{padding:12px !important;}
+      .hero{gap:10px !important;margin-top:2px !important;}
+      .hero-card{padding:16px !important;border-radius:22px !important;}
+      .hero-title{font-size:20px !important}
+      .hero-sub{font-size:12px !important;line-height:1.6 !important}
+      .search-wrap{padding:10px !important;border-radius:20px !important}
+      .grid-3{display:none !important;}
+      .section-head{margin:14px 0 10px !important;}
+      .section-head h2{font-size:16px !important}
+      .companies{grid-template-columns:repeat(auto-fill,minmax(90px,1fr)) !important;gap:9px !important;}
+      .company{min-height:96px !important;padding:9px !important;border-radius:18px !important;}
+      .company img,.company .logo{width:46px;height:46px;border-radius:14px !important;}
+      .company .name{font-size:11px !important}
+      .company .count{font-size:10px !important}
+      .toolbar{margin-top:10px !important}
+      .catalog{
+        grid-template-columns:repeat(auto-fill,minmax(152px,1fr)) !important;
+        gap:10px !important;
+      }
+      .card{border-radius:20px !important;box-shadow:var(--shadow) !important;}
+      .card .img{aspect-ratio:1 / 1.02 !important;background:#fff !important;}
+      .card .img img{
+        object-fit:contain !important;
+        background:#fff !important;
+        padding:6px !important;
+      }
+      .badge{top:8px !important;left:8px !important;padding:5px 9px !important;font-size:10px !important;}
+      .card .body{padding:10px !important;gap:8px !important}
+      .card .title{font-size:13px !important;line-height:1.35 !important;min-height:0 !important}
+      .subline{font-size:11px !important;line-height:1.45 !important}
+      .unit-tabs{gap:4px !important}
+      .unit-tab{padding:6px 8px !important;font-size:11px !important;min-width:54px !important;border-radius:999px !important;}
+      .price-box{padding-top:7px !important}
+      .old-price{font-size:11px !important}
+      .new-price{font-size:18px !important}
+      .qty-row{gap:7px !important}
+      .stepper{min-width:100px !important;border-radius:14px !important;}
+      .stepper button{width:32px;height:34px !important;font-size:17px !important}
+      .stepper span{min-width:32px;font-size:14px !important}
+      .add-btn{
+        height:46px !important;
+        border-radius:16px !important;
+        font-size:15px !important;
+      }
+      .drawer{width:min(420px,100%) !important;}
+      .bottom-bar{padding:10px 12px calc(10px + env(safe-area-inset-bottom)) !important;}
+      .bottom-inner{gap:8px !important;}
+      .smart-tier{
+        min-width:0 !important;
+        height:60px !important;
+        padding:0 12px !important;
+        align-items:center !important;
+      }
+      .smart-tier .main{
+        font-size:10px !important;
+        line-height:1.1 !important;
+        opacity:.88;
+      }
+      .smart-tier .sub{
+        font-size:15px !important;
+        line-height:1.1 !important;
+        font-weight:900 !important;
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        max-width:100%;
+      }
+      .footer-total,.footer-checkout{
+        height:60px !important;
+        border-radius:18px !important;
+        min-width:0 !important;
+        padding:0 10px !important;
+      }
+      .footer-total{
+        background:#fff !important;
+        color:var(--primary) !important;
+        border:1px solid var(--line) !important;
+        font-weight:900 !important;
+      }
+      .footer-checkout{
+        background:linear-gradient(135deg,var(--good),#22c55e) !important;
+        color:#fff !important;
+        border:1px solid var(--good) !important;
+        font-weight:900 !important;
+      }
+      .footer-checkout span{display:block;font-size:13px}
+      .footer-total span{display:block;font-size:13px}
+      .tiers-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr)) !important;}
+      .tier-card{border-radius:20px !important;padding:12px !important}
+      .tier-card .title{font-size:14px !important}
+      .tier-card .min{font-size:12px !important}
+      .rep-section{
+        margin-top:14px;
+        border:1px solid var(--line);
+        border-radius:20px;
+        padding:14px;
+        background:#fff;
+        box-shadow:var(--shadow);
+      }
+      .rep-section .row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+      .rep-badge{
+        font-size:12px;
+        color:var(--muted);
+      }
+      @media (max-width: 520px){
+        .topbar-inner{padding:7px 10px 5px !important;}
+        .header-nav{padding:0 10px 8px !important;gap:6px !important;}
+        .nav-btn{min-height:52px !important;padding:8px 8px 7px !important;}
+        .nav-btn strong{font-size:13px !important}
+        .nav-btn small{font-size:9px !important}
+        .catalog{grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+        .companies{grid-template-columns:repeat(3,minmax(0,1fr)) !important;}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function ensureHeaderNav() {
+    let nav = document.getElementById('headerNav');
+    if (nav) return nav;
+    nav = document.createElement('div');
+    nav.id = 'headerNav';
+    nav.className = 'header-nav';
+    const topbar = document.querySelector('.topbar');
+    if (topbar) topbar.insertAdjacentElement('afterend', nav);
+    return nav;
+  }
+
+  function renderHeaderNav() {
+    const nav = ensureHeaderNav();
+    const flash = getLiveFlashOffer();
+    const flashLabel = flash ? countdownText(flash.end_datetime || (flash.end_date && flash.end_time ? `${flash.end_date}T${flash.end_time}` : '')) : 'لا يوجد عرض نشط';
+    const tierLabel = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || 'الشريحة') : 'اختار شريحتك';
+
+    nav.innerHTML = `
+      <button class="nav-btn ${state.view === 'tiers' ? 'active' : ''}" id="navTierBtn" type="button">
+        <strong>اختار شريحتك</strong>
+        <small>${esc(tierLabel)}</small>
+      </button>
+      <button class="nav-btn ${state.view === 'offers' ? 'active' : ''}" id="navOffersBtn" type="button">
+        <strong>صفقة اليوم</strong>
+        <small>عرض سريع</small>
+      </button>
+      <button class="nav-btn ${state.view === 'flash' ? 'active flash-live' : 'flash-live'}" id="navFlashBtn" type="button">
+        <strong>عرض الساعة</strong>
+        <small id="navFlashCountdown">${esc(flashLabel)}</small>
+      </button>
+    `;
+
+    const tierBtn = nav.querySelector('#navTierBtn');
+    const offersBtn = nav.querySelector('#navOffersBtn');
+    const flashBtn = nav.querySelector('#navFlashBtn');
+    if (tierBtn) tierBtn.onclick = () => goTiersFinal();
+    if (offersBtn) offersBtn.onclick = () => goOffersFinal();
+    if (flashBtn) flashBtn.onclick = () => goFlashFinal();
+  }
+
+  function updateHeaderNav() {
+    renderHeaderNav();
+  }
+
+  function updateTierFooterFinal() {
+    const btn = document.getElementById('tierBtn');
+    const main = document.getElementById('tierBtnMain');
+    const sub = document.getElementById('tierBtnSub');
+    const right = document.getElementById('tierBtnRight');
+    if (!btn || !main || !sub || !right) return;
+
+    if (!state.selectedTier) {
+      btn.classList.remove('ok');
+      main.textContent = 'اختار شريحتك';
+      sub.textContent = 'اضغط هنا لفتح الشرائح';
+      right.textContent = '→';
+      updateHeaderNav();
+      return;
+    }
+
+    const need = Number(state.selectedTier.tier_min || 0);
+    const used = (typeof cartTotals === 'function') ? cartTotals().eligible : 0;
+    const remaining = Math.max(0, need - used);
+
+    btn.classList.toggle('ok', remaining <= 0);
+    main.textContent = 'المتبقي';
+    sub.textContent = `${formatMoney(remaining)} ج.م`;
+    right.textContent = remaining <= 0 ? '✓' : '→';
+    updateHeaderNav();
+  }
+
+  function renderHomeFinal() {
+    const heroText = state.settings && state.settings.tier_welcome
+      ? state.settings.tier_welcome
+      : 'سرعة قرار. أقل تفكير. متوسط فاتورة أعلى.';
+    const companies = Array.isArray(state.companies) ? state.companies : [];
+
+    const main = document.getElementById('main');
+    if (!main) return;
+
+    main.innerHTML = `
+      <section class="hero">
+        <div class="hero-card">
+          <h2 class="hero-title">${esc(heroText)}</h2>
+          <p class="hero-sub">
+            واجهة مبيعات سريعة، واضحة، ولحظية. اختر الشريحة، تصفح الشركات، وابدأ الإضافة مباشرة بدون إعادة تحميل.
+          </p>
+        </div>
+
+        <div class="search-wrap">
+          <div class="search-row">
+            <input id="searchInput" class="search-input" placeholder="ابحث بالاسم أو الكود أو الشركة..." value="${esc(state.searchQuery || '')}" />
+            <button class="search-clear" id="searchClearBtn" type="button">✕</button>
+          </div>
+          <div id="suggestions" class="suggestions"></div>
+        </div>
+      </section>
+
+      <div class="section-head">
+        <div>
+          <h2>الشركات</h2>
+          <p>اضغط على الشركة لفتح منتجاتها فورًا</p>
+        </div>
+        <button class="pill ${state.companyFilter ? '' : 'active'}" onclick="goCompanies()">الكل</button>
+      </div>
+
+      <div class="companies">
+        ${(companies.length ? companies : []).slice(0, 60).map(c => `
+          <div class="company ${norm(state.companyFilter) === norm(c.name) ? 'active' : ''}" onclick="goProducts('${esc(c.name)}')">
+            ${c.logo ? `<img src="${esc(c.logo)}" alt="${esc(c.name)}">` : `<div class="logo">${esc((String(c.name || 'A').trim().split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase() || 'A'))}</div>`}
+            <div class="name">${esc(c.name)}</div>
+            <div class="count">${Number(c.count || 0)} صنف</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    if (typeof initSearchBox === 'function') initSearchBox();
+    updateHeaderNav();
+  }
+
+  function renderTiersFinal() {
+    const main = document.getElementById('main');
+    if (!main) return;
+
+    main.innerHTML = `
+      <div class="section-head">
+        <div>
+          <h2>اختيار الشريحة</h2>
+          <p>تغيير الشريحة لا يمسح السلة ويعيد التسعير تلقائيًا</p>
+        </div>
+        <button class="pill" onclick="goHome()">رجوع</button>
+      </div>
+
+      <div class="tiers-grid">
+        ${(state.tiers || []).map(t => `
+          <div class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick="pickTier('${esc(t.tier_name)}')">
+            <div class="title">${esc(t.visible_label || t.tier_name || 'شريحة')}</div>
+            <div class="min">الحد الأدنى: ${formatMoney(t.tier_min)} ج.م</div>
+            <div class="min">${esc(t.tier_description || '')}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="rep-section">
+        <div class="row">
+          <div>
+            <strong>${state.rep && state.rep.rep && state.rep.rep.rep_name ? esc(state.rep.rep.rep_name) : 'دخول مندوب'}</strong>
+            <div class="rep-badge">${state.rep && state.rep.rep ? 'البيانات محفوظة للجلسة الحالية' : 'اضغط للدخول بحساب المندوب'}</div>
+          </div>
+          <button class="chip-btn primary" type="button" onclick="handleRepButton()">دخول مندوب</button>
+        </div>
+      </div>
+    `;
+    updateHeaderNav();
+  }
+
+  function renderProductCardFinal(p) {
+    const unit = (typeof getSelectedUnit === 'function') ? getSelectedUnit(p.id) : 'carton';
+    const pr = (typeof resolvePrice === 'function') ? resolvePrice(p, unit) : { base: 0, current: 0, changed: false };
+    const selected = (typeof cartItemByKey === 'function') ? cartItemByKey(`${p.id}::${unit}`) : null;
+
+    const unitButtons = ['carton', 'pack', 'piece']
+      .filter(u => Number((p.base_prices || {})[u] || 0) > 0)
+      .map(u => `
+        <button class="unit-tab ${unit === u ? 'active' : ''}" onclick="setSelectedUnit('${esc(String(p.id))}','${u}')">${u === 'carton' ? 'كرتونة' : u === 'pack' ? 'دستة' : 'قطعة'}</button>
+      `).join('');
+
+    const oldPriceHtml = (state.selectedTier && pr.changed) ? `<div class="old-price">${formatMoney(pr.base)} ج.م</div>` : '';
+    const priceHtml = `<div class="new-price">${formatMoney(pr.current)} ج.م</div>`;
+    const btnText = selected ? 'إزالة' : 'شراء';
+
+    return `
+      <article class="card ${pr.changed ? 'offer' : ''}">
+        <div class="img">
+          <img src="${esc(p.image || fallbackImage())}" alt="${esc(p.name)}" loading="lazy" />
+          <div class="badge">${esc(p.company || '')}</div>
+        </div>
+        <div class="body">
+          <div class="title">${esc(p.name)}</div>
+          <div class="subline">الكود: ${esc(String(p.id))}</div>
+          <div class="unit-tabs">${unitButtons}</div>
+          <div class="price-box">
+            ${oldPriceHtml}
+            ${priceHtml}
+          </div>
+          <div class="qty-row">
+            <div class="stepper">
+              <button onclick="stepQty('${esc(String(p.id))}','${unit}',-1)">−</button>
+              <span>${selected ? selected.qty : 1}</span>
+              <button onclick="stepQty('${esc(String(p.id))}','${unit}',1)">+</button>
+            </div>
+            <button class="add-btn ${selected ? 'remove' : ''}" onclick="toggleProductToCart('${esc(String(p.id))}','${unit}')">${btnText}</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function goHomeFinal() {
+    state.view = 'home';
+    state.companyFilter = '';
+    state.searchMode = false;
+    state.searchQuery = '';
+    pushRoute('home');
+    renderHomeFinal();
+    updateHeaderNav();
+  }
+
+  function goTiersFinal() {
+    state.view = 'tiers';
+    pushRoute('tiers');
+    renderTiersFinal();
+    updateHeaderNav();
+  }
+
+  function goCompaniesFinal() {
+    state.view = 'companies';
+    pushRoute('companies');
+    if (typeof OLD.renderCompanies === 'function') OLD.renderCompanies();
+    updateHeaderNav();
+  }
+
+  function goOffersFinal() {
+    state.view = 'offers';
+    pushRoute('offers');
+    if (typeof OLD.renderOffers === 'function') OLD.renderOffers();
+    updateHeaderNav();
+  }
+
+  function goFlashFinal() {
+    state.view = 'flash';
+    pushRoute('flash');
+    if (typeof OLD.renderFlashOffers === 'function') OLD.renderFlashOffers();
+    updateHeaderNav();
+  }
+
+  function renderCurrentViewFinal() {
+    if (state.view === 'home') return renderHomeFinal();
+    if (state.view === 'tiers') return renderTiersFinal();
+    if (state.view === 'companies') return (typeof OLD.renderCompanies === 'function' ? OLD.renderCompanies() : renderHomeFinal());
+    if (state.view === 'offers') return (typeof OLD.renderOffers === 'function' ? OLD.renderOffers() : renderHomeFinal());
+    if (state.view === 'flash') return (typeof OLD.renderFlashOffers === 'function' ? OLD.renderFlashOffers() : renderHomeFinal());
+    return (typeof OLD.renderProductsList === 'function' ? OLD.renderProductsList(true) : renderHomeFinal());
+  }
+
+  function goProductsFinal(company = '') {
+    state.companyFilter = String(company || '').trim();
+    state.searchMode = false;
+    state.searchQuery = '';
+    state.view = 'products';
+    state.currentPage = 1;
+    state.hasMore = true;
+    state.products = [];
+    state.productsError = null;
+    pushRoute('products');
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    const pending = loadProducts(true);
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    pending.then(() => {
+      if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+      updateHeaderNav();
+    }).catch(() => {});
+  }
+
+  function setCompanyFilterFinal(company = '') {
+    return goProductsFinal(company);
+  }
+
+  function startSearchFinal(q) {
+    const query = String(q || '').trim();
+    state.view = 'products';
+    state.searchMode = !!query;
+    state.searchQuery = query;
+    state.companyFilter = '';
+    state.currentPage = 1;
+    state.hasMore = true;
+    state.products = [];
+    state.productsError = null;
+    pushRoute('products');
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    const pending = loadProducts(true);
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    pending.then(() => {
+      if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+      updateHeaderNav();
+    }).catch(() => {});
+  }
+
+  function clearSearchFinal() {
+    state.searchMode = false;
+    state.searchQuery = '';
+    state.companyFilter = '';
+    state.currentPage = 1;
+    state.hasMore = true;
+    state.products = [];
+    state.productsError = null;
+    pushRoute('products');
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    const pending = loadProducts(true);
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    pending.then(() => {
+      if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+      updateHeaderNav();
+    }).catch(() => {});
+  }
+
+  function selectSearchSuggestionFinal(id) {
+    const item = (state.productIndex && state.productIndex.get(String(id))) || (state.products || []).find(p => String(p.id) === String(id));
+    if (!item) return;
+    state.searchMode = true;
+    state.searchQuery = item.name || '';
+    state.companyFilter = item.company || '';
+    state.view = 'products';
+    state.currentPage = 1;
+    state.hasMore = true;
+    state.products = [];
+    state.productsError = null;
+    pushRoute('products');
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    const pending = loadProducts(true);
+    if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+    pending.then(() => {
+      if (typeof OLD.renderProductsList === 'function') OLD.renderProductsList(true);
+      toast('تم اختيار الصنف', 'good');
+      updateHeaderNav();
+    }).catch(() => {});
+  }
+
+  function submitRepLoginFinal() {
+    const idEl = document.getElementById('repIdInput');
+    const passEl = document.getElementById('repPassInput');
+    const rep_id = String(idEl ? idEl.value : '').trim();
+    const password = String(passEl ? passEl.value : '').trim();
+
+    if (!rep_id || !password) {
+      toast('أدخل كود المندوب وكلمة السر', 'warn');
+      return;
+    }
+
+    apiRequest('reps/login', {}, 'POST', { rep_id, password })
+      .then(data => {
+        if (data && data.valid) {
+          state.rep = data.session;
+          saveJSON('alahram_rep_session', data.session);
+          localStorage.setItem('alahram_rep_token', data.token);
+          if (typeof updateRepUI === 'function') updateRepUI();
+          if (typeof closeOverlay === 'function') closeOverlay();
+          toast('تم تسجيل الدخول بنجاح', 'good');
+        } else {
+          toast((data && data.error) ? data.error : 'بيانات غير صحيحة', 'bad');
+        }
+      })
+      .catch(() => {
+        toast('تعذر التحقق من دخول المندوب الآن', 'bad');
+      });
+  }
+
+  function updateHeaderNavLoop() {
+    const nav = document.getElementById('headerNav');
+    if (!nav) return;
+    const flash = getLiveFlashOffer();
+    const flashCountdown = flash ? countdownText(flash.end_datetime || (flash.end_date && flash.end_time ? `${flash.end_date}T${flash.end_time}` : '')) : 'لا يوجد عرض نشط';
+    const flashBtn = nav.querySelector('#navFlashBtn small');
+    if (flashBtn) flashBtn.textContent = flashCountdown;
+
+    const tierBtn = nav.querySelector('#navTierBtn small');
+    if (tierBtn) tierBtn.textContent = state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || 'الشريحة') : 'اضغط لفتح الشرائح';
+
+    nav.querySelector('#navTierBtn')?.classList.toggle('active', state.view === 'tiers');
+    nav.querySelector('#navOffersBtn')?.classList.toggle('active', state.view === 'offers');
+    nav.querySelector('#navFlashBtn')?.classList.toggle('active', state.view === 'flash');
+    nav.querySelector('#navFlashBtn')?.classList.toggle('flash-live', !!flash);
+  }
+
+  function updateHeaderNavFinal() {
+    renderHeaderNav();
+    updateHeaderNavLoop();
+  }
+
+  function updateTierFooterFinalWrapper() {
+    updateTierFooterFinal();
+    updateHeaderNavLoop();
+  }
+
+  function install() {
+    injectStyles();
+
+    // expose final functions
+    window.renderHome = renderHomeFinal;
+    window.renderTiers = renderTiersFinal;
+    window.renderProductCard = renderProductCardFinal;
+    window.goHome = goHomeFinal;
+    window.goTiers = goTiersFinal;
+    window.goCompanies = goCompaniesFinal;
+    window.goOffers = goOffersFinal;
+    window.goFlash = goFlashFinal;
+    window.goProducts = goProductsFinal;
+    window.setCompanyFilter = setCompanyFilterFinal;
+    window.startSearch = startSearchFinal;
+    window.clearSearch = clearSearchFinal;
+    window.selectSearchSuggestion = selectSearchSuggestionFinal;
+    window.submitRepLogin = submitRepLoginFinal;
+    window.renderCurrentView = renderCurrentViewFinal;
+    window.updateTierFooter = updateTierFooterFinalWrapper;
+
+    // keep cart refresh instant with footer/header sync
+    if (typeof OLD.updateCartUI === 'function') {
+      window.updateCartUI = function () {
+        try { OLD.updateCartUI(); } catch (e) {}
+        updateHeaderNavLoop();
+      };
+    }
+
+    // history / back navigation
+    if (!history.state) history.replaceState(routeSnapshot(state.view), '', location.href);
+    window.onpopstate = (ev) => {
+      applyRoute(ev.state || { view: 'home' });
+    };
+
+    // refresh header/nav and footer based on current data
+    renderHeaderNav();
+    updateHeaderNavLoop();
+    updateTierFooterFinalWrapper();
+
+    // whenever current view is entered after prior bootstrap rendering, ensure header nav stays in sync
+    setInterval(updateHeaderNavLoop, 1000);
+
+    // expose utilities used inline
+    window.updateHeaderNavFinal = updateHeaderNavFinal;
+    window.__finalPushRoute = pushRoute;
+    window.__finalApplyRoute = applyRoute;
+  }
+
+  document.addEventListener('DOMContentLoaded', install);
+})();
+</script>
+
 </body>
 </html>
