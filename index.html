@@ -71,50 +71,6 @@
     .brand-text p{margin:3px 0 0;font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:52vw}
 
     .topbar-inner{gap:8px}
-    .rep-chip{
-      display:flex;align-items:center;gap:10px;
-      min-width:0;max-width:48vw;
-      padding:9px 12px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:#fff;
-      box-shadow:var(--shadow-soft);
-      color:var(--text);
-      text-align:right;
-      flex:0 0 auto;
-    }
-    .rep-chip .dot{
-      width:10px;height:10px;border-radius:999px;background:var(--bad);flex:0 0 auto;
-      box-shadow:0 0 0 4px rgba(239,68,68,.10);
-    }
-    .rep-chip.active .dot{
-      background:var(--good);
-      box-shadow:0 0 0 4px rgba(22,163,74,.12);
-    }
-    .rep-chip .meta{min-width:0;display:flex;flex-direction:column;align-items:flex-start;line-height:1.15}
-    .rep-chip .meta strong{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
-    .rep-chip .meta span{font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw;margin-top:3px}
-    .rep-modal-grid{display:grid;gap:12px}
-    .rep-status{
-      border-radius:18px;padding:12px 14px;border:1px solid var(--line);background:#f8fbff;
-      display:flex;align-items:center;justify-content:space-between;gap:10px
-    }
-    .rep-status strong{font-size:14px}
-    .rep-status.good{background:rgba(22,163,74,.08);border-color:rgba(22,163,74,.18)}
-    .rep-status.bad{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.18)}
-    .rep-card{
-      border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow-soft);padding:14px;display:grid;gap:10px
-    }
-    .rep-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .rep-submit{
-      height:48px;border-radius:16px;background:var(--primary);color:#fff;font-weight:900;font-size:15px;
-      width:100%
-    }
-    .rep-submit.logout{background:var(--bad)}
-    .rep-note{font-size:12px;color:var(--muted);line-height:1.6}
-    .rep-readonly{
-      border:1px solid var(--line);background:#f8fbff;border-radius:16px;padding:12px 14px;font-size:14px;min-height:46px
-    }
     .page{padding:10px 12px 320px}
     .panel{
       border:1px solid var(--line);
@@ -337,13 +293,6 @@
             <p id="brandSub">نظام بيع ذكي لتجارة الجملة</p>
           </div>
         </div>
-        <button id="repHeaderBtn" class="rep-chip" type="button" aria-label="دخول المندوب">
-          <span class="dot"></span>
-          <span class="meta">
-            <strong id="repHeaderName">دخول المندوب</strong>
-            <span id="repHeaderSub">اضغط لتسجيل الدخول</span>
-          </span>
-        </button>
       </div>
     </header>
 
@@ -423,10 +372,6 @@
 
       <button class="bottom-total" id="cartTotalBtn" type="button" aria-label="إجمالي السلة">
         <div class="main"><span class="icon">🛒</span><span id="cartTotalMini">0</span></div>
-        <div class="copy">
-          <div class="sub">الإجمالي</div>
-          <div class="sub" id="cartShortSub">0 صنف</div>
-        </div>
       </button>
     </div>
   </div>
@@ -663,17 +608,6 @@ function findRepRecord(code, password) {
     return codeOk && passOk;
   }) || null;
 }
-function updateRepHeader() {
-  const btn = el('repHeaderBtn');
-  const name = el('repHeaderName');
-  const sub = el('repHeaderSub');
-  if (!btn || !name || !sub) return;
-  const active = repIsActive();
-  btn.classList.toggle('active', active);
-  btn.setAttribute('aria-label', active ? `المندوب ${repDisplayName()}` : 'دخول المندوب');
-  name.textContent = active ? repDisplayName() : 'دخول المندوب';
-  sub.textContent = active ? `${repDisplayPhone()}${repDisplayArea() ? ' • ' + repDisplayArea() : ''}` : 'اضغط لتسجيل الدخول';
-}
 function openRepOverlay(mode = 'login') {
   state.repMode = mode;
   renderRepOverlay(mode);
@@ -747,7 +681,6 @@ async function submitRepLogin() {
   }
   state.rep = { name: found.name || 'المندوب', phone: found.phone || '', area: found.area || '', active: true, code: found.code || code };
   saveJSON('alahram_rep', state.rep);
-  updateRepHeader();
   renderRepOverlay('profile');
   closeRepOverlay();
   toast(`أهلاً بيك يا ${state.rep.name} 👋`, 'good');
@@ -755,7 +688,6 @@ async function submitRepLogin() {
 function logoutRep() {
   state.rep = null;
   try { localStorage.removeItem('alahram_rep'); } catch (e) {}
-  updateRepHeader();
   renderRepOverlay('login');
   closeRepOverlay();
   toast('تم تسجيل الخروج', 'info');
@@ -1094,8 +1026,6 @@ function bindUI() {
   el('closeProductBtn').addEventListener('click', closeProductOverlay);
   el('productOverlay').addEventListener('click', (e) => { if (e.target.id === 'productOverlay') closeProductOverlay(); });
   el('tierBtn').addEventListener('click', () => goTiers());
-  const repHeaderBtn = el('repHeaderBtn');
-  if (repHeaderBtn) repHeaderBtn.addEventListener('click', () => openRepOverlay(repIsActive() ? 'profile' : 'login'));
   const closeRepBtn = el('closeRepBtn');
   if (closeRepBtn) closeRepBtn.addEventListener('click', closeRepOverlay);
   const repOverlay = el('repOverlay');
@@ -1448,7 +1378,6 @@ function renderCurrentView(resetScroll = false) {
   updateFooterTier();
   updateCartUI();
   updateFlashUI();
-  updateRepHeader();
   if (state.view === 'home') updateHomeFlashChip();
 }
 function updateFooterTier() {
@@ -1511,13 +1440,11 @@ function updateCartUI() {
   const totals = getCartAnalysis();
   const totalEl = el('cartTotal');
   const miniEl = el('cartTotalMini');
-  const shortSub = el('cartShortSub');
   const summary = el('cartSummary');
   const piecesEl = el('cartPiecesCount');
   const cartonsEl = el('cartCartonsCount');
   if (totalEl) totalEl.textContent = `${formatMoney(totals.total)} ج.م`;
   if (miniEl) miniEl.textContent = formatMoney(totals.total);
-  if (shortSub) shortSub.textContent = `${state.cart.length} صنف`;
   if (summary) summary.textContent = `${count} قطعة / ${state.cart.length} صنف`;
   if (piecesEl) piecesEl.textContent = formatMoney(pieces);
   if (cartonsEl) cartonsEl.textContent = formatMoney(cartons);
