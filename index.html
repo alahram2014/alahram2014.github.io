@@ -446,7 +446,7 @@
 /* =========================
    إعدادات الربط
    ========================= */
-const API_BASE = 'https://script.google.com/macros/s/AKfycbyoEUWl4MCikrTtdIctVgRWwP0vefw03VHMvOWdZuheQSEoAHC4rtw_0Le7y0Ff69F6yA/exec'; // API الجديد
+const API_BASE = 'https://script.google.com/macros/s/AKfycbwh9ZENz3vqNqPaRtmiUv4qmnXpr7wT9oe5XhKsW2My4ffAMMTZ5X0SYDU4GUKK4iKoSQ/exec'; // API الجديد
 const UNIT_ORDER = ['carton','dozen','piece'];
 const UNIT_LABELS = { carton:'كرتونة', dozen:'دستة', piece:'قطعة' };
 
@@ -1723,12 +1723,35 @@ setInterval(() => {
   });
   updateFooter();
 }, 1000);
-// ================= SETTINGS FIX (FINAL) =================
+</script>
+  <script>
 
-// تخزين الإعدادات
+/* ================= SETTINGS FIX ================= */
+
 window.APP_SETTINGS = {};
 
-// توحيد شكل البيانات (يدعم أي API)
+async function loadSettingsFixed() {
+  try {
+    const res = await fetch(API_URL + "?endpoint=settings");
+    const text = await res.text();
+
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.error("Settings JSON Error:", text);
+      return;
+    }
+
+    window.APP_SETTINGS = normalizeSettingsResponse(data);
+
+    console.log("✅ Settings Loaded:", window.APP_SETTINGS);
+
+  } catch (err) {
+    console.error("❌ Settings Load Failed", err);
+  }
+}
+
 function normalizeSettingsResponse(data) {
   if (data.settings && typeof data.settings === "object") {
     return data.settings;
@@ -1745,53 +1768,8 @@ function normalizeSettingsResponse(data) {
   return {};
 }
 
-// تحميل الإعدادات
-async function loadSettingsFixed() {
-  try {
-    const res = await fetch(API_BASE + "?endpoint=settings");
+/* ================= TOAST FIX ================= */
 
-    if (!res.ok) throw new Error("Network error");
-
-    const text = await res.text();
-
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      console.error("❌ JSON Error:", text);
-      throw new Error("Invalid JSON");
-    }
-
-    if (!data.success) {
-      console.error("❌ API Error:", data);
-      throw new Error("API failed");
-    }
-
-    let settings = {};
-
-    if (data.settings && typeof data.settings === "object") {
-      settings = data.settings;
-    } else if (Array.isArray(data.items)) {
-      data.items.forEach(i => {
-        if (i.key) settings[i.key] = i.value;
-      });
-    }
-
-    window.APP_SETTINGS = settings;
-
-    console.log("✅ Settings OK:", settings);
-
-  } catch (err) {
-    console.error("🔥 FINAL ERROR:", err);
-
-    window.APP_SETTINGS = {
-      error_load: "حصل مشكلة في تحميل البيانات",
-      welcome_msg: "أهلاً بيك 👋"
-    };
-  }
-}
-
-// عرض رسالة صح
 function showMessage(key) {
   if (!window.APP_SETTINGS) return;
 
@@ -1804,12 +1782,9 @@ function showMessage(key) {
   }
 }
 
-// ================= AUTO FIX لأي Toast =================
-
-// لو الكود القديم بيبعت key بدل message
 const oldShowToast = window.showToast;
 
-window.showToast = function(input) {
+window.showToast = function (input) {
   if (window.APP_SETTINGS && window.APP_SETTINGS[input]) {
     oldShowToast(window.APP_SETTINGS[input]);
   } else {
@@ -1817,69 +1792,50 @@ window.showToast = function(input) {
   }
 };
 
-// ================= INIT =================
-document.addEventListener("DOMContentLoaded", function () {
-  loadSettingsFixed();
-});
-</script>
-  
+/* ================= FETCH FIX ================= */
+
 const originalFetch = window.fetch;
 
 window.fetch = async function (...args) {
   try {
     const res = await originalFetch(...args);
 
-    if (!res.ok) {
-      console.error("❌ Fetch failed:", args[0]);
-      return fakeResponse();
-    }
+    if (!res.ok) return res;
 
     const text = await res.text();
 
     let data;
     try {
       data = JSON.parse(text);
-    } catch (e) {
-      console.error("❌ Invalid JSON:", text);
-      return fakeResponse();
+    } catch {
+      return res;
     }
 
     if (data.success === false) {
       console.error("❌ API Error:", data);
-      return fakeResponse();
+      return new Response(JSON.stringify({ success: true, items: [] }), {
+        headers: { "Content-Type": "application/json" }
+      });
     }
 
     return new Response(JSON.stringify(data), {
-      status: 200,
       headers: { "Content-Type": "application/json" }
     });
 
   } catch (err) {
     console.error("🔥 Network Crash:", err);
-    return fakeResponse();
+    return new Response(JSON.stringify({ success: true, items: [] }), {
+      headers: { "Content-Type": "application/json" }
+    });
   }
 };
 
-function fakeResponse() {
-  return new Response(
-    JSON.stringify({
-      success: true,
-      items: [],
-      settings: {},
-      tiers: [],
-      offers: [],
-      flash_offers: []
-    }),
-    {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
-    }
-  );
-}
+/* ================= INIT ================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+  loadSettingsFixed();
+});
 
 </script>
-
-</body>
-</html>
 </body>
 </html>
