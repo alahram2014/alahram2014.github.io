@@ -1,1 +1,2449 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Alahram Co B2B</title>
+  <meta name="theme-color" content="#1f3a5f" />
+  <style>
+    :root{
+      --bg:#f6f8fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e5eaf1;
+      --primary:#1f3a5f;
+      --primary-2:#245a91;
+      --good:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+      --gold:#d4a017;
+      --shadow:0 14px 40px rgba(16,32,51,.10);
+      --radius:22px;
+      --radius-sm:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Tahoma,Arial,sans-serif;
+      background:linear-gradient(180deg,#eef4ff 0%,#f8fbff 26%,var(--bg) 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      padding-bottom:108px;
+    }
+    button,input,textarea{font:inherit}
+    button{border:0;background:none;cursor:pointer}
+    input,textarea{outline:0}
+    .app{max-width:1280px;margin:0 auto}
+    .topbar{
+      position:sticky;top:0;z-index:40;
+      backdrop-filter:blur(12px);
+      background:rgba(246,248,251,.90);
+      border-bottom:1px solid rgba(229,234,241,.9);
+    }
+    .topbar-inner{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px 14px 10px;
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;min-width:0;
+    }
+    .brand-badge{
+      width:46px;height:46px;border-radius:16px;
+      background:linear-gradient(135deg,var(--primary),#345f98);
+      color:#fff;display:grid;place-items:center;
+      font-weight:900;box-shadow:var(--shadow);flex:0 0 auto;
+    }
+    .brand h1{margin:0;font-size:16px;line-height:1.1}
+    .brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+    .top-actions{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+    .chip-btn,.icon-btn,.pill{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      border:1px solid var(--line);background:#fff;color:var(--text);
+      border-radius:999px;padding:10px 14px;min-height:42px;
+      box-shadow:0 6px 18px rgba(16,32,51,.05);
+      transition:.18s ease transform,.18s ease background,.18s ease border-color,.18s ease color;
+      user-select:none;
+    }
+    .chip-btn:hover,.icon-btn:hover,.pill:hover{transform:translateY(-1px)}
+    .chip-btn.primary,.pill.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .chip-btn.good{background:var(--good);color:#fff;border-color:var(--good)}
+    .chip-btn.warn{background:var(--warn);color:#fff;border-color:var(--warn)}
+    .chip-btn.ghost,.icon-btn{background:#fff}
+    .icon-btn{width:42px;height:42px;padding:0;border-radius:14px}
+    .page{padding:14px 14px 0}
+    .page-head{
+      display:flex;align-items:flex-end;justify-content:space-between;gap:12px;
+      margin:8px 0 12px;
+    }
+    .page-head h2{margin:0;font-size:18px}
+    .page-head p{margin:4px 0 0;color:var(--muted);font-size:12px;line-height:1.6}
+    .search-panel{
+      background:#fff;border:1px solid var(--line);border-radius:22px;
+      padding:12px;box-shadow:var(--shadow)
+    }
+    .search-row{display:flex;gap:10px;align-items:center}
+    .search-input{
+      flex:1;min-width:0;border:0;background:transparent;
+      font-size:15px;padding:8px 4px;
+    }
+    .search-clear{
+      width:42px;height:42px;border-radius:14px;border:1px solid var(--line);
+      display:grid;place-items:center;background:#fff;color:var(--muted);
+    }
+    .quick-actions{
+      display:grid;grid-template-columns:1fr 1fr;gap:10px;
+      margin-top:12px;
+    }
+    .quick-chip{
+      background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px 14px;
+      box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:flex-start;gap:4px;
+      min-height:64px;text-align:right;
+    }
+    .quick-chip strong{font-size:15px;color:var(--text)}
+    .quick-chip span{font-size:12px;color:var(--muted);line-height:1.4}
+    .section-title{
+      display:flex;align-items:end;justify-content:space-between;gap:10px;
+      margin:18px 0 10px;
+    }
+    .section-title h3{margin:0;font-size:17px}
+    .section-title small{color:var(--muted)}
+    .toolbar{
+      display:flex;gap:8px;flex-wrap:wrap;
+      margin-top:10px
+    }
+    .companies-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;
+      margin-top:12px;
+    }
+    .company-card{
+      background:#fff;border:1px solid var(--line);border-radius:20px;padding:10px;
+      box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;
+      min-height:108px;text-align:center;
+    }
+    .company-card.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,58,95,.08),var(--shadow)}
+    .company-logo,.company-logo img{
+      width:48px;height:48px;border-radius:16px;object-fit:cover;background:#eef3fb;
+      display:block;
+    }
+    .company-logo.placeholder{
+      display:grid;place-items:center;color:var(--primary);font-weight:900;font-size:15px;
+    }
+    .company-name{font-size:12px;font-weight:700;line-height:1.35;min-height:34px}
+    .company-count{font-size:11px;color:var(--muted)}
+    .catalog-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px;
+    }
+    .product-card{
+      background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
+      display:flex;flex-direction:column;min-height:100%;
+    }
+    .product-image{
+      aspect-ratio:1/1;background:#eef3fb;position:relative;overflow:hidden;
+    }
+    .product-image img{
+      width:100%;height:100%;object-fit:contain;display:block;padding:10px;background:#eef3fb;
+    }
+    .product-body{padding:10px 10px 12px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .product-title{
+      font-weight:900;font-size:13px;line-height:1.45;
+      min-height:38px;
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    }
+    .unit-tabs{display:flex;flex-wrap:wrap;gap:6px}
+    .unit-tab{
+      border:1px solid var(--line);background:#f8fbff;border-radius:999px;padding:6px 10px;
+      font-size:11px;cursor:pointer;min-width:56px;text-align:center;
+    }
+    .unit-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .price-box{display:flex;flex-direction:column;gap:2px;border-top:1px dashed var(--line);padding-top:8px}
+    .old-price{font-size:12px;color:var(--muted);text-decoration:line-through;line-height:1}
+    .new-price{font-weight:900;font-size:18px;color:#0f172a;line-height:1.1}
+    .buy-row{display:flex;gap:8px;align-items:center}
+    .stepper{
+      display:flex;align-items:center;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;flex:1;
+      min-width:96px;
+    }
+    .stepper button{
+      width:34px;height:34px;font-size:18px;background:#f8fbff;color:var(--text)
+    }
+    .stepper span{min-width:28px;text-align:center;font-weight:800}
+    .buy-btn{
+      min-width:72px;height:38px;border-radius:14px;padding:0 12px;font-weight:900;font-size:13px;
+      background:var(--primary);color:#fff;box-shadow:0 10px 24px rgba(31,58,95,.18);
+    }
+    .buy-btn.remove{background:var(--bad)}
+    .card-note{font-size:11px;color:var(--muted);line-height:1.5}
+    .empty{
+      padding:22px;border:1px dashed var(--line);border-radius:22px;background:#fff;text-align:center;color:var(--muted)
+    }
+    .skeleton-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-top:12px;
+    }
+    .skeleton-card{
+      background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);
+      min-height:310px;
+    }
+    .shimmer{
+      background:linear-gradient(90deg,#eef3fb 25%,#f7fafc 37%,#eef3fb 63%);
+      background-size:400% 100%;animation:shimmer 1.15s ease infinite;
+    }
+    @keyframes shimmer{0%{background-position:100% 0}100%{background-position:0 0}}
+    .s-img{height:160px}
+    .s-line{height:14px;border-radius:999px;margin:12px 12px 0}
+    .s-line.sm{width:55%}
+    .s-line.md{width:75%}
+    .s-line.lg{width:90%}
+    .s-btn{height:38px;border-radius:14px;margin:12px}
+    .section-panel{
+      background:#fff;border:1px solid var(--line);border-radius:22px;padding:14px;box-shadow:var(--shadow);margin-top:12px;
+    }
+    .tiers-grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;
+    }
+    .tier-card{
+      border:1px solid var(--line);border-radius:20px;padding:14px;background:#fff;box-shadow:var(--shadow);cursor:pointer;
+    }
+    .tier-card.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,58,95,.08),var(--shadow)}
+    .tier-card .title{font-weight:900;font-size:14px}
+    .tier-card .min,.tier-card .desc{font-size:12px;color:var(--muted);margin-top:6px;line-height:1.5}
+    .rep-card{
+      margin-top:12px;background:linear-gradient(135deg,#102033,#1f3a5f 48%,#245a91);
+      color:#fff;border-radius:22px;padding:16px;box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    }
+    .rep-card .text h4{margin:0 0 4px;font-size:16px}
+    .rep-card .text p{margin:0;color:rgba(255,255,255,.82);font-size:12px;line-height:1.6}
+    .rep-card button{background:#fff;color:var(--primary);border-radius:14px;padding:10px 14px;font-weight:900}
+    .offer-grid,.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+    .promo-card{
+      background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;
+    }
+    .promo-image{aspect-ratio:1/1;background:#eef3fb}
+    .promo-image img{width:100%;height:100%;object-fit:contain;padding:10px;display:block}
+    .promo-body{padding:10px;display:flex;flex-direction:column;gap:8px;flex:1}
+    .promo-body .name{font-weight:900;font-size:14px;line-height:1.45}
+    .promo-body .desc{font-size:12px;color:var(--muted);line-height:1.55}
+    .promo-body .timer{font-size:12px;color:var(--gold);font-weight:800}
+    .footer-bar{
+      position:fixed;left:0;right:0;bottom:0;z-index:55;
+      background:rgba(255,255,255,.90);backdrop-filter:blur(12px);
+      border-top:1px solid rgba(229,234,241,.95);
+      padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+    }
+    .footer-inner{
+      max-width:1280px;margin:0 auto;display:flex;align-items:center;gap:10px;
+    }
+    .footer-tier{
+      flex:1;min-width:0;height:58px;border-radius:18px;background:#fff;border:1px solid var(--line);
+      display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;
+      box-shadow:var(--shadow);text-align:right;
+    }
+    .footer-tier.active{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border-color:#16a34a}
+    .footer-tier .main{font-weight:900;font-size:15px;line-height:1.2}
+    .footer-tier .sub{font-size:11px;opacity:.86;line-height:1.2;margin-top:2px}
+    .footer-center{
+      min-width:110px;height:58px;border-radius:18px;background:#fff;border:1px solid var(--line);
+      box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 12px;text-align:center;
+    }
+    .footer-center .label{font-size:11px;color:var(--muted);line-height:1}
+    .footer-center .value{font-weight:900;font-size:17px;line-height:1.1;margin-top:4px}
+    .footer-checkout{
+      min-width:104px;height:58px;border-radius:18px;background:var(--good);color:#fff;font-weight:900;
+      box-shadow:0 10px 24px rgba(22,163,74,.20);
+    }
+    .drawer{
+      position:fixed;inset:0 auto 0 0;z-index:70;width:min(420px,100%);
+      background:#fff;border-left:1px solid var(--line);box-shadow:-16px 0 40px rgba(0,0,0,.10);
+      transform:translateX(-102%);transition:.24s ease transform;display:flex;flex-direction:column;
+    }
+    .drawer.open{transform:translateX(0)}
+    .drawer-head{
+      padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px;
+    }
+    .drawer-head h3{margin:0;font-size:17px}
+    .drawer-body{padding:14px;overflow:auto;flex:1}
+    .cart-item{
+      border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:10px;background:#fbfdff
+    }
+    .cart-item .row{display:flex;justify-content:space-between;gap:10px}
+    .cart-item .name{font-weight:800;font-size:13px;line-height:1.45}
+    .cart-item .meta{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.5}
+    .cart-item .foot{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+    .cart-footer{
+      padding:14px;border-top:1px solid var(--line);background:#fff;position:sticky;bottom:0
+    }
+    .form-grid{display:grid;gap:10px}
+    .input{
+      width:100%;border:1px solid var(--line);border-radius:16px;padding:12px 14px;background:#fff;
+    }
+    .submit-btn{
+      width:100%;height:54px;border-radius:18px;background:var(--good);color:#fff;font-weight:900;font-size:15px;
+      box-shadow:0 10px 24px rgba(22,163,74,.20);
+    }
+    .overlay{
+      position:fixed;inset:0;background:rgba(15,23,42,.48);z-index:80;display:none;align-items:center;justify-content:center;padding:16px;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(520px,100%);background:#fff;border-radius:24px;overflow:hidden;box-shadow:var(--shadow);
+    }
+    .modal-head{padding:16px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .modal-head h3{margin:0;font-size:18px}
+    .modal-body{padding:16px}
+    .toast-zone{
+      position:fixed;left:14px;bottom:122px;z-index:90;display:flex;flex-direction:column;gap:8px;
+      max-width:min(360px,calc(100vw - 28px));
+    }
+    .toast{
+      background:#0f172a;color:#fff;border-radius:16px;padding:12px 14px;box-shadow:var(--shadow);font-size:13px;line-height:1.55;
+      opacity:0;transform:translateY(10px);animation:toastIn .22s ease forwards;
+    }
+    .toast.good{background:#146c43}
+    .toast.warn{background:#8a5a00}
+    .toast.bad{background:#7f1d1d}
+    .toast.info{background:#173a84}
+    @keyframes toastIn{to{opacity:1;transform:translateY(0)}}
+    .hidden{display:none !important}
+    .loading-strip{
+      margin-top:12px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:12px 14px;box-shadow:var(--shadow);
+      color:var(--muted);font-size:13px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+    }
+    .hint{font-size:12px;color:var(--muted);line-height:1.6}
+    .flash-chip-sub{font-size:11px;color:var(--muted);line-height:1.2}
+    .quick-chip.active{border-color:var(--primary);box-shadow:0 0 0 2px rgba(31,58,95,.08),var(--shadow)}
+    @media (max-width: 900px){
+      .quick-actions{grid-template-columns:1fr}
+    }
+    @media (max-width: 520px){
+      .topbar-inner{padding:12px 12px 10px}
+      .page{padding:12px 12px 0}
+      .brand h1{font-size:15px}
+      .brand p{font-size:11px}
+      .catalog-grid,.skeleton-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .companies-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+      .offer-grid,.flash-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .footer-inner{gap:8px}
+      .footer-center{min-width:92px}
+      .footer-checkout{min-width:92px}
+      .toast-zone{left:10px;right:10px;bottom:126px;max-width:none}
+      .drawer{width:100%}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <div class="brand" role="button" id="brandBtn">
+          <div class="brand-badge">A</div>
+          <div>
+            <h1>Alahram Co</h1>
+            <p id="brandSub">نظام بيع ذكي لتجارة الجملة</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-btn" id="cartBtn" title="السلة">🛒 <span id="cartCount">0</span></button>
+        </div>
+      </div>
+    </header>
 
+    <main id="main" class="page"></main>
+  </div>
+
+  <div id="drawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <h3>السلة</h3>
+        <div class="hint" id="cartSummary">0 صنف</div>
+      </div>
+      <button class="icon-btn" id="closeCartBtn">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div id="cartList"></div>
+      <div class="section-title">
+        <div>
+          <h3>بيانات الطلب</h3>
+          <small>يحفظ على الشيت عند التأكيد</small>
+        </div>
+      </div>
+      <div class="form-grid">
+        <input class="input" id="custName" placeholder="اسم العميل" />
+        <input class="input" id="custPhone" placeholder="رقم الهاتف" />
+        <textarea class="input" id="custAddress" rows="3" placeholder="العنوان"></textarea>
+      </div>
+    </div>
+    <div class="cart-footer">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <strong>الإجمالي</strong>
+        <strong id="cartTotal">0 ج.م</strong>
+      </div>
+      <button class="submit-btn" id="submitOrderBtn">تأكيد الطلب</button>
+    </div>
+  </div>
+
+  <div id="overlay" class="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h3 id="modalTitle">عنوان</h3>
+        <button class="icon-btn" id="modalCloseBtn">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <div class="toast-zone" id="toastZone"></div>
+
+  <div class="footer-bar">
+    <div class="footer-inner">
+      <button class="footer-tier" id="tierFooterBtn">
+        <div style="min-width:0">
+          <div class="main" id="tierFooterMain">اختار شريحتك</div>
+          <div class="sub" id="tierFooterSub">اضغط هنا لفتح الشرائح</div>
+        </div>
+        <div style="font-weight:900">→</div>
+      </button>
+      <div class="footer-center">
+        <div class="label">إجمالي السلة</div>
+        <div class="value" id="footerTotal">0 ج.م</div>
+      </div>
+      <button class="footer-checkout" id="footerCheckoutBtn">إتمام الشراء</button>
+    </div>
+  </div>
+
+<script>
+(function(){
+  'use strict';
+
+  const API_BASE = window.APP_API_BASE || 'https://script.google.com/macros/s/AKfycbxMo1xtMySOVvY8onW5Si_IOTbfUWCPP_Abql4TN_98swFl27jkPF1Eo5HWSFMs4h-NOw/exec';
+  const PAGE_LIMIT = 20;
+  const DEBUG = true;
+
+  const state = {
+    route: { view: 'companies', company: '', query: '', drawerOpen: false },
+    settings: {},
+    tiers: [],
+    companies: [],
+    offers: [],
+    flashOffers: [],
+    selectedTier: loadJSON('alahram_selected_tier', null),
+    rep: loadJSON('alahram_rep_session', null),
+    cart: loadJSON('alahram_cart', []),
+    searchQuery: '',
+    companyFilter: '',
+    catalog: { key: '', items: [], page: 1, hasMore: true, loading: false, error: '' },
+    catalogCache: new Map(),
+    catalogRequestId: 0,
+    searchDebounce: null,
+    flashTicker: null,
+    catalogObserver: null,
+  };
+
+  const $ = (id) => document.getElementById(id);
+
+  function loadJSON(key, fallback){
+    try{
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }catch(e){ return fallback; }
+  }
+  function saveJSON(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){}
+  }
+  function fmtMoney(n){
+    const v = Math.round(Number(n || 0));
+    return new Intl.NumberFormat('ar-EG').format(v);
+  }
+  function parseNum(v){
+    const n = Number(String(v ?? '').replace(/,/g, '').trim());
+    return Number.isFinite(n) ? n : 0;
+  }
+  function esc(s){
+    return String(s ?? '').replace(/[&<>"']/g, ch => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[ch]));
+  }
+  function jsArg(v){ return JSON.stringify(String(v ?? '')); }
+  function norm(s){ return String(s ?? '').trim().toLowerCase().replace(/\s+/g, ''); }
+  function parseDate(v){
+    if (!v) return 0;
+    const direct = new Date(v);
+    if (!Number.isNaN(direct.getTime())) return direct.getTime();
+    const s = String(v).replace(' ', 'T');
+    const alt = new Date(s);
+    if (!Number.isNaN(alt.getTime())) return alt.getTime();
+    return 0;
+  }
+  function formatDuration(ms){
+    if (!Number.isFinite(ms) || ms <= 0) return 'انتهى العرض';
+    const sec = Math.floor(ms / 1000);
+    const d = Math.floor(sec / 86400);
+    const h = Math.floor((sec % 86400) / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = sec % 60;
+    const pad = n => String(n).padStart(2, '0');
+    return d > 0 ? `${d} يوم ${pad(h)}:${pad(m)}:${pad(s)}` : `${pad(h)}:${pad(m)}:${pad(s)}`;
+  }
+  function toast(message, type = 'info'){
+    const zone = $('toastZone');
+    if (!zone) return;
+    const node = document.createElement('div');
+    node.className = `toast ${type}`;
+    node.textContent = message;
+    zone.appendChild(node);
+    setTimeout(() => {
+      node.style.opacity = '0';
+      node.style.transform = 'translateY(10px)';
+      setTimeout(() => node.remove(), 250);
+    }, 2500);
+  }
+
+  async function apiRequest(endpoint, { method = 'GET', params = {}, body = null } = {}){
+    const url = new URL(API_BASE);
+    url.searchParams.set('endpoint', endpoint);
+    Object.entries(params || {}).forEach(([k, v]) => {
+      if (v !== undefined && v !== null && String(v).length) url.searchParams.set(k, String(v));
+    });
+    if (DEBUG) console.log('[API]', method, endpoint, params, body || '');
+    let res;
+    try{
+      res = await fetch(url.toString(), {
+        method,
+        headers: body !== null ? { 'Content-Type': 'application/json' } : {},
+        body: body !== null ? JSON.stringify(body) : null
+      });
+    }catch(err){
+      console.error('[FETCH ERROR]', endpoint, err);
+      throw new Error('Failed to fetch: ' + endpoint);
+    }
+    const text = await res.text();
+    if (DEBUG) console.log('[API RAW]', endpoint, text.slice(0, 600));
+    let json;
+    try{
+      json = text ? JSON.parse(text) : {};
+    }catch(err){
+      throw new Error('Invalid JSON from ' + endpoint + ': ' + text.slice(0, 300));
+    }
+    const payload = json.data !== undefined ? json.data : json;
+    if (!res.ok || payload.success === false || json.success === false){
+      const msg = (payload && payload.error) || json.error || ('HTTP ' + res.status);
+      throw new Error(msg);
+    }
+    return payload;
+  }
+
+  function normalizeSettings(payload){
+    if (!payload) return {};
+    if (payload.settings && typeof payload.settings === 'object') return payload.settings;
+    if (Array.isArray(payload.items)){
+      const obj = {};
+      payload.items.forEach(i => {
+        if (i && i.key) obj[String(i.key)] = i.value;
+      });
+      return obj;
+    }
+    return payload;
+  }
+  function normalizeTier(raw){
+    return {
+      tier_id: raw.tier_id ?? raw.id ?? '',
+      tier_name: raw.tier_name ?? raw.name ?? '',
+      visible_label: raw.visible_label ?? raw.display_name ?? raw.name ?? raw.tier_name ?? '',
+      tier_min: parseNum(raw.tier_min ?? raw.min ?? 0),
+      active: parseNum(raw.active ?? raw.status ?? 1),
+      tier_password: raw.tier_password ?? raw.password ?? '',
+      tier_description: raw.tier_description ?? raw.description ?? '',
+      raw
+    };
+  }
+  function normalizeCompany(raw){
+    return {
+      name: raw.company_name ?? raw.name ?? '',
+      logo: raw.company_logo ?? raw.logo ?? '',
+      count: parseNum(raw.count ?? raw.total ?? raw.items ?? 0),
+      raw
+    };
+  }
+  function normalizeOffer(raw){
+    return {
+      id: String(raw.id ?? raw.offer_id ?? raw.name ?? crypto.randomUUID()),
+      name: raw.name ?? raw.offer_name ?? '',
+      image: raw.image ?? raw.offer_image ?? raw.product_image ?? '',
+      details: raw.details ?? raw.description ?? '',
+      price: parseNum(raw.price ?? raw.offer_price ?? 0),
+      active: parseNum(raw.active ?? raw.status ?? 1),
+      raw
+    };
+  }
+  function normalizeFlash(raw){
+    const startMs = parseDate(raw.start_datetime ?? raw.start ?? raw.Flash_Offers_start ?? raw.flash_start ?? '');
+    const endMs = parseDate(raw.end_datetime ?? raw.end ?? raw.Flash_Offers_end ?? raw.flash_end ?? '');
+    return {
+      id: String(raw.Flash_id ?? raw.flash_id ?? raw.id ?? raw.name ?? crypto.randomUUID()),
+      name: raw.Flash_name ?? raw.name ?? '',
+      display_title: raw.display_title ?? raw.Flash_title ?? raw.name ?? '',
+      display_subtitle: raw.display_subtitle ?? raw.description ?? raw.details ?? '',
+      details: raw.details ?? raw.desc ?? '',
+      image_url: raw.image_url ?? raw.image ?? raw.Flash_image ?? '',
+      display_button_label: raw.display_button_label ?? 'شراء',
+      display_remove_label: raw.display_remove_label ?? 'إزالة',
+      price: parseNum(raw.price ?? raw.Flash_price ?? 0),
+      start_datetime: raw.start_datetime ?? raw.start ?? '',
+      end_datetime: raw.end_datetime ?? raw.end ?? '',
+      active: parseNum(raw.active ?? raw.status ?? 1),
+      public_conditions: raw.public_conditions ?? '',
+      max_qty_per_customer: parseNum(raw.max_qty_per_customer ?? 0),
+      startMs,
+      endMs,
+      raw
+    };
+  }
+  function normalizeProduct(raw){
+    const base_prices = {
+      carton: parseNum(raw.base_carton_price ?? raw.carton_price ?? raw.price_carton ?? raw.carton ?? 0),
+      pack: parseNum(raw.base_pack_price ?? raw.pack_price ?? raw.price_pack ?? raw.pack ?? 0),
+      piece: parseNum(raw.base_piece_price ?? raw.piece_price ?? raw.price_piece ?? raw.piece ?? 0)
+    };
+    return {
+      id: String(raw.product_id ?? raw.id ?? raw.code ?? raw.productCode ?? ''),
+      name: raw.product_name ?? raw.name ?? raw.title ?? '',
+      company: raw.company_name ?? raw.company ?? '',
+      company_logo: raw.company_logo ?? raw.logo ?? '',
+      image: raw.product_image ?? raw.image ?? raw.picture ?? '',
+      units_per_carton: raw.units_per_carton ?? raw.units ?? '',
+      base_prices,
+      visible: parseNum(raw.visible ?? 1),
+      status: parseNum(raw.status ?? 1),
+      raw
+    };
+  }
+
+  function currentTierSlug(){
+    return norm(state.selectedTier?.tier_name || state.selectedTier?.visible_label || '');
+  }
+  function availableUnits(product){
+    const units = ['carton', 'pack', 'piece'];
+    return units.filter(u => resolvePrice(product, u).current > 0);
+  }
+  function visibleProduct(product){
+    if (!product) return false;
+    if (parseNum(product.visible) === 0 || parseNum(product.status) === 0) return false;
+    return availableUnits(product).length > 0;
+  }
+  function productKey(id, unit){
+    return `${id}::${unit}`;
+  }
+  function getSelectedUnit(product){
+    const key = 'alahram_unit_' + product.id;
+    const stored = localStorage.getItem(key) || '';
+    const units = availableUnits(product);
+    if (stored && units.includes(stored)) return stored;
+    const fallback = units[0] || 'carton';
+    localStorage.setItem(key, fallback);
+    return fallback;
+  }
+  function setSelectedUnit(id, unit){
+    localStorage.setItem('alahram_unit_' + id, unit);
+    render();
+  }
+
+  function getTierRawPrice(raw, tierSlug, unit){
+    if (!raw || !tierSlug) return 0;
+    if (raw.tier_prices && typeof raw.tier_prices === 'object'){
+      const tierObj = raw.tier_prices[tierSlug] || raw.tier_prices[norm(tierSlug)];
+      if (tierObj && typeof tierObj === 'object'){
+        return parseNum(tierObj[unit] ?? tierObj[`${unit}_price`] ?? 0);
+      }
+    }
+    const directKeys = [
+      `${tierSlug}_${unit}`,
+      `${tierSlug}_${unit}_price`,
+      `${tierSlug}${unit[0].toUpperCase()}${unit.slice(1)}`,
+      `${tierSlug}${unit.charAt(0).toUpperCase() + unit.slice(1)}Price`
+    ];
+    for (const k of directKeys){
+      if (raw[k] !== undefined && raw[k] !== null && String(raw[k]).length) return parseNum(raw[k]);
+    }
+    return 0;
+  }
+  function resolvePrice(product, unit){
+    const base = parseNum(product?.base_prices?.[unit] ?? 0);
+    let current = base;
+    let tierPrice = 0;
+    const tierSlug = currentTierSlug();
+    if (tierSlug && product){
+      tierPrice = getTierRawPrice(product.raw, tierSlug, unit);
+      if (tierPrice > 0) current = tierPrice;
+    }
+    return { base, current, tierPrice, changed: current !== base };
+  }
+
+  function cartIndexForProduct(id, unit){
+    return state.cart.findIndex(item => item.type === 'product' && productKey(item.id, item.unit) === productKey(id, unit));
+  }
+  function cartLinePrice(item){
+    if (!item) return 0;
+    if (item.type !== 'product') return parseNum(item.price || 0);
+    return resolvePrice(item.product_snapshot || item, item.unit).current;
+  }
+  function cartTotals(){
+    let total = 0;
+    let eligible = 0;
+    state.cart.forEach(item => {
+      const line = cartLinePrice(item) * parseNum(item.qty || 0);
+      total += line;
+      if (item.type === 'product') eligible += line;
+    });
+    return { total, eligible };
+  }
+  function totalItems(){
+    return state.cart.reduce((sum, item) => sum + parseNum(item.qty || 0), 0);
+  }
+
+  function showModal(title, bodyHtml){
+    $('modalTitle').textContent = title;
+    $('modalBody').innerHTML = bodyHtml;
+    $('overlay').classList.add('show');
+  }
+  function closeModal(){
+    $('overlay').classList.remove('show');
+  }
+
+  function currentStateRoute(){
+    return {
+      view: state.route.view,
+      company: state.route.company || '',
+      query: state.route.query || '',
+      drawerOpen: state.route.drawerOpen || false
+    };
+  }
+  function pushRoute(next, replace = false){
+    const route = { ...currentStateRoute(), ...next };
+    state.route = route;
+    if (replace){
+      history.replaceState(route, '', location.href);
+    }else{
+      history.pushState(route, '', location.href);
+    }
+    render();
+  }
+  function setRoute(next, replace = false){
+    pushRoute(next, replace);
+  }
+
+  function openDrawer(push = true){
+    state.route.drawerOpen = true;
+    if (push) history.pushState(currentStateRoute(), '', location.href);
+    $('drawer').classList.add('open');
+    $('drawer').setAttribute('aria-hidden', 'false');
+  }
+  function closeDrawer(push = false){
+    if (push && history.state && history.state.drawerOpen){
+      history.back();
+      return;
+    }
+    state.route.drawerOpen = false;
+    $('drawer').classList.remove('open');
+    $('drawer').setAttribute('aria-hidden', 'true');
+  }
+
+  function flashActiveOffers(){
+    return state.flashOffers.filter(o => {
+      if (parseNum(o.active) === 0) return false;
+      const now = Date.now();
+      if (o.startMs && now < o.startMs) return false;
+      if (o.endMs && now > o.endMs) return false;
+      return true;
+    });
+  }
+  function flashChipText(){
+    const active = flashActiveOffers();
+    if (!active.length) return 'لا يوجد عرض نشط';
+    const nearest = active
+      .filter(x => x.endMs)
+      .sort((a, b) => a.endMs - b.endMs)[0] || active[0];
+    return `متبقي ${formatDuration(nearest.endMs - Date.now())}`;
+  }
+
+  function updateFooter(){
+    const total = cartTotals().total;
+    const eligible = cartTotals().eligible;
+    const tierBtn = $('tierFooterBtn');
+    const tierMain = $('tierFooterMain');
+    const tierSub = $('tierFooterSub');
+    const totalEl = $('footerTotal');
+
+    totalEl.textContent = `${fmtMoney(total)} ج.م`;
+    if (!state.selectedTier){
+      tierBtn.classList.remove('active');
+      tierMain.textContent = 'اختار شريحتك';
+      tierSub.textContent = 'اضغط هنا لفتح الشرائح';
+    }else{
+      tierMain.textContent = state.selectedTier.visible_label || state.selectedTier.tier_name || 'الشريحة';
+      const need = parseNum(state.selectedTier.tier_min);
+      const remaining = Math.max(0, need - eligible);
+      tierSub.textContent = remaining <= 0 ? 'تمت الشريحة' : `المتبقي ${fmtMoney(remaining)} ج.م`;
+      tierBtn.classList.toggle('active', remaining <= 0);
+    }
+    $('cartCount').textContent = String(totalItems());
+    $('cartTotal').textContent = `${fmtMoney(total)} ج.م`;
+    $('cartSummary').textContent = `${totalItems()} قطعة / ${state.cart.length} أصناف`;
+  }
+
+  function normalizeCompaniesFromProducts(items){
+    const map = new Map();
+    items.forEach(p => {
+      const name = String(p.company || '').trim();
+      if (!name) return;
+      if (!map.has(name)){
+        map.set(name, { name, logo: p.company_logo || '', count: 0, raw: p.raw });
+      }
+      map.get(name).count += 1;
+    });
+    return [...map.values()].sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+  }
+
+  async function loadSettings(){
+    try{
+      const payload = await apiRequest('settings');
+      state.settings = normalizeSettings(payload);
+      if (state.settings.tier_welcome) $('brandSub').textContent = state.settings.tier_welcome;
+      if (state.settings.hero_title) $('brandSub').textContent = state.settings.hero_title;
+    }catch(err){
+      console.warn('settings failed', err);
+      state.settings = {};
+    }
+  }
+  async function loadTiers(){
+    try{
+      const payload = await apiRequest('tiers');
+      const items = Array.isArray(payload?.tiers) ? payload.tiers : Array.isArray(payload?.items) ? payload.items : Array.isArray(payload) ? payload : [];
+      state.tiers = items.map(normalizeTier);
+      normalizeSelectedTier();
+    }catch(err){
+      console.warn('tiers failed', err);
+      state.tiers = [];
+    }
+  }
+  function normalizeSelectedTier(){
+    if (!state.selectedTier) return;
+    const match = state.tiers.find(t =>
+      norm(t.tier_name) === norm(state.selectedTier.tier_name) ||
+      String(t.tier_id) === String(state.selectedTier.tier_id) ||
+      norm(t.visible_label) === norm(state.selectedTier.visible_label)
+    );
+    if (match){
+      state.selectedTier = match;
+      saveJSON('alahram_selected_tier', match);
+    }else{
+      state.selectedTier = null;
+      localStorage.removeItem('alahram_selected_tier');
+    }
+  }
+  async function loadCompanies(){
+    try{
+      const payload = await apiRequest('companies');
+      const items = Array.isArray(payload?.companies) ? payload.companies : Array.isArray(payload?.items) ? payload.items : Array.isArray(payload) ? payload : [];
+      state.companies = items.map(normalizeCompany).filter(x => x.name);
+      if (!state.companies.length) throw new Error('empty companies');
+    }catch(err){
+      console.warn('companies endpoint fallback', err);
+      state.companies = normalizeCompaniesFromProducts(state.catalog.items || []);
+    }
+  }
+  async function loadOffers(){
+    try{
+      const payload = await apiRequest('offers');
+      const items = Array.isArray(payload?.offers) ? payload.offers : Array.isArray(payload?.items) ? payload.items : Array.isArray(payload) ? payload : [];
+      state.offers = items.map(normalizeOffer).filter(o => parseNum(o.active) !== 0);
+    }catch(err){
+      console.warn('offers failed', err);
+      state.offers = [];
+    }
+  }
+  async function loadFlashOffers(){
+    try{
+      const payload = await apiRequest('flash_offers');
+      const items = Array.isArray(payload?.flash_offers) ? payload.flash_offers : Array.isArray(payload?.items) ? payload.items : Array.isArray(payload) ? payload : [];
+      state.flashOffers = items.map(normalizeFlash);
+    }catch(err){
+      console.warn('flash offers failed', err);
+      state.flashOffers = [];
+    }
+  }
+
+  function currentCatalogKey(){
+    return `${norm(state.route.company || '')}||${norm(state.route.query || '')}`;
+  }
+  function catalogLabel(){
+    if (state.route.view === 'products'){
+      if (state.route.company) return state.route.company;
+      if (state.route.query) return `نتائج البحث: ${state.route.query}`;
+    }
+    return '';
+  }
+  function catalogProducts(){
+    return state.catalog.items.filter(visibleProduct);
+  }
+  function syncCompanyFilterFromRoute(){
+    state.companyFilter = state.route.company || '';
+    state.searchQuery = state.route.query || '';
+  }
+
+  async function loadCatalog({ reset = true, renderWhileLoading = true } = {}){
+    const key = currentCatalogKey();
+    const cached = state.catalogCache.get(key);
+    if (reset){
+      state.catalog.key = key;
+      state.catalog.page = 1;
+      state.catalog.hasMore = true;
+      state.catalog.error = '';
+      if (cached){
+        state.catalog.items = cached.items.map(normalizeProduct);
+        state.catalog.page = cached.page;
+        state.catalog.hasMore = cached.hasMore;
+        state.catalog.loading = true;
+        if (renderWhileLoading) render();
+      }else{
+        state.catalog.items = [];
+        state.catalog.loading = true;
+        if (renderWhileLoading) render();
+      }
+    }
+    const reqId = ++state.catalogRequestId;
+    try{
+      const params = {
+        page: state.catalog.page,
+        limit: PAGE_LIMIT,
+        company: state.route.company || '',
+        company_name: state.route.company || '',
+        q: state.route.query || '',
+        search: state.route.query || ''
+      };
+      const payload = await apiRequest('products', { params });
+      if (reqId !== state.catalogRequestId) return;
+      const itemsRaw = Array.isArray(payload?.items) ? payload.items : Array.isArray(payload?.products) ? payload.products : Array.isArray(payload) ? payload : [];
+      const items = itemsRaw.map(normalizeProduct).filter(visibleProduct);
+      if (state.catalog.page === 1) state.catalog.items = items;
+      else state.catalog.items = state.catalog.items.concat(items);
+      state.catalog.page += 1;
+      state.catalog.hasMore = Boolean(
+        payload?.hasMore ?? payload?.has_more ?? payload?.nextPage ?? (items.length >= PAGE_LIMIT)
+      );
+      state.catalog.loading = false;
+      state.catalog.error = '';
+      state.catalogCache.set(key, {
+        items: state.catalog.items.map(x => ({ ...x })),
+        page: state.catalog.page,
+        hasMore: state.catalog.hasMore
+      });
+      if (!state.companies.length){
+        state.companies = normalizeCompaniesFromProducts(state.catalog.items);
+      }
+      render();
+    }catch(err){
+      if (reqId !== state.catalogRequestId) return;
+      state.catalog.loading = false;
+      state.catalog.error = err.message || String(err);
+      if (!state.catalog.items.length){
+        state.catalog.items = [];
+      }
+      if (DEBUG) console.error('[CATALOG ERROR]', err);
+      if (renderWhileLoading) render();
+      toast(state.catalog.error, 'bad');
+    }
+  }
+
+  async function loadMoreCatalog(){
+    if (state.route.view !== 'products') return;
+    if (state.catalog.loading || !state.catalog.hasMore) return;
+    state.catalog.loading = true;
+    render();
+    const prevPage = state.catalog.page;
+    try{
+      const reqId = ++state.catalogRequestId;
+      const payload = await apiRequest('products', {
+        params: {
+          page: prevPage,
+          limit: PAGE_LIMIT,
+          company: state.route.company || '',
+          company_name: state.route.company || '',
+          q: state.route.query || '',
+          search: state.route.query || ''
+        }
+      });
+      if (reqId !== state.catalogRequestId) return;
+      const itemsRaw = Array.isArray(payload?.items) ? payload.items : Array.isArray(payload?.products) ? payload.products : Array.isArray(payload) ? payload : [];
+      const items = itemsRaw.map(normalizeProduct).filter(visibleProduct);
+      state.catalog.items = state.catalog.items.concat(items);
+      state.catalog.page += 1;
+      state.catalog.hasMore = Boolean(payload?.hasMore ?? payload?.has_more ?? payload?.nextPage ?? (items.length >= PAGE_LIMIT));
+      state.catalog.loading = false;
+      state.catalogCache.set(currentCatalogKey(), {
+        items: state.catalog.items.map(x => ({ ...x })),
+        page: state.catalog.page,
+        hasMore: state.catalog.hasMore
+      });
+      render();
+    }catch(err){
+      state.catalog.loading = false;
+      state.catalog.error = err.message || String(err);
+      render();
+    }
+  }
+
+  function initCatalogObserver(){
+    if (state.catalogObserver){
+      try{ state.catalogObserver.disconnect(); }catch(e){}
+    }
+    state.catalogObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) loadMoreCatalog();
+      });
+    }, { rootMargin: '650px 0px 900px 0px' });
+    const sentinel = $('catalogSentinel');
+    if (sentinel){
+      try{ state.catalogObserver.observe(sentinel); }catch(e){}
+    }
+  }
+
+  function itemLinePrice(item){
+    if (!item) return 0;
+    if (item.type !== 'product') return parseNum(item.price);
+    return resolvePrice(item.product_snapshot || item, item.unit).current;
+  }
+
+  function addProductToCart(productId, unit){
+    const product = state.catalog.items.find(p => String(p.id) === String(productId));
+    if (!product) return toast('الصنف غير متاح الآن', 'bad');
+    const idx = cartIndexForProduct(String(productId), unit);
+    if (idx >= 0){
+      state.cart.splice(idx, 1);
+      toast('تمت الإزالة من السلة', 'bad');
+    }else{
+      state.cart.push({
+        type: 'product',
+        id: String(product.id),
+        name: product.name,
+        company: product.company,
+        company_logo: product.company_logo || '',
+        image: product.image,
+        unit,
+        qty: 1,
+        product_snapshot: product,
+        base_prices: product.base_prices,
+        raw: product.raw
+      });
+      toast('تمت الإضافة للسلة', 'good');
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function changeCartQty(index, delta){
+    const item = state.cart[index];
+    if (!item) return;
+    const next = parseNum(item.qty || 1) + delta;
+    if (next <= 0){
+      state.cart.splice(index, 1);
+    }else{
+      item.qty = next;
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function changeProductQty(productId, unit, delta){
+    const idx = cartIndexForProduct(String(productId), unit);
+    if (idx < 0){
+      if (delta > 0) addProductToCart(productId, unit);
+      return;
+    }
+    changeCartQty(idx, delta);
+  }
+
+  function removeCartIndex(index){
+    state.cart.splice(index, 1);
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function addPromoToCart(item, type){
+    const existingIdx = state.cart.findIndex(x => x.type === type && String(x.id) === String(item.id));
+    if (existingIdx >= 0){
+      state.cart[existingIdx].qty = parseNum(state.cart[existingIdx].qty || 1) + 1;
+    }else{
+      state.cart.push({
+        type,
+        id: String(item.id),
+        name: item.name,
+        price: parseNum(item.price),
+        qty: 1,
+        image: item.image || item.image_url || '',
+        company: type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم'
+      });
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function chooseTier(tier){
+    if (!tier) return;
+    if (tier.tier_password){
+      showModal('دخول الشريحة', `
+        <div class="form-grid">
+          <input class="input" id="tierPassInput" type="password" placeholder="الرقم السري للشريحة" />
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button class="chip-btn primary" onclick="confirmTierPassword(${jsArg(tier.tier_name)})">دخول</button>
+            <button class="chip-btn ghost" onclick="closeModal()">إلغاء</button>
+          </div>
+        </div>
+      `);
+      return;
+    }
+    applyTier(tier);
+  }
+  function confirmTierPassword(tierName){
+    const input = $('tierPassInput');
+    const tier = state.tiers.find(t => String(t.tier_name) === String(tierName));
+    if (!tier || !input) return;
+    if (String(input.value || '').trim() !== String(tier.tier_password || '').trim()){
+      toast('كلمة السر غير صحيحة', 'bad');
+      return;
+    }
+    closeModal();
+    applyTier(tier);
+  }
+  function applyTier(tier){
+    state.selectedTier = tier;
+    saveJSON('alahram_selected_tier', tier);
+    updateFooter();
+    toast(`تم اختيار ${tier.visible_label || tier.tier_name}`, 'good');
+    pushRoute({ view: 'companies', company: '', query: '', drawerOpen: false });
+  }
+
+  function openRepLogin(){
+    showModal('دخول المندوب', `
+      <div class="form-grid">
+        <input class="input" id="repIdInput" placeholder="كود المندوب" autocomplete="off" />
+        <input class="input" id="repPassInput" placeholder="كلمة السر" type="password" autocomplete="off" />
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <button class="chip-btn primary" onclick="submitRepLogin()">دخول</button>
+          <button class="chip-btn ghost" onclick="closeModal()">إلغاء</button>
+        </div>
+      </div>
+    `);
+  }
+  async function submitRepLogin(){
+    try{
+      const rep_id = $('repIdInput').value.trim();
+      const password = $('repPassInput').value.trim();
+      const payload = await apiRequest('reps/login', {
+        method: 'POST',
+        body: {
+          rep_id,
+          rep_password: password,
+          password,
+          code: rep_id
+        }
+      });
+      const valid = payload?.valid !== false && payload?.success !== false;
+      if (!valid) throw new Error(payload?.error || 'بيانات الدخول غير صحيحة');
+      const session = payload.session || payload.rep || payload.user || payload.data || payload;
+      const token = payload.token || session?.token || payload.access_token || '';
+      state.rep = session;
+      if (token) localStorage.setItem('alahram_rep_token', token);
+      saveJSON('alahram_rep_session', session);
+      closeModal();
+      updateRepBadge();
+      toast('تم تسجيل الدخول بنجاح', 'good');
+      render();
+    }catch(err){
+      console.error('[LOGIN ERROR]', err);
+      toast(err.message || 'تعذر التحقق من دخول المندوب', 'bad');
+    }
+  }
+  function logoutRep(){
+    state.rep = null;
+    localStorage.removeItem('alahram_rep_token');
+    saveJSON('alahram_rep_session', null);
+    closeModal();
+    updateRepBadge();
+    toast('تم تسجيل خروج المندوب', 'good');
+    render();
+  }
+  async function validateRepSession(){
+    const token = localStorage.getItem('alahram_rep_token');
+    if (!token){
+      state.rep = null;
+      saveJSON('alahram_rep_session', null);
+      updateRepBadge();
+      return;
+    }
+    try{
+      const payload = await apiRequest('auth', { params: { token } });
+      if (payload?.valid === false){
+        state.rep = null;
+        localStorage.removeItem('alahram_rep_token');
+        saveJSON('alahram_rep_session', null);
+      }else{
+        state.rep = payload.session || payload.rep || payload.user || state.rep;
+        saveJSON('alahram_rep_session', state.rep);
+      }
+    }catch(err){
+      state.rep = null;
+      localStorage.removeItem('alahram_rep_token');
+      saveJSON('alahram_rep_session', null);
+    }finally{
+      updateRepBadge();
+    }
+  }
+
+  async function checkout(){
+    if (!state.cart.length){
+      toast('السلة فارغة', 'warn');
+      return;
+    }
+    openDrawer(false);
+  }
+
+  async function submitOrder(){
+    if (!state.cart.length){
+      toast('السلة فارغة', 'warn');
+      return;
+    }
+    const customer_name = $('custName').value.trim();
+    const phone = $('custPhone').value.trim();
+    const address = $('custAddress').value.trim();
+    if (!customer_name || !phone){
+      toast('اسم العميل ورقم الهاتف مطلوبان', 'bad');
+      return;
+    }
+    try{
+      const payload = {
+        customer_name,
+        phone,
+        address,
+        total: cartTotals().total,
+        tier: state.selectedTier ? state.selectedTier.tier_name : '',
+        rep_token: localStorage.getItem('alahram_rep_token') || '',
+        items: state.cart.map(item => {
+          if (item.type === 'product'){
+            return {
+              type: 'product',
+              id: item.id,
+              name: item.name,
+              unit: item.unit,
+              qty: item.qty,
+              base_prices: item.base_prices,
+              company: item.company
+            };
+          }
+          return {
+            type: item.type,
+            id: item.id,
+            name: item.name,
+            qty: item.qty,
+            price: item.price
+          };
+        })
+      };
+      const result = await apiRequest('orders', { method: 'POST', body: payload });
+      toast('تم حفظ الطلب بنجاح', 'good');
+      state.cart = [];
+      saveJSON('alahram_cart', state.cart);
+      updateFooter();
+      closeDrawer();
+      render();
+      if (result?.order_id) toast('رقم الطلب: ' + result.order_id, 'info');
+    }catch(err){
+      toast(err.message || 'فشل حفظ الطلب', 'bad');
+    }
+  }
+
+  function updateRepBadge(){
+    const brandSub = $('brandSub');
+    if (!brandSub) return;
+    if (state.rep && (state.rep.rep_name || state.rep.name)){
+      brandSub.textContent = String(state.rep.rep_name || state.rep.name);
+    }else if (state.settings?.tier_welcome){
+      brandSub.textContent = state.settings.tier_welcome;
+    }else{
+      brandSub.textContent = 'نظام بيع ذكي لتجارة الجملة';
+    }
+  }
+
+  function renderSearchBar(){
+    return `
+      <div class="search-panel">
+        <div class="search-row">
+          <input id="searchInput" class="search-input" placeholder="ابحث بالاسم أو الكود أو الشركة..." value="${esc(state.searchQuery || state.route.query || '')}" />
+          <button class="search-clear" id="searchClearBtn">✕</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function renderQuickActions(){
+    const flash = flashActiveOffers();
+    return `
+      <div class="quick-actions">
+        <button class="quick-chip ${state.route.view === 'offers' ? 'active' : ''}" id="offersQuickBtn">
+          <strong>صفقة اليوم</strong>
+          <span>عرض سريع بدون تأثير على الشريحة</span>
+        </button>
+        <button class="quick-chip ${state.route.view === 'flash' ? 'active' : ''}" id="flashQuickBtn">
+          <strong>عرض الساعة</strong>
+          <span class="flash-chip-sub" id="flashQuickSub">${flash.length ? flashChipText() : 'لا يوجد عرض نشط الآن'}</span>
+        </button>
+      </div>
+    `;
+  }
+
+  function renderLanding(){
+    const companies = state.companies;
+    return `
+      <section class="page-head">
+        <div>
+          <h2>الشركات</h2>
+          <p>اضغط على الشركة لفتح منتجاتها فورًا</p>
+        </div>
+        <button class="pill" onclick="goTiers()">اختيار الشريحة</button>
+      </section>
+      <div class="hint">استخدم البحث ثم اضغط Enter للانتقال إلى المنتجات المطابقة، أو اختر الشركة مباشرة.</div>
+      <div class="section-title">
+        <div>
+          <h3>الشركات</h3>
+          <small>اضغط على أي شركة لفتح منتجاتها</small>
+        </div>
+        <button class="pill ${state.route.company ? '' : 'active'}" onclick="goCompanies()">الكل</button>
+      </div>
+      <div class="companies-grid">
+        ${companies.length ? companies.map(renderCompanyCard).join('') : '<div class="empty" style="grid-column:1/-1">لا توجد شركات مطابقة الآن.</div>'}
+      </div>
+    `;
+  }
+
+  function renderCompanyCard(company){
+    return `
+      <div class="company-card ${norm(state.route.company) === norm(company.name) ? 'active' : ''}" onclick="goProducts(${jsArg(company.name)})">
+        ${company.logo ? `<img class="company-logo" src="${esc(company.logo)}" alt="${esc(company.name)}" />` : `<div class="company-logo placeholder">${esc(companyInitials(company.name))}</div>`}
+        <div class="company-name">${esc(company.name)}</div>
+        <div class="company-count">${fmtMoney(company.count || 0)} صنف</div>
+      </div>
+    `;
+  }
+
+  function renderTierPage(){
+    return `
+      <section class="page-head">
+        <div>
+          <h2>اختيار الشريحة</h2>
+          <p>تغيير الشريحة يعيد التسعير فورًا بدون مسح السلة</p>
+        </div>
+        <button class="pill" onclick="goCompanies()">رجوع</button>
+      </section>
+      <div class="tiers-grid">
+        ${state.tiers.map(t => `
+          <div class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick="chooseTierByName(${jsArg(t.tier_name)})">
+            <div class="title">${esc(t.visible_label || t.tier_name || 'شريحة')}</div>
+            <div class="min">الحد الأدنى: ${fmtMoney(t.tier_min)} ج.م</div>
+            <div class="desc">${esc(t.tier_description || '')}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div class="rep-card">
+        <div class="text">
+          <h4>${state.rep && (state.rep.rep_name || state.rep.name) ? esc(state.rep.rep_name || state.rep.name) : 'دخول مندوب'}</h4>
+          <p>${state.rep && (state.rep.rep_name || state.rep.name) ? 'تم تسجيل الدخول ويمكنك تسجيل الخروج أو تغيير الحساب' : 'اضغط للدخول بالمندوب من نفس تصميم الشرائح'}</p>
+        </div>
+        <button onclick="handleRepButton()">${state.rep && (state.rep.rep_name || state.rep.name) ? 'تسجيل خروج' : 'دخول مندوب'}</button>
+      </div>
+    `;
+  }
+
+  function renderOffersPage(){
+    const active = state.offers.filter(o => parseNum(o.active) !== 0);
+    return `
+      <section class="page-head">
+        <div>
+          <h2>صفقة اليوم</h2>
+          <p>العرض هنا لا يغير الشريحة ويضاف للسلة مباشرة</p>
+        </div>
+        <button class="pill" onclick="goCompanies()">رجوع</button>
+      </section>
+      ${active.length ? `<div class="offer-grid">${active.map(renderOfferCard).join('')}</div>` : '<div class="empty">لا توجد عروض مفعلة الآن.</div>'}
+    `;
+  }
+
+  function renderFlashPage(){
+    const active = flashActiveOffers();
+    return `
+      <section class="page-head">
+        <div>
+          <h2>عرض الساعة</h2>
+          <p>العروض النشطة فقط مع عداد حي يتحدث كل ثانية</p>
+        </div>
+        <button class="pill" onclick="goCompanies()">رجوع</button>
+      </section>
+      ${active.length ? `<div class="flash-grid">${active.map(renderFlashCard).join('')}</div>` : '<div class="empty">لا يوجد عرض ساعة نشط الآن.</div>'}
+    `;
+  }
+
+  function renderOfferCard(offer){
+    return `
+      <article class="promo-card">
+        <div class="promo-image">
+          <img src="${esc(offer.image || fallbackImage())}" alt="${esc(offer.name)}" />
+        </div>
+        <div class="promo-body">
+          <div class="name">${esc(offer.name)}</div>
+          <div class="desc">${esc(offer.details || '')}</div>
+          <div class="new-price">${fmtMoney(offer.price)} ج.م</div>
+          <button class="buy-btn" style="width:100%;height:38px" onclick="addPromoToCartById(${jsArg(offer.id)}, ${jsArg('offer')})">شراء</button>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderFlashCard(item){
+    const activeTimer = item.endMs ? formatDuration(item.endMs - Date.now()) : 'لا يوجد وقت محدد';
+    return `
+      <article class="promo-card">
+        <div class="promo-image">
+          <img src="${esc(item.image_url || fallbackImage())}" alt="${esc(item.display_title || item.name)}" />
+        </div>
+        <div class="promo-body">
+          <div class="name">${esc(item.display_title || item.name || 'عرض الساعة')}</div>
+          <div class="desc">${esc(item.display_subtitle || item.details || '')}</div>
+          <div class="timer" data-countdown-end="${esc(item.endMs || '')}">${activeTimer}</div>
+          <div class="new-price">${fmtMoney(item.price)} ج.م</div>
+          <button class="buy-btn" style="width:100%;height:38px" onclick="addPromoToCartById(${jsArg(item.id)}, ${jsArg('flash')})">${esc(item.display_button_label || 'شراء')}</button>
+        </div>
+      </article>
+    `;
+  }
+
+  function renderProductCard(product){
+    const unit = getSelectedUnit(product);
+    const res = resolvePrice(product, unit);
+    const inCart = cartIndexForProduct(product.id, unit) >= 0;
+    const units = availableUnits(product);
+    const available = units.length ? units : ['carton'];
+    const unitTabs = available.map(u => `
+      <button class="unit-tab ${u === unit ? 'active' : ''}" onclick="setSelectedUnit(${jsArg(product.id)}, ${jsArg(u)})">${u === 'carton' ? 'كرتونة' : u === 'pack' ? 'دستة' : 'قطعة'}</button>
+    `).join('');
+
+    return `
+      <article class="product-card">
+        <div class="product-image">
+          <img src="${esc(product.image || fallbackImage())}" alt="${esc(product.name)}" loading="lazy" />
+        </div>
+        <div class="product-body">
+          <div class="product-title">${esc(product.name)}</div>
+          <div class="unit-tabs">${unitTabs}</div>
+          <div class="price-box">
+            ${state.selectedTier && res.changed ? `<div class="old-price">${fmtMoney(res.base)} ج.م</div>` : ''}
+            <div class="new-price">${fmtMoney(res.current)} ج.م</div>
+          </div>
+          <div class="buy-row">
+            <div class="stepper">
+              <button onclick="changeProductQty(${jsArg(product.id)}, ${jsArg(unit)}, -1)">−</button>
+              <span>${cartLineQty(product.id, unit) || 1}</span>
+              <button onclick="changeProductQty(${jsArg(product.id)}, ${jsArg(unit)}, 1)">+</button>
+            </div>
+            <button class="buy-btn ${inCart ? 'remove' : ''}" onclick="toggleProductCart(${jsArg(product.id)}, ${jsArg(unit)})">${inCart ? 'إزالة' : 'شراء'}</button>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  function cartLineQty(id, unit){
+    const idx = cartIndexForProduct(String(id), unit);
+    return idx >= 0 ? parseNum(state.cart[idx].qty || 1) : 1;
+  }
+
+  function fallbackImage(){
+    return 'data:image/svg+xml;utf8,' + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800">
+        <rect width="100%" height="100%" fill="#eef3fb"/>
+        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Arial" font-size="28" fill="#64748b">Alahram Co</text>
+      </svg>
+    `);
+  }
+
+  function renderProductsPage(){
+    const items = state.catalog.items.filter(visibleProduct);
+    const title = state.route.company ? state.route.company : (state.route.query ? `نتائج البحث: ${state.route.query}` : 'كل المنتجات');
+    const label = state.route.company ? 'اضغط على المنتجات ثم أتمم الشراء' : 'ابحث ثم اختر الشركة أو المنتج';
+    const filters = state.companies.slice(0, 12);
+    return `
+      <section class="page-head">
+        <div>
+          <h2>المنتجات</h2>
+          <p>${esc(title)} • ${esc(label)}</p>
+        </div>
+        <button class="pill" onclick="goCompanies()">رجوع</button>
+      </section>
+      <div class="toolbar">
+        <button class="pill ${!state.route.company ? 'active' : ''}" onclick="goProducts('')">الكل</button>
+        ${filters.map(c => `<button class="pill ${norm(state.route.company) === norm(c.name) ? 'active' : ''}" onclick="goProducts(${jsArg(c.name)})">${esc(c.name)}</button>`).join('')}
+        ${state.route.query ? `<button class="pill active" onclick="clearSearch()">إلغاء البحث</button>` : ''}
+      </div>
+      ${state.catalog.loading && !items.length ? `<div class="skeleton-grid">${renderSkeletonCards(8)}</div>` : ''}
+      ${state.catalog.error && !items.length ? `<div class="empty" style="margin-top:12px"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px">${esc(state.catalog.error)}</div><div style="margin-top:12px"><button class="chip-btn primary" onclick="retryCatalog()">إعادة المحاولة</button></div></div>` : ''}
+      ${items.length ? `<div class="catalog-grid" id="catalogGrid">${items.map(renderProductCard).join('')}</div>` : ''}
+      ${state.catalog.loading && items.length ? `<div class="loading-strip"><span>جارٍ تحميل المزيد...</span><span>⏳</span></div>` : ''}
+      ${state.catalog.hasMore ? `<div id="catalogSentinel" style="height:1px"></div>` : `<div class="loading-strip"><span>تم الوصول لنهاية النتائج</span><span>✓</span></div>`}
+    `;
+  }
+
+  function renderMain(){
+    const view = state.route.view;
+    const chromeTop = renderSearchBar() + renderQuickActions();
+    let body = '';
+    if (view === 'tiers') body = renderTierPage();
+    else if (view === 'offers') body = renderOffersPage();
+    else if (view === 'flash') body = renderFlashPage();
+    else if (view === 'products') body = renderProductsPage();
+    else body = renderLanding();
+
+    $('main').innerHTML = chromeTop + body;
+    bindPageControls();
+    updateFooter();
+    updateFlashTexts();
+    initCatalogObserver();
+  }
+
+  function bindPageControls(){
+    const input = $('searchInput');
+    const clearBtn = $('searchClearBtn');
+    if (input){
+      input.oninput = () => {
+        state.searchQuery = input.value.trim();
+        if (state.route.view === 'products'){
+          debounceCatalogSearch();
+        }
+      };
+      input.onkeydown = (e) => {
+        if (e.key === 'Enter'){
+          e.preventDefault();
+          if (state.route.view !== 'products'){
+            goProducts('');
+          }else{
+            debounceCatalogSearch(true);
+          }
+        }
+      };
+    }
+    if (clearBtn){
+      clearBtn.onclick = () => clearSearch();
+    }
+    const offersBtn = $('offersQuickBtn');
+    const flashBtn = $('flashQuickBtn');
+    if (offersBtn) offersBtn.onclick = () => goOffers();
+    if (flashBtn) flashBtn.onclick = () => goFlash();
+    const tierBtn = $('tierFooterBtn');
+    if (tierBtn) tierBtn.onclick = () => goTiers();
+    const checkoutBtn = $('footerCheckoutBtn');
+    if (checkoutBtn) checkoutBtn.onclick = () => openDrawer(true);
+    const submitBtn = $('submitOrderBtn');
+    if (submitBtn) submitBtn.onclick = submitOrder;
+    const cartBtn = $('cartBtn');
+    if (cartBtn) cartBtn.onclick = () => openDrawer(true);
+    const closeCartBtn = $('closeCartBtn');
+    if (closeCartBtn) closeCartBtn.onclick = () => closeDrawer(true);
+    const modalCloseBtn = $('modalCloseBtn');
+    if (modalCloseBtn) modalCloseBtn.onclick = closeModal;
+    const overlay = $('overlay');
+    if (overlay){
+      overlay.onclick = (e) => { if (e.target === overlay) closeModal(); };
+    }
+    const brandBtn = $('brandBtn');
+    if (brandBtn) brandBtn.onclick = () => goCompanies();
+  }
+
+  function debounceCatalogSearch(immediate = false){
+    clearTimeout(state.searchDebounce);
+    if (immediate){
+      state.catalog.page = 1;
+      state.catalog.items = [];
+      state.catalog.hasMore = true;
+      state.catalog.error = '';
+      loadCatalog({ reset: true });
+      return;
+    }
+    state.searchDebounce = setTimeout(() => {
+      if (state.route.view !== 'products') return;
+      state.route.query = state.searchQuery;
+      state.route.company = state.route.company || '';
+      loadCatalog({ reset: true });
+    }, 280);
+  }
+
+  function clearSearch(){
+    state.searchQuery = '';
+    $('searchInput').value = '';
+    if (state.route.view === 'products'){
+      state.route.query = '';
+      loadCatalog({ reset: true });
+    }else{
+      renderMain();
+    }
+  }
+
+  function goCompanies(){
+    state.route.view = 'companies';
+    state.route.company = '';
+    state.route.query = state.searchQuery || '';
+    state.route.drawerOpen = false;
+    history.pushState(currentStateRoute(), '', location.href);
+    render();
+  }
+  function goTiers(){
+    state.route.view = 'tiers';
+    state.route.drawerOpen = false;
+    history.pushState(currentStateRoute(), '', location.href);
+    render();
+  }
+  function goProducts(company = ''){
+    state.route.view = 'products';
+    state.route.company = company || '';
+    state.route.query = state.searchQuery || state.route.query || '';
+    state.route.drawerOpen = false;
+    state.catalog.page = 1;
+    state.catalog.items = [];
+    state.catalog.hasMore = true;
+    state.catalog.error = '';
+    history.pushState(currentStateRoute(), '', location.href);
+    render();
+    loadCatalog({ reset: true });
+  }
+  function goOffers(){
+    state.route.view = 'offers';
+    state.route.drawerOpen = false;
+    history.pushState(currentStateRoute(), '', location.href);
+    render();
+  }
+  function goFlash(){
+    state.route.view = 'flash';
+    state.route.drawerOpen = false;
+    history.pushState(currentStateRoute(), '', location.href);
+    render();
+  }
+  function openCart(){
+    openDrawer(true);
+  }
+
+  function handleRepButton(){
+    if (state.rep && (state.rep.rep_name || state.rep.name)){
+      showModal('تسجيل خروج المندوب', `
+        <div class="section-panel" style="margin:0">
+          <div class="hint">هل تريد تسجيل الخروج من المندوب الحالي؟</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+            <button class="chip-btn good" onclick="logoutRep()">تسجيل خروج</button>
+            <button class="chip-btn ghost" onclick="closeModal()">إلغاء</button>
+          </div>
+        </div>
+      `);
+    }else{
+      showModal('دخول المندوب', `
+        <div class="form-grid">
+          <input class="input" id="repIdInput" placeholder="كود المندوب" autocomplete="off" />
+          <input class="input" id="repPassInput" placeholder="كلمة السر" type="password" autocomplete="off" />
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <button class="chip-btn primary" onclick="submitRepLogin()">دخول</button>
+            <button class="chip-btn ghost" onclick="closeModal()">إلغاء</button>
+          </div>
+        </div>
+      `);
+    }
+  }
+
+  function addPromoToCartById(id, type){
+    const item = type === 'offer'
+      ? state.offers.find(o => String(o.id) === String(id))
+      : state.flashOffers.find(o => String(o.id) === String(id));
+    if (!item) return toast('العرض غير متاح الآن', 'bad');
+    addPromoToCart(item, type);
+  }
+
+  function updateFlashTexts(){
+    const flashSub = $('flashQuickSub');
+    if (flashSub) flashSub.textContent = flashChipText();
+    document.querySelectorAll('[data-countdown-end]').forEach(node => {
+      const end = parseNum(node.getAttribute('data-countdown-end'));
+      if (end) node.textContent = formatDuration(end - Date.now());
+    });
+  }
+
+  function toggleProductCart(id, unit){
+    const idx = cartIndexForProduct(String(id), unit);
+    if (idx >= 0){
+      state.cart.splice(idx, 1);
+      toast('تمت الإزالة من السلة', 'bad');
+    }else{
+      const product = state.catalog.items.find(p => String(p.id) === String(id));
+      if (!product) return toast('الصنف غير متاح الآن', 'bad');
+      state.cart.push({
+        type: 'product',
+        id: String(product.id),
+        name: product.name,
+        company: product.company,
+        company_logo: product.company_logo || '',
+        image: product.image,
+        unit,
+        qty: 1,
+        product_snapshot: product,
+        base_prices: product.base_prices,
+        raw: product.raw
+      });
+      toast('تمت الإضافة للسلة', 'good');
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function renderCart(){
+    const list = $('cartList');
+    if (!list) return;
+    if (!state.cart.length){
+      list.innerHTML = '<div class="empty">السلة فارغة الآن.</div>';
+      return;
+    }
+    list.innerHTML = state.cart.map((item, idx) => {
+      const price = cartLinePrice(item);
+      const unitLabel = item.type === 'product' ? (item.unit === 'carton' ? 'كرتونة' : item.unit === 'pack' ? 'دستة' : 'قطعة') : (item.type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم');
+      return `
+        <div class="cart-item">
+          <div class="row">
+            <div>
+              <div class="name">${esc(item.name)}</div>
+              <div class="meta">${esc(item.company || '')}${item.type === 'product' ? ` • ${esc(unitLabel)}` : ''} • ${fmtMoney(price)} ج.م</div>
+            </div>
+            <button class="icon-btn" onclick="removeCartIndex(${idx})">✕</button>
+          </div>
+          <div class="foot">
+            <div class="stepper">
+              <button onclick="changeCartQty(${idx}, -1)">−</button>
+              <span>${parseNum(item.qty || 1)}</span>
+              <button onclick="changeCartQty(${idx}, 1)">+</button>
+            </div>
+            <strong>${fmtMoney(price * parseNum(item.qty || 1))} ج.م</strong>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function retryCatalog(){
+    state.catalog.error = '';
+    loadCatalog({ reset: true });
+  }
+
+  function chooseTierByName(name){
+    const tier = state.tiers.find(t => String(t.tier_name) === String(name) || String(t.visible_label) === String(name));
+    if (!tier) return;
+    chooseTier(tier);
+  }
+
+  function render(){
+    renderMain();
+    renderCart();
+    updateFooter();
+    updateRepBadge();
+  }
+
+  async function boot(){
+    bindStaticControls();
+    history.replaceState(currentStateRoute(), '', location.href);
+    renderPlaceholder();
+
+    await loadSettings();
+    await loadTiers();
+    normalizeSelectedTier();
+    await loadOffers();
+    await loadFlashOffers();
+    await loadCompanies();
+    await validateRepSession();
+
+    // prefill landing companies from endpoints, then background preload the first catalog page for faster product pages
+    render();
+    backgroundPreloadCatalog();
+    startFlashTicker();
+
+    // if restored drawer state exists
+    if (history.state && history.state.drawerOpen){
+      openDrawer(false);
+    }
+  }
+
+  function bindStaticControls(){
+    $('brandBtn').onclick = () => goCompanies();
+    $('cartBtn').onclick = () => openDrawer(true);
+    $('closeCartBtn').onclick = () => closeDrawer(true);
+    $('footerCheckoutBtn').onclick = () => openDrawer(true);
+    $('tierFooterBtn').onclick = () => goTiers();
+    $('submitOrderBtn').onclick = submitOrder;
+    $('modalCloseBtn').onclick = closeModal;
+    $('overlay').onclick = (e) => { if (e.target === $('overlay')) closeModal(); };
+    $('submitOrderBtn').onclick = submitOrder;
+    window.goCompanies = goCompanies;
+    window.goTiers = goTiers;
+    window.goProducts = goProducts;
+    window.goOffers = goOffers;
+    window.goFlash = goFlash;
+    window.setSelectedUnit = setSelectedUnit;
+    window.toggleProductCart = toggleProductCart;
+    window.changeProductQty = changeProductQty;
+    window.removeCartIndex = removeCartIndex;
+    window.changeCartQty = changeCartQty;
+    window.chooseTierByName = chooseTierByName;
+    window.confirmTierPassword = confirmTierPassword;
+    window.handleRepButton = handleRepButton;
+    window.submitRepLogin = submitRepLogin;
+    window.logoutRep = logoutRep;
+    window.addPromoToCartById = addPromoToCartById;
+    window.closeModal = closeModal;
+    window.clearSearch = clearSearch;
+    window.retryCatalog = retryCatalog;
+  }
+
+  function renderPlaceholder(){
+    $('main').innerHTML = `
+      <div class="search-panel">
+        <div class="shimmer s-line lg" style="height:18px;width:42%;margin:0"></div>
+        <div class="shimmer s-line md" style="height:14px;width:65%;margin:12px 0 0"></div>
+      </div>
+      <div class="quick-actions">
+        <div class="quick-chip">
+          <div class="shimmer" style="height:16px;width:40%;border-radius:999px"></div>
+          <div class="shimmer" style="height:12px;width:75%;border-radius:999px"></div>
+        </div>
+        <div class="quick-chip">
+          <div class="shimmer" style="height:16px;width:40%;border-radius:999px"></div>
+          <div class="shimmer" style="height:12px;width:75%;border-radius:999px"></div>
+        </div>
+      </div>
+      <div class="section-title">
+        <div>
+          <h3>جارٍ تحميل البيانات</h3>
+          <small>ثبّت…</small>
+        </div>
+      </div>
+      <div class="companies-grid">${Array.from({length:6}).map(() => `
+        <div class="company-card">
+          <div class="company-logo placeholder shimmer"></div>
+          <div class="shimmer" style="height:12px;width:85%;border-radius:999px"></div>
+          <div class="shimmer" style="height:10px;width:50%;border-radius:999px"></div>
+        </div>
+      `).join('')}</div>
+    `;
+  }
+
+  function backgroundPreloadCatalog(){
+    // do not block initial UX; just warm the cache for the default/all-products view
+    if (state.catalogCache.has('||')) return;
+    setTimeout(async () => {
+      try{
+        const payload = await apiRequest('products', { params: { page: 1, limit: PAGE_LIMIT, company: '', company_name: '', q: '', search: '' } });
+        const itemsRaw = Array.isArray(payload?.items) ? payload.items : Array.isArray(payload?.products) ? payload.products : Array.isArray(payload) ? payload : [];
+        const items = itemsRaw.map(normalizeProduct).filter(visibleProduct);
+        state.catalogCache.set('||', { items, page: 2, hasMore: Boolean(payload?.hasMore ?? payload?.has_more ?? (items.length >= PAGE_LIMIT)) });
+        if (!state.companies.length){
+          state.companies = normalizeCompaniesFromProducts(items);
+          if (state.route.view === 'companies') render();
+        }
+      }catch(e){
+        if (DEBUG) console.warn('background preload failed', e);
+      }
+    }, 250);
+  }
+
+  function startFlashTicker(){
+    if (state.flashTicker) clearInterval(state.flashTicker);
+    state.flashTicker = setInterval(() => {
+      updateFlashTexts();
+      if (state.route.view === 'flash') {
+        // update card timers only without full rerender
+        // if card list exists, keep it fresh
+      }
+      updateFooter();
+    }, 1000);
+  }
+
+  window.addEventListener('popstate', (ev) => {
+    const route = ev.state || { view: 'companies', company: '', query: '', drawerOpen: false };
+    state.route = { ...state.route, ...route };
+    if (!state.route.drawerOpen){
+      $('drawer').classList.remove('open');
+      $('drawer').setAttribute('aria-hidden', 'true');
+    }else{
+      $('drawer').classList.add('open');
+      $('drawer').setAttribute('aria-hidden', 'false');
+    }
+    render();
+    if (state.route.view === 'products' && !state.catalog.items.length){
+      loadCatalog({ reset: true });
+    }
+  });
+
+  // wrap navigation helpers after definitions
+  function goHome(){
+    setRoute({ view: 'companies', company: '', query: state.searchQuery || '', drawerOpen: false });
+  }
+
+  function goCompanies(){
+    state.searchQuery = '';
+    state.route.query = '';
+    setRoute({ view: 'companies', company: '', query: '', drawerOpen: false });
+  }
+
+  function goHome(){
+    goCompanies();
+  }
+
+  function goTiers(){
+    setRoute({ view: 'tiers', drawerOpen: false });
+  }
+
+  function goProducts(company = ''){
+    if (company){
+      state.searchQuery = '';
+      state.route.query = '';
+    }else{
+      state.route.query = state.searchQuery || state.route.query || '';
+    }
+    state.route.company = company || '';
+    setRoute({ view: 'products', company: company || '', query: state.route.query || '', drawerOpen: false });
+    state.catalog.items = [];
+    state.catalog.page = 1;
+    state.catalog.hasMore = true;
+    state.catalog.loading = false;
+    state.catalog.error = '';
+    loadCatalog({ reset: true });
+  }
+
+  function goOffers(){
+    setRoute({ view: 'offers', drawerOpen: false });
+  }
+
+  function goFlash(){
+    setRoute({ view: 'flash', drawerOpen: false });
+  }
+
+  function setSelectedUnit(id, unit){
+    localStorage.setItem('alahram_unit_' + id, unit);
+    render();
+  }
+
+  function clearSearch(){
+    state.searchQuery = '';
+    $('searchInput').value = '';
+    if (state.route.view === 'products'){
+      state.route.query = '';
+      setRoute({ view: 'products', company: state.route.company || '', query: '', drawerOpen: false });
+      loadCatalog({ reset: true });
+    }else{
+      render();
+    }
+  }
+
+  function openDrawer(push = true){
+    $('drawer').classList.add('open');
+    $('drawer').setAttribute('aria-hidden', 'false');
+    state.route.drawerOpen = true;
+    if (push){
+      history.pushState(currentStateRoute(), '', location.href);
+    }
+  }
+
+  function closeDrawer(push = false){
+    $('drawer').classList.remove('open');
+    $('drawer').setAttribute('aria-hidden', 'true');
+    if (push && history.state && history.state.drawerOpen){
+      history.back();
+      return;
+    }
+    state.route.drawerOpen = false;
+  }
+
+  function submitOrder(){
+    if (!state.cart.length){
+      toast('السلة فارغة', 'warn');
+      return;
+    }
+    const customer_name = $('custName').value.trim();
+    const phone = $('custPhone').value.trim();
+    const address = $('custAddress').value.trim();
+    if (!customer_name || !phone){
+      toast('اسم العميل ورقم الهاتف مطلوبان', 'bad');
+      return;
+    }
+    const payload = {
+      customer_name,
+      phone,
+      address,
+      total: cartTotals().total,
+      tier: state.selectedTier ? state.selectedTier.tier_name : '',
+      rep_token: localStorage.getItem('alahram_rep_token') || '',
+      items: state.cart.map(item => ({
+        type: item.type,
+        id: item.id,
+        name: item.name,
+        unit: item.unit || '',
+        qty: item.qty,
+        price: item.type === 'product' ? cartLinePrice(item) : parseNum(item.price || 0),
+        company: item.company || ''
+      }))
+    };
+    apiRequest('orders', { method: 'POST', body: payload })
+      .then(result => {
+        toast('تم حفظ الطلب بنجاح', 'good');
+        if (result?.order_id) toast('رقم الطلب: ' + result.order_id, 'info');
+        state.cart = [];
+        saveJSON('alahram_cart', state.cart);
+        updateFooter();
+        closeDrawer();
+        render();
+      })
+      .catch(err => toast(err.message || 'فشل حفظ الطلب', 'bad'));
+  }
+
+  function toggleProductCart(id, unit){
+    const idx = cartIndexForProduct(String(id), unit);
+    if (idx >= 0){
+      state.cart.splice(idx, 1);
+      saveJSON('alahram_cart', state.cart);
+      updateFooter();
+      render();
+      toast('تمت الإزالة من السلة', 'bad');
+      return;
+    }
+    const product = state.catalog.items.find(p => String(p.id) === String(id));
+    if (!product){
+      toast('الصنف غير متاح الآن', 'bad');
+      return;
+    }
+    state.cart.push({
+      type: 'product',
+      id: String(product.id),
+      name: product.name,
+      company: product.company,
+      company_logo: product.company_logo || '',
+      image: product.image,
+      unit,
+      qty: 1,
+      product_snapshot: product,
+      base_prices: product.base_prices,
+      raw: product.raw
+    });
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+    toast('تمت الإضافة للسلة', 'good');
+  }
+
+  function changeProductQty(id, unit, delta){
+    const idx = cartIndexForProduct(String(id), unit);
+    if (idx < 0){
+      if (delta > 0) toggleProductCart(id, unit);
+      return;
+    }
+    const next = parseNum(state.cart[idx].qty || 1) + delta;
+    if (next <= 0){
+      state.cart.splice(idx, 1);
+    }else{
+      state.cart[idx].qty = next;
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function changeCartQty(index, delta){
+    const item = state.cart[index];
+    if (!item) return;
+    const next = parseNum(item.qty || 1) + delta;
+    if (next <= 0){
+      state.cart.splice(index, 1);
+    }else{
+      item.qty = next;
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function removeCartIndex(index){
+    state.cart.splice(index, 1);
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+  }
+
+  function addPromoToCart(item, type){
+    const existingIdx = state.cart.findIndex(x => x.type === type && String(x.id) === String(item.id));
+    if (existingIdx >= 0){
+      state.cart[existingIdx].qty = parseNum(state.cart[existingIdx].qty || 1) + 1;
+    }else{
+      state.cart.push({
+        type,
+        id: String(item.id),
+        name: item.name,
+        price: parseNum(item.price),
+        qty: 1,
+        image: item.image || item.image_url || '',
+        company: type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم'
+      });
+    }
+    saveJSON('alahram_cart', state.cart);
+    updateFooter();
+    render();
+    toast(type === 'flash' ? 'تمت الإضافة من عرض الساعة' : 'تمت الإضافة من صفقة اليوم', 'good');
+  }
+
+  function addPromoToCartById(id, type){
+    const item = type === 'offer'
+      ? state.offers.find(o => String(o.id) === String(id))
+      : state.flashOffers.find(o => String(o.id) === String(id));
+    if (!item){
+      toast('العرض غير متاح الآن', 'bad');
+      return;
+    }
+    addPromoToCart(item, type);
+  }
+
+  function chooseTierByName(name){
+    const tier = state.tiers.find(t => String(t.tier_name) === String(name) || String(t.visible_label) === String(name));
+    if (!tier) return;
+    chooseTier(tier);
+  }
+
+  function retryCatalog(){
+    state.catalog.error = '';
+    loadCatalog({ reset: true });
+  }
+
+  function bindSearchAndQuickActions(){
+    const input = $('searchInput');
+    if (input){
+      input.oninput = () => {
+        state.searchQuery = input.value.trim();
+        if (state.route.view === 'products'){
+          clearTimeout(state.searchDebounce);
+          state.searchDebounce = setTimeout(() => {
+            state.route.query = state.searchQuery;
+            loadCatalog({ reset: true });
+          }, 280);
+        }
+      };
+      input.onkeydown = e => {
+        if (e.key === 'Enter'){
+          e.preventDefault();
+          if (state.route.view !== 'products'){
+            goProducts('');
+          }else{
+            state.route.query = state.searchQuery;
+            loadCatalog({ reset: true });
+          }
+        }
+      };
+    }
+    const clearBtn = $('searchClearBtn');
+    if (clearBtn) clearBtn.onclick = () => clearSearch();
+    const offersBtn = $('offersQuickBtn');
+    if (offersBtn) offersBtn.onclick = () => goOffers();
+    const flashBtn = $('flashQuickBtn');
+    if (flashBtn) flashBtn.onclick = () => goFlash();
+  }
+
+  function renderMainContent(){
+    // main render uses html fragments below
+  }
+
+  function render(){
+    const view = state.route.view;
+    let body = '';
+    if (view === 'tiers') body = renderTierPage();
+    else if (view === 'offers') body = renderOffersPage();
+    else if (view === 'flash') body = renderFlashPage();
+    else if (view === 'products') body = renderProductsPage();
+    else body = renderLanding();
+
+    $('main').innerHTML = renderSearchBar() + renderQuickActions() + body;
+    bindSearchAndQuickActions();
+    renderCart();
+    updateFooter();
+    updateRepBadge();
+    updateFlashTexts();
+    if (view === 'products'){
+      setTimeout(initCatalogObserver, 0);
+    }
+  }
+
+  function renderCart(){
+    const list = $('cartList');
+    if (!list) return;
+    if (!state.cart.length){
+      list.innerHTML = '<div class="empty">السلة فارغة الآن.</div>';
+      $('cartSummary').textContent = '0 صنف';
+      $('cartTotal').textContent = '0 ج.م';
+      return;
+    }
+    list.innerHTML = state.cart.map((item, idx) => {
+      const price = cartLinePrice(item);
+      const unitLabel = item.type === 'product' ? (item.unit === 'carton' ? 'كرتونة' : item.unit === 'pack' ? 'دستة' : 'قطعة') : (item.type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم');
+      return `
+        <div class="cart-item">
+          <div class="row">
+            <div>
+              <div class="name">${esc(item.name)}</div>
+              <div class="meta">${esc(item.company || '')}${item.type === 'product' ? ` • ${esc(unitLabel)}` : ''} • ${fmtMoney(price)} ج.م</div>
+            </div>
+            <button class="icon-btn" onclick="removeCartIndex(${idx})">✕</button>
+          </div>
+          <div class="foot">
+            <div class="stepper">
+              <button onclick="changeCartQty(${idx}, -1)">−</button>
+              <span>${parseNum(item.qty || 1)}</span>
+              <button onclick="changeCartQty(${idx}, 1)">+</button>
+            </div>
+            <strong>${fmtMoney(price * parseNum(item.qty || 1))} ج.م</strong>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateRepBadge(){
+    if (state.rep && (state.rep.rep_name || state.rep.name)){
+      $('brandSub').textContent = String(state.rep.rep_name || state.rep.name);
+    }else if (state.settings?.tier_welcome){
+      $('brandSub').textContent = state.settings.tier_welcome;
+    }else{
+      $('brandSub').textContent = 'نظام بيع ذكي لتجارة الجملة';
+    }
+  }
+
+  function initCatalogObserver(){
+    if (state.catalogObserver){
+      try{ state.catalogObserver.disconnect(); }catch(e){}
+    }
+    state.catalogObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) loadMoreCatalog();
+      });
+    }, { rootMargin: '650px 0px 850px 0px' });
+    const sentinel = $('catalogSentinel');
+    if (sentinel){
+      try{ state.catalogObserver.observe(sentinel); }catch(e){}
+    }
+  }
+
+  async function loadMoreCatalog(){
+    if (state.catalog.loading || !state.catalog.hasMore || state.route.view !== 'products') return;
+    state.catalog.loading = true;
+    render();
+    const reqId = ++state.catalogRequestId;
+    try{
+      const payload = await apiRequest('products', {
+        params: {
+          page: state.catalog.page,
+          limit: PAGE_LIMIT,
+          company: state.route.company || '',
+          company_name: state.route.company || '',
+          q: state.route.query || '',
+          search: state.route.query || ''
+        }
+      });
+      if (reqId !== state.catalogRequestId) return;
+      const itemsRaw = Array.isArray(payload?.items) ? payload.items : Array.isArray(payload?.products) ? payload.products : Array.isArray(payload) ? payload : [];
+      const items = itemsRaw.map(normalizeProduct).filter(visibleProduct);
+      state.catalog.items = state.catalog.items.concat(items);
+      state.catalog.page += 1;
+      state.catalog.hasMore = Boolean(payload?.hasMore ?? payload?.has_more ?? payload?.nextPage ?? (items.length >= PAGE_LIMIT));
+      state.catalog.loading = false;
+      state.catalogCache.set(currentCatalogKey(), {
+        items: state.catalog.items.map(x => ({ ...x })),
+        page: state.catalog.page,
+        hasMore: state.catalog.hasMore
+      });
+      render();
+    }catch(err){
+      state.catalog.loading = false;
+      state.catalog.error = err.message || String(err);
+      render();
+    }
+  }
+
+  async function validateRepSession(){
+    const token = localStorage.getItem('alahram_rep_token');
+    if (!token){
+      state.rep = null;
+      saveJSON('alahram_rep_session', null);
+      updateRepBadge();
+      return;
+    }
+    try{
+      const payload = await apiRequest('auth', { params: { token } });
+      if (payload?.valid === false){
+        state.rep = null;
+        localStorage.removeItem('alahram_rep_token');
+        saveJSON('alahram_rep_session', null);
+      }else{
+        state.rep = payload.session || payload.rep || payload.user || state.rep;
+        saveJSON('alahram_rep_session', state.rep);
+      }
+    }catch(err){
+      state.rep = null;
+      localStorage.removeItem('alahram_rep_token');
+      saveJSON('alahram_rep_session', null);
+    }finally{
+      updateRepBadge();
+    }
+  }
+
+  async function boot(){
+    bindStaticControls();
+    history.replaceState(currentStateRoute(), '', location.href);
+    renderPlaceholder();
+    await loadSettings();
+    await loadTiers();
+    normalizeSelectedTier();
+    await loadOffers();
+    await loadFlashOffers();
+    await loadCompanies();
+    await validateRepSession();
+    render();
+    backgroundPreloadCatalog();
+    startFlashTicker();
+  }
+
+  function renderPlaceholder(){
+    $('main').innerHTML = `
+      <div class="search-panel">
+        <div class="shimmer" style="height:18px;width:45%;border-radius:999px"></div>
+        <div class="shimmer" style="height:14px;width:70%;border-radius:999px;margin-top:12px"></div>
+      </div>
+      <div class="quick-actions">
+        <div class="quick-chip">
+          <div class="shimmer" style="height:16px;width:35%;border-radius:999px"></div>
+          <div class="shimmer" style="height:12px;width:70%;border-radius:999px"></div>
+        </div>
+        <div class="quick-chip">
+          <div class="shimmer" style="height:16px;width:35%;border-radius:999px"></div>
+          <div class="shimmer" style="height:12px;width:70%;border-radius:999px"></div>
+        </div>
+      </div>
+      <div class="section-title">
+        <div>
+          <h3>جارٍ تحميل البيانات</h3>
+          <small>لحظات…</small>
+        </div>
+      </div>
+      <div class="companies-grid">
+        ${Array.from({length:6}).map(() => `
+          <div class="company-card">
+            <div class="company-logo placeholder shimmer"></div>
+            <div class="shimmer" style="height:12px;width:82%;border-radius:999px"></div>
+            <div class="shimmer" style="height:10px;width:48%;border-radius:999px"></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function backgroundPreloadCatalog(){
+    if (state.catalogCache.has('||')) return;
+    setTimeout(async () => {
+      try{
+        const payload = await apiRequest('products', { params: { page: 1, limit: PAGE_LIMIT, company: '', company_name: '', q: '', search: '' } });
+        const itemsRaw = Array.isArray(payload?.items) ? payload.items : Array.isArray(payload?.products) ? payload.products : Array.isArray(payload) ? payload : [];
+        const items = itemsRaw.map(normalizeProduct).filter(visibleProduct);
+        state.catalogCache.set('||', { items, page: 2, hasMore: Boolean(payload?.hasMore ?? payload?.has_more ?? (items.length >= PAGE_LIMIT)) });
+        if (!state.companies.length){
+          state.companies = normalizeCompaniesFromProducts(items);
+          if (state.route.view === 'companies') render();
+        }
+      }catch(e){
+        if (DEBUG) console.warn('background preload failed', e);
+      }
+    }, 150);
+  }
+
+  function startFlashTicker(){
+    if (state.flashTicker) clearInterval(state.flashTicker);
+    state.flashTicker = setInterval(() => {
+      updateFlashTexts();
+      updateFooter();
+    }, 1000);
+  }
+
+  window.addEventListener('popstate', (ev) => {
+    const route = ev.state || { view: 'companies', company: '', query: '', drawerOpen: false };
+    state.route = { ...state.route, ...route };
+    if (state.route.drawerOpen){
+      $('drawer').classList.add('open');
+      $('drawer').setAttribute('aria-hidden', 'false');
+    }else{
+      $('drawer').classList.remove('open');
+      $('drawer').setAttribute('aria-hidden', 'true');
+    }
+    render();
+    if (state.route.view === 'products' && !state.catalog.items.length){
+      loadCatalog({ reset: true });
+    }
+  });
+
+  // wire globals for inline handlers
+  window.goCompanies = goCompanies;
+  window.goTiers = goTiers;
+  window.goProducts = goProducts;
+  window.goOffers = goOffers;
+  window.goFlash = goFlash;
+  window.setSelectedUnit = setSelectedUnit;
+  window.toggleProductCart = toggleProductCart;
+  window.changeProductQty = changeProductQty;
+  window.changeCartQty = changeCartQty;
+  window.removeCartIndex = removeCartIndex;
+  window.chooseTierByName = chooseTierByName;
+  window.confirmTierPassword = confirmTierPassword;
+  window.handleRepButton = handleRepButton;
+  window.submitRepLogin = submitRepLogin;
+  window.logoutRep = logoutRep;
+  window.addPromoToCartById = addPromoToCartById;
+  window.closeModal = closeModal;
+  window.clearSearch = clearSearch;
+  window.retryCatalog = retryCatalog;
+  window.openDrawer = () => openDrawer(true);
+  window.closeDrawer = closeDrawer;
+  window.submitOrder = submitOrder;
+  window.addPromoToCartById = addPromoToCartById;
+
+  // additional globals for inline onclicks referenced before functions are declared
+  window.goHome = goHome;
+  window.addPromoToCartById = addPromoToCartById;
+
+  boot().catch(err => {
+    console.error('[BOOT ERROR]', err);
+    $('main').innerHTML = `
+      <div class="empty">
+        <strong>تعذر تحميل البيانات</strong>
+        <div style="margin-top:8px" class="hint">${esc(err.message || String(err))}</div>
+        <div style="margin-top:12px"><button class="chip-btn primary" onclick="location.reload()">إعادة المحاولة</button></div>
+      </div>
+    `;
+  });
+})();
+</script>
+</body>
+</html>
