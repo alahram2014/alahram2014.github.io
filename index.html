@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Alahram Co B2B</title>
-  <meta name="theme-color" content="#d4af37" />
+  <meta name="theme-color" content="#1f3a5f" />
   <style>
     :root{--bg:#f6f9ff;--card:#fff;--text:#102033;--muted:#64748b;--line:#e6ebf2;--primary:#1f3a5f;--primary2:#245a91;--good:#16a34a;--bad:#ef4444;--warn:#f59e0b;--gold:#f7c948;--shadow:0 14px 36px rgba(16,32,51,.10);--shadow-soft:0 10px 24px rgba(16,32,51,.08);--radius:22px}
     *{box-sizing:border-box} html,body{height:100%} html{scroll-behavior:smooth}
@@ -63,222 +63,6 @@
     .sticky-search{position:sticky;top:58px;z-index:20}.filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.filter-chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:700;box-shadow:var(--shadow-soft)}.filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
     @media (max-width: 900px){.shortcut-row,.action-row{grid-template-columns:1fr 1fr}.catalog{grid-template-columns:repeat(auto-fill,minmax(148px,1fr))}.companies{grid-template-columns:repeat(3,minmax(0,1fr))}.bottom-inner{grid-template-columns:repeat(2,minmax(0,1fr))}}
     @media (max-width: 520px){.topbar-inner{padding:8px 10px}.page{padding:8px 10px 18px}.brand-text h1{font-size:15px}.brand-text p{font-size:10px;max-width:55vw}.catalog{grid-template-columns:repeat(2,minmax(0,1fr))}.companies{grid-template-columns:repeat(3,minmax(0,1fr))}.toast-zone{left:8px;right:8px;bottom:106px;max-width:none}.cart-drawer{width:100%}.search-input{font-size:12px}.chip{min-height:50px;padding:11px 8px}.bottom-inner{gap:8px}.bottom-tier,.bottom-total{padding:9px 11px}.cart-top-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
-  
-    /* ===== Dark Theme System ===== */
-    :root{
-      --bg-main:#0f172a;
-      --bg-card:#111827;
-      --border:#1f2937;
-      --text-main:#f9fafb;
-      --text-secondary:#9ca3af;
-      --gold:#f7c948;
-      --green:#22c55e;
-      --blue:#3b82f6;
-      --red:#ef4444;
-      --primary:var(--blue);
-      --primary2:#2563eb;
-      --good:var(--green);
-      --bad:var(--red);
-      --warn:var(--gold);
-      --bg:#0f172a;
-      --card:#111827;
-      --line:#1f2937;
-      --text:#f9fafb;
-      --muted:#9ca3af;
-      --shadow:0 18px 42px rgba(0,0,0,.34);
-      --shadow-soft:0 12px 28px rgba(0,0,0,.24);
-    }
-    body{
-      background:
-        radial-gradient(circle at top, rgba(59,130,246,.12), transparent 30%),
-        radial-gradient(circle at right top, rgba(247,201,72,.10), transparent 24%),
-        linear-gradient(180deg,#0b1120 0%, #0f172a 50%, #111827 100%) !important;
-      color:var(--text-main) !important;
-      color-scheme:dark;
-    }
-    .topbar{
-      background:rgba(15,23,42,.76) !important;
-      border-bottom:1px solid rgba(255,255,255,.08) !important;
-      backdrop-filter:blur(18px);
-    }
-    .brand-text p,.section-head p,.card .meta,.msg,.stat-pill span,.bottom-tier .sub,.bottom-total .sub,.signature,.drawer-head h3,.drawer-footer .total,.checkout-location small,.filter-chip,.search-clear,.contact-link,.empty,.agent-note,.agent-readonly,.modal h3,.suggest-item span{color:var(--text-secondary) !important;}
-    .brand-text h1,.section-head h2,.card .title,.action-card .label,.tier-card .label,.company-name,.price .now,.buy-btn,.stepper span,.cart-item .name,.cart-item .meta,.bottom-tier .main,.bottom-total .main,.stat-pill strong,.checkout-summary strong,.input{color:var(--text-main) !important;}
-    .panel,.company-card,.action-card,.tier-card,.card,.special-card,.modal,.cart-drawer,.drawer-head,.drawer-body,.drawer-footer,.stat-pill,.cart-item,.search-wrap,.search-suggest,.input,.search-clear,.filter-chip,.back-btn,.contact-link,.agent-card,.agent-status,.agent-readonly,.empty{
-      background:rgba(17,24,39,.92) !important;
-      border-color:var(--border) !important;
-      box-shadow:var(--shadow-soft) !important;
-    }
-    .company-card:hover,.card:hover,.action-card:hover,.tier-card:hover,.special-card:hover,.contact-link:hover,.back-btn:hover{transform:translateY(-1px) scale(1.01);}
-    .company-logo,.company-img,.card .img,.special-card .img{
-      background:#0b1220 !important;
-    }
-    .company-card.active,.tier-card.active,.filter-chip.active{
-      border-color:rgba(247,201,72,.55) !important;
-      box-shadow:0 0 0 1px rgba(247,201,72,.12), var(--shadow) !important;
-    }
-    .chip.primary,.bottom-tier.ok{
-      background:linear-gradient(135deg,#2563eb,#3b82f6) !important;
-      border-color:#2563eb !important;
-      color:#fff !important;
-    }
-    .chip.good,.submit-btn,.buy-btn:not(.remove){
-      background:linear-gradient(135deg,#16a34a,#22c55e) !important;
-      border-color:#16a34a !important;
-      color:#fff !important;
-    }
-    .chip.gold{
-      background:linear-gradient(135deg,#f7c948,#eab308) !important;
-      border-color:#d4a713 !important;
-      color:#111827 !important;
-    }
-    .chip.live{
-      background:linear-gradient(135deg,#7c2d12,#f59e0b) !important;
-      border-color:#f59e0b !important;
-      box-shadow:0 0 0 1px rgba(255,255,255,.08),0 16px 30px rgba(245,158,11,.22) !important;
-    }
-    .buy-btn.remove,.back-btn,.search-clear{
-      background:linear-gradient(135deg,#b91c1c,#ef4444) !important;
-      color:#fff !important;
-      border-color:#ef4444 !important;
-    }
-    .special-list{grid-template-columns:1fr !important;}
-    .special-card{
-      min-height:340px !important;
-      grid-template-columns:1fr !important;
-      border-radius:26px !important;
-    }
-    .special-card .title{font-size:18px !important;}
-    .special-card .price .now{font-size:22px !important;}
-    .special-card .img{aspect-ratio:1/1 !important;}
-    .catalog{
-      grid-template-columns:repeat(auto-fill,minmax(132px,1fr)) !important;
-      gap:8px !important;
-    }
-    .card .body,.action-card,.tier-card,.company-card{padding:10px !important;}
-    .card .img img,.company-img{
-      object-fit:contain !important;
-    }
-    .companies{
-      grid-template-columns:repeat(auto-fill,minmax(118px,1fr)) !important;
-      gap:8px !important;
-    }
-    .company-card{
-      min-height:116px !important;
-      padding:12px !important;
-    }
-    .input::placeholder,.search-input::placeholder{color:rgba(156,163,175,.9) !important;}
-    .drawer-head,.drawer-footer,.modal .head{background:rgba(15,23,42,.92) !important;}
-    .overlay{background:rgba(2,6,23,.68) !important;}
-    .toast{box-shadow:0 16px 34px rgba(0,0,0,.36) !important;}
-    .toast.good{background:#166534 !important;}
-    .toast.bad{background:#991b1b !important;}
-    .toast.warn{background:#92400e !important;}
-    .toast.info{background:#1d4ed8 !important;}
-    .bottom-bar{
-      background:rgba(15,23,42,.90) !important;
-      border-top:1px solid rgba(255,255,255,.08) !important;
-      backdrop-filter:blur(16px);
-    }
-    .bottom-tier,.bottom-total{
-      background:rgba(17,24,39,.96) !important;
-      border-color:var(--border) !important;
-    }
-    .bottom-total .icon{filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}
-    .msg{color:var(--text-secondary) !important;}
-    .empty{
-      background:rgba(17,24,39,.72) !important;
-      border-color:rgba(247,201,72,.22) !important;
-    }
-    .checkout-summary{
-      background:rgba(17,24,39,.92) !important;
-      border-color:var(--border) !important;
-    }
-    .stepper, .units{border-color:var(--border) !important;}
-    .stepper button, .unit-btn{
-      background:#0b1220 !important;
-      color:var(--text-main) !important;
-      border-color:var(--border) !important;
-    }
-    .unit-btn.active{background:var(--primary) !important;color:#fff !important;border-color:var(--primary) !important;}
-    .agent-status.good{background:rgba(34,197,94,.10) !important;border-color:rgba(34,197,94,.22) !important;}
-    .agent-status.bad{background:rgba(239,68,68,.10) !important;border-color:rgba(239,68,68,.22) !important;}
-
-  
-
-    /* ===== Royal Gold Theme Override ===== */
-    :root{
-      --bg-main:#0b1020;
-      --bg-card:#10192d;
-      --border:#26324a;
-      --text-main:#f8f3e3;
-      --text-secondary:#c7b889;
-      --gold:#d4af37;
-      --green:#22c55e;
-      --blue:#3b82f6;
-      --red:#ef4444;
-      --primary:#355d9d;
-      --primary2:#1f3e6d;
-      --good:var(--green);
-      --bad:var(--red);
-      --warn:var(--gold);
-      --bg:#0b1020;
-      --card:#10192d;
-      --line:#26324a;
-      --text:#f8f3e3;
-      --muted:#c7b889;
-      --shadow:0 18px 42px rgba(0,0,0,.34);
-      --shadow-soft:0 12px 28px rgba(0,0,0,.24);
-    }
-    body{
-      background:
-        radial-gradient(circle at top, rgba(212,175,55,.14), transparent 28%),
-        radial-gradient(circle at right top, rgba(59,130,246,.10), transparent 24%),
-        linear-gradient(180deg,#090d18 0%, #0b1020 48%, #10192d 100%) !important;
-      color:var(--text-main) !important;
-      color-scheme:dark;
-    }
-    .topbar{background:rgba(10,16,32,.78) !important;border-bottom:1px solid rgba(212,175,55,.18) !important;backdrop-filter:blur(18px)}
-    .brand-badge{background:linear-gradient(135deg,#d4af37,#8f6b14) !important;color:#111827 !important;box-shadow:0 14px 28px rgba(212,175,55,.24) !important}
-    .brand-text p,.section-head p,.card .meta,.msg,.stat-pill span,.bottom-tier .sub,.bottom-total .sub,.signature,.drawer-head h3,.drawer-footer .total,.checkout-location small,.filter-chip,.search-clear,.contact-link,.empty,.agent-note,.agent-readonly,.modal h3,.suggest-item span{color:var(--text-secondary) !important}
-    .brand-text h1,.section-head h2,.card .title,.action-card .label,.tier-card .label,.company-name,.price .now,.buy-btn,.stepper span,.cart-item .name,.cart-item .meta,.bottom-tier .main,.bottom-total .main,.stat-pill strong,.checkout-summary strong,.input{color:var(--text-main) !important}
-    .panel,.company-card,.action-card,.tier-card,.card,.special-card,.modal,.cart-drawer,.drawer-head,.drawer-body,.drawer-footer,.stat-pill,.cart-item,.search-wrap,.search-suggest,.input,.search-clear,.filter-chip,.back-btn,.contact-link,.agent-card,.agent-status,.agent-readonly,.empty{
-      background:rgba(16,25,45,.94) !important;
-      border-color:var(--border) !important;
-      box-shadow:var(--shadow-soft) !important;
-    }
-    .company-card:hover,.card:hover,.action-card:hover,.tier-card:hover,.special-card:hover,.contact-link:hover,.back-btn:hover{transform:translateY(-1px) scale(1.01)}
-    .company-logo,.company-img,.card .img,.special-card .img{background:#0a1222 !important}
-    .company-card.active,.tier-card.active,.filter-chip.active{border-color:rgba(212,175,55,.58) !important;box-shadow:0 0 0 1px rgba(212,175,55,.16), var(--shadow) !important}
-    .chip.primary,.bottom-tier.ok{background:linear-gradient(135deg,#355d9d,#24406d) !important;border-color:#355d9d !important;color:#fff !important}
-    .chip.good,.submit-btn,.buy-btn:not(.remove){background:linear-gradient(135deg,#16a34a,#22c55e) !important;border-color:#16a34a !important;color:#fff !important}
-    .chip.gold{background:linear-gradient(135deg,#f7c948,#d4af37) !important;border-color:#d4af37 !important;color:#111827 !important}
-    .chip.live{background:linear-gradient(135deg,#7c2d12,#f59e0b) !important;border-color:#f59e0b !important;box-shadow:0 0 0 1px rgba(255,255,255,.08),0 16px 30px rgba(245,158,11,.22) !important}
-    .buy-btn.remove,.back-btn,.search-clear{background:linear-gradient(135deg,#b91c1c,#ef4444) !important;color:#fff !important;border-color:#ef4444 !important}
-    .special-list{grid-template-columns:1fr !important}
-    .special-card{min-height:340px !important;grid-template-columns:1fr !important;border-radius:26px !important}
-    .special-card .title{font-size:18px !important}.special-card .price .now{font-size:22px !important}.special-card .img{aspect-ratio:1/1 !important}
-    .catalog{grid-template-columns:repeat(auto-fill,minmax(128px,1fr)) !important;gap:8px !important}
-    .card .body,.action-card,.tier-card,.company-card{padding:10px !important}
-    .card .img img,.company-img{object-fit:contain !important}
-    .companies{grid-template-columns:repeat(auto-fill,minmax(118px,1fr)) !important;gap:8px !important}
-    .company-card{min-height:116px !important;padding:12px !important}
-    .input::placeholder,.search-input::placeholder{color:rgba(199,184,137,.9) !important}
-    .drawer-head,.drawer-footer,.modal .head{background:rgba(10,16,32,.95) !important}
-    .overlay{background:rgba(2,6,23,.72) !important}
-    .toast{box-shadow:0 16px 34px rgba(0,0,0,.36) !important}
-    .toast.good{background:#166534 !important}.toast.bad{background:#991b1b !important}.toast.warn{background:#92400e !important}.toast.info{background:#1d4ed8 !important}
-    .bottom-bar{background:rgba(10,16,32,.92) !important;border-top:1px solid rgba(212,175,55,.12) !important;backdrop-filter:blur(16px)}
-    .bottom-tier,.bottom-total{background:rgba(16,25,45,.96) !important;border-color:var(--border) !important}
-    .bottom-total .icon{filter:drop-shadow(0 1px 1px rgba(0,0,0,.35))}
-    .msg{color:var(--text-secondary) !important}
-    .empty{background:rgba(16,25,45,.76) !important;border-color:rgba(212,175,55,.22) !important}
-    .checkout-summary{background:rgba(16,25,45,.92) !important;border-color:var(--border) !important}
-    .stepper,.units{border-color:var(--border) !important}
-    .stepper button,.unit-btn{background:#0a1222 !important;color:var(--text-main) !important;border-color:var(--border) !important}
-    .unit-btn.active{background:var(--primary) !important;color:#fff !important;border-color:var(--primary) !important}
-    .agent-status.good{background:rgba(34,197,94,.10) !important;border-color:rgba(34,197,94,.22) !important}
-    .agent-status.bad{background:rgba(239,68,68,.10) !important;border-color:rgba(239,68,68,.22) !important}
-
   </style>
 </head>
 <body>
@@ -357,7 +141,7 @@
   </div>
 
 <script>
-const API_BASE = 'https://script.google.com/macros/s/AKfycbxQYr5a3Mrl0kRnbg_n5JFe9Co4bxQKgcQ_2Kyp9BJE6f-ykLBOTb3EXh2AKBWlcYu3cQ/exec';
+const API_BASE = 'https://script.google.com/macros/s/AKfycbxMo1xtMySOVvY8onW5Si_IOTbfUWCPP_Abql4TN_98swFl27jkPF1Eo5HWSFMs4h-NOw/exec';
 const PAGE_LIMIT = 20;
 const UNIT_ORDER = ['carton','pack','piece'];
 const UNIT_LABELS = { carton:'كرتونة', pack:'دستة', piece:'قطعة' };
@@ -461,20 +245,7 @@ async function submitAgentLogin(){ const agent_id = String($('agentIdInput')?.va
 function logoutAgent(){ state.agent = null; try{ localStorage.removeItem('alahram_agent'); }catch(e){} state.agentFeedback = 'تم تسجيل الخروج'; state.agentFeedbackType = 'info'; updateFooterTier(); updateCartUI(); updateAgentHeader(); closeOverlay('agentOverlay'); toast('تم تسجيل الخروج', 'info'); renderCurrentView(); }
 function renderHomeSkeleton(){ $('main').innerHTML = `<div class="shortcut-row"><div class="skeleton" style="height:54px;border-radius:18px"></div><div class="skeleton" style="height:54px;border-radius:18px"></div><div class="skeleton" style="height:54px;border-radius:18px"></div></div><div class="search-wrap panel"><div class="skeleton skeleton-line" style="width:100%;height:34px;border-radius:16px"></div></div><div class="section-head"><div><h2>الشركات</h2><p>جارٍ التحميل…</p></div></div><div class="companies">${Array.from({length:9}).map(()=>'<div class="company-card"><div class="skeleton" style="width:58px;height:58px;border-radius:18px"></div><div class="skeleton" style="width:70px;height:12px"></div></div>').join('')}</div>`; }
 function renderHome(){ const companies = state.companies || []; const live = currentFlash(); $('main').innerHTML = `<div class="shortcut-row"><button class="chip primary" onclick="goTiers()">الشريحة</button><button class="chip good" onclick="goOffers()">صفقة اليوم</button><button class="chip gold ${live ? 'live' : ''}" id="homeFlashBtn" onclick="goFlash()"><strong>عرض الساعة</strong><small id="homeFlashCountdown">${live ? flashCountdownText(live.end_datetime || (live.end_date && live.end_time ? `${live.end_date}T${live.end_time}` : '')) : 'لا يوجد عرض نشط'}</small></button></div>${renderSearchBox()}<div class="section-head"><div><h2>الشركات</h2><p>اضغط على الشركة لفتح منتجاتها فورًا</p></div></div><div class="companies">${companies.slice(0,60).map(c => `<div class="company-card ${state.selectedCompany === c.name ? 'active' : ''}" onclick='goCompany(${JSON.stringify(c.name)})'>${c.logo ? `<img class="company-img" src="${escapeHtml(c.logo)}" alt="${escapeHtml(c.name)}" loading="lazy" />` : `<div class="company-logo">${escapeHtml(companyInitials(c.name))}</div>`}<div class="company-name">${escapeHtml(c.name)}</div></div>`).join('')}</div>${pageFooterHTML()}`; initSearchBox(); }
-
-function renderTiers(){
-  $('main').innerHTML = `${renderSearchBox('ابحث في النظام...')}
-    <div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div>
-    <div class="action-row">
-      ${(state.tiers || []).map(t => `<button class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick='pickTier(${JSON.stringify(t.tier_name)})'><div class="label">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div><div class="desc">الحد الأدنى: ${formatMoney(t.tier_min || 0)} ج.م</div><div class="desc">${escapeHtml(t.tier_description || '')}</div></button>`).join('')}
-      <button class="action-card" onclick="goCompanies()"><div class="label">الشركات</div><div class="desc">ارجع لعرض الشركات والمنتجات</div></button>
-      <button class="action-card" onclick="openAgentOverlay()"><div class="label">دخول المندوب</div><div class="desc">تسجيل الدخول أو الخروج من الحساب</div></button>
-    </div>
-    ${pageFooterHTML()}`;
-  initSearchBox();
-  updateFooterTier();
-}
-
+function renderTiers(){ $('main').innerHTML = `${renderSearchBox('ابحث في النظام...')}<div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div><div class="action-row"><${'button'} class="action-card" onclick="openAgentOverlay()"><div class="label">دخول المندوب</div><div class="desc">تسجيل الدخول أو الخروج من الحساب</div></${'button'}>${(state.tiers || []).map(t => `<button class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick='pickTier(${JSON.stringify(t.tier_name)})'><div class="label">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div><div class="desc">الحد الأدنى: ${formatMoney(t.tier_min || 0)} ج.م</div><div class="desc">${escapeHtml(t.tier_description || '')}</div></button>`).join('')}<button class="action-card" onclick="goCompanies()"><div class="label">الشركات</div><div class="desc">ارجع لعرض الشركات والمنتجات</div></button></div>${pageFooterHTML()}`; initSearchBox(); updateFooterTier(); }
 function renderCompaniesPage(){ const companies = state.companies || []; $('main').innerHTML = `${renderSearchBox()}<div class="companies">${companies.map(c => `<div class="company-card ${state.selectedCompany === c.name ? 'active' : ''}" onclick='goCompany(${JSON.stringify(c.name)})'>${c.logo ? `<img class="company-img" src="${escapeHtml(c.logo)}" alt="${escapeHtml(c.name)}" loading="lazy" />` : `<div class="company-logo">${escapeHtml(companyInitials(c.name))}</div>`}<div class="company-name">${escapeHtml(c.name)}</div></div>`).join('')}</div>${pageFooterHTML()}`; initSearchBox(); }
 function renderOfferCard(o){ const purchased = isCartContainsSpecial(o.id, 'offer'); const price = Number(o.price || 0); return `<div class="special-card"><div class="img">${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.name)}" loading="lazy" />` : `<div class="skeleton" style="width:100%;height:100%"></div>`}</div><div class="body"><div class="title">${escapeHtml(o.name || '')}</div><div class="meta">${escapeHtml(o.details || '')}</div><div class="price"><div class="now">${formatMoney(Math.round(price))} ج.م</div></div><button class="buy-btn ${purchased ? 'done' : ''}" onclick='addSpecialToCart(${JSON.stringify(String(o.id))}, "offer")'>${purchased ? 'تم الشراء' : 'شراء'}</button></div></div>`; }
 function renderFlashCard(o){ const purchased = isCartContainsSpecial(o.id, 'flash'); const price = Number(o.price || 0); const endIso = o.end_datetime || (o.end_date && o.end_time ? `${o.end_date}T${o.end_time}` : ''); return `<div class="special-card"><div class="img">${o.image ? `<img src="${escapeHtml(o.image)}" alt="${escapeHtml(o.name)}" loading="lazy" />` : `<div class="skeleton" style="width:100%;height:100%"></div>`}</div><div class="body"><div class="title">${escapeHtml(o.display_title || o.name || '')}</div><div class="meta">${escapeHtml(o.display_subtitle || o.details || '')}</div><div class="msg" id="flashCountdown_${escapeHtml(String(o.id))}">${escapeHtml(flashCountdownText(endIso))}</div><div class="price"><div class="now">${formatMoney(Math.round(price))} ج.م</div></div><button class="buy-btn ${purchased ? 'done' : ''}" onclick='addSpecialToCart(${JSON.stringify(String(o.id))}, "flash")'>${purchased ? 'تم الشراء' : 'شراء'}</button></div></div>`; }
@@ -539,7 +310,7 @@ function closeAgentOverlay(){ closeOverlay('agentOverlay'); }
 function validateCheckoutRealtime(){ return true; }
 function buildCartSimpleMessage(){ return buildInvoiceMessage({ name:'', phone:'', address:'' }); }
 function renderBootError(message){ $('main').innerHTML = `<div class="empty"><strong>تعذر تحميل البيانات</strong><div style="margin-top:8px">${escapeHtml(message)}</div><div style="margin-top:12px"><button class="chip primary" onclick="location.reload()">إعادة المحاولة</button></div></div>`; }
-async function boot(){ bindUI(); setupProductsObserver(); renderHomeSkeleton(); try { await Promise.allSettled([safeLoad(loadSettings), safeLoad(loadTiers), safeLoad(loadCompanies), safeLoad(loadOffers), safeLoad(loadFlashOffers)]); hydrateAgentDirectory(); state.loadingInitial = false; normalizeTierFromStorage(); normalizeSearchFromStorage(); updateFooterTier(); updateCartUI(); updateFlashUI(); bindHistory(); goHome(true); if (state.selectedCompany || state.searchQuery) { /* يبقى الوضع محفوظاً */ } } catch (err) { renderBootError(err.message || 'تعذر تحميل البيانات'); } }
+async function boot(){ bindUI(); setupProductsObserver(); renderHomeSkeleton(); try { await Promise.allSettled([loadSettings(), loadTiers(), loadCompanies(), loadOffers(), loadFlashOffers()]); hydrateAgentDirectory(); state.loadingInitial = false; normalizeTierFromStorage(); normalizeSearchFromStorage(); updateFooterTier(); updateCartUI(); updateFlashUI(); bindHistory(); goHome(true); if (state.selectedCompany || state.searchQuery) { /* يبقى الوضع محفوظاً */ } } catch (err) { renderBootError(err.message || 'تعذر تحميل البيانات'); } }
 function normalizeTierFromStorage(){ if (!state.selectedTier) return; const wanted = norm(state.selectedTier.tier_name || state.selectedTier.visible_label || ''); const found = state.tiers.find(t => norm(t.tier_name) === wanted || norm(t.visible_label) === wanted || String(t.tier_id || '') === String(state.selectedTier.tier_id || '')); if (found) { state.selectedTier = found; saveJSON('alahram_selected_tier', found); } else { state.selectedTier = null; localStorage.removeItem('alahram_selected_tier'); } }
 function normalizeSearchFromStorage(){ state.searchQuery = String(state.searchQuery || '').trim(); state.searchMode = !!state.searchQuery; }
 function bindUI(){ $('homeBtn').addEventListener('click', () => goHome()); $('cartTotalBtn').addEventListener('click', () => openCart()); $('closeCartBtn').addEventListener('click', () => closeCart()); $('clearCartBtn').addEventListener('click', () => clearCart(true)); $('checkoutBtn').addEventListener('click', () => openCheckoutModal()); $('closeOverlayBtn').addEventListener('click', () => closeOverlay('overlay')); $('overlay').addEventListener('click', (e) => { if (e.target.id === 'overlay') closeOverlay('overlay'); }); $('closeProductBtn').addEventListener('click', closeProductOverlay); $('productOverlay').addEventListener('click', (e) => { if (e.target.id === 'productOverlay') closeProductOverlay(); }); $('tierBtn').addEventListener('click', () => goTiers()); $('closeAgentBtn').addEventListener('click', () => closeOverlay('agentOverlay')); $('agentOverlay').addEventListener('click', (e) => { if (e.target.id === 'agentOverlay') closeOverlay('agentOverlay'); }); $('closeCheckoutBtn').addEventListener('click', () => closeOverlay('checkoutOverlay')); $('checkoutOverlay').addEventListener('click', (e) => { if (e.target.id === 'checkoutOverlay') closeOverlay('checkoutOverlay'); }); setInterval(() => { state.flashTick = Date.now(); if (state.view === 'home') { const btn=$('homeFlashBtn'); const small=$('homeFlashCountdown'); const live=currentFlash(); if (btn && small) { btn.classList.toggle('live', !!live); small.textContent = live ? flashCountdownText(live.end_datetime || (live.end_date && live.end_time ? `${live.end_date}T${live.end_time}` : '')) : 'لا يوجد عرض نشط'; } } updateFlashCountdowns(); updateFooterTier(); }, 1000); }
@@ -577,7 +348,7 @@ function setModalQtyFromInput(productId, unit, rawValue){ setDraftQty(productId,
 function setCardQtyFromInput(productId, unit, rawValue){ syncCardQty(productId, unit, rawValue); }
 function changeCardQty(productId, unit, delta){ stepCardQty(productId, unit, delta); }
 function renderBootError(message){ $('main').innerHTML = `<div class="empty"><strong>تعذر تحميل البيانات</strong><div style="margin-top:8px">${escapeHtml(message)}</div><div style="margin-top:12px"><button class="chip primary" onclick="location.reload()">إعادة المحاولة</button></div></div>`; }
-async function boot(){ bindUI(); setupProductsObserver(); renderHomeSkeleton(); try { await Promise.allSettled([safeLoad(loadSettings), safeLoad(loadTiers), safeLoad(loadCompanies), safeLoad(loadOffers), safeLoad(loadFlashOffers)]); hydrateAgentDirectory(); state.loadingInitial = false; normalizeTierFromStorage(); normalizeSearchFromStorage(); updateFooterTier(); updateCartUI(); updateFlashUI(); bindHistory(); goHome(true); } catch (err) { renderBootError(err.message || 'تعذر تحميل البيانات'); } }
+async function boot(){ bindUI(); setupProductsObserver(); renderHomeSkeleton(); try { await Promise.allSettled([loadSettings(), loadTiers(), loadCompanies(), loadOffers(), loadFlashOffers()]); hydrateAgentDirectory(); state.loadingInitial = false; normalizeTierFromStorage(); normalizeSearchFromStorage(); updateFooterTier(); updateCartUI(); updateFlashUI(); bindHistory(); goHome(true); } catch (err) { renderBootError(err.message || 'تعذر تحميل البيانات'); } }
 function normalizeTierFromStorage(){ if (!state.selectedTier) return; const wanted = norm(state.selectedTier.tier_name || state.selectedTier.visible_label || ''); const found = state.tiers.find(t => norm(t.tier_name) === wanted || norm(t.visible_label) === wanted || String(t.tier_id || '') === String(state.selectedTier.tier_id || '')); if (found) { state.selectedTier = found; saveJSON('alahram_selected_tier', found); } else { state.selectedTier = null; localStorage.removeItem('alahram_selected_tier'); } }
 function normalizeSearchFromStorage(){ state.searchQuery = String(state.searchQuery || '').trim(); state.searchMode = !!state.searchQuery; }
 function openOfferOrFlash(){ return; }
