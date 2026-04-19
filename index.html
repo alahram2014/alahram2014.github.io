@@ -944,7 +944,7 @@ function popSmartToast(reason = 'generic') {
   let bank = groups[reason] || groups.generic;
   if (state.selectedTier && remaining !== null) {
     if (remaining <= 0) bank = ['مبروك 👏 الشريحة اكتملت', 'كده الشريحة اتحققت', 'ممتاز، الشريحة قفلت'];
-    else if (companies < 5) bank = ['زين الشغل على شركات أكتر', 'وزّع السلة على شركات زيادة', 'كمل من أكتر من شركة'];
+    else if (companies < 5) bank = ['نوع الشغل من شركات أكتر', 'وزّع السلة على شركات زيادة', 'كمل من أكتر من شركة'];
   }
   const pick = bank[(state.smartSeed++ + state.toastLog.length) % bank.length];
   if (state.toastLog.slice(-2).includes(pick)) return toast(reason === 'remove' ? 'اتشال من السلة' : 'تمام', reason === 'remove' ? 'bad' : 'good');
