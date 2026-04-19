@@ -1724,5 +1724,42 @@ setInterval(() => {
   updateFooter();
 }, 1000);
 </script>
+  <script>
+
+window.APP_SETTINGS = {};
+
+async function loadSettingsFixed() {
+  try {
+    const res = await fetch(API_URL + "?endpoint=settings");
+    const data = await res.json();
+
+    if (data.settings) {
+      window.APP_SETTINGS = data.settings;
+    } else if (data.items) {
+      const obj = {};
+      data.items.forEach(i => {
+        if (i.key) obj[i.key] = i.value;
+      });
+      window.APP_SETTINGS = obj;
+    }
+
+  } catch (e) {
+    console.error("Settings Error", e);
+  }
+}
+
+const oldShowToast = window.showToast;
+
+window.showToast = function (input) {
+  if (window.APP_SETTINGS && window.APP_SETTINGS[input]) {
+    oldShowToast(window.APP_SETTINGS[input]);
+  } else {
+    oldShowToast(input);
+  }
+};
+
+document.addEventListener("DOMContentLoaded", loadSettingsFixed);
+
+  </script>
 </body>
 </html>
