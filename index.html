@@ -81,6 +81,8 @@
     .search-wrap{
       border-radius:20px;padding:10px 10px 8px;margin:8px 0 10px;
     }
+    #searchBar,.search-container,.search-wrap{display:none !important;}
+    .section-title,.page-title,.section-header,.page-header,.section-head{display:none !important;}
     .search-row{display:flex;align-items:center;gap:8px}
     .search-input{
       flex:1;min-width:0;border:0;outline:0;background:transparent;
@@ -98,11 +100,14 @@
     }
     .suggest-item strong{display:block;font-size:13px}
     .suggest-item span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
-    .shortcut-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+    .shortcut-row{display:flex;gap:8px;align-items:stretch}
+    .shortcut-row > .chip{
+      flex:1 1 0;width:33.33%;
+    }
     .chip{
       border:1px solid var(--line);
-      border-radius:18px;padding:12px 10px;display:flex;align-items:center;justify-content:center;
-      font-size:12px;font-weight:800;color:var(--text);min-height:54px;text-align:center;background:#fff;box-shadow:var(--shadow-soft)
+      border-radius:18px;padding:10px 8px;display:flex;align-items:center;justify-content:center;
+      font-size:11px;font-weight:800;color:var(--text);min-height:48px;text-align:center;background:#fff;box-shadow:var(--shadow-soft)
     }
     .chip.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-color:var(--primary)}
     .chip.good{background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border-color:#16a34a}
@@ -272,7 +277,7 @@
       .brand-text p{font-size:10px;max-width:55vw}
       .catalog{grid-template-columns:repeat(2,minmax(0,1fr))}
       .companies{grid-template-columns:repeat(3,minmax(0,1fr))}
-      .toast-zone{left:8px;right:8px;top:8px;max-width:none}
+      .toast-zone{left:50%;right:auto;transform:translateX(-50%);top:8px;max-width:calc(100vw - 16px)}
       .cart-drawer{width:100%}
       .search-input{font-size:12px}
       .chip{min-height:50px;padding:11px 8px}
@@ -280,6 +285,43 @@
       .bottom-tier,.bottom-total{padding:9px 11px}
       .cart-top-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
     }
+
+    body{padding-bottom:320px}
+    .chip.bad{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;border-color:#ef4444}
+    .toast-zone{
+      left:50%;
+      right:auto;
+      transform:translateX(-50%);
+      align-items:stretch;
+      top:10px;
+    }
+    .toast{width:100%;text-align:right}
+    .catalog{grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:7px}
+    .catalog .card{border-radius:16px}
+    .catalog .card .img img{padding:4px}
+    .catalog .card .body{padding:6px;gap:5px}
+    .catalog .card .title{font-size:11px;min-height:28px}
+    .catalog .card .meta{font-size:9px}
+    .catalog .card .price{padding-top:4px}
+    .catalog .card .price .old{font-size:10px}
+    .catalog .card .price .now{font-size:13px}
+    .catalog .card .buy-btn{height:34px;font-size:12px;border-radius:11px}
+    .catalog .card .units{gap:3px}
+    .catalog .card .unit-btn{padding:4px 6px;font-size:9px;min-width:40px;border-radius:999px}
+    .stepper{min-width:98px;border-radius:14px}
+    .stepper button{width:28px;height:28px;font-size:16px}
+    .stepper span{min-width:40px;font-size:15px}
+    .qty-box .unit-btn{width:32px;height:32px;padding:0;font-size:14px;border-radius:12px}
+    .qty-box .input{font-size:15px;padding:10px 8px;min-height:40px}
+    .rep-modal-grid{display:grid;gap:14px}
+    .rep-card{display:grid;gap:12px;padding:16px;border:1px solid var(--line);border-radius:20px;background:#fff;box-shadow:var(--shadow-soft)}
+    .rep-status{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:16px;font-size:13px;font-weight:900;color:#fff}
+    .rep-status.good{background:linear-gradient(135deg,#16a34a,#22c55e)}
+    .rep-status.bad{background:linear-gradient(135deg,#b91c1c,#ef4444)}
+    .rep-readonly{border:1px solid var(--line);background:#f8fbff;border-radius:14px;padding:11px 12px;min-height:44px;display:flex;align-items:center;font-size:13px;color:var(--text)}
+    .rep-submit{height:48px;border-radius:16px;background:var(--primary);color:#fff;font-weight:900;font-size:15px}
+    .rep-submit.logout{background:var(--bad)}
+
   </style>
 </head>
 <body>
@@ -703,11 +745,7 @@ function loadJSON(key, fallback) {
 function saveJSON(key, value) {
   try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {}
 }
-function formatMoney(n) {
-  const num = Number(n || 0);
-  const fixed = Math.abs(num % 1) < 1e-9 ? String(Math.trunc(num)) : num.toFixed(2).replace(/0+$/,'').replace(/\.$/,'');
-  return new Intl.NumberFormat('ar-EG').format(Number(fixed));
-}
+function formatMoney(n){ return new Intl.NumberFormat('ar-EG').format(Math.round(Number(n||0))); }
 function escapeHtml(str) {
   return String(str === null || str === undefined ? '' : str)
     .replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s]));
@@ -812,13 +850,12 @@ function toast(message, type = 'info') {
   if (!text) return;
   const signature = `${type}::${text}`;
   const now = Date.now();
-  const prev = toastRepeatGuard.get(signature) || { count: 0, ts: 0 };
-  if (now - prev.ts > 7000) prev.count = 0;
-  if (prev.count >= 2) return;
-  prev.count += 1;
-  prev.ts = now;
-  toastRepeatGuard.set(signature, prev);
-  toastQueue.push({ message: text, type });
+  const last = toastRepeatGuard.get(signature) || 0;
+  if (now - last < 5500) return;
+  if (toastActive && toastActive.dataset && toastActive.dataset.signature === signature) return;
+  if (toastQueue.some(t => t.signature === signature)) return;
+  toastRepeatGuard.set(signature, now);
+  toastQueue.push({ message: text, type, signature });
   if (!toastActive) processToastQueue();
 }
 function processToastQueue() {
@@ -827,6 +864,7 @@ function processToastQueue() {
   const next = toastQueue.shift();
   const node = document.createElement('div');
   node.className = `toast ${next.type}`;
+  node.dataset.signature = next.signature || '';
   node.textContent = next.message;
   zone.appendChild(node);
   toastActive = node;
@@ -840,7 +878,7 @@ function processToastQueue() {
       processToastQueue();
     }, 260);
   };
-  setTimeout(finish, 3200);
+  setTimeout(finish, 4200);
 }
 function popSmartToast(reason = 'generic') {
   const tally = getCartAnalysis();
@@ -1284,10 +1322,6 @@ function renderTiers() {
     ${renderSearchBox('ابحث في النظام...')}
     <div class="section-head"><div><h2>الشرائح</h2><p>اختيار الشريحة لا يمسح السلة ويعيد التسعير فورًا</p></div></div>
     <div class="action-row">
-      <button class="action-card" onclick="openRepOverlay(repIsActive() ? 'profile' : 'login')">
-        <div class="label">دخول المندوب</div>
-        <div class="desc">تسجيل الدخول أو الخروج من الحساب</div>
-      </button>
       ${(state.tiers || []).map(t => `
         <button class="tier-card ${state.selectedTier && String(state.selectedTier.tier_name) === String(t.tier_name) ? 'active' : ''}" onclick='pickTier(${JSON.stringify(t.tier_name)})'>
           <div class="label">${escapeHtml(t.visible_label || t.tier_name || 'شريحة')}</div>
@@ -1299,7 +1333,12 @@ function renderTiers() {
         <div class="label">الشركات</div>
         <div class="desc">ارجع لعرض الشركات والمنتجات</div>
       </button>
+      <button class="action-card" onclick="openRepOverlay(repIsActive() ? 'profile' : 'login')">
+        <div class="label">دخول المندوب</div>
+        <div class="desc">تسجيل الدخول أو الخروج من الحساب</div>
+      </button>
     </div>
+    ${state.selectedTier ? `<div style="margin-top:12px;display:flex;justify-content:center"><button class="chip bad" type="button" onclick="exitTier()">إلغاء الشريحة</button></div>` : ''}
     ${pageFooterHTML()}
   `;
   initSearchBox();
@@ -1399,10 +1438,11 @@ function updateFooterTier() {
   const need = Number(selected.tier_min || 0);
   const remaining = Math.max(0, need - totals.eligible);
   const prev = state._lastTierRemaining;
+  const label = selected.visible_label || selected.tier_name || 'الشريحة';
   state._lastTierRemaining = remaining;
   btn.classList.toggle('ok', remaining <= 0);
-  main.textContent = remaining <= 0 ? (selected.visible_label || selected.tier_name || 'الشريحة') : `فاضلك ${formatMoney(remaining)} ج`;
-  sub.textContent = remaining <= 0 ? 'مبروك 👏 كده الشريحة اكتملت' : `${selected.visible_label || selected.tier_name || 'الشريحة'} • الإجمالي الحالي ${formatMoney(totals.eligible)} ج`; 
+  main.textContent = label;
+  sub.textContent = remaining <= 0 ? 'مبروك 👏 كده الشريحة اكتملت' : `فاضلك ${formatMoney(Math.round(remaining))} ج`;
   arrow.textContent = remaining <= 0 ? '✓' : '→';
   if (prev !== null && prev > 0 && remaining <= 0) popSmartToast('tier');
 }
@@ -1443,8 +1483,9 @@ function updateCartUI() {
   const summary = el('cartSummary');
   const piecesEl = el('cartPiecesCount');
   const cartonsEl = el('cartCartonsCount');
-  if (totalEl) totalEl.textContent = `${formatMoney(totals.total)} ج.م`;
-  if (miniEl) miniEl.textContent = formatMoney(totals.total);
+  const roundedTotal = Math.round(Number(totals.total || 0));
+  if (totalEl) totalEl.textContent = `${formatMoney(roundedTotal)} ج.م`;
+  if (miniEl) miniEl.textContent = formatMoney(roundedTotal);
   if (summary) summary.textContent = `${count} قطعة / ${state.cart.length} صنف`;
   if (piecesEl) piecesEl.textContent = formatMoney(pieces);
   if (cartonsEl) cartonsEl.textContent = formatMoney(cartons);
@@ -1535,7 +1576,7 @@ function openProductOverlay(product, unit) {
         <div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div>
         <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
           <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1, this)'>−</button>
-          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
+          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" autocomplete="off" spellcheck="false" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
           <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1, this)'>+</button>
         </div>
         <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCartFromModal(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
@@ -1580,10 +1621,8 @@ function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
   setQtyFieldValue(field, cleaned);
   if (idx >= 0) {
-    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
-    state.cart[idx].qty = next;
+    state.cart[idx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
     saveCart();
-    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
@@ -1592,7 +1631,6 @@ function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
     state.cart[currentIdx].qty = nextQty;
     saveCart();
-    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
@@ -1674,10 +1712,8 @@ function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
   setQtyFieldValue(field, cleaned);
   if (currentIdx >= 0) {
-    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
-    state.cart[currentIdx].qty = next;
+    state.cart[currentIdx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
     saveCart();
-    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
@@ -1694,7 +1730,6 @@ function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
 function removeCartIndex(idx) {
   const item = state.cart[idx];
   if (!item) return;
-  if (item.type === 'offer' || item.type === 'flash') setOfferPurchased(item.type, item.id, false);
   state.cart.splice(idx, 1);
   saveCart();
   updateCartUI();
@@ -1735,7 +1770,7 @@ function renderProductCard(p) {
         </div>
         <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
           <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, -1, this)'>−</button>
-          <input class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" value="${escapeHtml(qty)}" oninput='setCardQtyFromInput(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, this.value, this)' />
+          <input class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" autocomplete="off" spellcheck="false" value="${escapeHtml(qty)}" oninput='setCardQtyFromInput(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, this.value, this)' />
           <button class="unit-btn" type="button" onclick='changeCardQty(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)}, 1, this)'>+</button>
         </div>
         <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCart(${JSON.stringify(String(p.id))}, ${JSON.stringify(unit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
@@ -1804,17 +1839,19 @@ function openOfferModal(id, name, price, details, image) {
   `);
 }
 function addOfferToCart(id, name, price, type) {
+  const key = offerPurchaseKey(type, id);
   const idx = state.cart.findIndex(x => x.type === type && String(x.id) === String(id));
-  if (isOfferPurchased(type, id) && idx < 0) {
-    toast('تم شراء العرض بالفعل 👌', 'warn');
+  if (state.offerPurchases[key]) {
+    toast('تم شراء العرض بالفعل', 'warn');
     return;
   }
   if (idx >= 0) {
-    toast('تم شراء العرض بالفعل 👌', 'warn');
+    toast('تم شراء العرض بالفعل', 'warn');
     return;
   }
   state.cart.push({ type, id: String(id), name, price: Number(price || 0), qty: 1, unit: type, company: type === 'flash' ? 'عرض الساعة' : 'صفقة اليوم', isOffer: type === 'offer', isFlash: type === 'flash' });
-  setOfferPurchased(type, id, true);
+  state.offerPurchases[key] = true;
+  saveJSON('alahram_offer_purchases', state.offerPurchases);
   saveCart();
   updateCartUI();
   renderCurrentView();
@@ -1918,8 +1955,7 @@ function exitTier() {
   updateFooterTier();
   updateCartUI();
   renderCurrentView();
-  goCompanies();
-  toast('تم الخروج من وضع الشريحة', 'info');
+  toast('تم إلغاء الشريحة', 'good');
 }
 function canSetProductQty(product, unit, newQty, excludeIdx = -1) {
   if (!state.selectedTier) return { ok: true };
@@ -2015,10 +2051,8 @@ function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
   setQtyFieldValue(field, cleaned);
   if (currentIdx >= 0) {
-    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
-    state.cart[currentIdx].qty = next;
+    state.cart[currentIdx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
     saveCart();
-    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
@@ -2045,7 +2079,7 @@ function openCheckoutModal() {
     <div class="checkout-grid">
       <div class="checkout-summary">
         <div><strong>عدد الأصناف:</strong> ${state.cart.length}</div>
-        <div><strong>الإجمالي:</strong> ${formatMoney(totals.total)} ج.م</div>
+        <div><strong>الإجمالي:</strong> ${formatMoney(Math.round(totals.total || 0))} ج.م</div>
         <div><strong>الشريحة:</strong> ${escapeHtml(state.selectedTier ? (state.selectedTier.visible_label || state.selectedTier.tier_name || '') : 'لا يوجد')}</div>
         <div><strong>المرسل:</strong> ${escapeHtml(repIsActive() ? senderName : 'العميل')}</div>
       </div>
@@ -2199,6 +2233,7 @@ function checkout() {
   window.open(url, '_blank', 'noopener');
   closeOverlay();
   clearCart(false, true);
+  clearAllOfferPurchases();
   state.selectedTier = null;
   localStorage.removeItem('alahram_selected_tier');
   updateFooterTier();
@@ -2234,7 +2269,7 @@ function openProductOverlay(product, unit) {
         <div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div>
         <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
           <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1, this)'>−</button>
-          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
+          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" autocomplete="off" spellcheck="false" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
           <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1, this)'>+</button>
         </div>
         <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCartFromModal(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
@@ -2284,10 +2319,8 @@ function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
   setQtyFieldValue(field, cleaned);
   if (idx >= 0) {
-    const next = Math.max(1, qtyTextToNumber(cleaned) || 1);
-    state.cart[idx].qty = next;
+    state.cart[idx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
     saveCart();
-    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
@@ -2296,7 +2329,6 @@ function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
     state.cart[currentIdx].qty = nextQty;
     saveCart();
-    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
