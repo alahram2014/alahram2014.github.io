@@ -462,6 +462,25 @@ const state = {
 
 const el = (id) => document.getElementById(id);
 
+const store = {
+  state: {
+    products: [],
+    company: '',
+    loading: false
+  },
+  listeners: [],
+  set(partial) {
+    this.state = { ...this.state, ...partial };
+    this.listeners.forEach(fn => fn(this.state));
+  },
+  subscribe(fn) {
+    this.listeners.push(fn);
+  }
+};
+
+let prevProducts = null;
+let currentCompany = null;
+
 const toastQueue = [];
 let toastActive = null;
 const toastRepeatGuard = new Map();
@@ -828,7 +847,7 @@ function getSelectedUnit(productId, availableUnits) {
 }
 function setSelectedUnit(productId, unit) {
   localStorage.setItem(`alahram_unit_${productId}`, unit);
-  renderCurrentView();
+  refreshProductsView();
 }
 function normalizeQty(value) {
   const n = parseInt(String(value || '').replace(/[^\d]/g, ''), 10);
@@ -1009,6 +1028,31 @@ function renderHomeSkeleton() {
     </div>
   `;
 }
+
+function renderProducts(items = []) {
+  return (items || []).map(renderProductCard).join('');
+}
+
+function smartRender(nextState) {
+  const catalog = el('catalog');
+  if (!catalog) return;
+  if (prevProducts !== nextState.products) {
+    catalog.innerHTML = renderProducts(nextState.products || []);
+    prevProducts = nextState.products;
+    ensureProductsObserved();
+  }
+}
+
+store.subscribe(smartRender);
+
+function refreshProductsView() {
+  if (state.view !== 'products') return;
+  const catalog = el('catalog');
+  if (catalog) smartRender({ products: state.products });
+  updateCartUI();
+  updateFooterTier();
+  updateFlashUI();
+}
 function renderBootError(message) {
   el('main').innerHTML = `
     <div class="empty">
@@ -1136,13 +1180,15 @@ async function loadProducts({ reset = false } = {}) {
   const ctx = getContext();
   const key = makeProductsKey(ctx);
   state.productsKey = key;
+  currentCompany = ctx.company || '';
   if (reset) {
     state.productsMeta = { page: 1, hasMore: true, loading: true, error: null };
     if (state.productsCache.has(key)) {
       const cached = state.productsCache.get(key);
       state.products = cached.items.slice();
       state.productsMeta = { page: cached.page || 1, hasMore: !!cached.hasMore, loading: false, error: null };
-      renderCurrentView();
+      store.set({ company: currentCompany, products: state.products.slice(), loading: false });
+      return;
     }
   }
   const page = reset ? 1 : Math.max(1, Number(state.productsMeta.page || 1));
@@ -1152,6 +1198,7 @@ async function loadProducts({ reset = false } = {}) {
   try {
     const data = await apiRequest('products', { page, limit: PAGE_LIMIT, q: ctx.q || '', company: ctx.company || '' });
     if (reqId !== state.productsReqId) return;
+    if (currentCompany !== (ctx.company || '')) return;
     const items = data && data.items ? data.items : [];
     const hasMore = !!(data && data.hasMore);
     if (reset) state.products = items;
@@ -1161,9 +1208,10 @@ async function loadProducts({ reset = false } = {}) {
     state.productsMeta.hasMore = hasMore;
     state.productsMeta.loading = false;
     state.productsMeta.error = null;
-    renderCurrentView();
+    store.set({ company: currentCompany, products: state.products.slice(), loading: false });
   } catch (err) {
     if (reqId !== state.productsReqId) return;
+    if (currentCompany !== (ctx.company || '')) return;
     state.productsMeta.loading = false;
     state.productsMeta.error = err.message || 'فشل تحميل المنتجات';
     if (reset && !state.products.length) state.products = [];
@@ -1390,8 +1438,8 @@ function renderProductsList(resetScroll = false) {
     ${state.selectedCompany || state.searchMode ? `<div class="filter-row">${state.selectedCompany ? `<span class="filter-chip active">${escapeHtml(state.selectedCompany)}</span>` : ''}${state.searchMode && state.searchQuery ? `<span class="filter-chip active">${escapeHtml(state.searchQuery)}</span>` : ''}<button class="filter-chip" type="button" onclick="clearProductFilters()">مسح الفلاتر</button></div>` : ''}
   `;
   const content = isFirstLoad
-    ? `<div class="catalog">${Array.from({length:8}).map(() => `<div class="card"><div class="img"><div class="skeleton skeleton-box" style="width:100%;height:100%"></div></div><div class="body"><div class="skeleton skeleton-line" style="width:85%"></div><div class="skeleton skeleton-line" style="width:45%"></div><div class="skeleton" style="height:34px;border-radius:14px"></div><div class="skeleton" style="height:42px;border-radius:14px"></div></div></div>`).join('')}</div>`
-    : (hasProducts ? `<div class="catalog">${state.products.map(renderProductCard).join('')}</div>` : (state.productsMeta.error ? `<div class="empty"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px">${escapeHtml(state.productsMeta.error)}</div><div style="margin-top:12px"><button class="chip primary" onclick="retryProducts()">إعادة المحاولة</button></div></div>` : '<div class="empty">لا توجد منتجات مطابقة الآن.</div>'));
+    ? `<div class="catalog" id="catalog">${Array.from({length:8}).map(() => `<div class="card"><div class="img"><div class="skeleton skeleton-box" style="width:100%;height:100%"></div></div><div class="body"><div class="skeleton skeleton-line" style="width:85%"></div><div class="skeleton skeleton-line" style="width:45%"></div><div class="skeleton" style="height:34px;border-radius:14px"></div><div class="skeleton" style="height:42px;border-radius:14px"></div></div></div>`).join('')}</div>`
+    : (hasProducts ? `<div class="catalog" id="catalog">${renderProducts(state.products)}</div>` : (state.productsMeta.error ? `<div class="empty"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px">${escapeHtml(state.productsMeta.error)}</div><div style="margin-top:12px"><button class="chip primary" onclick="retryProducts()">إعادة المحاولة</button></div></div>` : '<div class="empty">لا توجد منتجات مطابقة الآن.</div>'));
   el('main').innerHTML = `
     ${headerless}
     ${content}
@@ -1612,6 +1660,7 @@ function changeModalQty(productId, unit, delta, controlEl) {
   } else {
     setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
   }
+  refreshProductsView();
 }
 function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
@@ -1626,6 +1675,7 @@ function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
+  refreshProductsView();
 }
 function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
@@ -1634,6 +1684,7 @@ function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   } else {
     setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
+  refreshProductsView();
 }
 function toggleProductToCartFromModal(productId, unit) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
@@ -1652,7 +1703,7 @@ function toggleProductToCart(productId, unit, directProduct = null) {
     state.cart.splice(idx, 1);
     saveCart();
     updateCartUI();
-    renderCurrentView();
+    refreshProductsView();
     popSmartToast('remove');
     return;
   }
@@ -1680,7 +1731,7 @@ function toggleProductToCart(productId, unit, directProduct = null) {
   });
   saveCart();
   updateCartUI();
-  renderCurrentView();
+  refreshProductsView();
   if (state.selectedTier && getCartAnalysis().companiesCount < 5) toast('وزّع السلة على أكتر من شركة عشان الشريحة تمشي صح', 'info');
   popSmartToast('add');
 }
@@ -1703,6 +1754,7 @@ function changeCardQty(productId, unit, delta, controlEl) {
   } else {
     setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
   }
+  refreshProductsView();
 }
 function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId));
@@ -1717,6 +1769,7 @@ function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
+  refreshProductsView();
 }
 function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
@@ -1726,6 +1779,7 @@ function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   } else {
     setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
+  refreshProductsView();
 }
 function removeCartIndex(idx) {
   const item = state.cart[idx];
@@ -1733,7 +1787,7 @@ function removeCartIndex(idx) {
   state.cart.splice(idx, 1);
   saveCart();
   updateCartUI();
-  renderCurrentView();
+  refreshProductsView();
   popSmartToast('remove');
 }
 function cartQtyStep(idx, delta) {
@@ -1743,7 +1797,7 @@ function cartQtyStep(idx, delta) {
   item.qty = next;
   saveCart();
   updateCartUI();
-  renderCurrentView();
+  refreshProductsView();
 }
 function renderProductCard(p) {
   const availableUnits = UNIT_ORDER.filter(u => Number((p.base_prices || {})[u] || 0) > 0);
@@ -1854,7 +1908,7 @@ function addOfferToCart(id, name, price, type) {
   saveJSON('alahram_offer_purchases', state.offerPurchases);
   saveCart();
   updateCartUI();
-  renderCurrentView();
+  if (state.view === 'products') refreshProductsView(); else renderCurrentView();
   popSmartToast(type === 'flash' ? 'order' : 'add');
 }
 function goHome(replace = false) {
@@ -1882,12 +1936,29 @@ function goFlash(replace = false) {
   if (!replace) setRoute('flash');
   renderCurrentView();
 }
-function goCompany(company) {
-  state.selectedCompany = company || '';
+function loadCompany(name) {
+  const nextCompany = String(name || '').trim();
+  currentCompany = nextCompany;
+  state.selectedCompany = nextCompany;
   state.searchMode = false;
   state.searchQuery = '';
   saveJSON('alahram_search_query', '');
-  goProducts();
+  state.view = 'products';
+  setRoute('products');
+  state.productsReqId += 1;
+  state.products = [];
+  state.productsMeta = { page: 1, hasMore: true, loading: true, error: null };
+  renderCurrentView(true);
+  const catalog = el('catalog');
+  if (catalog) {
+    catalog.innerHTML = Array.from({length:6}).map(() => `<div class="card"><div class="img"><div class="skeleton skeleton-box" style="width:100%;height:100%"></div></div><div class="body"><div class="skeleton skeleton-line" style="width:85%"></div><div class="skeleton skeleton-line" style="width:45%"></div><div class="skeleton" style="height:34px;border-radius:14px"></div><div class="skeleton" style="height:42px;border-radius:14px"></div></div></div>`).join('');
+    prevProducts = null;
+  }
+  store.set({ company: nextCompany, products: [], loading: true });
+  goProducts(true);
+}
+function goCompany(company) {
+  loadCompany(company);
 }
 function clearProductFilters() {
   state.selectedCompany = '';
@@ -1899,13 +1970,18 @@ function clearProductFilters() {
 function goProducts(replace = false) {
   state.view = 'products';
   if (!replace) setRoute('products');
-  renderCurrentView(true);
   const key = makeProductsKey();
   const cached = state.productsCache.get(key);
+  state.productsReqId += 1;
+  state.products = [];
+  state.productsMeta = { page: 1, hasMore: true, loading: true, error: null };
+  renderCurrentView(true);
+  currentCompany = state.selectedCompany || '';
+  store.set({ company: currentCompany, products: [], loading: true });
   if (cached && !cached.stale) {
     state.products = cached.items.slice();
     state.productsMeta = { page: cached.page || 1, hasMore: !!cached.hasMore, loading: false, error: null };
-    renderCurrentView();
+    store.set({ company: currentCompany, products: state.products.slice(), loading: false });
     if (cached.hasMore) loadProducts({ reset: false }).catch(() => {});
   } else {
     loadProducts({ reset: true }).catch(() => {});
@@ -1991,7 +2067,7 @@ function toggleProductToCart(productId, unit, directProduct = null) {
     state.cart.splice(idx, 1);
     saveCart();
     updateCartUI();
-    renderCurrentView();
+    refreshProductsView();
     popSmartToast('remove');
     return;
   }
@@ -2019,7 +2095,7 @@ function toggleProductToCart(productId, unit, directProduct = null) {
   });
   saveCart();
   updateCartUI();
-  renderCurrentView();
+  refreshProductsView();
   if (state.selectedTier && getCartAnalysis().companiesCount < 5) toast('وزّع السلة على أكتر من شركة عشان الشريحة تمشي صح', 'info');
   popSmartToast('add');
 }
@@ -2042,6 +2118,7 @@ function changeCardQty(productId, unit, delta, controlEl) {
   } else {
     setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
   }
+  refreshProductsView();
 }
 function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId));
@@ -2056,6 +2133,7 @@ function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
+  refreshProductsView();
 }
 function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
@@ -2065,6 +2143,7 @@ function setCardQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   } else {
     setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
+  refreshProductsView();
 }
 function renderProductFooterButtons() {}
 function openCheckoutModal() {
@@ -2310,6 +2389,7 @@ function changeModalQty(productId, unit, delta, controlEl) {
   } else {
     setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
   }
+  refreshProductsView();
 }
 function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
@@ -2324,6 +2404,7 @@ function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
+  refreshProductsView();
 }
 function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   if (currentIdx >= 0) {
@@ -2332,6 +2413,7 @@ function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
   } else {
     setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
   }
+  refreshProductsView();
 }
 function itemLinePrice(item) {
   if (!item) return 0;
