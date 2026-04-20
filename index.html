@@ -462,6 +462,56 @@ const state = {
 
 const el = (id) => document.getElementById(id);
 
+const store = {
+  state: {
+    products: [],
+    company: '',
+    loading: false
+  },
+  listeners: [],
+  set(partial) {
+    this.state = { ...this.state, ...partial };
+    this.listeners.forEach(fn => fn(this.state));
+  },
+  subscribe(fn) {
+    this.listeners.push(fn);
+  }
+};
+
+let prevProducts = null;
+let currentCompany = null;
+
+function renderSkeleton(count = 6) {
+  return Array.from({ length: count }).map(() => `
+    <div class="card">
+      <div class="img"><div class="skeleton skeleton-box" style="width:100%;height:100%"></div></div>
+      <div class="body">
+        <div class="skeleton skeleton-line" style="width:85%"></div>
+        <div class="skeleton skeleton-line" style="width:45%"></div>
+        <div class="skeleton" style="height:34px;border-radius:14px"></div>
+        <div class="skeleton" style="height:42px;border-radius:14px"></div>
+      </div>
+    </div>`).join('');
+}
+
+function smartRender(nextState) {
+  const catalog = el('catalog');
+  if (!catalog) return;
+  if (nextState.loading && !(nextState.products && nextState.products.length)) {
+    catalog.innerHTML = renderSkeleton(6);
+    prevProducts = null;
+    return;
+  }
+  if (prevProducts !== nextState.products) {
+    catalog.innerHTML = renderProducts(nextState.products || []);
+    prevProducts = nextState.products;
+    ensureProductsObserved();
+  }
+}
+
+
+store.subscribe(smartRender);
+
 const toastQueue = [];
 let toastActive = null;
 const toastRepeatGuard = new Map();
@@ -826,9 +876,9 @@ function getSelectedUnit(productId, availableUnits) {
   localStorage.setItem(`alahram_unit_${productId}`, first);
   return first;
 }
+
 function setSelectedUnit(productId, unit) {
   localStorage.setItem(`alahram_unit_${productId}`, unit);
-  renderCurrentView();
 }
 function normalizeQty(value) {
   const n = parseInt(String(value || '').replace(/[^\d]/g, ''), 10);
@@ -1132,42 +1182,57 @@ function getContext() {
 function makeProductsKey(ctx = getContext()) {
   return productKey(ctx);
 }
+
 async function loadProducts({ reset = false } = {}) {
   const ctx = getContext();
   const key = makeProductsKey(ctx);
+  const requestedCompany = currentCompany = ctx.company || '';
   state.productsKey = key;
+
   if (reset) {
     state.productsMeta = { page: 1, hasMore: true, loading: true, error: null };
+    store.set({ company: requestedCompany, products: [], loading: true });
+
     if (state.productsCache.has(key)) {
       const cached = state.productsCache.get(key);
       state.products = cached.items.slice();
       state.productsMeta = { page: cached.page || 1, hasMore: !!cached.hasMore, loading: false, error: null };
-      renderCurrentView();
+      store.set({ company: requestedCompany, products: state.products.slice(), loading: false });
+      if (cached.hasMore) loadProducts({ reset: false }).catch(() => {});
+      return;
     }
+  } else {
+    state.productsMeta.loading = true;
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: true });
   }
+
   const page = reset ? 1 : Math.max(1, Number(state.productsMeta.page || 1));
   const reqId = ++state.productsReqId;
-  state.productsMeta.loading = true;
-  if (!state.products.length) renderCurrentView();
+
   try {
     const data = await apiRequest('products', { page, limit: PAGE_LIMIT, q: ctx.q || '', company: ctx.company || '' });
     if (reqId !== state.productsReqId) return;
+    if (currentCompany !== requestedCompany) return;
+
     const items = data && data.items ? data.items : [];
     const hasMore = !!(data && data.hasMore);
+
     if (reset) state.products = items;
     else state.products = state.products.concat(items);
+
     state.productsCache.set(key, { items: state.products.slice(), page: page + 1, hasMore, loadedAt: Date.now() });
     state.productsMeta.page = page + 1;
     state.productsMeta.hasMore = hasMore;
     state.productsMeta.loading = false;
     state.productsMeta.error = null;
-    renderCurrentView();
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: false });
   } catch (err) {
     if (reqId !== state.productsReqId) return;
+    if (currentCompany !== requestedCompany) return;
     state.productsMeta.loading = false;
     state.productsMeta.error = err.message || 'فشل تحميل المنتجات';
     if (reset && !state.products.length) state.products = [];
-    renderCurrentView();
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: false });
     toast(state.productsMeta.error, 'bad');
   }
 }
@@ -1382,6 +1447,7 @@ function renderCompaniesPage() {
   `;
   initSearchBox();
 }
+
 function renderProductsList(resetScroll = false) {
   const hasProducts = state.products && state.products.length > 0;
   const isFirstLoad = state.productsMeta.loading && !hasProducts;
@@ -1390,8 +1456,8 @@ function renderProductsList(resetScroll = false) {
     ${state.selectedCompany || state.searchMode ? `<div class="filter-row">${state.selectedCompany ? `<span class="filter-chip active">${escapeHtml(state.selectedCompany)}</span>` : ''}${state.searchMode && state.searchQuery ? `<span class="filter-chip active">${escapeHtml(state.searchQuery)}</span>` : ''}<button class="filter-chip" type="button" onclick="clearProductFilters()">مسح الفلاتر</button></div>` : ''}
   `;
   const content = isFirstLoad
-    ? `<div class="catalog">${Array.from({length:8}).map(() => `<div class="card"><div class="img"><div class="skeleton skeleton-box" style="width:100%;height:100%"></div></div><div class="body"><div class="skeleton skeleton-line" style="width:85%"></div><div class="skeleton skeleton-line" style="width:45%"></div><div class="skeleton" style="height:34px;border-radius:14px"></div><div class="skeleton" style="height:42px;border-radius:14px"></div></div></div>`).join('')}</div>`
-    : (hasProducts ? `<div class="catalog">${state.products.map(renderProductCard).join('')}</div>` : (state.productsMeta.error ? `<div class="empty"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px">${escapeHtml(state.productsMeta.error)}</div><div style="margin-top:12px"><button class="chip primary" onclick="retryProducts()">إعادة المحاولة</button></div></div>` : '<div class="empty">لا توجد منتجات مطابقة الآن.</div>'));
+    ? `<div id="catalog" class="catalog">${renderSkeleton(6)}</div>`
+    : (hasProducts ? `<div id="catalog" class="catalog">${renderProducts(state.products)}</div>` : (state.productsMeta.error ? `<div class="empty"><strong>تعذر تحميل المنتجات</strong><div style="margin-top:8px">${escapeHtml(state.productsMeta.error)}</div><div style="margin-top:12px"><button class="chip primary" onclick="retryProducts()">إعادة المحاولة</button></div></div>` : '<div class="empty">لا توجد منتجات مطابقة الآن.</div>'));
   el('main').innerHTML = `
     ${headerless}
     ${content}
@@ -1519,13 +1585,192 @@ function updateCartUI() {
   }
   updateFooterTier();
 }
+
 function clearCart(showConfirm = false, silent = false) {
   if (showConfirm && !confirm('متأكد عايز تمسح السلة؟')) return;
   state.cart = [];
   clearAllOfferPurchases();
   saveCart();
   updateCartUI();
-  renderCurrentView();
+  if (!silent) popSmartToast('remove');
+}
+function openCart() {
+  el('cartDrawer').classList.add('open');
+  el('cartDrawer').setAttribute('aria-hidden', 'false');
+}
+function closeCart() {
+  el('cartDrawer').classList.remove('open');
+  el('cartDrawer').setAttribute('aria-hidden', 'true');
+}
+function closeOverlay() {
+  el('overlay').classList.remove('show');
+  el('overlay').setAttribute('aria-hidden', 'true');
+}
+function openOverlay(title, html) {
+  el('modalTitle').textContent = title;
+  el('modalBody').innerHTML = html;
+  el('overlay').classList.add('show');
+  el('overlay').setAttribute('aria-hidden', 'false');
+}
+function closeProductOverlay() {
+  el('productOverlay').classList.remove('show');
+  el('productOverlay').setAttribute('aria-hidden', 'true');
+  state.productModalItem = null;
+}
+function openProductOverlay(product, unit) {
+  state.productModalItem = { product, unit };
+  const availableUnits = UNIT_ORDER.filter(u => Number((product.base_prices || {})[u] || 0) > 0);
+  const selectedUnit = unit && availableUnits.includes(unit) ? unit : availableUnits[0] || 'piece';
+  const pr = resolvePrice(product, selectedUnit);
+  const inCart = findCartIndex(cartKey(String(product.id), selectedUnit)) >= 0;
+  const qty = inCart ? String(state.cart.find(x => x.type === 'product' && String(x.id) === String(product.id) && String(x.unit) === String(selectedUnit))?.qty || 1) : getDraftQtyText(product.id, selectedUnit);
+  const img = escapeHtml(product.image || fallbackImage());
+  const metaRows = [
+    product.company ? `<div class="msg"><strong>الشركة:</strong> ${escapeHtml(product.company)}</div>` : '',
+    product.id ? `<div class="msg"><strong>الكود:</strong> ${escapeHtml(String(product.id))}</div>` : '',
+    product.description ? `<div class="msg"><strong>الوصف:</strong> ${escapeHtml(product.description)}</div>` : ''
+  ].filter(Boolean).join('');
+  el('productModalTitle').textContent = product.name || 'تفاصيل المنتج';
+  el('productModalBody').innerHTML = `
+    <div class="card" style="border-radius:22px;overflow:hidden;margin-bottom:12px">
+      <div class="img" style="aspect-ratio:auto;height:min(44vh,420px)">
+        <img src="${img}" alt="${escapeHtml(product.name || '')}" style="width:100%;height:100%;object-fit:contain;padding:10px" />
+      </div>
+      <div class="body">
+        <div class="title" style="font-size:16px;min-height:auto">${escapeHtml(product.name || '')}</div>
+        <div class="units">${availableUnits.map(u => `<button class="unit-btn ${selectedUnit===u?'active':''}" onclick='setModalUnit(${JSON.stringify(String(product.id))}, ${JSON.stringify(u)})'>${UNIT_LABELS[u]}</button>`).join('')}</div>
+        <div class="price">${pr.changed ? `<div class="old">${formatMoney(pr.base)} ج.م</div>` : ''}<div class="now">${formatMoney(pr.current)} ج.م</div></div>
+        <div class="qty-box" style="display:grid;grid-template-columns:30px minmax(0,1fr) 30px;gap:6px;align-items:center">
+          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, -1, this)'>−</button>
+          <input id="modalQtyInput" class="input" style="text-align:center;padding:8px 8px;border-radius:12px" inputmode="numeric" autocomplete="off" spellcheck="false" value="${escapeHtml(qty)}" oninput='setModalQtyFromInput(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, this.value, this)' />
+          <button class="unit-btn" type="button" onclick='changeModalQty(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)}, 1, this)'>+</button>
+        </div>
+        <button class="buy-btn ${inCart ? 'remove' : ''}" onclick='toggleProductToCartFromModal(${JSON.stringify(String(product.id))}, ${JSON.stringify(selectedUnit)})'>${inCart ? 'إزالة' : 'شراء'}</button>
+        ${metaRows}
+      </div>
+    </div>
+  `;
+  el('productOverlay').classList.add('show');
+  el('productOverlay').setAttribute('aria-hidden', 'false');
+}
+
+function setModalUnit(productId, unit) {
+  localStorage.setItem(`alahram_unit_${productId}`, unit);
+  const active = state.productModalItem && state.productModalItem.product && String(state.productModalItem.product.id) === String(productId);
+  if (active) openProductOverlay(state.productModalItem.product, unit);
+}
+
+function changeModalQty(productId, unit, delta, controlEl) {
+  const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
+  if (!product) return;
+  const key = cartKey(String(productId), unit);
+  const idx = findCartIndex(key);
+  const field = qtyFieldFromControl(controlEl);
+  const currentQty = idx >= 0
+    ? Number(state.cart[idx].qty || 1)
+    : qtyTextToNumber(readQtyFromField(field, getDraftQtyText(productId, unit)));
+  const next = idx >= 0
+    ? Math.max(1, currentQty + Number(delta || 0))
+    : Math.max(0, currentQty + Number(delta || 0));
+  setQtyFieldValue(field, next > 0 ? String(next) : '');
+  if (idx >= 0) {
+    state.cart[idx].qty = next;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, next > 0 ? String(next) : '');
+  }
+}
+
+function setModalQtyFromInput(productId, unit, rawValue, controlEl) {
+  const product = state.products.find(p => String(p.id) === String(productId)) || state.productModalItem?.product;
+  if (!product) return;
+  const idx = findCartIndex(cartKey(String(productId), unit));
+  const field = qtyFieldFromControl(controlEl);
+  const cleaned = String(rawValue ?? '').replace(/\D+/g, '');
+  setQtyFieldValue(field, cleaned);
+  if (idx >= 0) {
+    state.cart[idx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, cleaned);
+  }
+}
+
+function setModalQtyValue(product, productId, unit, nextQty, currentIdx = -1) {
+  if (currentIdx >= 0) {
+    state.cart[currentIdx].qty = nextQty;
+    saveCart();
+    updateCartUI();
+  } else {
+    setDraftQtyText(productId, unit, nextQty > 0 ? String(nextQty) : '');
+  }
+}
+
+function itemLinePrice(item) {
+  if (!item) return 0;
+  if (item.type !== 'product') return Number(item.price || 0);
+  return resolvePrice(item.product_snapshot || item, item.unit).current;
+}
+function findCartIndex(key) {
+  return state.cart.findIndex(x => x.type === 'product' && cartKey(String(x.id), String(x.unit)) === key);
+}
+function saveCart() {
+  saveJSON('alahram_cart', state.cart);
+}
+function updateCartUI() {
+  const count = state.cart.reduce((sum, item) => sum + Number(item.qty || 0), 0);
+  const pieces = state.cart.filter(x => x.type === 'product' && String(x.unit) === 'piece').reduce((s, x) => s + Number(x.qty || 0), 0);
+  const cartons = state.cart.filter(x => x.type === 'product' && String(x.unit) === 'carton').reduce((s, x) => s + Number(x.qty || 0), 0);
+  const totals = getCartAnalysis();
+  const totalEl = el('cartTotal');
+  const miniEl = el('cartTotalMini');
+  const summary = el('cartSummary');
+  const piecesEl = el('cartPiecesCount');
+  const cartonsEl = el('cartCartonsCount');
+  const roundedTotal = Math.round(Number(totals.total || 0));
+  if (totalEl) totalEl.textContent = `${formatMoney(roundedTotal)} ج.م`;
+  if (miniEl) miniEl.textContent = formatMoney(roundedTotal);
+  if (summary) summary.textContent = `${count} قطعة / ${state.cart.length} صنف`;
+  if (piecesEl) piecesEl.textContent = formatMoney(pieces);
+  if (cartonsEl) cartonsEl.textContent = formatMoney(cartons);
+  const list = el('cartList');
+  if (!list) return;
+  if (!state.cart.length) {
+    list.innerHTML = '<div class="empty">السلة فارغة الآن.</div>';
+  } else {
+    list.innerHTML = state.cart.map((item, idx) => {
+      const price = itemLinePrice(item);
+      return `
+        <div class="cart-item">
+          <div class="row">
+            <div style="min-width:0">
+              <div class="name">${escapeHtml(item.name || '')}</div>
+              <div class="meta">${escapeHtml(item.type === 'product' ? `[${item.id}] ` : '')}${escapeHtml(item.company || '')}${item.type === 'product' ? ` • ${escapeHtml(item.unit || '')}` : ''} • ${formatMoney(price)} ج.م</div>
+            </div>
+            <button class="search-clear" type="button" onclick="removeCartIndex(${idx})">✕</button>
+          </div>
+          <div class="foot">
+            <div class="stepper">
+              <button type="button" onclick="cartQtyStep(${idx},-1)">−</button>
+              <span>${Number(item.qty || 1)}</span>
+              <button type="button" onclick="cartQtyStep(${idx},1)">+</button>
+            </div>
+            <strong>${formatMoney(Number(item.qty || 1) * price)} ج.م</strong>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+  updateFooterTier();
+}
+function clearCart(showConfirm = false, silent = false) {
+  if (showConfirm && !confirm('متأكد عايز تمسح السلة؟')) return;
+  state.cart = [];
+  clearAllOfferPurchases();
+  saveCart();
+  updateCartUI();
   if (!silent) popSmartToast('remove');
 }
 function openCart() {
@@ -1652,7 +1897,6 @@ function toggleProductToCart(productId, unit, directProduct = null) {
     state.cart.splice(idx, 1);
     saveCart();
     updateCartUI();
-    renderCurrentView();
     popSmartToast('remove');
     return;
   }
@@ -1680,7 +1924,6 @@ function toggleProductToCart(productId, unit, directProduct = null) {
   });
   saveCart();
   updateCartUI();
-  renderCurrentView();
   if (state.selectedTier && getCartAnalysis().companiesCount < 5) toast('وزّع السلة على أكتر من شركة عشان الشريحة تمشي صح', 'info');
   popSmartToast('add');
 }
@@ -1714,6 +1957,7 @@ function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   if (currentIdx >= 0) {
     state.cart[currentIdx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
     saveCart();
+    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
@@ -1733,7 +1977,6 @@ function removeCartIndex(idx) {
   state.cart.splice(idx, 1);
   saveCart();
   updateCartUI();
-  renderCurrentView();
   popSmartToast('remove');
 }
 function cartQtyStep(idx, delta) {
@@ -1743,7 +1986,6 @@ function cartQtyStep(idx, delta) {
   item.qty = next;
   saveCart();
   updateCartUI();
-  renderCurrentView();
 }
 function renderProductCard(p) {
   const availableUnits = UNIT_ORDER.filter(u => Number((p.base_prices || {})[u] || 0) > 0);
@@ -1854,7 +2096,6 @@ function addOfferToCart(id, name, price, type) {
   saveJSON('alahram_offer_purchases', state.offerPurchases);
   saveCart();
   updateCartUI();
-  renderCurrentView();
   popSmartToast(type === 'flash' ? 'order' : 'add');
 }
 function goHome(replace = false) {
@@ -1883,11 +2124,18 @@ function goFlash(replace = false) {
   renderCurrentView();
 }
 function goCompany(company) {
-  state.selectedCompany = company || '';
+  currentCompany = String(company || '').trim();
+  state.selectedCompany = currentCompany;
   state.searchMode = false;
   state.searchQuery = '';
   saveJSON('alahram_search_query', '');
-  goProducts();
+  state.view = 'products';
+  setRoute('products');
+  state.productsReqId += 1;
+  state.products = [];
+  state.productsMeta = { page: 1, hasMore: true, loading: true, error: null };
+  store.set({ company: currentCompany, products: [], loading: true });
+  goProducts(true);
 }
 function clearProductFilters() {
   state.selectedCompany = '';
@@ -1899,6 +2147,7 @@ function clearProductFilters() {
 function goProducts(replace = false) {
   state.view = 'products';
   if (!replace) setRoute('products');
+  currentCompany = state.selectedCompany || '';
   renderCurrentView(true);
   const key = makeProductsKey();
   const cached = state.productsCache.get(key);
@@ -1991,7 +2240,6 @@ function toggleProductToCart(productId, unit, directProduct = null) {
     state.cart.splice(idx, 1);
     saveCart();
     updateCartUI();
-    renderCurrentView();
     popSmartToast('remove');
     return;
   }
@@ -2019,7 +2267,6 @@ function toggleProductToCart(productId, unit, directProduct = null) {
   });
   saveCart();
   updateCartUI();
-  renderCurrentView();
   if (state.selectedTier && getCartAnalysis().companiesCount < 5) toast('وزّع السلة على أكتر من شركة عشان الشريحة تمشي صح', 'info');
   popSmartToast('add');
 }
@@ -2053,6 +2300,7 @@ function setCardQtyFromInput(productId, unit, rawValue, controlEl) {
   if (currentIdx >= 0) {
     state.cart[currentIdx].qty = Math.max(1, qtyTextToNumber(cleaned) || 1);
     saveCart();
+    updateCartUI();
   } else {
     setDraftQtyText(productId, unit, cleaned);
   }
@@ -2350,6 +2598,233 @@ function renderCurrentView(resetScroll = false) {
   updateFlashUI();
   if (state.view === 'home') updateHomeFlashChip();
 }
+
+
+const CACHE_TTL = 60000;
+
+function renderProducts(items = []) {
+  return (items || []).map(renderProductCard).join('');
+}
+
+function getFreshCachedProducts(key) {
+  const cached = state.productsCache.get(key);
+  if (cached && Date.now() - Number(cached.loadedAt || 0) > CACHE_TTL) {
+    state.productsCache.delete(key);
+    return null;
+  }
+  return cached || null;
+}
+
+function smartRender(nextState) {
+  const catalog = el('catalog');
+  if (!catalog) return;
+  if (prevProducts === nextState.products) return;
+
+  if (nextState.loading) {
+    if (!nextState.products || !nextState.products.length) {
+      catalog.innerHTML = renderSkeleton(6);
+    }
+    prevProducts = nextState.products;
+    return;
+  }
+
+  if (state.productsMeta && state.productsMeta.error) {
+    catalog.innerHTML = `
+      <div class="empty">
+        <strong>تعذر تحميل المنتجات</strong>
+        <div style="margin-top:8px">${escapeHtml(state.productsMeta.error)}</div>
+        <div style="margin-top:12px"><button class="chip primary" type="button" onclick="retryLoadProducts()">إعادة المحاولة</button></div>
+      </div>
+    `;
+    prevProducts = nextState.products;
+    return;
+  }
+
+  if (!nextState.products || !nextState.products.length) {
+    catalog.innerHTML = '<div class="empty">لا يوجد منتجات</div>';
+    prevProducts = nextState.products;
+    return;
+  }
+
+  catalog.innerHTML = renderProducts(nextState.products);
+  prevProducts = nextState.products;
+  ensureProductsObserved();
+}
+
+store.listeners.length = 0;
+store.subscribe(smartRender);
+
+
+function renderCartItems() {
+  const list = el('cartList');
+  if (!list) return;
+  if (!state.cart.length) {
+    list.innerHTML = '<div class="empty">السلة فارغة الآن.</div>';
+    return;
+  }
+  list.innerHTML = state.cart.map((item, idx) => {
+    const price = itemLinePrice(item);
+    return `
+      <div class="cart-item">
+        <div class="row">
+          <div style="min-width:0">
+            <div class="name">${escapeHtml(item.name || '')}</div>
+            <div class="meta">${escapeHtml(item.type === 'product' ? `[${item.id}] ` : '')}${escapeHtml(item.company || '')}${item.type === 'product' ? ` • ${escapeHtml(item.unit || '')}` : ''} • ${formatMoney(price)} ج.م</div>
+          </div>
+          <button class="search-clear" type="button" onclick="removeCartIndex(${idx})">✕</button>
+        </div>
+        <div class="foot">
+          <div class="stepper">
+            <button type="button" onclick="cartQtyStep(${idx},-1)">−</button>
+            <span>${Number(item.qty || 1)}</span>
+            <button type="button" onclick="cartQtyStep(${idx},1)">+</button>
+          </div>
+          <strong>${formatMoney(Number(item.qty || 1) * price)} ج.م</strong>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function updateCartTotals() {
+  const count = state.cart.reduce((sum, item) => sum + Number(item.qty || 0), 0);
+  const pieces = state.cart.filter(x => x.type === 'product' && String(x.unit) === 'piece').reduce((s, x) => s + Number(x.qty || 0), 0);
+  const cartons = state.cart.filter(x => x.type === 'product' && String(x.unit) === 'carton').reduce((s, x) => s + Number(x.qty || 0), 0);
+  const totals = getCartAnalysis();
+  const totalEl = el('cartTotal');
+  const miniEl = el('cartTotalMini');
+  const summary = el('cartSummary');
+  const piecesEl = el('cartPiecesCount');
+  const cartonsEl = el('cartCartonsCount');
+  const roundedTotal = Math.round(Number(totals.total || 0));
+  if (totalEl) totalEl.textContent = `${formatMoney(roundedTotal)} ج.م`;
+  if (miniEl) miniEl.textContent = formatMoney(roundedTotal);
+  if (summary) summary.textContent = `${count} قطعة / ${state.cart.length} صنف`;
+  if (piecesEl) piecesEl.textContent = formatMoney(pieces);
+  if (cartonsEl) cartonsEl.textContent = formatMoney(cartons);
+}
+
+function updateCartUI() {
+  renderCartItems();
+  updateCartTotals();
+}
+
+function setSelectedUnit(productId, unit) {
+  localStorage.setItem(`alahram_unit_${productId}`, unit);
+}
+
+function retryLoadProducts() {
+  state.productsMeta.error = null;
+  loadProducts({ reset: true }).catch(() => {});
+}
+
+function retryProducts() {
+  retryLoadProducts();
+}
+
+async function loadProducts({ reset = false } = {}) {
+  const ctx = getContext();
+  const key = makeProductsKey(ctx);
+  const requestedCompany = ctx.company || '';
+  currentCompany = requestedCompany;
+  state.productsKey = key;
+
+  const cached = state.productsCache.get(key);
+  if (cached && Date.now() - Number(cached.loadedAt || 0) > CACHE_TTL) {
+    state.productsCache.delete(key);
+  }
+
+  const freshCached = getFreshCachedProducts(key);
+  if (reset && freshCached) {
+    state.products = freshCached.items.slice();
+    state.productsMeta = {
+      page: freshCached.page || 1,
+      hasMore: !!freshCached.hasMore,
+      loading: false,
+      error: null
+    };
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: false });
+    return;
+  }
+
+  if (reset) {
+    state.productsMeta = { page: 1, hasMore: true, loading: true, error: null };
+    state.products = [];
+    store.set({ company: requestedCompany, products: [], loading: true });
+  } else {
+    state.productsMeta.loading = true;
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: true });
+  }
+
+  const page = reset ? 1 : Math.max(1, Number(state.productsMeta.page || 1));
+  const reqId = ++state.productsReqId;
+
+  try {
+    const data = await apiRequest('products', { page, limit: PAGE_LIMIT, q: ctx.q || '', company: ctx.company || '' });
+    if (reqId !== state.productsReqId) return;
+    if (currentCompany !== requestedCompany) return;
+
+    const items = data && data.items ? data.items : [];
+    const hasMore = !!(data && data.hasMore);
+
+    if (reset) state.products = items;
+    else state.products = state.products.concat(items);
+
+    state.productsCache.set(key, {
+      items: state.products.slice(),
+      page: page + 1,
+      hasMore,
+      loadedAt: Date.now()
+    });
+    state.productsMeta.page = page + 1;
+    state.productsMeta.hasMore = hasMore;
+    state.productsMeta.loading = false;
+    state.productsMeta.error = null;
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: false });
+  } catch (err) {
+    if (reqId !== state.productsReqId) return;
+    if (currentCompany !== requestedCompany) return;
+    state.productsMeta.loading = false;
+    state.productsMeta.error = err.message || 'فشل تحميل المنتجات';
+    if (reset && !state.products.length) state.products = [];
+    store.set({ company: requestedCompany, products: state.products.slice(), loading: false });
+  }
+}
+
+function goProducts(replace = false) {
+  state.view = 'products';
+  if (!replace) setRoute('products');
+  currentCompany = state.selectedCompany || '';
+  renderCurrentView(true);
+  const key = makeProductsKey();
+  const cached = getFreshCachedProducts(key);
+  if (cached) {
+    state.products = cached.items.slice();
+    state.productsMeta = { page: cached.page || 1, hasMore: !!cached.hasMore, loading: false, error: null };
+    store.set({ company: currentCompany, products: state.products.slice(), loading: false });
+    return;
+  }
+  loadProducts({ reset: true }).catch(() => {});
+}
+
+function renderProductsList(resetScroll = false) {
+  const headerless = `
+    ${renderSearchBox()}
+    ${state.selectedCompany || state.searchMode ? `<div class="filter-row">${state.selectedCompany ? `<span class="filter-chip active">${escapeHtml(state.selectedCompany)}</span>` : ''}${state.searchMode && state.searchQuery ? `<span class="filter-chip active">${escapeHtml(state.searchQuery)}</span>` : ''}<button class="filter-chip" type="button" onclick="clearProductFilters()">مسح الفلاتر</button></div>` : ''}
+  `;
+  el('main').innerHTML = `
+    ${headerless}
+    <div id="catalog" class="catalog"></div>
+    <div id="productsSentinel" style="height:1px"></div>
+    ${state.productsMeta.loading && state.products.length ? '<div class="msg" style="margin-top:10px">جارٍ تحميل المزيد…</div>' : ''}
+    ${!state.productsMeta.hasMore && state.products.length ? '<div class="msg" style="margin-top:10px">تم الوصول لنهاية النتائج.</div>' : ''}
+    ${pageFooterHTML()}
+  `;
+  initSearchBox();
+  ensureProductsObserved();
+  if (resetScroll) window.scrollTo({ top: 0, behavior: 'auto' });
+}
+
 </script>
 </body>
 </html>
