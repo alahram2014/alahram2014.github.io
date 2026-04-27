@@ -135,3 +135,91 @@ html, body {
 .bottom-nav { background: #ffffff !important; border-top: 1px solid #ddd; }
 .nav-item { color: var(--muted) !important; }
 .nav-item.active { color: var(--gold) !important; font-weight: bold; }
+/* =========================================
+   ثيم "اللؤلؤة والذهب الملكي" - واجهة فخمة ومضيئة
+   ========================================= */
+
+/* 1. تغيير لوحة الألوان الأساسية */
+:root {
+  --bg: #f7f9fc !important; /* خلفية لؤلؤية فاتحة ومريحة للعين */
+  --bg-2: #ffffff !important;
+  --panel: #ffffff !important;
+  --panel-2: #f1f5f9 !important;
+  --panel-3: #e2e8f0 !important;
+  --line: rgba(0, 35, 102, 0.08) !important; /* خطوط شفافة لتحديد العناصر بنعومة */
+  --line-2: rgba(212, 175, 55, 0.3) !important;
+  --text: #0f172a !important; /* نصوص داكنة لقراءة واضحة */
+  --muted: #64748b !important;
+  --primary: #002366 !important; /* الكحلي الملكي للأزرار والنصوص الهامة */
+  --primary-2: #0f3c8a !important;
+  --gold: #D4AF37 !important; /* الذهبي للتفاصيل الفخمة */
+  --gold-2: #f3d573 !important;
+  --shadow: 0 8px 30px rgba(0, 35, 102, 0.05) !important; /* ظلال ناعمة جداً */
+}
+
+/* 2. تنظيف الخلفية العامة لتصبح مضيئة */
+html, body {
+  background: radial-gradient(circle at top right, rgba(212,175,55,0.05), transparent 25%),
+              linear-gradient(180deg, var(--bg) 0%, #ffffff 100%) !important;
+  color: var(--text) !important;
+}
+
+/* 3. الهيدر (الشريط العلوي) وشريط التنقل السفلي */
+.topbar {
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03) !important;
+}
+.topbar.scrolled {
+  border-bottom: 2px solid var(--gold) !important;
+}
+.bottom-nav {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-top: 1px solid var(--line) !important;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.03) !important;
+}
+
+/* 4. الكروت الزجاجية النظيفة (للمنتجات والشركات) */
+.card, .product-card, .customer-card, .sheet, .drawer {
+  background: var(--panel) !important;
+  border: 1px solid var(--line) !important;
+  box-shadow: var(--shadow) !important;
+}
+
+/* 5. الأزرار الملكية (كحلي وذهبي) */
+.primary-btn {
+  background: linear-gradient(135deg, var(--primary), var(--primary-2)) !important;
+  color: #ffffff !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(0, 35, 102, 0.15) !important;
+  font-weight: bold !important;
+}
+.primary-btn:hover {
+  background: var(--gold) !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+}
+
+/* 6. المدخلات ومربعات البحث */
+.searchbox, input, select {
+  background: var(--panel-2) !important;
+  border: 1px solid var(--line) !important;
+  color: var(--text) !important;
+}
+.searchbox input::placeholder, input::placeholder {
+  color: var(--muted) !important;
+}
+
+/* 7. تلوين العناوين وأسماء المنتجات */
+h1, h2, h3, .p-name, .customer-name, strong {
+  color: var(--primary) !important;
+}
+.price, .cart-total {
+  color: var(--gold) !important;
+  font-weight: 900 !important;
+}
+
+/* 8. أيقونات الشريط السفلي */
+.nav-item.active {
+  color: var(--primary) !important;
+  font-weight: bold;
+}
