@@ -1,0 +1,99 @@
+
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Al-Ahram Co | Amazon Style</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-shell">
+    <section id="banner"></section>
+
+    <header class="topbar" id="mainHeader">
+      <div class="topbar-actions">
+        <div class="action-row">
+          <div style="font-weight:900; font-size:1.5rem; color:var(--amazon-orange);">ALAHRAM</div>
+          <div class="user-wrap">
+            <button class="header-chip" id="userBtn">أهلاً، دخول</button>
+            <div class="user-menu hidden" id="userMenu">
+              <button type="button" data-action="my-data">بياناتي</button>
+              <button type="button" data-action="my-customers">عملائي</button>
+              <button type="button" data-action="invoices">فواتيري</button>
+              <button type="button" data-action="logout">تسجيل الخروج</button>
+            </div>
+          </div>
+        </div>
+        
+        <div class="search-row">
+          <input id="globalSearch" type="text" placeholder="البحث في أمازون الأهرام...">
+          <button id="searchBtn">🔍</button>
+        </div>
+
+        <div class="header-chips-row">
+          <button class="header-chip tier-chip" id="tierBtn">شريحة السعر ▼</button>
+          <button class="header-chip" id="dealsBtn">عروض اليوم</button>
+          <button class="header-chip" onclick="location.hash='#flash'">عروض الحرق</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="main"></main>
+
+    <nav class="bottom-nav">
+      <a href="#" class="nav-item active"><span>🏠</span>الرئيسية</a>
+      <a href="#companies" class="nav-item"><span>🏢</span>الشركات</a>
+      <a href="#deals" class="nav-item"><span>🏷️</span>العروض</a>
+      <a href="javascript:void(0)" id="openCartBtn" class="nav-item"><span>🛒</span>السلة</a>
+    </nav>
+  </div>
+
+  <!-- Essential Modals for app.js (MUST EXIST) -->
+  <div class="modal hidden" id="loginModal">
+    <div style="padding:20px;">
+      <h3>تسجيل الدخول</h3>
+      <input type="text" name="username" placeholder="اسم المستخدم" style="width:100%; padding:10px; margin:10px 0;">
+      <input type="password" name="password" placeholder="كلمة المرور" style="width:100%; padding:10px; margin:10px 0;">
+      <button class="amazon-btn" id="loginBtn" style="width:100%;">دخول</button>
+      <button onclick="document.getElementById('loginModal').classList.add('hidden')" style="width:100%; margin-top:10px; background:none; border:none; color:var(--muted);">إغلاق</button>
+    </div>
+  </div>
+
+  <div class="modal hidden" id="tierModal">
+    <div style="padding:20px;">
+      <h3>اختر شريحة السعر</h3>
+      <div id="tierList"></div>
+      <button onclick="document.getElementById('tierModal').classList.add('hidden')" style="width:100%; margin-top:10px; background:none; border:none; color:var(--muted);">إغلاق</button>
+    </div>
+  </div>
+
+  <aside class="drawer hidden" id="cartDrawer">
+    <div style="padding:15px; border-bottom:1px solid #ddd; display:flex; justify-content:space-between;">
+      <h3>السلة</h3>
+      <button onclick="document.getElementById('cartDrawer').classList.add('hidden')">×</button>
+    </div>
+    <div id="cartItems" style="flex:1; overflow-y:auto; padding:15px;"></div>
+    <div style="padding:15px; border-top:1px solid #ddd;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <strong>الإجمالي:</strong>
+        <strong id="cartTotal">0</strong>
+      </div>
+      <button class="amazon-btn" id="checkoutBtn" style="width:100%;">التحقق من الطلب</button>
+    </div>
+  </aside>
+
+  <div id="addCustomerModal" class="modal hidden">
+     <div style="padding:20px;">
+        <h3>إضافة عميل جديد</h3>
+        <input id="custName" type="text" placeholder="اسم العميل" style="width:100%; padding:10px; margin:10px 0;">
+        <input id="custPhone" type="text" placeholder="رقم الهاتف" style="width:100%; padding:10px; margin:10px 0;">
+        <button class="amazon-btn" data-action="save-customer" style="width:100%;">حفظ</button>
+        <button onclick="document.getElementById('addCustomerModal').classList.add('hidden')" style="width:100%; margin-top:10px; background:none; border:none; color:var(--muted);">إلغاء</button>
+     </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
