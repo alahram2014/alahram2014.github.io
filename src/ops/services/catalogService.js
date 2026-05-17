@@ -41,7 +41,7 @@ async function loadCatalogRows(api, params = {}) {
     select: '*',
     order: 'product_name.asc',
     ...params,
-  }, 250);
+  }, 50);
   return rows.map(normalizeProductRow);
 }
 
