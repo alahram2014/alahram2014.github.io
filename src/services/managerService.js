@@ -372,11 +372,11 @@ async function loadManagerCustomers(api, ownerId, session = {}) {
 async function loadManagerReps(api, ownerId, session = {}) {
   if (!isGlobalOperationalScope(session) && !normalizeId(ownerId)) return [];
   const rows = await api.get('sales_reps', isGlobalOperationalScope(session) ? {
-    select: 'id,name,phone,username,region,default_tier_name,is_active,is_blocked,blocked_reason,created_at,updated_at',
+    select: 'id,name,phone,username,region,default_tier_name,is_active,is_blocked,blocked_reason,created_at',
     order: 'created_at.desc',
     limit: '100',
   } : {
-    select: 'id,name,phone,username,region,default_tier_name,is_active,is_blocked,blocked_reason,created_at,updated_at',
+    select: 'id,name,phone,username,region,default_tier_name,is_active,is_blocked,blocked_reason,created_at',
     id: `eq.${ownerId}`,
     order: 'created_at.desc',
   }).catch(() => []);
