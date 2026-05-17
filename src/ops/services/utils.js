@@ -20,7 +20,7 @@ export async function paginateAll(api, path, params = {}, pageSize = 250) {
       limit: String(pageSize),
       offset: String(offset),
     }).catch(() => []);
-    const batch = Array.isArray(page) ? page : [];
+    const batch = Array.isArray(page) ? page : Array.isArray(page?.data) ? page.data : [];
     if (!batch.length) break;
     rows.push(...batch);
     offset += batch.length;
