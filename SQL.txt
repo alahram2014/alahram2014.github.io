@@ -1,0 +1,385 @@
+table_name
+v_system_users_capabilities
+v_system_users_capabilities_legacy
+v_auth_users
+system_users
+capabilities
+user_capabilities
+workflow_transition_capabilities
+v_system_users_capabilities_old
+--------------------------------------
+table_name
+v_system_users_capabilities
+v_system_users_capabilities_legacy
+v_system_users_capabilities_old
+--------------------
+routine_name
+is_admin_or_service_role
+assign_domain_capabilities
+get_user_capabilities
+assign_specific_capabilities
+assign_full_capabilities
+user_has_capability
+-----------------------
+SELECT column_name, data_type
+FROM information_schema.columns
+WHERE table_name = 'capabilities';
+-------------------
+id,capability_key,display_name,domain_key,description,is_active,is_system,created_at,updated_at
+1299ff01-eaae-4f03-8850-2014b9d7230b,returns.receive,استلام مرتجع,returns,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+163000e4-3555-44b3-b44a-6e11fa21b6c2,products.edit,تعديل المنتجات,products,null,true,false,2026-05-20 02:59:30.094496+00,2026-05-20 02:59:30.094496+00
+19b9bb42-46b4-452a-bdd6-e497a6f1aee9,sales_manager.view_team_performance,عرض أداء الفريق,sales,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+1b1e7ef5-2d77-4fb3-8f2c-a5c214001f37,shipment.dispatch,تجهيز الشحن,shipment,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+2c3f7dbb-962d-4c7b-93e1-d6f73171f047,sales_manager.manage_reps,إدارة المندوبين,sales,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+316bfaf7-0a52-4ccc-a4c2-cb0d4cbb348b,sales_manager.assign_customers,ربط العملاء,sales,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+4432632f-0f5d-4e9d-a4e4-110d78144ee0,attendance.override,تعديل الحضور,attendance,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+4542d590-53a0-4042-b4c0-221ee49db8a1,sales_manager.access,الوصول لإدارة المبيعات,sales,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+493aa9da-e662-4289-bd27-a702eef76512,system.manage_capabilities,إدارة الصلاحيات,system,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+505efd18-5ad0-458f-b709-63124a3711cb,dashboard.treasury,لوحة الخزنة,treasury,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+54cb715e-739f-4ea3-9bb5-a4c95c26470b,treasury.collect,تحصيل الفواتير,treasury,null,true,true,2026-05-15 19:51:41.103354+00,2026-05-15 19:51:41.103354+00
+56265c73-9252-4b56-9fc3-bc40b055556b,dashboard.delivery,لوحة الشحن,delivery,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+671f19ea-3f56-4cde-b1a9-9b6980dd3377,companies.edit,تعديل الشركات,companies,null,true,false,2026-05-20 02:59:30.094496+00,2026-05-20 02:59:30.094496+00
+6cba7642-7a65-4cd1-93c2-0c1554a266e4,companies.manage,إدارة الشركات,companies,null,true,false,2026-05-20 02:59:30.094496+00,2026-05-20 02:59:30.094496+00
+7d72b327-27af-4bde-98b4-55ecef5708ef,products.manage,إدارة المنتجات,products,null,true,false,2026-05-20 02:59:30.094496+00,2026-05-20 02:59:30.094496+00
+8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+8768c7b0-621d-4c36-9c4b-2ebb7b3897e1,orders.review,مراجعة الطلبات,orders,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+8aa0ba4f-0f11-48b6-b20a-39519fccbd83,dashboard.admin,لوحة تحكم الإدارة,admin,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+a12bd3e6-7a18-4536-a121-81dd2793769b,dashboard.sales_manager,لوحة مدير البيع,sales,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+a13b541d-9a10-4291-94e9-6f0447d6a902,orders.change_status,تغيير حالة الطلب,orders,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+ca8e1386-53f2-44fb-a6af-dea8251d5a6e,dashboard.hr,لوحة شؤون العاملين,hr,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+d5794507-b70e-415e-be6c-cc62bc44c981,delivery.execute,تنفيذ التوصيل,delivery,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+d5ddcb35-31d0-4a09-a943-6804a58af67b,warehouse.prepare,تحضير الطلبات,warehouse,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+d946a2eb-73d9-4e7d-94f2-8c8e7ad1ee2c,dashboard.warehouse,لوحة المخزن,warehouse,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+dfa87d85-7f59-4a30-a30d-5c6dbeff277a,system.manage_users,إدارة المستخدمين,system,null,true,true,2026-05-13 14:54:03.901677+00,2026-05-13 14:54:03.901677+00
+f4f3a378-ed2b-470c-b36f-a07202da4e00,sales_manager.view_team_orders,عرض طلبات الفريق,sales,null,true,false,2026-05-15 22:27:53.419909+00,2026-05-15 22:27:53.419909+00
+---------------------------------
+
+id,system_user_id,capability_id,granted_by_user_id,granted_at,expires_at,is_active
+01b6773c-6211-4e25-a866-1ae9aeeb90f5,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,c08829f9-d4a6-42fc-8775-99b499bc1b33,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+76c45bf9-cd2d-40d2-a69c-339959e507ec,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,493aa9da-e662-4289-bd27-a702eef76512,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+17e48d97-226d-446c-9313-f65f429626b9,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2c3f7dbb-962d-4c7b-93e1-d6f73171f047,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+3e226a7b-db37-47cf-b1be-c961e437dd06,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,a13b541d-9a10-4291-94e9-6f0447d6a902,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+d841af07-7f74-4a4e-9404-889ffe7a576c,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,f4f3a378-ed2b-470c-b36f-a07202da4e00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+1ad413e5-0e28-4c34-b2e5-d5ed9998578c,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,56265c73-9252-4b56-9fc3-bc40b055556b,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+212d3b27-8ae6-4f44-827b-e0b2400eda8d,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,505efd18-5ad0-458f-b709-63124a3711cb,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+b9a03cd4-c5ad-4bbd-9e35-492f80f2a5d2,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,ca8e1386-53f2-44fb-a6af-dea8251d5a6e,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+8bd4f111-2dd4-4d2d-9e4a-16d11d16b774,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,d5794507-b70e-415e-be6c-cc62bc44c981,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+e1c9a63a-d837-49aa-9e62-9c9a65ac7f38,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,d5ddcb35-31d0-4a09-a943-6804a58af67b,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+051fa221-49f3-482a-9520-fa1d938918fc,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,8737ff95-d162-4046-a584-eee702535231,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+c70f32e4-4d4d-4022-b112-116d6e205d55,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,19b9bb42-46b4-452a-bdd6-e497a6f1aee9,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+c7f74277-8911-4c21-8145-369ee0bbefcd,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,d74272a7-30ff-4987-ade4-a5449b9081f6,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+d879c2de-d1df-406f-80d3-f2161dde1bd7,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,1299ff01-eaae-4f03-8850-2014b9d7230b,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+5ffeef39-dbd8-44b2-b3fa-461395ccc357,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,54cb715e-739f-4ea3-9bb5-a4c95c26470b,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+917eacb4-8ae4-4902-b26a-f52bcf595a59,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,d946a2eb-73d9-4e7d-94f2-8c8e7ad1ee2c,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+1e64e996-9212-4388-aba4-4c56b56965fc,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,8bcea68c-b4ab-4f3f-b994-6867783a01c3,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+51bfe2ad-5528-495f-a4af-24569bacc3eb,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,4542d590-53a0-4042-b4c0-221ee49db8a1,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+2c77923d-4144-4b93-8d34-7cc51a5b593f,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,4432632f-0f5d-4e9d-a4e4-110d78144ee0,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+84dd23bf-3799-477d-8aa8-2dfaea830eaf,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,8aa0ba4f-0f11-48b6-b20a-39519fccbd83,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+28ddbded-fb89-40c8-9aae-9f5294c71188,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,dfa87d85-7f59-4a30-a30d-5c6dbeff277a,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+fea0fc0f-399e-4761-bd53-2db00f49ff8e,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,1b1e7ef5-2d77-4fb3-8f2c-a5c214001f37,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+a4f227a7-bf30-448e-8ee5-24ec0ec66a0c,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,a12bd3e6-7a18-4536-a121-81dd2793769b,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+4812dc9b-fe93-4fab-9d3a-241b56b0b263,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,316bfaf7-0a52-4ccc-a4c2-cb0d4cbb348b,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+c47357c7-38b7-4278-9ea2-66a4ff589416,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,8768c7b0-621d-4c36-9c4b-2ebb7b3897e1,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,2026-05-20 01:58:39.659151+00,null,true
+607fecc1-e387-44e5-b1cb-e56dfecc0a79,10409b1f-efb7-4f30-8813-68a7418d2f03,c08829f9-d4a6-42fc-8775-99b499bc1b33,10409b1f-efb7-4f30-8813-68a7418d2f03,2026-05-20 01:58:39.659151+00,null,true
+10bfe31a-1617-4d45-b252-f15b5640196f,10409b1f-efb7-4f30-8813-68a7418d2f03,8737ff95-d162-4046-a584-eee702535231,10409b1f-efb7-4f30-8813-68a7418d2f03,2026-05-20 01:58:39.659151+00,null,true
+ea49b78a-90f5-4f5e-9143-adc5daea15be,10409b1f-efb7-4f30-8813-68a7418d2f03,d74272a7-30ff-4987-ade4-a5449b9081f6,10409b1f-efb7-4f30-8813-68a7418d2f03,2026-05-20 01:58:39.659151+00,null,true
+f18fc2ed-5158-4b84-8f25-93e42b0b5167,10409b1f-efb7-4f30-8813-68a7418d2f03,8bcea68c-b4ab-4f3f-b994-6867783a01c3,10409b1f-efb7-4f30-8813-68a7418d2f03,2026-05-20 01:58:39.659151+00,null,true
+18642464-112d-4226-9e29-8ab683223b4e,281c8954-38ef-4ca3-b6e1-76b81de7e38a,c08829f9-d4a6-42fc-8775-99b499bc1b33,281c8954-38ef-4ca3-b6e1-76b81de7e38a,2026-05-20 01:58:39.659151+00,null,true
+6b28737c-8acb-4604-8205-c3c4a16f6562,281c8954-38ef-4ca3-b6e1-76b81de7e38a,8737ff95-d162-4046-a584-eee702535231,281c8954-38ef-4ca3-b6e1-76b81de7e38a,2026-05-20 01:58:39.659151+00,null,true
+5a4df3b4-7ca6-4759-afb3-a96a5e274f88,281c8954-38ef-4ca3-b6e1-76b81de7e38a,d74272a7-30ff-4987-ade4-a5449b9081f6,281c8954-38ef-4ca3-b6e1-76b81de7e38a,2026-05-20 01:58:39.659151+00,null,true
+fcc601e7-4009-478c-a6e0-f612029c988a,281c8954-38ef-4ca3-b6e1-76b81de7e38a,8bcea68c-b4ab-4f3f-b994-6867783a01c3,281c8954-38ef-4ca3-b6e1-76b81de7e38a,2026-05-20 01:58:39.659151+00,null,true
+f4d4a78b-789a-4d2b-9a26-16da507516e9,c8637ecf-3f88-4322-bb21-c635c410fc14,c08829f9-d4a6-42fc-8775-99b499bc1b33,c8637ecf-3f88-4322-bb21-c635c410fc14,2026-05-20 01:58:39.659151+00,null,true
+e7d9847f-8c50-4ded-aee7-2121911cd4aa,c8637ecf-3f88-4322-bb21-c635c410fc14,8737ff95-d162-4046-a584-eee702535231,c8637ecf-3f88-4322-bb21-c635c410fc14,2026-05-20 01:58:39.659151+00,null,true
+aa1cd4c2-e9f9-4c2d-91d2-359bee8cec5e,c8637ecf-3f88-4322-bb21-c635c410fc14,d74272a7-30ff-4987-ade4-a5449b9081f6,c8637ecf-3f88-4322-bb21-c635c410fc14,2026-05-20 01:58:39.659151+00,null,true
+6c70ee25-584f-442a-9123-df787dbf5592,c8637ecf-3f88-4322-bb21-c635c410fc14,8bcea68c-b4ab-4f3f-b994-6867783a01c3,c8637ecf-3f88-4322-bb21-c635c410fc14,2026-05-20 01:58:39.659151+00,null,true
+c6e5acf8-f433-4d01-8d20-a4ddf052f717,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,c08829f9-d4a6-42fc-8775-99b499bc1b33,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,2026-05-20 01:58:39.659151+00,null,true
+e71683a6-52a6-4672-9f88-cd266781e4b5,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,8737ff95-d162-4046-a584-eee702535231,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,2026-05-20 01:58:39.659151+00,null,true
+42e2b021-cafc-4614-8b25-4e98e5fb0813,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,d74272a7-30ff-4987-ade4-a5449b9081f6,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,2026-05-20 01:58:39.659151+00,null,true
+465717b4-b00b-40e1-b6e6-0ee94e4e8b7e,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,8bcea68c-b4ab-4f3f-b994-6867783a01c3,3ed8b5a3-5944-436e-834f-eb3a7d0f553c,2026-05-20 01:58:39.659151+00,null,true
+67887435-2760-4695-8cf9-52ed02dfb3d3,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,c08829f9-d4a6-42fc-8775-99b499bc1b33,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,2026-05-20 01:58:39.659151+00,null,true
+bc63bad7-0f9d-4889-8757-2e15fb87e2e3,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,8737ff95-d162-4046-a584-eee702535231,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,2026-05-20 01:58:39.659151+00,null,true
+3673802b-9ef4-4262-968f-9578b71a6b8e,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,d74272a7-30ff-4987-ade4-a5449b9081f6,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,2026-05-20 01:58:39.659151+00,null,true
+e343cd85-90fe-451d-af16-d750808f3e95,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,8bcea68c-b4ab-4f3f-b994-6867783a01c3,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,2026-05-20 01:58:39.659151+00,null,true
+52937274-4a01-48c5-884c-37f5d479a35f,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,c08829f9-d4a6-42fc-8775-99b499bc1b33,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,2026-05-20 01:58:39.659151+00,null,true
+288c0256-f63e-4beb-811f-8f84fc10ed54,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,8737ff95-d162-4046-a584-eee702535231,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,2026-05-20 01:58:39.659151+00,null,true
+e9ac005b-e911-4ba7-bbec-4f0d12de1149,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,d74272a7-30ff-4987-ade4-a5449b9081f6,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,2026-05-20 01:58:39.659151+00,null,true
+ba885408-e446-456d-95a6-e1925b8bc3d4,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,8bcea68c-b4ab-4f3f-b994-6867783a01c3,9278aa2e-4ef9-4f1c-8036-b706f500a6c4,2026-05-20 01:58:39.659151+00,null,true
+4207aaae-ab47-4159-8767-bbfaf01c7088,cdd7db6b-2ae0-4dea-b3db-db63434253ef,c08829f9-d4a6-42fc-8775-99b499bc1b33,cdd7db6b-2ae0-4dea-b3db-db63434253ef,2026-05-20 01:58:39.659151+00,null,true
+f7640cc2-dff8-4e87-8d8d-a5826675cc58,cdd7db6b-2ae0-4dea-b3db-db63434253ef,8737ff95-d162-4046-a584-eee702535231,cdd7db6b-2ae0-4dea-b3db-db63434253ef,2026-05-20 01:58:39.659151+00,null,true
+311f2322-df30-4af8-82a7-29eab9287cc2,cdd7db6b-2ae0-4dea-b3db-db63434253ef,d74272a7-30ff-4987-ade4-a5449b9081f6,cdd7db6b-2ae0-4dea-b3db-db63434253ef,2026-05-20 01:58:39.659151+00,null,true
+1e287fec-1ce3-4921-9ca7-9c7edf6c58bd,cdd7db6b-2ae0-4dea-b3db-db63434253ef,8bcea68c-b4ab-4f3f-b994-6867783a01c3,cdd7db6b-2ae0-4dea-b3db-db63434253ef,2026-05-20 01:58:39.659151+00,null,true
+40c956d4-1aca-43b7-96fc-91315354629b,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,c08829f9-d4a6-42fc-8775-99b499bc1b33,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,2026-05-20 01:58:39.659151+00,null,true
+a9e39890-4947-4d4f-843b-9b4818835e27,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,8737ff95-d162-4046-a584-eee702535231,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,2026-05-20 01:58:39.659151+00,null,true
+c23aac70-1888-4bd1-919e-38ab6637fb5e,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,d74272a7-30ff-4987-ade4-a5449b9081f6,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,2026-05-20 01:58:39.659151+00,null,true
+1d661d42-ad7b-4410-a006-127b856b7119,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,8bcea68c-b4ab-4f3f-b994-6867783a01c3,5b5e31be-0a50-493b-9b7b-6bef70ba62f6,2026-05-20 01:58:39.659151+00,null,true
+37b4b872-9d9a-44c9-88e4-6ed8d20009b8,40909376-aef2-4188-838f-2c29feb60c8a,c08829f9-d4a6-42fc-8775-99b499bc1b33,40909376-aef2-4188-838f-2c29feb60c8a,2026-05-20 01:58:39.659151+00,null,true
+5acdbd41-476c-499d-b9df-3f2bc1cbe749,40909376-aef2-4188-838f-2c29feb60c8a,8737ff95-d162-4046-a584-eee702535231,40909376-aef2-4188-838f-2c29feb60c8a,2026-05-20 01:58:39.659151+00,null,true
+6bfcf957-ee7f-4200-b2df-507ff4be8f4b,40909376-aef2-4188-838f-2c29feb60c8a,d74272a7-30ff-4987-ade4-a5449b9081f6,40909376-aef2-4188-838f-2c29feb60c8a,2026-05-20 01:58:39.659151+00,null,true
+236f5635-ea1f-48e2-b234-284d4ad5ac61,40909376-aef2-4188-838f-2c29feb60c8a,8bcea68c-b4ab-4f3f-b994-6867783a01c3,40909376-aef2-4188-838f-2c29feb60c8a,2026-05-20 01:58:39.659151+00,null,true
+016275ef-3014-4155-8322-e1d2eb4a143a,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,c08829f9-d4a6-42fc-8775-99b499bc1b33,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,2026-05-20 01:58:39.659151+00,null,true
+9ca49d50-9538-4830-a207-b2a70976d1ed,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,8737ff95-d162-4046-a584-eee702535231,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,2026-05-20 01:58:39.659151+00,null,true
+1ff72656-1733-4ddb-8761-eef53b6fc96f,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,d74272a7-30ff-4987-ade4-a5449b9081f6,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,2026-05-20 01:58:39.659151+00,null,true
+dea61553-3a68-4a1e-8375-dafcf206c22e,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,8bcea68c-b4ab-4f3f-b994-6867783a01c3,b1b8b3a0-8ce3-402b-a2b3-026489a73cea,2026-05-20 01:58:39.659151+00,null,true
+a660fd1b-853d-446e-8c43-3ccf07015b5f,a2f5f773-56fe-4475-b19c-f61e3445249b,c08829f9-d4a6-42fc-8775-99b499bc1b33,a2f5f773-56fe-4475-b19c-f61e3445249b,2026-05-20 01:58:39.659151+00,null,true
+b438da53-2385-4b0d-89a6-8bbaf773e1f6,a2f5f773-56fe-4475-b19c-f61e3445249b,8737ff95-d162-4046-a584-eee702535231,a2f5f773-56fe-4475-b19c-f61e3445249b,2026-05-20 01:58:39.659151+00,null,true
+5fcd2857-7920-4ae5-a8cb-d6bc0b04edd6,a2f5f773-56fe-4475-b19c-f61e3445249b,d74272a7-30ff-4987-ade4-a5449b9081f6,a2f5f773-56fe-4475-b19c-f61e3445249b,2026-05-20 01:58:39.659151+00,null,true
+12ca3cee-d4eb-4c3f-abc8-7d3f74a9a0b7,a2f5f773-56fe-4475-b19c-f61e3445249b,8bcea68c-b4ab-4f3f-b994-6867783a01c3,a2f5f773-56fe-4475-b19c-f61e3445249b,2026-05-20 01:58:39.659151+00,null,true
+e605bb59-87f4-4266-9356-066809f6c5e4,999ca70d-5429-4c7e-93d9-c4eb5def2db2,c08829f9-d4a6-42fc-8775-99b499bc1b33,999ca70d-5429-4c7e-93d9-c4eb5def2db2,2026-05-20 01:58:39.659151+00,null,true
+8a8eeb69-6e8e-4278-bddf-c8477a895155,999ca70d-5429-4c7e-93d9-c4eb5def2db2,8737ff95-d162-4046-a584-eee702535231,999ca70d-5429-4c7e-93d9-c4eb5def2db2,2026-05-20 01:58:39.659151+00,null,true
+20674a51-d6b0-48cc-88e0-3cd1b4e0c1de,999ca70d-5429-4c7e-93d9-c4eb5def2db2,d74272a7-30ff-4987-ade4-a5449b9081f6,999ca70d-5429-4c7e-93d9-c4eb5def2db2,2026-05-20 01:58:39.659151+00,null,true
+b9134576-dfee-4a9b-aad4-be2c391f8a52,999ca70d-5429-4c7e-93d9-c4eb5def2db2,8bcea68c-b4ab-4f3f-b994-6867783a01c3,999ca70d-5429-4c7e-93d9-c4eb5def2db2,2026-05-20 01:58:39.659151+00,null,true
+bd728a36-5029-4eae-b804-c0bacf0e0a1c,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,c08829f9-d4a6-42fc-8775-99b499bc1b33,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,2026-05-20 01:58:39.659151+00,null,true
+11f0f584-26be-4875-bd61-dc0890101225,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,8737ff95-d162-4046-a584-eee702535231,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,2026-05-20 01:58:39.659151+00,null,true
+f97a1b3c-b03f-4c94-a85f-e3338d415913,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,d74272a7-30ff-4987-ade4-a5449b9081f6,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,2026-05-20 01:58:39.659151+00,null,true
+6fe9aa29-843e-4090-b3f8-83262b150644,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,8bcea68c-b4ab-4f3f-b994-6867783a01c3,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,2026-05-20 01:58:39.659151+00,null,true
+5cff7d66-c21b-43e7-9d4f-77dfbbb7bb42,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,c08829f9-d4a6-42fc-8775-99b499bc1b33,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,2026-05-20 01:58:39.659151+00,null,true
+b857bb6b-7bd2-4fc0-b53d-a26e5c144a40,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,8737ff95-d162-4046-a584-eee702535231,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,2026-05-20 01:58:39.659151+00,null,true
+d6c72bb7-3f56-42e1-a51c-a99adb1b0582,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,d74272a7-30ff-4987-ade4-a5449b9081f6,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,2026-05-20 01:58:39.659151+00,null,true
+fa032edc-3c43-44a7-8ada-874b3d6416fc,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,8bcea68c-b4ab-4f3f-b994-6867783a01c3,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,2026-05-20 01:58:39.659151+00,null,true
+b678065e-f792-4434-912a-bb9809fb0730,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,c08829f9-d4a6-42fc-8775-99b499bc1b33,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,2026-05-20 01:58:39.659151+00,null,true
+42b8ec35-525a-437e-a4dd-9ed3c89ca994,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,8737ff95-d162-4046-a584-eee702535231,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,2026-05-20 01:58:39.659151+00,null,true
+62ec4008-09a8-47a1-873e-952e4d2e1c73,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,d74272a7-30ff-4987-ade4-a5449b9081f6,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,2026-05-20 01:58:39.659151+00,null,true
+b446faa1-afc3-473a-8be7-c1d5373f7680,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,8bcea68c-b4ab-4f3f-b994-6867783a01c3,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,2026-05-20 01:58:39.659151+00,null,true
+--------------------------------------------------------------
+system_user_id,user_name,capability_id,capability_key,display_name,domain_key,description,is_active,granted_at,granted_by_user_id
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,493aa9da-e662-4289-bd27-a702eef76512,system.manage_capabilities,إدارة الصلاحيات,system,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,2c3f7dbb-962d-4c7b-93e1-d6f73171f047,sales_manager.manage_reps,إدارة المندوبين,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,a13b541d-9a10-4291-94e9-6f0447d6a902,orders.change_status,تغيير حالة الطلب,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,f4f3a378-ed2b-470c-b36f-a07202da4e00,sales_manager.view_team_orders,عرض طلبات الفريق,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,56265c73-9252-4b56-9fc3-bc40b055556b,dashboard.delivery,لوحة الشحن,delivery,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,505efd18-5ad0-458f-b709-63124a3711cb,dashboard.treasury,لوحة الخزنة,treasury,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,ca8e1386-53f2-44fb-a6af-dea8251d5a6e,dashboard.hr,لوحة شؤون العاملين,hr,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d5794507-b70e-415e-be6c-cc62bc44c981,delivery.execute,تنفيذ التوصيل,delivery,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d5ddcb35-31d0-4a09-a943-6804a58af67b,warehouse.prepare,تحضير الطلبات,warehouse,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,19b9bb42-46b4-452a-bdd6-e497a6f1aee9,sales_manager.view_team_performance,عرض أداء الفريق,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,1299ff01-eaae-4f03-8850-2014b9d7230b,returns.receive,استلام مرتجع,returns,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,54cb715e-739f-4ea3-9bb5-a4c95c26470b,treasury.collect,تحصيل الفواتير,treasury,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d946a2eb-73d9-4e7d-94f2-8c8e7ad1ee2c,dashboard.warehouse,لوحة المخزن,warehouse,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,4542d590-53a0-4042-b4c0-221ee49db8a1,sales_manager.access,الوصول لإدارة المبيعات,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,4432632f-0f5d-4e9d-a4e4-110d78144ee0,attendance.override,تعديل الحضور,attendance,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8aa0ba4f-0f11-48b6-b20a-39519fccbd83,dashboard.admin,لوحة تحكم الإدارة,admin,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,dfa87d85-7f59-4a30-a30d-5c6dbeff277a,system.manage_users,إدارة المستخدمين,system,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,1b1e7ef5-2d77-4fb3-8f2c-a5c214001f37,shipment.dispatch,تجهيز الشحن,shipment,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,a12bd3e6-7a18-4536-a121-81dd2793769b,dashboard.sales_manager,لوحة مدير البيع,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,316bfaf7-0a52-4ccc-a4c2-cb0d4cbb348b,sales_manager.assign_customers,ربط العملاء,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8768c7b0-621d-4c36-9c4b-2ebb7b3897e1,orders.review,مراجعة الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+---------------------------------------------------------------------
+capability_key
+attendance.override
+customers.create
+customers.manage
+dashboard.admin
+dashboard.delivery
+dashboard.hr
+dashboard.sales_manager
+dashboard.treasury
+dashboard.warehouse
+delivery.execute
+orders.change_status
+orders.create
+orders.review
+orders.view
+returns.receive
+sales_manager.access
+sales_manager.assign_customers
+sales_manager.manage_reps
+sales_manager.view_team_orders
+sales_manager.view_team_performance
+shipment.dispatch
+system.manage_capabilities
+system.manage_users
+treasury.collect
+warehouse.prepare
+---------------------------------
+system_user_id,user_name,capability_id,capability_key,display_name,domain_key,description,is_active,granted_at,granted_by_user_id
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,493aa9da-e662-4289-bd27-a702eef76512,system.manage_capabilities,إدارة الصلاحيات,system,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,2c3f7dbb-962d-4c7b-93e1-d6f73171f047,sales_manager.manage_reps,إدارة المندوبين,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,a13b541d-9a10-4291-94e9-6f0447d6a902,orders.change_status,تغيير حالة الطلب,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,f4f3a378-ed2b-470c-b36f-a07202da4e00,sales_manager.view_team_orders,عرض طلبات الفريق,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,56265c73-9252-4b56-9fc3-bc40b055556b,dashboard.delivery,لوحة الشحن,delivery,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,505efd18-5ad0-458f-b709-63124a3711cb,dashboard.treasury,لوحة الخزنة,treasury,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,ca8e1386-53f2-44fb-a6af-dea8251d5a6e,dashboard.hr,لوحة شؤون العاملين,hr,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d5794507-b70e-415e-be6c-cc62bc44c981,delivery.execute,تنفيذ التوصيل,delivery,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d5ddcb35-31d0-4a09-a943-6804a58af67b,warehouse.prepare,تحضير الطلبات,warehouse,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,19b9bb42-46b4-452a-bdd6-e497a6f1aee9,sales_manager.view_team_performance,عرض أداء الفريق,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,1299ff01-eaae-4f03-8850-2014b9d7230b,returns.receive,استلام مرتجع,returns,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,54cb715e-739f-4ea3-9bb5-a4c95c26470b,treasury.collect,تحصيل الفواتير,treasury,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,d946a2eb-73d9-4e7d-94f2-8c8e7ad1ee2c,dashboard.warehouse,لوحة المخزن,warehouse,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,4542d590-53a0-4042-b4c0-221ee49db8a1,sales_manager.access,الوصول لإدارة المبيعات,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,4432632f-0f5d-4e9d-a4e4-110d78144ee0,attendance.override,تعديل الحضور,attendance,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8aa0ba4f-0f11-48b6-b20a-39519fccbd83,dashboard.admin,لوحة تحكم الإدارة,admin,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,dfa87d85-7f59-4a30-a30d-5c6dbeff277a,system.manage_users,إدارة المستخدمين,system,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,1b1e7ef5-2d77-4fb3-8f2c-a5c214001f37,shipment.dispatch,تجهيز الشحن,shipment,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,a12bd3e6-7a18-4536-a121-81dd2793769b,dashboard.sales_manager,لوحة مدير البيع,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,316bfaf7-0a52-4ccc-a4c2-cb0d4cbb348b,sales_manager.assign_customers,ربط العملاء,sales,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58,admin,8768c7b0-621d-4c36-9c4b-2ebb7b3897e1,orders.review,مراجعة الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,7a4d08f7-ea7d-4cca-9222-ca8dcbd8df58
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+10409b1f-efb7-4f30-8813-68a7418d2f03,01002082831,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,10409b1f-efb7-4f30-8813-68a7418d2f03
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+281c8954-38ef-4ca3-b6e1-76b81de7e38a,01004466887,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,281c8954-38ef-4ca3-b6e1-76b81de7e38a
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+c8637ecf-3f88-4322-bb21-c635c410fc14,01003688140,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,c8637ecf-3f88-4322-bb21-c635c410fc14
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+3ed8b5a3-5944-436e-834f-eb3a7d0f553c,01224832419,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,3ed8b5a3-5944-436e-834f-eb3a7d0f553c
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+a62f6bfb-f701-4b59-8fd7-9e2ec18c7242,01129248765,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,a62f6bfb-f701-4b59-8fd7-9e2ec18c7242
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+9278aa2e-4ef9-4f1c-8036-b706f500a6c4,01117650505,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,9278aa2e-4ef9-4f1c-8036-b706f500a6c4
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+cdd7db6b-2ae0-4dea-b3db-db63434253ef,01029145324,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,cdd7db6b-2ae0-4dea-b3db-db63434253ef
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+5b5e31be-0a50-493b-9b7b-6bef70ba62f6,01090620836,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,5b5e31be-0a50-493b-9b7b-6bef70ba62f6
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+40909376-aef2-4188-838f-2c29feb60c8a,01117388842,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,40909376-aef2-4188-838f-2c29feb60c8a
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+b1b8b3a0-8ce3-402b-a2b3-026489a73cea,01120849475,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,b1b8b3a0-8ce3-402b-a2b3-026489a73cea
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+a2f5f773-56fe-4475-b19c-f61e3445249b,01030108501,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,a2f5f773-56fe-4475-b19c-f61e3445249b
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+999ca70d-5429-4c7e-93d9-c4eb5def2db2,01220800258,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,999ca70d-5429-4c7e-93d9-c4eb5def2db2
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44,01119406114,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,94f9e9ce-8ff7-4daa-bb12-d2b65c3d7f44
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+b39b658d-9b3d-4383-8e82-ffd2cf7a12f1,01557340306,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,b39b658d-9b3d-4383-8e82-ffd2cf7a12f1
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,c08829f9-d4a6-42fc-8775-99b499bc1b33,orders.create,إنشاء طلب,orders,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,8737ff95-d162-4046-a584-eee702535231,customers.manage,إدارة العملاء,customers,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,d74272a7-30ff-4987-ade4-a5449b9081f6,customers.create,إضافة عميل,customers,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+c85fbaf5-41f3-4e67-8f55-c952e3aeb83c,01066197010,8bcea68c-b4ab-4f3f-b994-6867783a01c3,orders.view,عرض الطلبات,orders,null,true,2026-05-20 01:58:39.659151+00,c85fbaf5-41f3-4e67-8f55-c952e3aeb83c
+----------------------------------------------------
+
+SELECT capability_key
+FROM v_system_users_capabilities
+WHERE user_name = 'admin'
+ORDER BY capability_key;
+
+
+
+capability_key
+attendance.override
+companies.edit
+companies.manage
+customers.create
+customers.manage
+dashboard.admin
+dashboard.delivery
+dashboard.hr
+dashboard.sales_manager
+dashboard.treasury
+dashboard.warehouse
+delivery.execute
+orders.change_status
+orders.create
+orders.review
+orders.view
+products.edit
+products.manage
+returns.receive
+sales_manager.access
+sales_manager.assign_customers
+sales_manager.manage_reps
+sales_manager.view_team_orders
+sales_manager.view_team_performance
+shipment.dispatch
+system.manage_capabilities
+system.manage_users
+treasury.collect
+warehouse.prepare
